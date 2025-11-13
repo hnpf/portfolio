@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIREX - Wordly</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="roaming\wordlystyles.css">
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+    <!-- <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" crossorigin></script> -->
+</head>
+<body class="cursor-default">
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    <header>
+        <h1>Wordly</h1>
+        <div class="header-buttons">
+            <button id="hint-btn" class="material-icons">lightbulb<span id="hint-count">3</span></button>
+            <button id="settings-btn" class="material-icons">settings</button>
+            <button id="tutorial-btn" class="material-icons">help</button>
+            <button id="achievements-btn" class="material-icons">emoji_events</button>
+            <button id="leaderboard-btn" class="material-icons">leaderboard</button>
+            <button id="theme-toggle" class="theme-toggle">DARK</button>
+            <span id="daily-indicator" class="daily-badge">Daily</span>
+        </div>
+    </header>
+
+    <main>
+        <div id="timer-display" style="display: none; text-align: center; font-size: 1.2rem; margin-bottom: 20px;">Time: 60s</div>
+        <div id="game-container" tabindex="0">
+            <div id="game-board">
+                <div class="row" id="row-0">
+                    <div class="tile" id="tile-0-0"></div>
+                    <div class="tile" id="tile-0-1"></div>
+                    <div class="tile" id="tile-0-2"></div>
+                    <div class="tile" id="tile-0-3"></div>
+                    <div class="tile" id="tile-0-4"></div>
+                </div>
+                <div class="row" id="row-1">
+                    <div class="tile" id="tile-1-0"></div>
+                    <div class="tile" id="tile-1-1"></div>
+                    <div class="tile" id="tile-1-2"></div>
+                    <div class="tile" id="tile-1-3"></div>
+                    <div class="tile" id="tile-1-4"></div>
+                </div>
+                <div class="row" id="row-2">
+                    <div class="tile" id="tile-2-0"></div>
+                    <div class="tile" id="tile-2-1"></div>
+                    <div class="tile" id="tile-2-2"></div>
+                    <div class="tile" id="tile-2-3"></div>
+                    <div class="tile" id="tile-2-4"></div>
+                </div>
+                <div class="row" id="row-3">
+                    <div class="tile" id="tile-3-0"></div>
+                    <div class="tile" id="tile-3-1"></div>
+                    <div class="tile" id="tile-3-2"></div>
+                    <div class="tile" id="tile-3-3"></div>
+                    <div class="tile" id="tile-3-4"></div>
+                </div>
+                <div class="row" id="row-4">
+                    <div class="tile" id="tile-4-0"></div>
+                    <div class="tile" id="tile-4-1"></div>
+                    <div class="tile" id="tile-4-2"></div>
+                    <div class="tile" id="tile-4-3"></div>
+                    <div class="tile" id="tile-4-4"></div>
+                </div>
+                <div class="row" id="row-5">
+                    <div class="tile" id="tile-5-0"></div>
+                    <div class="tile" id="tile-5-1"></div>
+                    <div class="tile" id="tile-5-2"></div>
+                    <div class="tile" id="tile-5-3"></div>
+                    <div class="tile" id="tile-5-4"></div>
+                </div>
+            </div>
+
+            <div id="keyboard">
+                <div class="keyboard-row">
+                    <button class="key" data-key="Q">Q</button>
+                    <button class="key" data-key="W">W</button>
+                    <button class="key" data-key="E">E</button>
+                    <button class="key" data-key="R">R</button>
+                    <button class="key" data-key="T">T</button>
+                    <button class="key" data-key="Y">Y</button>
+                    <button class="key" data-key="U">U</button>
+                    <button class="key" data-key="I">I</button>
+                    <button class="key" data-key="O">O</button>
+                    <button class="key" data-key="P">P</button>
+                </div>
+                <div class="keyboard-row">
+                    <button class="key" data-key="A">A</button>
+                    <button class="key" data-key="S">S</button>
+                    <button class="key" data-key="D">D</button>
+                    <button class="key" data-key="F">F</button>
+                    <button class="key" data-key="G">G</button>
+                    <button class="key" data-key="H">H</button>
+                    <button class="key" data-key="J">J</button>
+                    <button class="key" data-key="K">K</button>
+                    <button class="key" data-key="L">L</button>
+                </div>
+                <div class="keyboard-row">
+                    <button class="key special" data-key="ENTER">ENTER</button>
+                    <button class="key" data-key="Z">Z</button>
+                    <button class="key" data-key="X">X</button>
+                    <button class="key" data-key="C">C</button>
+                    <button class="key" data-key="V">V</button>
+                    <button class="key" data-key="B">B</button>
+                    <button class="key" data-key="N">N</button>
+                    <button class="key" data-key="M">M</button>
+                    <button class="key special" data-key="BACKSPACE"><span class="material-icons">backspace</span></button>
+                </div>
+            </div>
+
+            <div id="message"></div>
+        </div>
+
+        <div id="settings-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Settings</h2>
+                <div class="setting">
+                    <label>Difficulty:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="easy" name="difficulty" value="easy">
+                        <label for="easy" class="radio-label">Easy</label>
+                        <input type="radio" id="medium" name="difficulty" value="medium" checked>
+                        <label for="medium" class="radio-label">Medium</label>
+                        <input type="radio" id="hard" name="difficulty" value="hard">
+                        <label for="hard" class="radio-label">Hard</label>
+                        <input type="radio" id="impossible" name="difficulty" value="impossible">
+                        <label for="impossible" class="radio-label">lol goodluck</label>
+                    </div>
+                </div>
+                <div class="setting">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="sound">
+                        <label for="sound">Sound</label>
+                    </div>
+                </div>
+                <div class="setting">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="animations">
+                        <label for="animations">Animations</label>
+                    </div>
+                </div>
+                <div class="setting">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="speed">
+                        <label for="speed">Speed Mode (60s total)</label>
+                    </div>
+                </div>
+                <div class="setting">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="particles">
+                        <label for="particles">Particle Effects</label>
+                    </div>
+                </div>
+                <button id="save-settings">Save</button>
+            </div>
+        </div>
+        <div id="tutorial-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>How to Play</h2>
+                <p>Guess the 5-letter word in 6 tries. Each guess must be a valid word.</p>
+                <p>After each guess, the color of the tiles will change to show how close your guess was to the word.</p>
+                <div class="example">
+                    <div class="tile correct">W</div>
+                    <p>Correct letter in correct position</p>
+                </div>
+                <div class="example">
+                    <div class="tile present">O</div>
+                    <p>Correct letter in wrong position</p>
+                </div>
+                <div class="example">
+                    <div class="tile absent">R</div>
+                    <p>Letter is not in the word</p>
+                </div>
+            </div>
+        </div>
+        <div id="leaderboard-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2></h2>
+                <div id="leaderboard-list">
+                </div>
+            </div>
+        </div>
+
+        <div id="achievements-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Achievements</h2>
+                <div id="achievements-list">
+
+                </div>
+            </div>
+        </div>
+
+        <div id="win-modal" class="modal">
+            <div class="modal-content win-content">
+                <h2>Woohoo!</h2>
+                <p>You guessed the word in <span id="win-guesses"></span> tries!</p>
+                <button id="share-btn" class="share-button">Exit</button>
+                <div id="confetti"></div>
+            </div>
+        </div>
+    </main>
+
+    <section class="contact-section">
+        <h2>Contact</h2>
+        <p>Got questions or feedback? Reach out!</p>
+        <p>Email: contact@example.com</p>
+    </section>
+
+    <script>
+        /* brutalist cursors */
+
+        const body = document.body;
+
+        // change cursor on hover
+        document.querySelectorAll('button, .chip, .nav-link, .logo, .theme-toggle').forEach(el => {
+            el.addEventListener('mouseover', () => body.classList.replace('cursor-default', 'cursor-pointer'));
+            el.addEventListener('mouseout', () => body.classList.replace('cursor-pointer', 'cursor-default'));
+        });
+
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('mouseover', () => body.classList.replace('cursor-default', 'cursor-text'));
+            el.addEventListener('mouseout', () => body.classList.replace('cursor-text', 'cursor-default'));
+        });
+    </script>
+    <script src="roaming\wordlyscript.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - VIREX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="globals.css">
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+</head>
+<body class="cursor-default">
+    <nav>
+        <div class="logo" onclick="window.location.href='/'">VIREX</div>
+        <div class="nav-links">
+            <div class="nav-link" onclick="window.location.href='/#projects'">PROJECTS</div>
+            <div class="nav-link" onclick="window.location.href='/#playground'">COMPONENTS</div>
+            <div class="nav-link" onclick="window.location.href='/#contact'">CONTACT</div>
+            <div class="nav-link" onclick="window.location.href='/privacy'">PRIVACY</div>
+            <div class="switch" id="theme-switch" onclick="toggleThemeSwitch()">
+                <div class="switch-ball"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="hero">
+            <div class="hero-bg"></div>
+            <h1>PRIVACY POLICY</h1>
+            <div class="tagline">
+                how we handle your data, or lack thereof
+            </div>
+        </div>
+
+        <div class="section-title">LAST UPDATED</div>
+        <p>November 13, 2025</p>
+
+        <div class="section-title">INFORMATION WE COLLECT</div>
+        <p>
+            This website is a personal portfolio and doesn't collect ANY personal information from visitors. We don't use analytics, or any tracking mechanisms. The only thing that is "stored" are cookies, theyre stored locally on your device. We can't see your cookies. If you contact us via email, we only store what you send us voluntarily, obviously.
+        </p>
+
+        <div class="section-title">HOW WE USE INFORMATION</div>
+        <p>
+            Any information you provide (like emails) is used solely for communication purposes. We don't share, sell, or distribute your data to third parties. I'll likely forget about them after a while anyway.
+        </p>
+
+        <div class="section-title">THIRD-PARTY LINKS</div>
+        <p>
+            This site links to external sites (GitHub, etc.). We are not responsible for their privacy practices. Check their policies if concerned!
+        </p>
+
+        <div class="section-title">CHANGES TO THIS POLICY</div>
+        <p>
+            We may update this policy occasionally. Check back for changes. However, since we won't ever collect your data, changes are unlikely to impact you.
+        </p>
+
+        <div class="section-title">CONTACT US</div>
+        <p>
+            Questions? Email is at taxfraud@virex.lol
+        </p>
+
+        <div class="btn-group">
+            <button class="secondary" onclick="window.location.href='/'">BACK TO HOME</button>
+        </div>
+    </div>
+
+    <script>
+        /* switch for theme, synced */
+
+        // theme persistence
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.getElementById('theme-switch').classList.add('active');
+            }
+        }
+
+        function toggleThemeSwitch() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            const switchEl = document.getElementById('theme-switch');
+            switchEl.classList.toggle('active');
+        }
+
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+        }
+
+        /* brutalist cursors */
+
+        const body = document.body;
+
+        // change cursor on hover
+        document.querySelectorAll('button, .chip, .nav-link, .logo, .theme-toggle').forEach(el => {
+            el.addEventListener('mouseover', () => body.classList.replace('cursor-default', 'cursor-pointer'));
+            el.addEventListener('mouseout', () => body.classList.replace('cursor-pointer', 'cursor-default'));
+        });
+
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('mouseover', () => body.classList.replace('cursor-default', 'cursor-text'));
+            el.addEventListener('mouseout', () => body.classList.replace('cursor-text', 'cursor-default'));
+        });
+    </script>
+</body>
+</html>

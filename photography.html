@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIREX Photography</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="globals.css">
+    <!-- Favicon links -->
+    <link rel="icon" type="image/x-icon" href="Favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="Favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="Favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="Favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="Favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="Favicon/android-chrome-512x512.png">
+    <link rel="manifest" href="Favicon/site.webmanifest">
+
+    <!-- OG tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://virex.lol/photography">
+    <meta property="og:title" content="VIREX Photography">
+    <meta property="og:description" content="Photography portfolio by VIREX - capturing moments and visual stories.">
+    <meta property="og:image" content="https://search.virex.lol/demoss/search.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://virex.lol/photography">
+    <meta property="twitter:title" content="VIREX Photography">
+    <meta property="twitter:description" content="Photography portfolio by VIREX - capturing moments and visual stories.">
+    <meta property="twitter:image" content="https://search.virex.lol/demoss/search.png">
+
+    <!-- main SEO meta -->
+    <meta name="description" content="Photography portfolio by VIREX - capturing moments and visual stories.">
+    <meta name="keywords" content="Virex Portfolio, Virex, photography, portfolio, photos, visual storytelling, mobile photography, nature, landscapes, sunsets, clouds">
+    <meta name="author" content="VIREX">
+</head>
+<body class="cursor-default">
+    <nav>
+        <div class="logo" onclick="this.classList.add('spin'); setTimeout(() => this.classList.remove('spin'), 1000); window.location.href='/'">VIREX</div>
+        <div class="nav-links">
+            <div class="nav-link" onclick="window.location.href='/photography'">PHOTOGRAPHY</div>
+            <div class="nav-link" onclick="window.location.href='/blog'">BLOG</div>
+            <div class="nav-link" onclick="window.location.href='/privacy'">PRIVACY</div>
+            <div class="switch" id="theme-switch" onclick="toggleThemeSwitch()">
+                <div class="switch-ball"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="hero">
+            <div class="hero-bg"></div>
+            <h1>
+                <span class="word-1">VIREX</span><br>
+                <span class="word-2">PHOTO</span><br>
+                <span class="word-3">GRAPHY</span>
+            </h1>
+            <div class="tagline">
+                capturing moments with a phone
+            </div>
+        </div>
+
+        <div class="section-title">ABOUT</div>
+        <div class="stack-section">
+            <div class="chip accent-1">MOBILE PHOTOGRAPHY</div>
+            <div class="chip">NATURE</div>
+            <div class="chip accent-2">LANDSCAPES</div>
+            <div class="chip">SUNSETS</div>
+            <div class="chip accent-3">STORIES</div>
+            <div class="chip">PHONE ONLY :D</div>
+        </div>
+
+        <div id="photography">
+            <h2 class="projects-title">PHOTO COLLECTION</h2>
+
+            <div class="photogrid">
+                <div class="photopost">
+                    <img src="photography/20241027_071257_optimized.jpg" alt="Beach Early Morning" onerror="this.src='photography/20241027_071257_optimized.jpg'; this.onerror=null;">
+                    <h3>Beach Early Morning</h3>
+                    <div class="date">October 2024</div>
+                    <p>Captured in Florida, it was during the morning and I thought the view was amazing. I knew that it'd be a great shot!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250401_192316.jpg" alt="Possible morning shot.." onerror="this.src='photography/20250401_192316.jpg'; this.onerror=null;">
+                    <h3>Possible morning shot..</h3>
+                    <div class="date">April 2025</div>
+                    <p>I forgot I had taken this. I really don't know where or when this was taken nor is it the best.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250610_050746.jpg" alt="Nautical Twilight" onerror="this.src='photography/20250610_050746.jpg'; this.onerror=null;">
+                    <h3>Nautical Twilight</h3>
+                    <div class="date">June 2025</div>
+                    <p>This was taken during a road trip. The shot looks really nostalgic! It also looks like an album cover.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250702_171801.jpg" alt="Cloud Shot" onerror="this.src='photography/20250702_171801.jpg'; this.onerror=null;">
+                    <h3>Cloud Shot</h3>
+                    <div class="date">July 2025</div>
+                    <p>Just some clouds! I liked the way how the sun also defined the edges.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250703_173213.jpg" alt="River!" onerror="this.src='photography/20250703_173213.jpg'; this.onerror=null;">
+                    <h3>River!</h3>
+                    <div class="date">July 2025</div>
+                    <p>Just the Wetumpka river, Nothing fancy!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250705_210251.jpg" alt="Nightly Outskirts" onerror="this.src='photography/20250705_210251.jpg'; this.onerror=null;">
+                    <h3>Nightly Outskirts</h3>
+                    <div class="date">July 2025</div>
+                    <p>Just miles outside of montgomery during stargazing, it was still very visible! The shot was taken around July 4th and there were fireworks visible. It was a really unique experience</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250705_212705~2.jpg" alt="The moon" onerror="this.src='photography/20250705_212705~2.jpg'; this.onerror=null;">
+                    <h3>The moon</h3>
+                    <div class="date">July 2025</div>
+                    <p>Not much to say here, just a moon shot.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250709_185003.jpg" alt="AC-130 Shot" onerror="this.src='photography/20250709_185003.jpg'; this.onerror=null;">
+                    <h3>AC-130 Shot</h3>
+                    <div class="date">July 2025</div>
+                    <p>I was pretty impressed at the time I took this shot!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250824_142028.jpg" alt="Victorian hotel" onerror="this.src='photography/20250824_142028.jpg'; this.onerror=null;">
+                    <h3>Victorian hotel</h3>
+                    <div class="date">August 2025</div>
+                    <p>Taken in Americus, August 2025.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250824_142257.jpg" alt="Old buildings" onerror="this.src='photography/20250824_142257.jpg'; this.onerror=null;">
+                    <h3>Old buildings</h3>
+                    <div class="date">August 2025</div>
+                    <p>Also Americus, not the best shot but I liked the taller building.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250827_201738.jpg" alt="RAW Format sunset" onerror="this.src='photography/20250827_201738.jpg'; this.onerror=null;">
+                    <h3>RAW Format sunset</h3>
+                    <div class="date">August 2025</div>
+                    <p>I loved the coloring with those clouds!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250828_184721.jpg" alt="Yet another Sunset" onerror="this.src='photography/20250828_184721.jpg'; this.onerror=null;">
+                    <h3>Yet another Sunset</h3>
+                    <div class="date">August 2025</div>
+                    <p>Self-explanatory, pretty nice coloring especially on the far right building.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250828_203050.jpg" alt="Moon on the Water" onerror="this.src='photography/20250828_203050.jpg'; this.onerror=null;">
+                    <h3>Moon on the Water</h3>
+                    <div class="date">August 2025</div>
+                    <p>A nice shot of the moon reflecting on the water! It was also at the beach.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250902_133945.jpg" alt="Old theatre" onerror="this.src='photography/20250902_133945.jpg'; this.onerror=null;">
+                    <h3>Old theatre</h3>
+                    <div class="date">September 2025</div>
+                    <p>It was much cooler in real life, It is an old theatre though!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250920_191221~3.jpg" alt="Another sunset.. After the sunset." onerror="this.src='photography/20250920_191221~3.jpg'; this.onerror=null;">
+                    <h3>Another sunset.. After the sunset.</h3>
+                    <div class="date">September 2025</div>
+                    <p>Wow those colours!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20250924_190858~2.jpg" alt="Photobombed." onerror="this.src='photography/20250924_190858~2.jpg'; this.onerror=null;">
+                    <h3>Photobombed.</h3>
+                    <div class="date">September 2025</div>
+                    <p>Not much to say as well, super nice cloud formations though! - You can see a dragonfly.. yikes!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251016_190318~3.jpg" alt="Look at those clouds!" onerror="this.src='photography/20251016_190318~3.jpg'; this.onerror=null;">
+                    <h3>Look at those clouds!</h3>
+                    <div class="date">October 2025</div>
+                    <p>I absolutely loved the formation of those clouds, the colors were really unique too!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251018_072440.jpg" alt="Mornin'" onerror="this.src='photography/20251018_072440.jpg'; this.onerror=null;">
+                    <h3>Mornin'</h3>
+                    <div class="date">October 2025</div>
+                    <p>this was yet another sky photo, nothing special but it looks nice! Theres an edited version of it below.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251018_191259.jpg" alt="Another really nice sunset photo." onerror="this.src='photography/20251018_191259.jpg'; this.onerror=null;">
+                    <h3>Another really nice sunset photo.</h3>
+                    <div class="date">October 2025</div>
+                    <p>I love how everything was black besides the sky, it felt super cool and eerie!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251021_072420~3.jpg" alt="Mornin' but actually processed" onerror="this.src='photography/20251021_072420~3.jpg'; this.onerror=null;">
+                    <h3>Mornin' but actually processed</h3>
+                    <div class="date">October 2025</div>
+                    <p>This is that edited photo! it looks nice when its actually colored right.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251028_183233~2.png" alt="OCT Clouds 1" onerror="this.src='photography/20251028_183233~2.png'; this.onerror=null;">
+                    <h3>OCT Clouds 1</h3>
+                    <div class="date">October 2025</div>
+                    <p>this was before a really huge storm. as they say, the camera man never dies!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251028_183326.png" alt="Minimal Streetlight" onerror="this.src='photography/20251028_183326.png'; this.onerror=null;">
+                    <h3>Minimal Streetlight</h3>
+                    <div class="date">October 2025</div>
+                    <p>I actually like this one, what else can I say?</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251028_183525~2.png" alt="OCT Clouds 3" onerror="this.src='photography/20251028_183525~2.png'; this.onerror=null;">
+                    <h3>OCT Clouds 3</h3>
+                    <div class="date">October 2025</div>
+                    <p></p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251028_183620~2.png" alt="OCT Clouds 4" onerror="this.src='photography/20251028_183620~2.png'; this.onerror=null;">
+                    <h3>OCT Clouds 4</h3>
+                    <div class="date">October 2025</div>
+                    <p>This is a saturated version of the last photo, the other was nicer because of the clouds.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251028_183756~2.png" alt="OCT Clouds 5" onerror="this.src='photography/20251028_183756~2.png'; this.onerror=null;">
+                    <h3>OCT Clouds 5</h3>
+                    <div class="date">October 2025</div>
+                    <p>Loved the coloring! It looked so great irl.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251028_184236_Photos.png" alt="Lightning In Action" onerror="this.src='photography/20251028_184236_Photos.png'; this.onerror=null;">
+                    <h3>Lightning In Action</h3>
+                    <div class="date">October 2025</div>
+                    <p>Captured some lightning in that shot, I loved it!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251029_140343.jpg" alt="Kitty Cat!" onerror="this.src='photography/20251029_140343.jpg'; this.onerror=null;">
+                    <h3>Kitty Cat!</h3>
+                    <div class="date">October 2025</div>
+                    <p>Just a silly high quality picture of my cat. He mogs everything!</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251106_084017~2.jpg" alt="The Fog Is Here" onerror="this.src='photography/20251106_084017~2.jpg'; this.onerror=null;">
+                    <h3>The Fog Is Here</h3>
+                    <div class="date">November 2025</div>
+                    <p>The Fog Is Here. The Fog Is Here. The Fog Is Here. The Fog Is Here.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251106_151437~2.jpg" alt="Pink Clouds" onerror="this.src='photography/20251106_151437~2.jpg'; this.onerror=null;">
+                    <h3>Pink Clouds</h3>
+                    <div class="date">November 2025</div>
+                    <p>I liked this shot. It was taken in motion as well.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251106_1607282.jpg" alt="Beams" onerror="this.src='photography/20251106_1607282.jpg'; this.onerror=null;">
+                    <h3>Beams</h3>
+                    <div class="date">November 2025</div>
+                    <p>That's probably the only reason why I took the shot. It was much more visible irl.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/IMG_20251101_1654442.png" alt="thin film interference" onerror="this.src='photography/IMG_20251101_1654442.png'; this.onerror=null;">
+                    <h3>thin film interference</h3>
+                    <div class="date">November 2025</div>
+                    <p>Very colorful clouds! Matches so well witht the scenery too.</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251021_100045.png" alt="Mornin' 2" onerror="this.src='photography/20251021_100045.png'; this.onerror=null;">
+                    <h3>Mornin' 2</h3>
+                    <div class="date">October 2025</div>
+                    <p>yea idk what to put here honestly, its just a sunrise</p>
+                </div>
+                <div class="photopost">
+                    <img src="photography/20251030_201855.png" alt="RAW Night shot" onerror="this.src='photography/20251030_201855.png'; this.onerror=null;">
+                    <h3>RAW Night shot</h3>
+                    <div class="date">October 2025</div>
+                    <p>Just a RAW night shot.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="contact" class="contact-section">
+            <h2>LETS COLLABORATE</h2>
+            <p>
+                interested in photography projects or just wanna chat about shots? hit me up!
+            </p>
+            <div class="btn-group">
+                <button style="background: var(--text); border-color: var(--text); color: var(--bg);" onclick="window.open('mailto:virex@virex.dev')">EMAIL ME</button>
+                <button style="background: var(--bg-elevated); color: var(--text); border-color: var(--text);" onclick="window.location.href='/'">BACK TO PORTFOLIO</button>
+                <button style="background: var(--bg-elevated); color: var(--text); border-color: var(--text);" onclick="window.open('https://github.com/hnpf')">GITHUB</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* switch for theme, synced */
+
+        // theme persistence
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.getElementById('theme-switch').classList.add('active');
+            }
+        }
+
+        function toggleThemeSwitch() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            const switchEl = document.getElementById('theme-switch');
+            switchEl.classList.toggle('active');
+        }
+
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+        }
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        /* brutalist cursors */
+
+        const body = document.body;
+
+        // change cursor on hover
+        document.querySelectorAll('button, .chip, .nav-link, .logo, .theme-toggle').forEach(el => {
+            el.addEventListener('mouseover', () => body.classList.replace('cursor-default', 'cursor-pointer'));
+            el.addEventListener('mouseout', () => body.classList.replace('cursor-pointer', 'cursor-default'));
+        });
+
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('mouseover', () => body.classList.replace('cursor-default', 'cursor-text'));
+            el.addEventListener('mouseout', () => body.classList.replace('cursor-text', 'cursor-default'));
+        });
+
+        // fuck yeah draggable texts with physics shit and boundaries
+        const words = document.querySelectorAll('.hero h1 span');
+        const hero = document.querySelector('.hero');
+        const heroRect = hero.getBoundingClientRect();
+
+        words.forEach(word => {
+            let isDragging = false;
+            let startX, startY, initialX = 0, initialY = 0;
+            let currentX = 0, currentY = 0;
+            let velocityX = 0, velocityY = 0;
+            let baseTransform = getComputedStyle(word).transform;
+            const wordRect = word.getBoundingClientRect();
+            const maxX = heroRect.width / 2 - wordRect.width / 2;
+            const maxY = heroRect.height / 2 - wordRect.height / 2;
+            const k = 0.02; // spring constant
+            const damping = 0.95;
+
+            word.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                initialX = currentX;
+                initialY = currentY;
+                velocityX = 0;
+                velocityY = 0;
+                word.classList.add('dragging');
+                word.style.transition = 'none';
+
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            });
+
+            function onMouseMove(e) {
+                if (!isDragging) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                currentX = initialX + dx;
+                currentY = initialY + dy;
+
+                // clamp to boundaries
+                currentX = Math.max(-maxX, Math.min(maxX, currentX));
+                currentY = Math.max(-maxY, Math.min(maxY, currentY));
+
+                updateTransform();
+            }
+
+            function onMouseUp() {
+                isDragging = false;
+                word.classList.remove('dragging');
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+
+                // start physics drift back with spring
+                animateBack();
+            }
+
+            function updateTransform() {
+                word.style.transform = baseTransform + ` translate(${currentX}px, ${currentY}px)`;
+            }
+
+            function animateBack() {
+                const animate = () => {
+                    // spring force
+                    const forceX = -k * currentX;
+                    const forceY = -k * currentY;
+                    velocityX += forceX;
+                    velocityY += forceY;
+                    velocityX *= damping;
+                    velocityY *= damping;
+                    currentX += velocityX;
+                    currentY += velocityY;
+
+                    // clamp again
+                    currentX = Math.max(-maxX, Math.min(maxX, currentX));
+                    currentY = Math.max(-maxY, Math.min(maxY, currentY));
+
+                    // snap to center if close
+                    if (Math.abs(currentX) < 0.5 && Math.abs(currentY) < 0.5 && Math.abs(velocityX) < 0.01 && Math.abs(velocityY) < 0.01) {
+                        currentX = 0;
+                        currentY = 0;
+                        velocityX = 0;
+                        velocityY = 0;
+                        updateTransform();
+                        return;
+                    }
+
+                    updateTransform();
+                    requestAnimationFrame(animate);
+                };
+                requestAnimationFrame(animate);
+            }
+        });
+    </script>
+</body>
+</html>

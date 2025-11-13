@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | VIREX</title>
+    <meta name="description" content="Latest updates, thoughts, and insights from VIREX on development, cybersecurity, and technology.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="globals.css">
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+</head>
+<body class="cursor-default">
+    <nav>
+        <div class="logo" onclick="this.classList.add('spin'); setTimeout(() => this.classList.remove('spin'), 1000); window.location.href='/'">VIREX</div>
+        <div class="nav-links">
+            <div class="nav-link" onclick="window.location.href='/#projects'">PROJECTS</div>
+            <div class="nav-link" onclick="window.location.href='/#playground'">COMPONENTS</div>
+            <div class="nav-link" onclick="window.location.href='/#contact'">CONTACT</div>
+            <div class="nav-link" onclick="window.location.href='/privacy'">PRIVACY</div>
+            <div class="switch" id="theme-switch" onclick="toggleThemeSwitch()">
+                <div class="switch-ball"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="hero">
+            <div class="hero-bg"></div>
+            <h1>
+                <span class="word-1">BLOG</span><br>
+                <span class="word-2">BUT</span><br>
+                <span class="word-3">COOLER</span>
+            </h1>
+            <div class="tagline">
+                updates, thoughts, and insights on development & technology
+            </div>
+        </div>
+
+        <div class="section-title">LATEST POSTS</div>
+
+        <div id="blog-posts" class="projects">
+            <!-- blogs posts aregonna be loaded by JavaScript ! :D-->
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <h2>THANKS FOR READING</h2>
+        <p>
+            if you enjoyed these posts or wanna chat about tech, dev, or anything really
+            <p>hit me up, lets build something cool together :></p>
+        </p>
+        <div class="btn-group">
+            <button style="background: var(--text); border-color: var(--text); color: var(--bg);" onclick="window.open('mailto:virex@virex.dev')">EMAIL ME</button>
+            <button style="background: var(--bg-elevated); color: var(--text); border-color: var(--text);" onclick="window.location.href='/privacy'">PRIVACY</button>
+            <button style="background: var(--bg-elevated); color: var(--text); border-color: var(--text);" onclick="window.open('https://github.com/hnpf')">GITHUB</button>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">Link copied!</div>
+
+    <script src="roaming\js_blog.js"></script>
+</body>
+</html>

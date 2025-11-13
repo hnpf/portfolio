@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | VIREX Portfolio</title>
+ <link rel="stylesheet" href="roaming\css_404.css">
+  <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+</head>
+<body class="cursor-default">
+  <div class="container">
+    <h1>:(</h1><br>
+    <h2>A <span>404</span> error occured, Page not found, check the URL and try again.</h2><br><br>
+    <h3><a href="/">Go Home</a>&nbsp;|&nbsp;<a href="javascript:history.back()">Return</a></h3>
+  </div>
+
+  <script>
+      /* brutalist cursors */
+
+      const body = document.body;
+
+      // change cursor on hover
+      document.querySelectorAll('button, .chip, .nav-link, .logo, .theme-toggle').forEach(el => {
+          el.addEventListener('mouseover', () => body.classList.replace('cursor-default', 'cursor-pointer'));
+          el.addEventListener('mouseout', () => body.classList.replace('cursor-pointer', 'cursor-default'));
+      });
+
+      document.querySelectorAll('input, textarea').forEach(el => {
+          el.addEventListener('mouseover', () => body.classList.replace('cursor-default', 'cursor-text'));
+          el.addEventListener('mouseout', () => body.classList.replace('cursor-text', 'cursor-default'));
+      });
+  </script>
+</body>
+</html>
