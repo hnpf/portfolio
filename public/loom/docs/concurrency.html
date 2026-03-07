@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom - Concurrency Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>The Loom Lang!</h2>
+        <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="tutorial.html">Step-by-Step Tutorial</a></li>
+            <li><a href="expressive_comments.html">Expressive Comments</a></li>
+            <li><a href="guide.html">Language Reference</a></li>
+            <li><a href="stdlib.html">Standard Library</a></li>
+            <li><a href="concurrency.html" class="active">Concurrency</a></li>
+            <li><a href="shell.html">Shell Integration</a></li>
+            <li><a href="benchmarks.html">Benchmarks</a></li>
+            <li><a href="samples.html">Example Gallery</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>Concurrency in Loom</h1>
+        <p>Loom makes concurrency simple and safe with lightweight tasks. Tasks are managed by the runtime and provide structured concurrency primitives.</p>
+
+        <section id="spawn">
+            <h2>Spawning Tasks</h2>
+            <p>Use the <code>spawn</code> keyword to start a new task. It takes a block of code and returns a <strong>Task handle</strong> immediately.</p>
+            <pre><code><span class="loom-keyword">let</span> handle = <span class="loom-keyword">spawn</span> {
+    <span class="loom-function">print</span>(<span class="loom-string">"Background task running..."</span>)
+    <span class="loom-keyword">return</span> <span class="loom-number">42</span>
+}</code></pre>
+        </section>
+
+        <section id="await">
+            <h2>Awaiting Results</h2>
+            <p>To synchronize and get the result of a task, call the <code>.await()</code> method on the handle.</p>
+            <pre><code><span class="loom-keyword">let</span> result = handle.<span class="loom-function">await</span>()
+
+<span class="loom-keyword">when</span> result {
+    Ok(val) => <span class="loom-function">print</span>(<span class="loom-string">"Task completed: {val}"</span>),
+    Err(e)  => <span class="loom-function">print</span>(<span class="loom-string">"Task failed: {e}"</span>),
+}</code></pre>
+            <p>The result is always wrapped in a <code>Result</code> type (<code>Ok</code> or <code>Err</code>).</p>
+        </section>
+
+        <section id="parallel">
+            <h2>Parallel Processing</h2>
+            <p>Tasks are most powerful when combined with list <code>map</code> for parallel data processing.</p>
+            <pre><code><span class="loom-keyword">let</span> ids = [<span class="loom-number">1</span>, <span class="loom-number">2</span>, <span class="loom-number">3</span>]
+<span class="loom-keyword">let</span> tasks = ids.<span class="loom-function">map</span>(<span class="loom-keyword">act</span>(id) {
+    <span class="loom-keyword">spawn</span> { <span class="loom-function">process</span>(id) }
+})
+
+<span class="loom-keyword">let</span> results = tasks.<span class="loom-function">map</span>(<span class="loom-keyword">act</span>(t) { t.<span class="loom-function">await</span>() })</code></pre>
+        </section>
+
+        <div class="footer">
+            &copy; 2026 Loom Programming Language Team. Build with care.
+        </div>
+    </div>
+</body>
+</html>

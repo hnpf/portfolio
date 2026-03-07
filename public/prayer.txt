@@ -1,0 +1,15 @@
+sudo is my shepherd 
+i shall not segfault, as it maketh me lie down in root-owned directories 
+it leadeth me beside symlinks of sanity 
+
+and though i walk through the valley of missing packages i will fear no misconfig 
+for sudo art with me thy password and thy prompt they comfort me 
+
+thou preparest a shell before me in the presence of daemons 
+thou anointest my \$PATH with binaries 
+
+my stdout runneth over surely logs and dmesg shall follow me all the days of my uptime
+i will dwell in the home of tux 
+forever and ever 
+
+sudo amen

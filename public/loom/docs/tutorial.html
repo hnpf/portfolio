@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom - Tutorial</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>The Loom Lang!</h2>
+        <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="tutorial.html" class="active">Step-by-Step Tutorial</a></li>
+            <li><a href="expressive_comments.html">Expressive Comments</a></li>
+            <li><a href="guide.html">Language Reference</a></li>
+            <li><a href="stdlib.html">Standard Library</a></li>
+            <li><a href="concurrency.html">Concurrency</a></li>
+            <li><a href="shell.html">Shell Integration</a></li>
+            <li><a href="benchmarks.html">Benchmarks</a></li>
+            <li><a href="samples.html">Example Gallery</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>Tutorial: Building a System Monitor CLI</h1>
+        <p>In this tutorial, we will build a real-world CLI tool using Loom. We will create a <code>sysmon</code> utility that checks system resources concurrently.</p>
+
+        <h2>Step 1: Defining Our Data</h2>
+        <p>First, let's define a <strong>Trait</strong> for displayable items and a <strong>Frame</strong> for check results.</p>
+        <pre><code><span class="loom-comment">//* core data structures</span>
+
+<span class="loom-keyword">trait</span> <span class="loom-type">Displayable</span> {
+    <span class="loom-keyword">act</span> <span class="loom-function">display</span>(<span class="loom-keyword">self</span>)
+}
+
+<span class="loom-keyword">frame</span> <span class="loom-type">CheckResult</span> {
+    name: <span class="loom-type">str</span>,
+    passed: <span class="loom-type">bool</span>,
+    details: <span class="loom-type">str</span>,
+}
+
+<span class="loom-comment">//* implementation</span>
+
+<span class="loom-keyword">weave</span> <span class="loom-type">Displayable</span> <span class="loom-keyword">into</span> <span class="loom-type">CheckResult</span> {
+    <span class="loom-keyword">act</span> <span class="loom-function">display</span>(<span class="loom-keyword">self</span>) {
+        <span class="loom-keyword">let</span> status = <span class="loom-keyword">if</span> <span class="loom-keyword">self</span>.passed { <span class="loom-string">"[PASS]"</span> } <span class="loom-keyword">else</span> { <span class="loom-string">"[FAIL]"</span> }
+        <span class="loom-function">print</span>(status + <span class="loom-string">" "</span> + <span class="loom-keyword">self</span>.name + <span class="loom-string">": "</span> + <span class="loom-keyword">self</span>.details)
+    }
+}</code></pre>
+
+        <h2>Step 2: Implementing Checks</h2>
+        <p>Now, let's write functions that use the shell <code>$</code> operator to get system info.</p>
+        <pre><code><span class="loom-comment">//* system check logic</span>
+
+<span class="loom-keyword">act</span> <span class="loom-function">check_disk</span>() -> <span class="loom-type">CheckResult</span> {
+    <span class="loom-keyword">let</span> res = $ <span class="loom-string">"df -h / | tail -1 | awk '{print $5}' | tr -d '%'"</span>
+    
+    <span class="loom-keyword">if</span> res.status != 0 {
+        <span class="loom-keyword">return</span> <span class="loom-type">CheckResult</span> { name: <span class="loom-string">"Disk Usage"</span>, passed: <span class="loom-keyword">false</span>, details: <span class="loom-string">"Command failed: "</span> + res.stderr }
+    }
+    
+    <span class="loom-type">CheckResult</span> { name: <span class="loom-string">"Disk Usage"</span>, passed: <span class="loom-keyword">true</span>, details: res.stdout + <span class="loom-string">"% used"</span> }
+}</code></pre>
+
+        <h2>Step 3: Running Concurrently</h2>
+        <p>We use <code>spawn</code> to run checks at the same time and <code>await</code> to collect results.</p>
+        <pre><code><span class="loom-keyword">act</span> <span class="loom-function">main</span>() {
+    <span class="loom-function">print</span>(<span class="loom-string">"Running System Monitor..."</span>)
+    
+    <span class="loom-keyword">let</span> t1 = <span class="loom-keyword">spawn</span> { <span class="loom-function">check_disk</span>() }
+    <span class="loom-keyword">let</span> t2 = <span class="loom-keyword">spawn</span> { <span class="loom-function">check_process</span>(<span class="loom-string">"bash"</span>) }
+    
+    <span class="loom-keyword">let</span> results = [t1, t2].<span class="loom-function">map</span>(<span class="loom-keyword">act</span>(t) { t.<span class="loom-function">await</span>() })
+    
+    <span class="loom-keyword">for</span> res <span class="loom-keyword">in</span> results {
+        <span class="loom-keyword">when</span> res {
+            Ok(check) => check.<span class="loom-function">display</span>(),
+            Err(e)    => <span class="loom-function">print</span>(<span class="loom-string">"Check error: "</span> + e)
+        }
+    }
+}
+
+<span class="loom-function">main</span>()</code></pre>
+
+        <div class="footer">
+            &copy; 2026 Loom Programming Language Team. Build with care.
+        </div>
+    </div>
+</body>
+</html>

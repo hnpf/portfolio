@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom - Modern Shell & Concurrency</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>The Loom Lang!</h2>
+        <ul>
+            <li><a href="index.html" class="active">Welcome</a></li>
+            <li><a href="tutorial.html">Step-by-Step Tutorial</a></li>
+            <li><a href="expressive_comments.html">Expressive Comments</a></li>
+            <li><a href="guide.html">Language Reference</a></li>
+            <li><a href="stdlib.html">Standard Library</a></li>
+            <li><a href="concurrency.html">Concurrency</a></li>
+            <li><a href="shell.html">Shell Integration</a></li>
+            <li><a href="benchmarks.html">Benchmarks</a></li>
+            <li><a href="samples.html">Example Gallery</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>Welcome to Loom (v0.1)</h1>
+        <p>Loom is a modern, concurrent programming language designed for crafting developer tools and system automation. It fills the gap between the rapid iteration of shell scripts and the safety of high-level programming.</p>
+
+        <div class="grid">
+            <div class="card" style="background-color: #e3f2fd; border-left: 4px solid #2196f3;">
+                <h3>High Performance 🚀</h3>
+                <p>Loom's <code>weave</code> compiler offers up to <strong>50x speedup</strong> over interpreted code. Benchmarked for shell spawning, string handling, and recursion.</p>
+                <a href="benchmarks.html">See the results &rarr;</a>
+            </div>
+        </div>
+
+        <div class="callout">
+            <strong>The Loom Philosophy:</strong> We believe that the terminal is a first-class citizen. Loom brings structure to your shell and simplicity to your parallel tasks.
+        </div>
+
+        <h2>Why Loom?</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Shell-First</h3>
+                <p>Run shell commands directly with the <code>$</code> operator. No more <code>subprocess.run</code> or complex piping. Catch output, status, and stderr effortlessly.</p>
+            </div>
+            <div class="card">
+                <h3>Structured Concurrency</h3>
+                <p>Native <code>spawn</code> and <code>await</code> blocks that make background tasks as easy as a function call. Built-in <code>Task</code> management ensures your parallel work is safe.</p>
+            </div>
+            <div class="card">
+                <h3>Self-Documenting</h3>
+                <p>Our unique <strong>Expressive Comment</strong> system (<code>//*</code>, <code>//!</code>, <code>//?</code>) allows you to generate professional documentation automatically while keeping your code clean.</p>
+            </div>
+            <div class="card">
+                <h3>Trait-Based Design</h3>
+                <p>Decouple data from behavior with <code>trait</code> and <code>weave</code>. Add new functionality to existing types without modifying their original definition.</p>
+            </div>
+            <div class="card">
+                <h3>Ghost Imports</h3>
+                <p>Import logic directly from Markdown with <code>pull "logic.md"</code>. Your documentation is your source of truth. No more stale READMEs.</p>
+            </div>
+            <div class="card">
+                <h3>Safety Blocks</h3>
+                <p>Resource-aware execution with <code>safety(mem: 128MB)</code> blocks. Protect your hardware and get automatic crash reports for future debugging.</p>
+            </div>
+        </div>
+
+        <h2>A Quick Taste</h2>
+        <p>A concurrent system check with auto-documentation markers:</p>
+        <pre><code><span class="loom-comment">//; system health check | mit license</span>
+<span class="loom-comment">//* diagnostic logic</span>
+
+<span class="loom-keyword">act</span> <span class="loom-function">main</span>() {
+    <span class="loom-comment">//? should we add a timeout to this task?</span>
+    <span class="loom-keyword">let</span> handle = <span class="loom-keyword">spawn</span> { $ <span class="loom-string">"grep -c 'ERROR' app.log"</span> } <span class="loom-comment">//! potential heavy I/O</span>
+    
+    <span class="loom-function">print</span>(<span class="loom-string">"Checking logs in the background..."</span>)
+    
+    <span class="loom-keyword">when</span> handle.<span class="loom-function">await</span>() {
+        Ok(res) => <span class="loom-function">print</span>(<span class="loom-string">"Found {res.stdout} errors."</span>),
+        Err(e)  => <span class="loom-function">print</span>(<span class="loom-string">"Log check failed: {e}"</span>),
+    }
+}
+
+<span class="loom-function">main</span>()</code></pre>
+
+        <h2>Get Started</h2>
+        <p>Ready to build something? Follow our <a href="tutorial.html">Step-by-Step Tutorial</a> to build your first real Loom tool.</p>
+
+        <div class="callout" style="background-color: #fff3cd; border-color: #ffeeba; color: #856404;">
+            <strong>Pro Tip (Common Gotcha):</strong> Loom executes your code from top to bottom. If you define an <code>act main()</code>, remember to call it at the end of your file with <code>main()</code>!
+        </div>
+
+        <div class="footer">
+            &copy; 2026 Loom Programming Language Team. Build with care.
+        </div>
+    </div>
+</body>
+</html>

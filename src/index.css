@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@700&family=Noto+Sans+KR:wght@700&family=Noto+Sans+SC:wght@700&family=Noto+Sans+Arabic:wght@700&family=Noto+Sans+Hebrew:wght@700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", "Inter", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", "Noto Sans Arabic", "Noto Sans Hebrew", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", "Noto Sans Arabic", "Noto Sans Hebrew", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  :root {
+    --primary-hue: 220;
+    --primary: oklch(0.6 0.15 var(--primary-hue));
+    --on-primary: oklch(1 0 0);
+    --primary-container: oklch(0.9 0.05 var(--primary-hue));
+    --on-primary-container: oklch(0.2 0.05 var(--primary-hue));
+    
+    --surface: oklch(0.98 0.01 var(--primary-hue));
+    --on-surface: oklch(0.1 0.01 var(--primary-hue));
+    --surface-variant: oklch(0.92 0.02 var(--primary-hue));
+    --on-surface-variant: oklch(0.3 0.02 var(--primary-hue));
+    
+    --outline: oklch(0.5 0.02 var(--primary-hue));
+    --outline-variant: oklch(0.8 0.03 var(--primary-hue));
+    --sidebar-border: 10px;
+  }
+
+  .dark {
+    --primary: oklch(0.8 0.12 var(--primary-hue));
+    --on-primary: oklch(0.2 0.05 var(--primary-hue));
+    --primary-container: oklch(0.3 0.08 var(--primary-hue));
+    --on-primary-container: oklch(0.9 0.05 var(--primary-hue));
+    
+    --surface: oklch(0.15 0.02 var(--primary-hue));
+    --on-surface: oklch(0.95 0.01 var(--primary-hue));
+    --surface-variant: oklch(0.2 0.03 var(--primary-hue));
+    --on-surface-variant: oklch(0.8 0.02 var(--primary-hue));
+    
+    --outline: oklch(0.4 0.04 var(--primary-hue));
+    --outline-variant: oklch(0.3 0.05 var(--primary-hue));
+  }
+
+  body {
+    @apply bg-[var(--surface)] text-[var(--on-surface)] transition-[background-color,color] duration-300 select-none;
+    font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  /* optimization */
+  .m3-card, .m3-chip, .m3-button-filled, .m3-button-tonal, .sidebar-item, .bottom-nav-item {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+
+  .brutalist-mode * {
+    border-radius: 0 !important;
+  }
+
+  .developer-font {
+    --font-sans: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+    --font-display: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+  }
+
+  .focus-mode .page-container {
+    max-width: 1200px;
+    margin: 0 auto !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* level hover focus for cards */
+  .focus-mode .m3-card,
+  .focus-mode section > div:not(.flex) {
+    transition: backdrop-filter 0.4s ease, filter 0.4s ease, transform 0.4s ease;
+    filter: blur(4px) grayscale(20%);
+    transform: scale(0.98);
+  }
+
+  .focus-mode .m3-card:hover,
+  .focus-mode section > div:not(.flex):hover {
+    filter: blur(0) grayscale(0);
+    transform: scale(1);
+    z-index: 20;
+  }
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+  border-left: 1px solid var(--outline-variant);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--outline-variant);
+  border-radius: 100px;
+  border: 3px solid var(--surface);
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+  border: 2px solid var(--surface);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--outline-variant) var(--surface);
+}
+
+}
+
+@layer components {
+  .m3-card {
+    @apply bg-[var(--surface-variant)] rounded-[2.4rem] p-10 transition-[border-color,background-color,box-shadow] duration-150 border-2 border-transparent hover:border-[var(--outline)] hover:shadow-2xl;
+  }
+  
+  .m3-button-filled {
+    @apply bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 rounded-full font-semibold transition-[background-color,box-shadow,transform] duration-150 hover:shadow-lg active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  .m3-button-tonal {
+    @apply bg-[var(--primary-container)] text-[var(--on-primary-container)] px-6 py-3 rounded-full font-semibold transition-[background-color,box-shadow,transform] duration-150 hover:shadow-md active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  .m3-chip {
+    @apply px-4 py-2 bg-[var(--surface-variant)] text-[var(--on-surface-variant)] rounded-2xl font-black text-sm uppercase tracking-tighter border-4 border-[var(--outline-variant)] transition-[border-color,background-color,color] duration-150 hover:border-[var(--primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)];
+  }
+
+  .markdown-body {
+    @apply space-y-6 leading-relaxed font-sans;
+  }
+  .markdown-body h1 { @apply text-5xl font-display font-bold mb-8 tracking-tight; }
+  .markdown-body h2 { @apply text-3xl font-display font-semibold mt-12 mb-6 tracking-tight; }
+  .markdown-body p { @apply text-xl opacity-90 font-light; }
+  .markdown-body ul { @apply list-disc pl-8 space-y-3; }
+  .markdown-body blockquote { @apply border-l-8 border-[var(--primary)] pl-6 py-2 italic opacity-80 bg-[var(--surface-variant)] rounded-r-2xl; }
+  .markdown-body pre { @apply bg-black/10 dark:bg-white/5 p-6 rounded-[2rem] overflow-x-auto font-mono text-sm my-8 border border-[var(--outline-variant)] relative; }
+  .markdown-body table { 
+    @apply w-full my-8 overflow-hidden rounded-[2.5rem] border-2 border-[var(--outline-variant)];
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .markdown-body th, .markdown-body td { 
+    @apply p-6 text-left border-b border-r border-[var(--outline-variant)];
+  }
+  .markdown-body th { 
+    @apply bg-[var(--primary-container)] text-[var(--on-primary-container)] font-black uppercase tracking-widest text-xs border-b-4 border-[var(--outline-variant)]; 
+  }
+  .markdown-body tr:last-child td { @apply border-b-0; }
+  .markdown-body tr td:last-child, .markdown-body tr th:last-child { @apply border-r-0; }
+  .markdown-body tr:nth-child(even) { @apply bg-[var(--surface-variant)]/40; }
+  .markdown-body tr:hover td { @apply bg-[var(--primary-container)]/10; }
+}
+
+

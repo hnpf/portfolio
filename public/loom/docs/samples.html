@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom - Code Gallery</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>The Loom Lang!</h2>
+        <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="tutorial.html">Step-by-Step Tutorial</a></li>
+            <li><a href="expressive_comments.html">Expressive Comments</a></li>
+            <li><a href="guide.html">Language Reference</a></li>
+            <li><a href="stdlib.html">Standard Library</a></li>
+            <li><a href="concurrency.html">Concurrency</a></li>
+            <li><a href="shell.html">Shell Integration</a></li>
+            <li><a href="benchmarks.html">Benchmarks</a></li>
+            <li><a href="samples.html" class="active">Example Gallery</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>Loom Code Gallery</h1>
+        <p>Explore these examples to see how Loom's features link together to build robust system tools.</p>
+
+        <section class="gallery-item">
+            <h2>1. Concurrent Service Health Checker</h2>
+            <p>This script links <strong>Frames</strong>, <strong>Shell Integration</strong>, and <strong>Concurrency</strong> to check several system services at once.</p>
+            <pre><code><span class="loom-keyword">frame</span> <span class="loom-type">Service</span> { name: <span class="loom-type">str</span>, port: <span class="loom-type">int</span> }
+
+<span class="loom-keyword">act</span> <span class="loom-function">check</span>(s: <span class="loom-type">Service</span>) {
+    <span class="loom-keyword">let</span> res = $ <span class="loom-string">"nc -z localhost {s.port}"</span>
+    <span class="loom-keyword">if</span> res.status == 0 {
+        <span class="loom-function">print</span>(<span class="loom-string">"Service {s.name} is UP on port {s.port}"</span>)
+    } <span class="loom-keyword">else</span> {
+        <span class="loom-function">print</span>(<span class="loom-string">"Service {s.name} is DOWN!"</span>)
+    }
+}
+
+<span class="loom-keyword">act</span> <span class="loom-function">main</span>() {
+    <span class="loom-keyword">let</span> services = [
+        <span class="loom-type">Service</span> { name: <span class="loom-string">"Web"</span>, port: 80 },
+        <span class="loom-type">Service</span> { name: <span class="loom-string">"DB"</span>,  port: 5432 }
+    ]
+    
+    <span class="loom-keyword">let</span> tasks = services.<span class="loom-function">map</span>(<span class="loom-keyword">act</span>(s) { <span class="loom-keyword">spawn</span> { <span class="loom-function">check</span>(s) } })
+    <span class="loom-keyword">for</span> t <span class="loom-keyword">in</span> tasks { t.<span class="loom-function">await</span>() }
+}
+
+<span class="loom-function">main</span>()</code></pre>
+        </section>
+
+        <section class="gallery-item">
+            <h2>2. Modern Log Parser</h2>
+            <p>Demonstrates <strong>Pattern Matching</strong> and <strong>Shell Pipes</strong> to summarize application logs.</p>
+            <pre><code><span class="loom-keyword">act</span> <span class="loom-function">main</span>() {
+    <span class="loom-keyword">let</span> log_file = <span class="loom-string">"app.log"</span>
+    
+    <span class="loom-comment">// Link Loom to standard Linux tools</span>
+    <span class="loom-keyword">let</span> err_count = $ <span class="loom-string">"grep 'ERROR' {log_file} | wc -l"</span>
+    <span class="loom-keyword">let</span> warn_count = $ <span class="loom-string">"grep 'WARN' {log_file} | wc -l"</span>
+    
+    <span class="loom-function">print</span>(<span class="loom-string">"Log Summary for {log_file}:"</span>)
+    <span class="loom-function">print</span>(<span class="loom-string">"Errors: {err_count.stdout}"</span>)
+    <span class="loom-function">print</span>(<span class="loom-string">"Warnings: {warn_count.stdout}"</span>)
+}
+
+<span class="loom-function">main</span>()</code></pre>
+        </section>
+
+        <section class="gallery-item">
+            <h2>3. Interactive CLI Task Runner</h2>
+            <p>A full example showing how to <strong>link</strong> user logic with background tasks and safe result handling.</p>
+            <pre><code><span class="loom-keyword">act</span> <span class="loom-function">worker</span>(id) {
+    <span class="loom-function">print</span>(<span class="loom-string">"Worker {id} starting..."</span>)
+    <span class="loom-keyword">let</span> res = $ <span class="loom-string">"sleep 2 && echo Done"</span>
+    Ok(<span class="loom-string">"Worker {id} finished: {res.stdout}"</span>)
+}
+
+<span class="loom-keyword">act</span> <span class="loom-function">main</span>() {
+    <span class="loom-keyword">let</span> t1 = <span class="loom-keyword">spawn</span> { <span class="loom-function">worker</span>(1) }
+    <span class="loom-keyword">let</span> t2 = <span class="loom-keyword">spawn</span> { <span class="loom-function">worker</span>(2) }
+    
+    <span class="loom-comment">// Wait for results and handle errors gracefully</span>
+    <span class="loom-keyword">for</span> t <span class="loom-keyword">in</span> [t1, t2] {
+        <span class="loom-keyword">when</span> t.<span class="loom-function">await</span>() {
+            Ok(msg) => <span class="loom-function">print</span>(msg),
+            Err(e)  => <span class="loom-function">print</span>(<span class="loom-string">"Error: {e}"</span>),
+        }
+    }
+}
+
+<span class="loom-function">main</span>()</code></pre>
+        </section>
+
+        <div class="footer">
+            &copy; 2026 Loom Programming Language Team. Build with care.
+        </div>
+    </div>
+</body>
+</html>

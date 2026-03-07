@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom Language Reference</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>The Loom Lang!</h2>
+        <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="tutorial.html">Step-by-Step Tutorial</a></li>
+            <li><a href="expressive_comments.html">Expressive Comments</a></li>
+            <li><a href="guide.html" class="active">Language Reference</a></li>
+            <li><a href="stdlib.html">Standard Library</a></li>
+            <li><a href="concurrency.html">Concurrency</a></li>
+            <li><a href="shell.html">Shell Integration</a></li>
+            <li><a href="benchmarks.html">Benchmarks</a></li>
+            <li><a href="samples.html">Example Gallery</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>Loom Language Reference</h1>
+        <p>A comprehensive guide to Loom's syntax, types, and core features.</p>
+
+        <section id="types">
+            <h2>Fundamental Types</h2>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>int</code></td>
+                        <td>64-bit signed integer</td>
+                        <td><code>42</code>, <code>-10</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>float</code></td>
+                        <td>64-bit floating point</td>
+                        <td><code>3.14</code>, <code>-0.001</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>str</code></td>
+                        <td>UTF-8 String (supports <code>{interpolation}</code>)</td>
+                        <td><code>"Loom"</code>, <code>"Result: {val}"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>char</code></td>
+                        <td>Single Unicode character</td>
+                        <td><code>'a'</code>, <code>'λ'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>bool</code></td>
+                        <td>Boolean logic</td>
+                        <td><code>true</code>, <code>false</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>List<T></code></td>
+                        <td>Dynamic array of elements</td>
+                        <td><code>[1, 2, 3]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Result<T></code></td>
+                        <td>Error handling variant</td>
+                        <td><code>Ok(val)</code>, <code>Err("fail")</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Option<T></code></td>
+                        <td>Optional value variant</td>
+                        <td><code>Some(val)</code>, <code>None</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="traits">
+            <h2>Traits & Weave</h2>
+            <p>Traits define shared behavior, and <code>weave</code> implements them for specific frames.</p>
+            <pre><code><span class="loom-keyword">trait</span> <span class="loom-type">Drawable</span> {
+    <span class="loom-keyword">act</span> <span class="loom-function">draw</span>(<span class="loom-keyword">self</span>)
+}
+
+<span class="loom-keyword">weave</span> <span class="loom-type">Drawable</span> <span class="loom-keyword">into</span> <span class="loom-type">Player</span> {
+    <span class="loom-keyword">act</span> <span class="loom-function">draw</span>(<span class="loom-keyword">self</span>) {
+        <span class="loom-function">print</span>(<span class="loom-string">"Drawing {self.name}"</span>)
+    }
+}</code></pre>
+        </section>
+
+        <section id="comments">
+            <h2>Expressive Comments</h2>
+            <p>Loom uses semantic comment prefixes for documentation and scanning.</p>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Prefix</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>//*</code></td><td>Logic block/section header</td></tr>
+                    <tr><td><code>//!</code></td><td>Urgent/Critical warning</td></tr>
+                    <tr><td><code>//?</code></td><td>Query/Debug thought</td></tr>
+                    <tr><td><code>//.</code></td><td>Metadata (Author, Version)</td></tr>
+                    <tr><td><code>//;</code></td><td>Legal/Copyright</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="variables">
+            <h2>Variable Bindings</h2>
+            <p>Loom supports mutable bindings with <code>let</code> and immutable constants with <code>const</code>.</p>
+            <pre><code><span class="loom-keyword">let</span> mutable_var = <span class="loom-number">10</span>
+<span class="loom-keyword">const</span> PI = <span class="loom-number">3.14159</span></code></pre>
+        </section>
+
+        <section id="control-flow">
+            <h2>Control Flow</h2>
+            <h3>Conditionals (if/else)</h3>
+            <pre><code><span class="loom-keyword">if</span> x > 10 { <span class="loom-function">print</span>(<span class="loom-string">"Large"</span>) } <span class="loom-keyword">else</span> { <span class="loom-function">print</span>(<span class="loom-string">"Small"</span>) }</code></pre>
+
+            <h3>If Let (Pattern Binding)</h3>
+            <p>Use <code>if let</code> to safely extract values from Results or Options.</p>
+            <pre><code><span class="loom-keyword">if</span> <span class="loom-keyword">let</span> Ok(data) = <span class="loom-function">read</span>(<span class="loom-string">"config.json"</span>) {
+    <span class="loom-function">print</span>(<span class="loom-string">"Read {data.len()} bytes"</span>)
+}</code></pre>
+
+            <h3>Loops</h3>
+            <p>Loom provides <code>loop</code>, <code>while</code>, and <code>for</code> loops.</p>
+            <pre><code><span class="loom-keyword">loop</span> { 
+    <span class="loom-keyword">if</span> done { <span class="loom-keyword">break</span> }
+}
+
+<span class="loom-keyword">while</span> i < 10 { 
+    i = i + 1 
+}
+
+<span class="loom-keyword">for</span> i <span class="loom-keyword">in</span> <span class="loom-number">0</span>..<span class="loom-number">10</span> { 
+    <span class="loom-function">print</span>(i) 
+}
+
+<span class="loom-keyword">for</span> item <span class="loom-keyword">in</span> list { 
+    <span class="loom-function">print</span>(item) 
+}</code></pre>
+
+            <h3>Pattern Matching (when)</h3>
+            <p>Pattern matching is the idiomatic way to handle Results and Options.</p>
+            <pre><code><span class="loom-keyword">when</span> result {
+    Ok(val)  => <span class="loom-function">print</span>(<span class="loom-string">"Success: {val}"</span>),
+    Err(msg) => <span class="loom-function">print</span>(<span class="loom-string">"Error: {msg}"</span>),
+    _        => <span class="loom-function">print</span>(<span class="loom-string">"Catch-all"</span>),
+}</code></pre>
+        </section>
+
+        <section id="frames">
+            <h2>Frames & Methods</h2>
+            <p>Frames define data structures, and <code>bind</code> defines behavior.</p>
+            <pre><code><span class="loom-keyword">frame</span> <span class="loom-type">Point</span> { x: <span class="loom-type">int</span>, y: <span class="loom-type">int</span> }
+
+<span class="loom-keyword">bind</span> <span class="loom-type">Point</span> {
+    <span class="loom-keyword">act</span> <span class="loom-function">move</span>(<span class="loom-keyword">self</span>, dx, dy) {
+        <span class="loom-keyword">self</span>.x = <span class="loom-keyword">self</span>.x + dx
+        <span class="loom-keyword">self</span>.y = <span class="loom-keyword">self</span>.y + dy
+    }
+}</code></pre>
+        </section>
+
+        <section id="linking">
+            <h2>Linking Components</h2>
+            <p>Loom excels at linking these pieces. You can use <strong>Frames</strong> inside <strong>Lists</strong>, <strong>spawn</strong> methods of Frames, or use <strong>Shell</strong> output to populate Frame fields.</p>
+            <pre><code><span class="loom-keyword">let</span> results = []
+<span class="loom-keyword">let</span> handle = <span class="loom-keyword">spawn</span> { $ <span class="loom-string">"uptime"</span> }
+<span class="loom-keyword">let</span> out = handle.<span class="loom-function">await</span>()
+<span class="loom-keyword">if</span> out.status == 0 {
+    results.<span class="loom-function">push</span>(out.stdout)
+}</code></pre>
+        </section>
+
+        <div class="footer">
+            &copy; 2026 Loom Programming Language Team. Build with care.
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel>
+  <title>Virex Log</title>
+  <link>https://virex.lol/blog</link>
+  <description>Research, development, and systems exploration by Virex.</description>
+
+  <item>
+    <title>VIREX: The Immersion &amp; Integrity Overhaul</title>
+    <link>https://virex.lol/blog/immersion-integrity-overhaul</link>
+    <description>A massive update focusing on information density, deep system tweaks, and a complete UX refinement.</description>
+    <content:encoded><![CDATA[
+<p>We've spent the last few days stripping away the filler and focusing on what matters. Improved information density, professional utility, and deep immersion.</p>
+
+<h2>Readme: Information Density</h2>
+<ul>
+  <li><strong>Bio Overhaul</strong>: Replaced the filler cards with a <strong>Biography</strong> and <strong>Mission</strong> section.</li>
+  <li><strong>PGP Integration</strong>: Added my official PGP Fingerprint directly to the header.</li>
+</ul>
+
+<h2>Lens: The Full Rewrite</h2>
+<ul>
+  <li><strong>Navigation Overhaul</strong>: Destroyed the overlapping floating buttons.</li>
+  <li><strong>Typography Sync</strong>: Swapped the "dev mono" headers for the expressive site-wide display typography.</li>
+  <li><strong>Optimized Lightbox</strong>: Removed the aggressive blurs and fixed description cutoffs.</li>
+  <li><strong>Bento Layout</strong>: The photography archive now uses a dynamic Bento layout.</li>
+</ul>
+
+<h2>Tweaks &amp; Immersion</h2>
+<ul>
+  <li><strong>Dynamic Identity</strong>: Added a Dynamic Favicon that listens to your theme accent.</li>
+  <li><strong>Focus Mode (Zen)</strong>: Full-immersion mode with top/bottom depth-of-field blurs.</li>
+  <li><strong>Brutalist Mode</strong>: For when you're tired of squircles. Every corner now has a 0px radius.</li>
+  <li><strong>Developer Font</strong>: Global override to JetBrains Mono.</li>
+</ul>
+
+<h2>Performance &amp; Utility</h2>
+<ul>
+  <li><strong>Lens Optimization</strong>: Reduced total image assets from ~200MB to ~40MB using WebP.</li>
+  <li><strong>Loom Deep Search</strong>: Upgraded documentation viewer to pre-fetch markdown files.</li>
+  <li><strong>PWA Support</strong>: The site is now fully installable on mobile and desktop.</li>
+  <li><strong>RSS Feed Compatibility</strong>: You can now add the Virex blog as an RSS feed!</li>
+  <li><strong>Deep SEO</strong>: Implemented dynamic OpenGraph tags and JSON-LD structured data.</li>
+</ul>
+
+<blockquote><p>"True perfection is attained not when there is nothing more to add, but when there is nothing more to take away."</p></blockquote>
+
+<p>Love you all &lt;3</p>
+    ]]></content:encoded>
+    <pubDate>Fri, 06 Mar 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Low Standards, make Virex great again! 2026 rebuild</title>
+    <link>https://virex.lol/blog/mvga-2026</link>
+    <description>I deleted almost everything. It's smaller, faster, and finally looks how I wanted it to.</description>
+    <content:encoded><![CDATA[
+<p>I hit delete .. only on some parts.</p>
+
+<h2>It really is out with the old, in with the "actually good"</h2>
+<p>The previous iteration was messy. I stripped it down to the bare essentials.</p>
+
+<h3>What actually changed?</h3>
+<ul>
+  <li><strong>Architecture</strong>: Moved to a hella barebones structure.</li>
+  <li><strong>Design Overhaul</strong>: Fully leaned into a Material 3 feel.</li>
+  <li><strong>The "lens" gallery</strong>: Refactored the photography logic.</li>
+  <li><strong>Blog Engine</strong>: It's actually functional now.</li>
+</ul>
+
+<h2>The casualty list</h2>
+<p>I ended up deleting some of the older update logs. They didn't really fit the new feel.</p>
+
+<blockquote><p>"if it works on my machine, it's ABSOLUTELY production ready."</p></blockquote>
+
+<h2>Tech stack recheck</h2>
+<table>
+  <thead><tr><th>Part</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>Framework</td><td>React 19 / Vite</td></tr>
+    <tr><td>Styling</td><td>Tailwind CSS + M3 tokens</td></tr>
+    <tr><td>Peace of mind</td><td>Regained (mostly)</td></tr>
+  </tbody>
+</table>
+
+<p>Welcome to Virex portfolio (V1 is lost media atp).</p>
+<p>peace.</p>
+    ]]></content:encoded>
+    <pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>markdown stress test, testing the new parser</title>
+    <link>https://virex.lol/blog/markdown-test</link>
+    <description>checking if the new react-markdown setup can handle me.</description>
+    <content:encoded><![CDATA[
+<p>this is a normal paragraph with some <strong>bold text</strong>, some <em>italics</em>, and a <a href="https://github.com/hnpf"><strong>link to my github</strong></a>.</p>
+
+<h2>testing the code blocks</h2>
+<pre><code>def add(a, b):
+    return a + b</code></pre>
+
+<h2>testing lists and formatting</h2>
+<ul>
+  <li>top level item
+    <ul><li>nested item</li></ul>
+  </li>
+  <li>back to basics</li>
+</ul>
+
+<blockquote><p>"if it works on my machine, it's production ready."</p></blockquote>
+
+<h2>testing GFM (tables)</h2>
+<table>
+  <thead><tr><th>Feature</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>headers</td><td>working</td></tr>
+    <tr><td>tables</td><td>hopefully working</td></tr>
+  </tbody>
+</table>
+
+<p>ok thats it bye :D</p>
+    ]]></content:encoded>
+    <pubDate>Sat, 17 Jan 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Basic Cybersec And How To Not Be A Victim</title>
+    <link>https://virex.lol/blog/cybersec-101</link>
+    <description>The internet is a hostile environment. Protecting yourself doesn't require a degree, just discipline.</description>
+    <content:encoded><![CDATA[
+<ol>
+  <li>
+    <strong>Password management is a must-have.</strong>
+    <p>Use a password manager to generate and store complex passwords.</p>
+  </li>
+  <li>
+    <strong>You need to enable MFA!</strong>
+    <p>Avoid SMS-based codes. Use an authenticator app or a physical security key.</p>
+  </li>
+  <li>
+    <strong>Software updates are your best defense!</strong>
+    <p>Developers release updates to patch security vulnerabilities.</p>
+  </li>
+  <li>
+    <strong>Avoid phishing attacks.</strong>
+    <p>Be skeptical of EVERY link. Go directly to official websites.</p>
+  </li>
+  <li>
+    <strong>Public Wi-Fi is dangerous.</strong>
+    <p>Don't use it for sensitive tasks without a trusted VPN.</p>
+  </li>
+</ol>
+
+<h2>Security Table</h2>
+<table>
+  <thead><tr><th>Tool</th><th>Priority</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>A Password Manager</td><td>Critical</td><td>&#10003;</td></tr>
+    <tr><td>MFA</td><td>High</td><td>&#10003;</td></tr>
+  </tbody>
+</table>
+
+<blockquote><p>"security is a process, not a product."</p></blockquote>
+    ]]></content:encoded>
+    <pubDate>Sat, 17 Jan 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>sysdupd: Arch updates without the headache</title>
+    <link>https://virex.lol/blog/sysdupd</link>
+    <description>I built a custom update manager using python, gtk4, and libadwaita.</description>
+    <content:encoded><![CDATA[
+<p>it finally works. I've built a custom update manager using Python, GTK4, and libadwaita.</p>
+<ul>
+  <li>Handles systemd timers for background checks.</li>
+  <li>Dynamic distro detection.</li>
+  <li>Background service integration.</li>
+  <li>Sleek Adwaita interface.</li>
+</ul>
+<p>Check the source on my <a href="https://github.com/hnpf">GitHub (hnpf)</a>!</p>
+    ]]></content:encoded>
+    <pubDate>Fri, 16 Jan 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Long Term Pixel 10 Pro Use: My Review of the Tensor G5 Architecture</title>
+    <link>https://virex.lol/blog/pixel-10-pro-honest-review</link>
+    <description>A deep dive into the 3nm transition and why the Pixel 10 Pro is finally a consistent daily driver.</description>
+    <content:encoded><![CDATA[
+<h2>Architectural Maturity: The TSMC Shift</h2>
+<p>Moving to TSMC's 3nm process makes efficiency gains immediately apparent. Thermals are stable.</p>
+
+<h2>Memory and Multitasking</h2>
+<p>16GB of LPDDR5X RAM handles aggressive background processes without killing cached apps.</p>
+
+<h2>Camera &amp; Computer Vision</h2>
+<p>The new ISP allows for 100x Pro Res zoom using on-device generative models. Video Boost is now handled locally on the TPU.</p>
+
+<h2>Platform Stability</h2>
+<p>Android 16 builds are surprisingly performant. The level of control in the modern Android stack is peaking.</p>
+    ]]></content:encoded>
+    <pubDate>Fri, 16 Jan 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>The web is cooked (..And we are the ones smelling the smoke)</title>
+    <link>https://virex.lol/blog/the-web-is-cooked</link>
+    <description>Why does a site need more processing power than the apollo 11 moon landing??</description>
+    <content:encoded><![CDATA[
+<p>The modern web is basically malware.</p>
+<p>I saw a landing page with 12MB of JavaScript. For three buttons and a logo.</p>
+<ul>
+  <li>60% of load time is just analytics scripts.</li>
+  <li>We have frameworks to fix performance issues caused by other frameworks.</li>
+</ul>
+<p>I built virex.lol to be fast. If your site takes more than 2 seconds on 4G, you didn't build a website.</p>
+    ]]></content:encoded>
+    <pubDate>Tue, 14 Jan 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Your cloud is just someone elses computer.</title>
+    <link>https://virex.lol/blog/cloud-is-someone-elses-computer</link>
+    <description>This is why i hoard data (and you should too).</description>
+    <content:encoded><![CDATA[
+<p>Stop trusting corporations with your data.</p>
+<ul>
+  <li>If it's on my drive, no one can "un-license" it.</li>
+  <li>Paying $15/month for a library that changes every week is a joke.</li>
+  <li>I keep games, movies, and tools because once they're gone from the web, they're gone FOREVER.</li>
+</ul>
+<p>It's about digital sovereignty. They don't care about your files, they care about your subscription.</p>
+    ]]></content:encoded>
+    <pubDate>Tue, 14 Jan 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Why I actually use Arch.. (and it's not for the meme)</title>
+    <link>https://virex.lol/blog/why-i-actually-use-arch</link>
+    <description>I just want a system that doesnt hand bs over to me...</description>
+    <content:encoded><![CDATA[
+<ul>
+  <li><strong>No bloat</strong>: exactly what I need and nothing else.</li>
+  <li><strong>The Wiki</strong>: the holy grail of documentation.</li>
+  <li><strong>Rolling release</strong>: latest kernel features immediately.</li>
+</ul>
+<p>My rig (RX 6800 XT / i5-14600K) runs much better when I own the hardware instead of the OS owning me.</p>
+    ]]></content:encoded>
+    <pubDate>Tue, 14 Jan 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>The internet is dead.</title>
+    <link>https://virex.lol/blog/the-internet-is-dead</link>
+    <description>If you think you are talking to real people on the big platforms anymore, I have a bridge to sell you.</description>
+    <content:encoded><![CDATA[
+<p>This is why I self host.</p>
+<p>Socials are just bots talking to bots.</p>
+<ul>
+  <li>AI-generated slop consumed by AI-generated scrapers.</li>
+  <li>"Blue checks" with generic AI names replying to everything.</li>
+  <li>Algorithms showing what keeps you scrolling, not what is good.</li>
+</ul>
+<p>AI already killed the world wide web. Go outside.</p>
+    ]]></content:encoded>
+    <pubDate>Mon, 12 Jan 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>The epstein &quot;files&quot; is a joke!</title>
+    <link>https://virex.lol/blog/epstein-files-is-a-joke</link>
+    <description>So the DOJ finally dropped the files and... surprise! it's basically just 50 pages of ONLY blacked out text...</description>
+    <content:encoded><![CDATA[
+<p>The most transparent administration?</p>
+<p>The DOJ documents are so redacted they look like modern art.</p>
+<ul>
+  <li>Missed deadlines.</li>
+  <li>"Rolling releases" that are just more redactions.</li>
+  <li>Files disappearing after being posted.</li>
+</ul>
+<p>It's embarrassing how much effort goes into hiding names despite the law.</p>
+    ]]></content:encoded>
+    <pubDate>Sun, 21 Dec 2025 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>This is why I love Open Source</title>
+    <link>https://virex.lol/blog/why-i-love-open-source</link>
+    <description>honestly, open source is just built different.</description>
+    <content:encoded><![CDATA[
+<ul>
+  <li>Peek under the hood of massive projects.</li>
+  <li>See how pros build things.</li>
+  <li>Contributing &gt; gatekeeping.</li>
+  <li>Community feedback makes things 10x more secure.</li>
+</ul>
+    ]]></content:encoded>
+    <pubDate>Wed, 12 Nov 2025 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>This is the first blog post!</title>
+    <link>https://virex.lol/blog/first-blog-post</link>
+    <description>This is the first blog post, and im happy to share updates on..</description>
+    <content:encoded><![CDATA[
+<p>Sharing updates on projects and thoughts on development. Stay tuned!</p>
+    ]]></content:encoded>
+    <pubDate>Tue, 04 Nov 2025 00:00:00 GMT</pubDate>
+  </item>
+
+</channel>
+</rss>

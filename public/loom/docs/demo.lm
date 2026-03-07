@@ -1,0 +1,66 @@
+//; loom demo | mit license
+//* task runner
+//. author: virex | loom v0.1
+
+frame Task {
+    id: int,
+    label: str,
+    done: bool,
+}
+
+bind Task {
+    act complete(self) {
+        self.done = true
+    }
+
+    act display(self) {
+        let status = if self.done { "done" } else { "pending" }
+        print(self.label + " [" + status + "]")
+    }
+}
+
+act run_tasks(tasks) {
+    let i = 0
+    let handles = []
+    // Manual loop for now as 'for' is not fully implemented in eval
+    while i < tasks.len() {
+        let t = tasks[i]
+        i = i + 1
+    }
+    
+    Ok(tasks.len())
+}
+
+act main() {
+    let t1 = Task { id: 1, label: "parse input", done: false }
+    let t2 = Task { id: 2, label: "run eval",    done: false }
+    
+    t1.display()
+    t2.display()
+    
+    print("completing task 1...")
+    t1.complete()
+    t1.display()
+    
+    let handle = spawn {
+        print("async work started")
+        let sum = 0
+        let i = 0
+        while i < 100 {
+            sum = sum + i
+            i = i + 1
+        }
+        sum
+    }
+    
+    let result = handle.await()
+    print("async result: " + result)
+    
+    let status = Ok("success")
+    when status {
+        Ok(msg) => print("status: " + msg),
+        Err(e) => print("error: " + e),
+    }
+}
+
+main()

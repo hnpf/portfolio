@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom - Standard Library</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>The Loom Lang!</h2>
+        <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="tutorial.html">Step-by-Step Tutorial</a></li>
+            <li><a href="expressive_comments.html">Expressive Comments</a></li>
+            <li><a href="guide.html">Language Reference</a></li>
+            <li><a href="stdlib.html" class="active">Standard Library</a></li>
+            <li><a href="concurrency.html">Concurrency</a></li>
+            <li><a href="shell.html">Shell Integration</a></li>
+            <li><a href="benchmarks.html">Benchmarks</a></li>
+            <li><a href="samples.html">Example Gallery</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>Loom Standard Library</h1>
+        <p>Built-in functions and methods available in the Loom language.</p>
+
+        <section id="global-functions">
+            <h2>Global Functions</h2>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Returns</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>print(...)</code></td><td><code>None</code></td><td>Prints values to stdout.</td></tr>
+                    <tr><td><code>input(prompt)</code></td><td><code>str</code></td><td>Reads a line from stdin.</td></tr>
+                    <tr><td><code>clear()</code></td><td><code>None</code></td><td>Clears the terminal screen.</td></tr>
+                    <tr><td><code>read(file)</code></td><td><code>Result<str></code></td><td>Reads file content.</td></tr>
+                    <tr><td><code>write(file, txt)</code></td><td><code>Result<None></code></td><td>Writes content to file.</td></tr>
+                    <tr><td><code>ls(path)</code></td><td><code>Result<List></code></td><td>Lists directory entries.</td></tr>
+                    <tr><td><code>exists(path)</code></td><td><code>bool</code></td><td>Checks if path exists.</td></tr>
+                    <tr><td><code>sleep(ms)</code></td><td><code>None</code></td><td>Pauses execution.</td></tr>
+                    <tr><td><code>env(key)</code></td><td><code>str | None</code></td><td>Gets environment variable.</td></tr>
+                    <tr><td><code>json(str)</code></td><td><code>Result<Any></code></td><td>Parses JSON string.</td></tr>
+                    <tr><td><code>net.connect(ip, port)</code></td><td><code>Result<None></code></td><td>TCP connection test.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="conversions">
+            <h2>Data Conversions</h2>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>str(val)</code></td><td>Converts value to string.</td></tr>
+                    <tr><td><code>int(val)</code></td><td>Converts value to 64-bit integer.</td></tr>
+                    <tr><td><code>float(val)</code></td><td>Converts value to 64-bit float.</td></tr>
+                    <tr><td><code>bool(val)</code></td><td>Converts value to boolean.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="methods">
+            <h2>Type-Specific Methods</h2>
+            <h3>Strings</h3>
+            <ul>
+                <li><code>s.len()</code>: Length of string.</li>
+                <li><code>s.replace(old, new)</code>: Replace occurrences.</li>
+                <li><code>s.split(delim)</code>: Split into List.</li>
+                <li><code>s.starts_with(pre)</code> / <code>s.ends_with(suf)</code></li>
+            </ul>
+
+            <h3>Lists</h3>
+            <ul>
+                <li><code>l.len()</code>: Item count.</li>
+                <li><code>l.push(item)</code>: Add to end.</li>
+                <li><code>l.map(func)</code>: Transform items.</li>
+                <li><code>l.filter(func)</code>: Filter items.</li>
+            </ul>
+
+            <h3>Maps</h3>
+            <ul>
+                <li><code>m.len()</code>: Entry count.</li>
+                <li><code>m.keys()</code> / <code>m.values()</code></li>
+            </ul>
+        </section>
+
+        <div class="footer">
+            &copy; 2026 Loom Programming Language Team. Build with care.
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom - Expressive Comments</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>The Loom Lang!</h2>
+        <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="tutorial.html">Step-by-Step Tutorial</a></li>
+            <li><a href="expressive_comments.html" class="active">Expressive Comments</a></li>
+            <li><a href="guide.html">Language Reference</a></li>
+            <li><a href="stdlib.html">Standard Library</a></li>
+            <li><a href="concurrency.html">Concurrency</a></li>
+            <li><a href="shell.html">Shell Integration</a></li>
+            <li><a href="benchmarks.html">Benchmarks</a></li>
+            <li><a href="samples.html">Example Gallery</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>Expressive Comments in Loom</h1>
+        <p>Loom also features a unique "Expressive Comment" system that makes your code more scannable, self-documenting, and easier to maintain.</p>
+
+        <section id="types">
+            <h2>The Comment Types</h2>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Prefix</th>
+                        <th>Type</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>//*</code></td><td>Section</td><td>Logic block labels or major boundaries.</td></tr>
+                    <tr><td><code>//!</code></td><td>Urgent</td><td>Critical warnings or important constraints.</td></tr>
+                    <tr><td><code>//?</code></td><td>Query</td><td>Debug thoughts or TODO questions.</td></tr>
+                    <tr><td><code>//.</code></td><td>Meta</td><td>Metadata (Author, Version, etc.).</td></tr>
+                    <tr><td><code>//;</code></td><td>Legal</td><td>Licensing or copyright headers.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="usage">
+            <h2>Example Usage</h2>
+            <pre><code><span class="loom-comment">//; loom auth system | licensed under mit</span>
+<span class="loom-comment">//* user identity</span>
+
+<span class="loom-keyword">frame</span> <span class="loom-type">User</span> { username: <span class="loom-type">str</span>, id: <span class="loom-type">int</span> }
+
+<span class="loom-keyword">act</span> <span class="loom-function">login</span>(u, p) {
+    <span class="loom-comment">//? should we implement rate limiting?</span>
+    <span class="loom-keyword">let</span> hash = <span class="loom-function">hash_pass</span>(p) <span class="loom-comment">//! never log or leak this value</span>
+}</code></pre>
+        </section>
+
+        <section id="doc-gen">
+            <h2>Automatic Documentation</h2>
+            <p>Run <code>loom doc file.lm</code> to instantly generate a Markdown README from your expressive comments.</p>
+        </section>
+
+        <div class="footer">
+            &copy; 2026 Loom Programming Language Team. Build with care.
+        </div>
+    </div>
+</body>
+</html>

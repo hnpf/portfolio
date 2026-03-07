@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom - Shell Integration Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>The Loom Lang!</h2>
+        <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="tutorial.html">Step-by-Step Tutorial</a></li>
+            <li><a href="expressive_comments.html">Expressive Comments</a></li>
+            <li><a href="guide.html">Language Reference</a></li>
+            <li><a href="stdlib.html">Standard Library</a></li>
+            <li><a href="concurrency.html">Concurrency</a></li>
+            <li><a href="shell.html" class="active">Shell Integration</a></li>
+            <li><a href="samples.html">Example Gallery</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>Shell Integration in Loom</h1>
+        <p>Loom is designed to be a "shell-aware" language. This means running system commands isn't a library call—it's a core language feature.</p>
+
+        <section id="operator">
+            <h2>The Shell Operator (<code>$</code>)</h2>
+            <p>Any string prefixed with the <code>$</code> operator will be executed as a system command in the <code>sh</code> environment.</p>
+            <pre><code><span class="loom-keyword">let</span> res = $ <span class="loom-string">"echo Hello Shell"</span>
+<span class="loom-function">print</span>(res.stdout)</code></pre>
+        </section>
+
+        <section id="interpolation">
+            <h2>String Interpolation</h2>
+            <p>You can <strong>link</strong> Loom variables into your shell commands using curly braces <code>{}</code>. Loom handles the formatting automatically. You can also interpolate fields directly from frames or objects.</p>
+            <pre><code><span class="loom-keyword">let</span> dir = <span class="loom-string">"/home/user"</span>
+<span class="loom-keyword">let</span> res = $ <span class="loom-string">"ls -l {dir}"</span>
+<span class="loom-function">print</span>(res.stdout)
+
+<span class="loom-comment">// Interpolating fields directly</span>
+<span class="loom-keyword">let</span> config = { port: 8080, host: <span class="loom-string">"localhost"</span> }
+<span class="loom-function">print</span>(<span class="loom-string">"Connecting to {config.host}:{config.port}"</span>)</code></pre>
+        </section>
+
+        <section id="shelloutput">
+            <h2>The <code>ShellOutput</code> Frame</h2>
+            <p>Every <code>$</code> operator returns a built-in <strong>ShellOutput</strong> object with the following fields:</p>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>stdout</code></td>
+                        <td><code>str</code></td>
+                        <td>Standard output of the command (trimmed).</td>
+                    </tr>
+                    <tr>
+                        <td><code>stderr</code></td>
+                        <td><code>str</code></td>
+                        <td>Standard error of the command.</td>
+                    </tr>
+                    <tr>
+                        <td><code>status</code></td>
+                        <td><code>int</code></td>
+                        <td>The exit code (0 for success).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="linking-shell">
+            <h2>Linking Shell with Concurrency</h2>
+            <p>The most powerful use case for Loom is spawning shell commands in parallel.</p>
+            <pre><code><span class="loom-keyword">act</span> <span class="loom-function">check_service</span>(name) {
+    <span class="loom-keyword">let</span> res = $ <span class="loom-string">"systemctl is-active {name}"</span>
+    <span class="loom-keyword">return</span> res.stdout == <span class="loom-string">"active"</span>
+}
+
+<span class="loom-keyword">act</span> <span class="loom-function">main</span>() {
+    <span class="loom-keyword">let</span> services = [<span class="loom-string">"nginx"</span>, <span class="loom-string">"postgresql"</span>, <span class="loom-string">"docker"</span>]
+    <span class="loom-keyword">let</span> results = services.<span class="loom-function">map</span>(<span class="loom-keyword">act</span>(s) {
+        <span class="loom-keyword">spawn</span> { <span class="loom-function">check_service</span>(s) }
+    })
+
+    <span class="loom-keyword">for</span> r <span class="loom-keyword">in</span> results {
+        <span class="loom-keyword">when</span> r.<span class="loom-function">await</span>() {
+            Ok(active) => <span class="loom-function">print</span>(<span class="loom-string">"Service active: {active}"</span>),
+            _          => <span class="loom-function">print</span>(<span class="loom-string">"Failed check"</span>),
+        }
+    }
+}
+
+<span class="loom-function">main</span>()</code></pre>
+        </section>
+
+        <div class="footer">
+            &copy; 2026 Loom Programming Language Team. Build with care.
+        </div>
+    </div>
+</body>
+</html>

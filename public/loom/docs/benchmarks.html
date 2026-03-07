@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom - Performance Benchmarks</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>The Loom Lang!</h2>
+        <ul>
+            <li><a href="index.html">Welcome</a></li>
+            <li><a href="tutorial.html">Step-by-Step Tutorial</a></li>
+            <li><a href="expressive_comments.html">Expressive Comments</a></li>
+            <li><a href="guide.html">Language Reference</a></li>
+            <li><a href="stdlib.html">Standard Library</a></li>
+            <li><a href="concurrency.html">Concurrency</a></li>
+            <li><a href="shell.html">Shell Integration</a></li>
+            <li><a href="benchmarks.html" class="active">Benchmarks</a></li>
+            <li><a href="samples.html">Example Gallery</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>Loom Performance Benchmarks</h1>
+        <p>Loom is built to excel in shell operations, string manipulation, and system automation. Our performance suite tests both the interpreted mode and the native <code>weave</code> compiler.</p>
+
+        <section id="results">
+            <h2>Results Summary</h2>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Benchmark</th>
+                        <th>Interpreted</th>
+                        <th>Weaved (Native)</th>
+                        <th>Improvement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Fibonacci (35)</strong></td>
+                        <td>~61,051ms</td>
+                        <td><strong>~1,209ms</strong></td>
+                        <td style="color: #28a745; font-weight: bold;">~50.5x 🚀</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sieve (1M Primes)</strong></td>
+                        <td>~5,807ms</td>
+                        <td><strong>~840ms</strong></td>
+                        <td style="color: #28a745; font-weight: bold;">~6.9x</td>
+                    </tr>
+                    <tr>
+                        <td><strong>String Stress (100k)</strong></td>
+                        <td>~627ms</td>
+                        <td><strong>~305ms</strong></td>
+                        <td style="color: #28a745; font-weight: bold;">~2.0x</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Shell Stress (10k)</strong></td>
+                        <td>~3,449ms</td>
+                        <td>~3,392ms</td>
+                        <td>Negligible</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="analysis">
+            <h2>Performance Analysis</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>🚀 Massive Recursive Speedup</h3>
+                    <p>The <code>weave</code> compiler excels at deep recursion tasks. By compiling Loom code directly into native Rust binaries, we reduce the stack and tree-walking overhead, resulting in a <strong>50x increase</strong> in performance for recursive algorithms.</p>
+                </div>
+                <div class="card">
+                    <h3>🐚 Efficient Shell Integration</h3>
+                    <p>Our shell spawning logic is implemented directly in Rust's high-performance standard library. Loom spawns 10,000 shell commands in just over 3 seconds, making it one of the fastest choices for complex automation tasks.</p>
+                </div>
+                <div class="card">
+                    <h3>🧵 Optimized String Handling</h3>
+                    <p>Loom uses Rust's efficient string buffers for all concatenation operations. Our string stress test (100,000 concatenations) completes in under 1 second even when interpreted.</p>
+                </div>
+                <div class="card">
+                    <h3>🧠 Intelligent Memory Management</h3>
+                    <p>Using the <code>vec()</code> pre-allocation builtin allows you to handle massive datasets (like 1,000,000 integers in a Sieve) with minimal reallocation pressure.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="callout" style="background-color: #e3f2fd; border-color: #bbdefb;">
+            <strong>Pro Tip:</strong> For performance-critical tools, always use <code>loom weave</code> to compile your script into a standalone binary.
+        </div>
+
+        <div class="footer">
+            &copy; 2026 Loom Programming Language Team. Build with care.
+        </div>
+    </div>
+</body>
+</html>

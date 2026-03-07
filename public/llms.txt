@@ -1,0 +1,20 @@
+# Virex Portfolio
+
+An independent software researcher and problem solver focusing on systems programming, UI/UX architecture, and vulnerability research.
+
+## Project Overview
+- **Loom Language**: A lightweight, expressive, and efficient programming language built for speed and simplicity.
+- **Lens**: A photography showcase of nature, technology, and more.
+- **Tracker**: A progress tracker for cybersecurity (CEH), design (Material 3), and systems automation (Rust).
+
+## Tech Stack
+React 19, Vite, Tailwind CSS 4, Rust, Python, Node.js, TypeScript, better-sqlite3, Express.
+
+## Contact
+- Email: deprecated@virex.lol
+- Discord: https://discord.gg/vixencommunity
+- GitHub: https://github.com/hnpf
+
+## Documentation for LLMs
+- [Full Documentation](/llms-full.txt)
+- [Loom Documentation](/loom)
