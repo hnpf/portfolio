@@ -14,6 +14,18 @@ export interface BlogPost {
   category: string;
   readTime: string;
   link: string;
+  votes: { up: number; down: number };
+}
+
+export interface ChangelogEntry {
+  id: string;
+  version: string;
+  title: string;
+  date: string;
+  changes: {
+    category: string;
+    items: string[];
+  }[];
 }
 
 export interface Project {
@@ -45,28 +57,28 @@ export const PROJECTS: Project[] = [
     title: 'Loom Language',
     description: 'A lightweight, expressive, and efficient programming language. Built for speed and simplicity.',
     link: '/loom',
-    tags: ['Rust', 'Compiler']
+    tags: ['Rust', 'Interpreter']
   },
   {
     id: 'sniffcli',
     title: 'SniffCLI',
     description: 'A lightweight TUI packet sniffer and network sentry built in Go. Features live protocol visualization, SSH brute-force detection, and outbound device monitoring.',
     link: 'https://github.com/hnpf/sniffcli',
-    tags: ['Go', 'TUI']
+    tags: ['GoLang', 'Terminal']
   },
   {
     id: 'sysdupd',
     title: 'SYSDUPD',
     description: 'Have you wanted to just update your Linux system and forgot? I never did, but this could be the solution for you!',
     link: 'https://github.com/hnpf/sysdupd',
-    tags: ['Rust', 'Linux']
+    tags: ['Gtk4', 'Python']
   },
   {
     id: 'automate',
     title: 'Automate',
     description: 'A simple Wayland autoclicker for Linux, made with Python, and gtk4/libadwaita',
     link: 'https://github.com/hnpf/automate',
-    tags: ['Python', 'GTK4', 'Wayland']
+    tags: ['Gtk4', 'Python']
   },
   {
     id: 'google-pixel-plymouth',
@@ -80,125 +92,36 @@ export const PROJECTS: Project[] = [
     title: 'Rust projects',
     description: 'My collection of low level tools made for speed and reliability, you can find various projects in my GitHub!',
     link: 'https://github.com/hnpf',
-    tags: ['Rust', 'Systems']
+    tags: ['Rust', 'Misc']
   }
 ];
 
 export const BLOG_POSTS: BlogPost[] = [
-  {
-    id: 'immersion-integrity-overhaul',
-    title: 'VIREX: The Immersion & Integrity Overhaul',
-    snippet: 'A series of updates focusing on information density, deep site tweaks, and a complete UX overhaul.',
+{
+    id: 'idek-anymore',
+    title: 'Turning ewaste into a small dev rig: CHROMEBOOK IS HELL',
+    snippet: 'This is why I decided to torture myself by putting debian on a snappy chromebook and how it actually kinda works!',
     content: `
-# VIREX: The Immersion & Integrity Overhaul (Complete as of Mar 06, 2026)
-We've spent the last few days stripping away the filler and focusing on what matters. There's now improved information density, professional utility, and deep immersion. The site now feels less like a playground and rather more proper.
+## Why do I do this to myself?
+Honestly, there is something so satisfying about taking a "dead" chromebook and making it run a real OS. My old hp x360 (aka snappy) was basically a paperweight, but now it's a dedicated debian 13 box.
 
-## Readme: Information Density
-* **Bio Overhaul**: Replaced the filler cards with a **Biography** and **Mission** section. It's now a universal bio that actually tells you about who I am.
-* **PGP Integration**: Added my official PGP Fingerprint directly to the header.
+### Okay, here's the setup..
+It’s not just about flashing mrchromebox! It's about making sure the audio actually works and the trackpad actually responds.
 
-## Lens: The Full Rewrite
-* **Navigation Overhaul**: Destroyed the overlapping floating buttons. We now use a structured layout with centered controls on desktop and intuitive swipe gestures on mobile.
-* **Typography Sync**: Swapped the "dev mono" headers for the expressive site-wide display typography.
-* **Optimized Lightbox**: Removed the aggressive blurs and fixed description cutoffs, keeping a really smooth experience across all devices.
-* **Bento Layout**: The photography archive now uses a fairly dynamic Bento layout with enhanced performance.
+* **OS:** Debian 13. because I like living on the edge of "stable"
+* **DE:** GNOME classic (obviously). It's heavy for these specs but it just feels like home.
+* **vim:** The only editor that belongs on a screen this bad.
 
-## Tweaks & Immersion
-* **Dynamic Identity**: Added a **Dynamic Favicon** that listens to your theme accent. When you change the accent color, the browser tab icon updates instantly to match.
-* **Focus Mode (Zen)**: Added a full-immersion mode with top/bottom depth-of-field blurs and card-level "peeking." Hit \`Esc\` to snap back.
-* **Brutalist Mode**: For when you're tired of squircles. Every corner on the site now has a 0px radius.
-* **Developer Font**: Global override to JetBrains Mono. It's the only way to browse.
+## moral of the story!
 
-## Performance & Utility
-* **Lens Optimization**: **Reduced total image assets from ~200MB to ~40MB** while maintaining visual fidelity. This is due to us now using WebP, instead of JPG, and PNG.
-* **Loom Deep Search**: Upgraded the documentation viewer to pre-fetch markdown files, allowing for real-time body-content searching.
-* **PWA Support**: The site is now fully installable on mobile and desktop via a custom manifest. It feels like a native app.
-* **RSS Feed Compatibility**: You can now add virex blog as an RSS feed! (https://virex.lol/rss.xml). Have fun! :)
-* **Deep SEO**: Implemented dynamic OpenGraph tags and JSON-LD structured data for proper metadata previews.
+> "it's not ewaste if you can still run a terminal on it."
 
----
-*Signed, Virex.*
-`,
-    date: 'Mar 06, 2026',
-    category: 'devlog',
-    readTime: '8 min read',
-    link: 'immersion-integrity-overhaul'
-  },
-  {
-    id: 'the-great-refactor-2026',
-    title: 'Low Standards, make Virex great again! 2026 rebuild',
-    snippet: 'I deleted almost everything. It’s smaller, faster, and finally looks how I wanted it to. Let’s talk about the purge.',
-    content: `
-# Virex is great again now!
-It's finally happened. I looked at the old repo and realized I was fighting the code more than I was writing it. So, I did the only logical thing: **I hit delete** .. only on some parts.
-
-## It really is out with the old, in with the "actually good"
-The previous iteration of virex.lol was... fine. But it was messy. it had that "bad grammar" feel in the docs and too many components that didn't really need to exist. I stripped it down to the bare essentials. 
-
-### What actually changed?
-* **Architecture**: Moved to a hella barebones structure. If a component didn't serve a purpose, IT GOT THE AXE.
-* **Design Overhaul**: Fully leaned into a material 3 feel. Soft squircles > sharp corners.
-* **The "lens" gallery**: Refactored the photography logic to be way more efficient. No more metadata baggage!
-* **Finally, the Blog Engine**: Yes, It's actually functional now. 
-
-## The casualty list
-I ended up deleting some of the older update logs. They didn't really fit the new "independent researcher" feel, and honestly, they were just cluttering the site. We're going forward now, not back!
-
----
-It's smaller, it's faster, and it's better. Welcome to virex portfolio (V1 is lost media atp). 
-
----
-## peace.
     `,
-    date: 'Feb 26, 2026',
-    category: 'devlog',
-    readTime: '7 min read',
-    link: 'mvga-2026'
-  },
-  {
-    id: 'markdown-test',
-    title: 'markdown stress test, testing the new parser',
-    snippet: 'checking if the new react-markdown setup can handle me.',
-    content: `
-# header 1 looks like this
-## and header 2 looks like this
-
-this is a normal paragraph with some **bold text**, some *italics*, and a [**link to my github**](https://github.com/hnpf) just to see if it works. 
-
-## testing the code blocks
-
-here is some simple python logic:
-
-\`\`\`python
-def add(a, b):
-    return a + b
-
-def subtract(a, b):
-    return a - b
-\`\`\`
-
-## testing lists and formatting
-* top level item
-    * nested item
-    * another nested one
-* back to basics
-
-> "if it works on my machine, it's production ready." - basically me
-
-### testing GFM (tables)
-| feature | status |
-| :--- | :--- |
-| headers | working |
-| tables | hopefully working |
-| sanity | gone? |
-
----
-horizontal rules are cool too.
-    `,
-    date: 'Jan 17, 2026',
-    category: 'devlog',
-    readTime: '1 min read',
-    link: 'markdown-test'
+    date: 'Mar 15, 2026',
+    category: 'linux',
+    readTime: '4 min read',
+    votes: { up: 0, down: 0 },
+    link: 'ewaste-chronicles-1-fr'
   },
   {
     id: 'cybersec-101',
@@ -424,6 +347,145 @@ Stay tuned for more content!
   }
 ];
 
+export const CHANGELOGS: ChangelogEntry[] = [
+  {
+    id: 'polish-performance-patch-2',
+    version: '2026.03.16',
+    title: 'Polish & Performance II',
+    date: 'Mar 16, 2026',
+    changes: [
+      {
+        category: 'UX & Motion',
+        items: [
+          'FAB Positioning: Fixed scroll-to-top button overlapping the sidebar when flipped',
+          'Mobile Performance: Added hardware acceleration (GPU) to the mobile navbar for 120fps fluid motion',
+          'Card Responsiveness: Eliminated artificial hover delays and transition conflicts across all pages',
+          'Spring Physics: Refined card animations with high-stiffness springs for instantaneous feedback'
+        ]
+      },
+      {
+        category: 'Lens & Performance',
+        items: [
+          'Proactive Loading: Increased Lens viewport margin to 200px to trigger animations before entry',
+          'Priority Assets: Enabled eager loading for initial Lens gallery rows to eliminate white flashes',
+          'Scroll Smoothness: Refined gallery entry logic for more consistent framerates during rapid scrolling'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'the-polish-performance-patch',
+    version: '2026.03.15-B',
+    title: 'Polish & Performance',
+    date: 'Mar 15, 2026',
+    changes: [
+      {
+        category: 'UX & Motion',
+        items: [
+          'Animation Lag: Fixed card hover animations to be instant and responsive, removing the exit delay',
+          'Fluid Transitions: Page transitions now use spring physics and custom bezier curves for a "bouncier" premium feel',
+          'Navigation Refinement: Fixed active pill centering and disabled distracting tilt animations on mobile',
+          'Material Compliance: Removed bottom nav rounding to align with Material Design standards',
+          'Motion-GPU: Optimized all major animations to run on hardware acceleration'
+        ]
+      },
+      {
+        category: 'Readme & Identity',
+        items: [
+          'Terminal Overhaul: Replaced the image toggle with a minimal, high-legibility terminal component with vertical stats',
+          'Immersion Mode: Added "Expand" modal functionality for technical cards, improving readability on narrow screens',
+          'Mobile Scaling: Optimized PGP fingerprint, chip text, and stack grids for better information density on mobile',
+          'Stack Cleanup: Pruned standard tech from stacks to focus on core specialties (Rust, RE, Security)'
+        ]
+      },
+      {
+        category: 'Settings & UI',
+        items: [
+          'Appearance Sliding: Theme mode selector now uses a smooth sliding indicator instead of abrupt switching',
+          'Themed Hue Shift: Added a vibrant gradient track and live feedback to the custom color slider',
+          'Visual Balance: Fixed toggle switch padding symmetry and improved 404 page layout/spacing',
+          'Theme-Aware Lens: Expanded image view now respects system theme (no longer hardcoded to dark)'
+        ]
+      },
+      {
+        category: 'Performance',
+        items: [
+          'Lens Optimization: Implemented eager loading and async decoding for expanded images to eliminate lag',
+          'Gradient Removal: Replaced expensive 404 blurs with clean, performant layouts',
+          'Progress Logic: Refined Temporal Progress component with high-precision system time tracking'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'scaling-and-changelog-migration',
+    version: '2026.03.15',
+    title: 'Visual Balance',
+    date: 'Mar 15, 2026',
+    changes: [
+      {
+        category: 'Architecture',
+        items: [
+          'Changelog Migration: Decoupled devlogs from the blog feed into a dedicated system-level view',
+          'Routing Overhaul: Added support for deep-linked changelog entries',
+          'Data Schema: Implemented structured ChangelogEntry interface for better data integrity'
+        ]
+      },
+      {
+        category: 'UX/UI',
+        items: [
+          'Global Scaling: Adjusted root font-size to 90% for optimized information density, EVERYTHING now looks good on desktop and mobile.',
+          'Settings Integration: Added "System Info" section to settings for easy access to version history, instead of cluttering the Blog',
+          'Sidebar Refinement: Optimized sidebar height and positioning for the new global scale. Things fit now!'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'immersion-integrity-overhaul',
+    version: '2026.03.06',
+    title: 'The Immersion & Integrity Overhaul',
+    date: 'Mar 06, 2026',
+    changes: [
+      {
+        category: 'New In Readme',
+        items: [
+          'Bio Overhaul: Replaced filler cards with Biography and Mission sections',
+          'PGP Integration: Added official PGP Fingerprint to header'
+        ]
+      },
+      {
+        category: 'New in Lens',
+        items: [
+          'Navigation Overhaul: New structured layout with centered controls',
+          'Typography Sync: Swapped dev mono for site-wide display typography',
+          'Optimized Lightbox: Removed aggressive blurs and fixed description cutoffs',
+          'Bento Layout: Dynamic layout with enhanced performance'
+        ]
+      },
+      {
+        category: 'Tweaks & Immersion',
+        items: [
+          'Dynamic Identity: Favicon now updates based on theme accent color',
+          'Focus Mode (Zen): Full-immersion mode with depth-of-field blurs',
+          'Brutalist Mode: Option to remove all border radiuses',
+          'Developer Font: Global override to JetBrains Mono'
+        ]
+      },
+      {
+        category: 'Performance & Utility',
+        items: [
+          'Lens Optimization: Reduced image assets from ~200MB to ~40MB (WebP conversion)',
+          'Loom Deep Search: Pre-fetch markdown for real-time body-content search',
+          'PWA Support: Fully installable via custom manifest',
+          'RSS Feed: Official support (https://virex.lol/rss.xml)',
+          'Deep SEO: Implemented OpenGraph and JSON-LD structured data'
+        ]
+      }
+    ]
+  }
+];
+
 export const TRACKER_ITEMS: TrackerItem[] = [
   {
     id: 'cybersecurity-ceh',
@@ -435,7 +497,7 @@ export const TRACKER_ITEMS: TrackerItem[] = [
   },
   {
     id: 'm3-adwaita-ui',
-    title: 'Material 3 & LibAdwaita',
+    title: 'M3e, LibAdwaita, etc',
     category: 'Design',
     status: 'Complete',
     tips: ['Squircles are superior geometry', 'Animations should feel organic and not robotic'],
@@ -462,16 +524,16 @@ export const TRACKER_ITEMS: TrackerItem[] = [
 export const HARDWARE_SPECS = {
   core: [
     { label: 'Host', value: 'MSI MEG Z690 GODLIKE' },
-    { label: 'Desktop', value: 'Gnome 49.1' },
-    { label: 'Kernel', value: 'linux 6.19.3-2' }
+    { label: 'Window Manager', value: 'Hyprland' },
+    { label: 'Kernel', value: 'Linux 6.19.6-zen' }
   ],
   processing: [
     { label: 'CPU', value: 'Intel(R) Core(TM) i5-14600k (20 cores) @ 5.30 GHz' },
-    { label: 'GPU', value: 'AMD Radeon RX 6800 XT [Discrete]' }
+    { label: 'GPU', value: 'AMD Radeon RX 6800 XT' }
   ],
   mem: [
-    { label: 'Memory', value: '38.92 GiB DDR4 @ 3600 Mt/s' },
-    { label: 'Storage Capacity', value: '65.0GB / 1.82TB' }
+    { label: 'Memory', value: '40 GiB DDR4 @ 3700 Mt/s' },
+    { label: 'Storage Capacity', value: '73.8GB / 1.82TB' }
   ]
 };
 
@@ -482,10 +544,6 @@ export const TECH_STACK = {
     'TailwindCSS',
     'Next.js',
     'Three.js',
-    'Node.js',
-    'PostgreSQL',
-    'Docker',
-    'Vercel'
   ],
   technical: [
     'Rust',
@@ -494,9 +552,6 @@ export const TECH_STACK = {
     'Java',
     'C',
     'C++',
-    'Reverse Engineering',
     'Assembly (x86/x64)',
-    'Linux kernel',
-    'BASH',
   ]
 };

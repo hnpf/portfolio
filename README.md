@@ -1,8 +1,6 @@
 ## Virex Portfolio
 
-> "It's small, it's faster, and it's finally better."
-
-My portfolio! A high-performance, minimalist but beautiful portfolio built with React 19, focusing on information density, and deep immersion.
+My portfolio! A material 3 focused, minimalist but beautiful portfolio built with React 19, focusing on information density, and deep immersion.
 
 ![Virex Preview](github/demo/virex.png)
 
@@ -22,7 +20,7 @@ npm run build
 ## The Tech Stack:
 
 - **Framework**: [React 19](https://react.dev/) + [Vite 6](https://vitejs.dev/)
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/) (Expressive UI, Material 3 & Adwaita rules and patterns)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/) (Expressive UI, Material 3 expressive rules and patterns)
 - **Animation**: [Motion](https://motion.dev/) (Framer Motion)
 - **Content**: [React Markdown](https://github.com/remarkjs/react-markdown) + [Remark GFM](https://github.com/remarkjs/remark-gfm)
 - **Deployment**: [Vercel](https://vercel.com)

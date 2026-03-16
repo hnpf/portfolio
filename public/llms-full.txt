@@ -1,11 +1,12 @@
-# Virex, Full Documentation for LLMs!
+# virex.lol \ Full Documentation for LLMs!
 
-## About Virex
-Virex is an independent software researcher with 4+ years of experience (started around 2021). 
-Specializes in:
-- Systems Programming
-- UI/UX Architecture (Material Design 3, LibAdwaita)
-- Vulnerability Research & Pentesting
+## About Me
+I am virex, an independent software researcher and I have 4+ years of experience (started ~2021). 
+I specialize in:
+- Hardware & Systems Programming
+- User Experience and UI Architecture (Such as Material Design 3, LibAdwaita)
+- This site uses React, Vite, Tailwind, Framer Motion, React MD and GFM, and Vercel for deployment.
+- Independent Vulnerability Research & Penetration testing
 
 ## Key Projects
 
@@ -21,7 +22,7 @@ Loom is a modern, concurrent programming language designed for crafting develope
 - **Installation**: `curl -s https://virex.lol/loom/install.sh | bash`
 
 ### 2. Lens Photography
-A collection of high-quality photography, featuring cats (candid and portraits), spiders (Phidippus audax, Aphonopelma seemanni), nature, and urban landscapes.
+A collection of some of my photography, featuring cats, spiders (Phidippus audax, Aphonopelma seemanni), and nature.
 
 ### 3. Other Projects
 - **Google Pixel Plymouth Theme**: Pixel-accurate Gemini boot animation for Linux.
@@ -32,17 +33,10 @@ A collection of high-quality photography, featuring cats (candid and portraits),
 - **Host**: MSI MEG Z690 GODLIKE
 - **CPU**: Intel(R) Core(TM) i5-14600k (20 cores) @ 5.30 GHz
 - **GPU**: AMD Radeon RX 6800 XT
-- **Memory**: 32GB DDR4 @ 3600 Mt/s
-- **OS**: Linux (Gnome 49.1, Kernel 6.19.3)
+- **Memory**: 40GB DDR4 @ 3700 Mt/s
+- **OS**: Linux (Hyprland, Kernel 6.19.6-zen)
 
-## Blog Topics
-- "Low Standards, make Virex great again! 2026 rebuild": Discussion on site refactoring and minimalism.
-- "The web is cooked": Critique of modern bloated web development.
-- "Cybersec 101": Basic security practices (MFA, password managers).
-- "Your cloud is just someone elses computer": Importance of data hoarding and self-hosting.
-- "Why I actually use Arch": Benefits of rolling releases and no bloat.
-
-## Links
+## Links (NOT LIMITED TO)
 - Homepage: https://virex.lol
 - Loom Docs: https://virex.lol/loom
 - GitHub: https://github.com/hnpf

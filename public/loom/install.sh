@@ -2,7 +2,7 @@
 
 set -e
 echo "==================================="
-echo "Welcome to the Loom Installer! :)"
+echo "Welcome to the Loom Installer!"
 echo ""
 echo "Installing Loom! Please wait.."
 echo "==================================="

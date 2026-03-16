@@ -12,18 +12,19 @@ interface ThemeSettings {
   developerFont: boolean;
   focusMode: boolean;
   helloAnimation: boolean;
+  disableAnimations: boolean;
 }
 
 interface ThemeContextType {
   settings: ThemeSettings;
   updateSettings: (newSettings: Partial<ThemeSettings>) => void;
-  resolvedMode: 'light' | 'dark';
+  actualTheme: 'light' | 'dark';
   cycleTheme: () => void;
 }
 
 const DEFAULT_SETTINGS: ThemeSettings = {
   mode: 'system',
-  accent: 'orange',
+  accent: 'purple',
   hue: 220,
   sidebarFlipped: false,
   sidebarCollapsed: false,
@@ -31,6 +32,7 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   developerFont: false,
   focusMode: false,
   helloAnimation: true,
+  disableAnimations: false,
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -39,31 +41,32 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem('virex-settings');
     return saved ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) } : DEFAULT_SETTINGS;
   });
-  const [resolvedMode, setResolvedMode] = useState<'light' | 'dark'>('dark');
+  const [actualTheme, setActualTheme] = useState<'light' | 'dark'>('dark');
 
   useEffect(() => {
     const root = window.document.documentElement;
-    // mode handle
-    const updateMode = () => {
+    // this bit handles the light/dark switching logic
+    const applyThemeSettings = () => {
       let mode = settings.mode;
       if (mode === 'system') {
         mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
-      setResolvedMode(mode as any);
+      setActualTheme(mode as any);
       root.classList.remove('dark');
       if (mode === 'dark') root.classList.add('dark');
     };
-    updateMode();
+    // apply those theme changes
+    applyThemeSettings();
     if (settings.mode === 'system') {
       const media = window.matchMedia('(prefers-color-scheme: dark)');
-      media.addEventListener('change', updateMode);
-      return () => media.removeEventListener('change', updateMode);
+      media.addEventListener('change', applyThemeSettings);
+      return () => media.removeEventListener('change', applyThemeSettings);
     }
   }, [settings.mode]);
 
   const cycleTheme = () => {
-    // Only toggle between light and dark for the quick cycle
-    const nextMode = resolvedMode === 'light' ? 'dark' : 'light';
+    // just a quick toggle for when the user clicks the theme button
+    const nextMode = actualTheme === 'light' ? 'dark' : 'light';
     setSettings(prev => ({ ...prev, mode: nextMode }));
   };
 
@@ -73,7 +76,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
              settings.accent === 'blue' ? 220 :
              settings.accent === 'green' ? 140 :
              settings.accent === 'red' ? 0 :
-             settings.accent === 'purple' ? 270 :
+             settings.accent === 'purple' ? 284 :
              settings.accent === 'orange' ? 30 : 220;
     root.style.setProperty('--primary-hue', h.toString());
     if (settings.brutalistMode) root.classList.add('brutalist-mode');
@@ -84,8 +87,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     else root.classList.remove('focus-mode');
     localStorage.setItem('virex-settings', JSON.stringify(settings));
 
-    // --- Dynamic Favicon Sync ---
-    const primaryColor = resolvedMode === 'dark' ? `oklch(0.8 0.12 ${h})` : `oklch(0.6 0.15 ${h})`;
+    // this updates the favicon color so it matches the theme accent
+    const primaryColor = actualTheme === 'dark' ? `oklch(0.8 0.12 ${h})` : `oklch(0.6 0.15 ${h})`;
     const faviconSvg = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
         <path 
@@ -103,14 +106,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (faviconLink) {
       faviconLink.href = `data:image/svg+xml;utf8,${encodeURIComponent(faviconSvg)}`;
     }
-  }, [settings, resolvedMode]);
+  }, [settings, actualTheme]);
 
   const updateSettings = (newSettings: Partial<ThemeSettings>) => {
     setSettings(prev => ({ ...prev, ...newSettings }));
   };
 
   return (
-    <ThemeContext.Provider value={{ settings, updateSettings, resolvedMode, cycleTheme }}>
+    <ThemeContext.Provider value={{ settings, updateSettings, actualTheme, cycleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

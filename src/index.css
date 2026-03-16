@@ -9,6 +9,7 @@
 
 @layer base {
   :root {
+    font-size: 90%;
     --primary-hue: 220;
     --primary: oklch(0.6 0.15 var(--primary-hue));
     --on-primary: oklch(1 0 0);
@@ -116,6 +117,24 @@
   scrollbar-color: var(--outline-variant) var(--surface);
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--outline-variant);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
 }
 
 @layer components {
@@ -159,6 +178,14 @@
   .markdown-body tr td:last-child, .markdown-body tr th:last-child { @apply border-r-0; }
   .markdown-body tr:nth-child(even) { @apply bg-[var(--surface-variant)]/40; }
   .markdown-body tr:hover td { @apply bg-[var(--primary-container)]/10; }
+
+  .page-header {
+    @apply pt-12 md:pt-0 mb-16;
+  }
+
+  .page-title {
+    @apply text-7xl md:text-9xl font-display font-black tracking-tighter leading-none;
+  }
 }
 
 

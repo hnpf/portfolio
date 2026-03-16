@@ -1,6 +1,7 @@
 # Virex Portfolio
 
-An independent software researcher and problem solver focusing on systems programming, UI/UX architecture, and vulnerability research.
+I am virex, an independent software researcher and I have 4+ years of experience (started ~2021). 
+I'm focusing on systems programming, UI/UX architecture, and vulnerability research.
 
 ## Project Overview
 - **Loom Language**: A lightweight, expressive, and efficient programming language built for speed and simplicity.
