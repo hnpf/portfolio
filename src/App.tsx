@@ -36,8 +36,10 @@ import {
   Calendar,
   CheckCircle2,
   FileText,
+  Link as LinkIcon,
 } from 'lucide-react';
 import NotFound from './NotFound';
+import DashPage from './Dash';
 import { useTheme } from './ThemeContext';
 import { cn, PROJECTS, BLOG_POSTS, CHANGELOGS, TRACKER_ITEMS, HARDWARE_SPECS, TECH_STACK, type ChangelogEntry } from './constants';
 import ReactMarkdown from 'react-markdown';
@@ -1235,14 +1237,14 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
               animate={{ opacity: 1, y: 0 }}
               className="bg-[#0a0a0a] rounded-[1.5rem] overflow-hidden border border-white/10 shadow-2xl h-full min-h-[300px] md:min-h-[400px] flex flex-col font-mono relative"
             >
-              {/* Terminal Header */}
+              {/* Terminal head */}
               <div className="px-6 py-3 md:py-4 bg-white/[0.03] border-b border-white/5 flex items-center justify-center relative">
                 <span className="text-[10px] md:text-sm text-white/40 tracking-[0.2em] flex items-center font-black uppercase whitespace-nowrap">
                   virex@shinigami
                 </span>
               </div>
 
-              {/* Terminal Body */}
+              {/* Term body */}
               <div className="p-6 md:p-10 text-[12px] md:text-[15px] leading-relaxed space-y-6 flex-1 overflow-y-auto custom-scrollbar">
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 md:gap-3">
@@ -1274,8 +1276,6 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                   </div>
                 </div>
               </div>
-
-              {/* Scanline Effect */}
               <div className="absolute inset-0 pointer-events-none opacity-[0.02] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%]" />
             </motion.div>
           </div>
@@ -1313,8 +1313,6 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
             </div>
           </Card>
         </div>
-
-        {/* Evolution Section */}
         <div className="md:col-span-12">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
@@ -1362,6 +1360,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10 border-t border-[var(--on-primary-container)]/10 pt-10">
+            {/* sex */}
               <div className="space-y-6 text-xl opacity-80 leading-relaxed font-medium text-pretty">
                 <p>
                   I started my <span className="font-bold text-[var(--primary)]">junior software researching</span> journey around 2021, focusing on exploratory security research and scripting.
@@ -1385,7 +1384,6 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
           </motion.div>
         </div>
 
-        {/* Mission and Library */}
         <div className="md:col-span-12 grid grid-cols-2 gap-4 md:gap-8">
           <Card className="p-5 md:p-10 space-y-4 md:space-y-8 bg-[var(--surface-variant)]/30 border-2 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] hover:bg-[var(--primary-container)]/10">
             <div className="space-y-3 md:space-y-6">
@@ -1394,6 +1392,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                   <span className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-[var(--primary)] px-2 py-1 bg-[var(--primary-container)]/30 rounded-md">
                     Mission
                   </span>
+                  
                 </div>
                 <button 
                   onClick={() => setBlownUpCard({
@@ -1403,9 +1402,9 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                     tags: ['Research', 'Privacy', 'Performance', 'Aesthetics'],
                     content: (
                       <div className="space-y-6">
-                        <p>The web got heavy and weird.. I push back!</p>
+                        <p>The web got heavy.. And I push back!</p>
                         <p>
-                          Minimal dependencies, resilient architecture, even software that just does what it says and nothing else.
+                          Minimal libraries, resilient architecture, even software that just does what it says and nothing else.
                           In a dead internet era, clean code is a form of protest.
                         </p>
                       </div>
@@ -1422,7 +1421,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
               <div className="space-y-2 md:space-y-4">
                 <h4 className="text-lg md:text-3xl font-display font-black leading-tight">Philosophy</h4>
                 <p className="text-xs md:text-lg opacity-60 leading-tight md:leading-relaxed text-pretty font-medium line-clamp-4 md:line-clamp-none">
-                  The web got heavy. I push back. Minimal dependencies, resilient architecture, and software that just works.
+                  The web got heavy.. And I push back! Minimal libraries, resilient architecture, and even software that just works.
                 </p>
               </div>
               <div className="pt-4 hidden md:flex flex-wrap gap-2 border-t border-[var(--outline-variant)]/30">
@@ -1520,7 +1519,7 @@ export default function App() {
   useEffect(() => {
     // wait a bit after load then wiggle once
     const timer = setTimeout(() => setWiggleOnce(true), 1200);
-    // turn it off after it finishes its cycles (~2.5s duration)
+    // turn it off after it finishes its cycles (forced short duration tho)
     const stopTimer = setTimeout(() => setWiggleOnce(false), 2200);
     return () => {
       clearTimeout(timer);
@@ -1540,7 +1539,7 @@ export default function App() {
   const [hwOpen, setHwOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
-  // keeping the address bar in sync with our state so the back button actually works
+  // keeping the address bar in sync with state so the back button actually fucking works
   useEffect(() => {
     const syncUrlWithState = () => {
       const currentLocation = window.location.pathname;
@@ -1553,7 +1552,7 @@ export default function App() {
         setBlogPostId(id);
       } else {
         const pageSlug = currentLocation.replace('/', '').toLowerCase();
-        const ALLOWED_SECTIONS = ['home', 'blog', 'lens', 'tracker', 'readme', 'loom', 'changelog'];
+        const ALLOWED_SECTIONS = ['home', 'blog', 'lens', 'tracker', 'readme', 'loom', 'changelog', 'dash'];
         setPage(ALLOWED_SECTIONS.includes(pageSlug) ? pageSlug : '404');
         setBlogPostId(null);
       }
@@ -1572,11 +1571,10 @@ export default function App() {
       : page === 'home' ? 'Virex' : `Virex | ${cleanName}`;
     document.title = siteTitle;
 
-    // gotta update the social tags for the seo folks
+    // gotta also update the social tags for the seo mfs
     let description = "Independent software researcher, innovator, and problem solver. Exploring systems programming, UI/UX architecture, and vulnerability research.";
     let ogTitle = siteTitle;
     let ogImage = "https://virex.lol/photography/pfp/main.png";
-
     if (page === 'blog' && blogPostId) {
       const post = BLOG_POSTS.find(p => p.id === blogPostId || p.link === blogPostId);
       if (post) {
@@ -1590,8 +1588,6 @@ export default function App() {
     } else if (page === 'lens') {
       description = "The Visual Archive: A collection of photography by Virex, exploring nature, technology, and light.";
     }
-
-    // gotta update the social tags for the seo folks
     const updateMeta = (name: string, content: string, isProperty = false) => {
       let el = document.querySelector(isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`);
       if (!el) {
@@ -1602,7 +1598,6 @@ export default function App() {
       }
       el.setAttribute('content', content);
     };
-
     updateMeta('description', description);
     updateMeta('og:title', ogTitle, true);
     updateMeta('og:description', description, true);
@@ -1610,7 +1605,7 @@ export default function App() {
     updateMeta('twitter:title', ogTitle);
     updateMeta('twitter:description', description);
 
-    // --- JSON-LD Structured Data ---
+    // --- JSON-LD structured data ---
     const existingJsonLd = document.getElementById('json-ld-structured-data');
     if (existingJsonLd) existingJsonLd.remove();
 
@@ -1624,6 +1619,7 @@ export default function App() {
         "name": "Virex"
       }
     };
+    // ok
 
     if (page === 'blog' && blogPostId) {
       const post = BLOG_POSTS.find(p => p.id === blogPostId || p.link === blogPostId);
@@ -1658,13 +1654,12 @@ export default function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
+  // back tot top stuff
   return (
     <div className={cn(
       "min-h-screen flex flex-col lg:flex-row font-sans relative",
       settings.sidebarFlipped && "lg:flex-row-reverse"
     )}>
-      {/* Back to Top */}
       <AnimatePresence>
         {showScrollTop && (
           <motion.button
@@ -1688,7 +1683,7 @@ export default function App() {
           </motion.button>
         )}
       </AnimatePresence>
-      {/* some immersive focus mode overlays */}
+      {/* some immersive focus mode overlays*/}
       <AnimatePresence>
         {settings.focusMode && (
           <>
@@ -1709,7 +1704,7 @@ export default function App() {
           </>
         )}
       </AnimatePresence>
-      {/* desktop sidebar */}
+      {/*desktop sidebar*/}
       <AnimatePresence mode="popLayout">
         {!settings.focusMode && (
           <motion.aside 
@@ -1742,10 +1737,10 @@ export default function App() {
               } : { rotate: 0, scale: 1 }}
               transition={wiggleOnce ? {
                 duration: 1.2,
-                repeat: 1, // exactly twice
+                repeat: 1, // exactly twice?
                 repeatDelay: 0.1,
                 ease: "easeInOut"
-              } : { duration: 0.3 }} // snappy return
+              } : { duration: 0.3 }} // snappy return.
               onClick={() => navigateTo('readme')}
               className="w-14 h-14 rounded-3xl bg-[var(--primary)] text-[var(--on-primary)] flex items-center justify-center font-black text-3xl shadow-xl shrink-0 overflow-hidden group/pfp cursor-pointer"
             >
@@ -1777,6 +1772,7 @@ export default function App() {
             <SidebarItem glyph={BookText} text="Blog" isSelected={page === 'blog'} onSelect={() => navigateTo('blog')} isMini={settings.sidebarCollapsed} />
             <SidebarItem glyph={Camera} text="Lens" isSelected={page === 'lens'} onSelect={() => navigateTo('lens')} isMini={settings.sidebarCollapsed} />
             <SidebarItem glyph={Activity} text="Tracker" isSelected={page === 'tracker'} onSelect={() => navigateTo('tracker')} isMini={settings.sidebarCollapsed} />
+            <SidebarItem glyph={LinkIcon} text="Short" isSelected={page === 'dash'} onSelect={() => navigateTo('dash')} isMini={settings.sidebarCollapsed} />
             {/*<SidebarItem glyph={Terminal} text="Loom" isSelected={page === 'loom'} onSelect={() => navigateTo('loom')} isMini={settings.sidebarCollapsed} />*/}
           </nav>
           <div className="mt-auto flex flex-col gap-3 pt-6 border-t border-[var(--outline-variant)]">
@@ -1832,7 +1828,7 @@ export default function App() {
       </motion.aside>
     )}
   </AnimatePresence>
-  {/* main content */}
+  {/*main*/}
   <motion.main 
     layout
     className="flex-1 p-6 md:p-12 lg:p-16 pb-40 lg:pb-16 overflow-x-hidden page-container"
@@ -1845,7 +1841,7 @@ export default function App() {
             exit={{ opacity: 0, y: -15, scale: 0.98 }}
             transition={{
               duration: settings.disableAnimations ? 0 : 0.4,
-              ease: [0.22, 1, 0.36, 1], // Custom cubic-bezier for a "fluid" feel
+              ease: [0.22, 1, 0.36, 1], // custom cubic for a somewhat fluid feel
               scale: {
                 type: "spring",
                 stiffness: 300,
@@ -1860,12 +1856,13 @@ export default function App() {
             {page === 'readme' && <ReadmePage setPage={navigateTo} />}
             {page === 'loom' && <LoomPage />}
             {page === 'changelog' && <ChangelogPage />}
-            {!['home', 'blog', 'lens', 'tracker', 'readme', 'loom', 'changelog'].includes(page) && (
+            {page === 'dash' && <DashPage />}
+            {!['home', 'blog', 'lens', 'tracker', 'readme', 'loom', 'changelog', 'dash'].includes(page) && (
               <NotFound go={navigateTo} />
             )}
           </motion.div>
         </AnimatePresence>
-        {/* exit focus mode main button */}
+        {/*exit focus mode main button*/}
         <AnimatePresence>
           {settings.focusMode && (
             <motion.button
@@ -1901,7 +1898,7 @@ export default function App() {
             <BottomNavItem glyph={SettingsIcon} text="More" onSelect={() => setSettingsOpen(true)} />          </motion.nav>
         )}
       </AnimatePresence>
-      {/* the sidebar for when you wanna see the guts of the machine */}
+      {/* the sidebar for when you wanna see the machine, kinda pointless but nice to have*/}
       <AnimatePresence>
         {hwOpen && (
           <>
@@ -1992,7 +1989,7 @@ export default function App() {
                 </button>
               </div>
               <div className="p-6 md:p-10 space-y-10 overflow-y-auto scrollbar-hide">
-                {/* making things look pretty */}
+                {/*making things look pretty pretty */}
                 <section className="space-y-6">
                   <div className="flex items-center gap-3">
                     <Palette size={20} className="text-[var(--primary)]" />
@@ -2001,7 +1998,7 @@ export default function App() {
                   
                 
                   <div className="relative grid grid-cols-3 gap-2 p-1.5 bg-[var(--surface-variant)] rounded-full overflow-hidden">
-                    {/* Sliding Indicator */}
+                    {/* sliding shit */}
                     <AnimatePresence mode="popLayout">
                       <motion.div
                         layoutId="active-mode-bg"
@@ -2015,7 +2012,6 @@ export default function App() {
                         }}
                       />
                     </AnimatePresence>
-
                     {(['light', 'dark', 'system'] as const).map(m => (
                       <button
                         key={m}
@@ -2030,6 +2026,7 @@ export default function App() {
                         {m === 'light' && <Sun size={16} />}
                         {m === 'dark' && <Moon size={16} />}
                         {m === 'system' && <Monitor size={16} />}
+                        
                         <span className="hidden sm:inline">{m}</span>
                       </button>
                     ))}

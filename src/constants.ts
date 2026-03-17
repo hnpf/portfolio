@@ -349,6 +349,33 @@ Stay tuned for more content!
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: 'virex-shorten-launch',
+    version: '2026.03.16-C',
+    title: 'launch: virex shorten!',
+    date: 'Mar 16, 2026',
+    changes: [
+      {
+        category: 'Backend Progress',
+        items: [
+          'Engine Core: we made a high-performance URL shortening engine using Express.js and SQLite with better-sqlite3',
+          'Persistence Strategy: used Vercel-optimized SQLite storage using temp link state',
+          'Vanity and Security: added route shadowing protection (dash, api, static, r, etc.) to prevent link-hijacking of routes',
+          'Smart Slug Gen: custom 6-character hex slug generator with collision-avoidance do-while logic etc etc',
+         ] 
+        },
+         {
+         category: 'Post Patches',
+         items: [
+         'Source Tracking: `src` tagging for analytics across web/mobile entry points',
+          'Responsive Dash: designed a fluid Material-style dashboard with mobile-first card layouts and desktop-optimized tables',
+          'Disclaimer FAB: refined the "ephemeral disclaimer" with occlusion (hides when scrolling) and touch feedback',
+          'Protocol Strictness: a deep URL validation ensuring valid http/https protocols and 2048-char length limits',
+          'Better Vercel Integration: optimized `vercel.json` with rewrites and serverless function routing for high-density performance, vercel likes us again!'
+        ]
+      }
+    ]
+  },
+  {
     id: 'polish-performance-patch-2',
     version: '2026.03.16',
     title: 'Polish & Performance II',

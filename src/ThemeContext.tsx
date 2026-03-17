@@ -55,7 +55,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       root.classList.remove('dark');
       if (mode === 'dark') root.classList.add('dark');
     };
-    // apply those theme changes
+    // apply said theme changes
     applyThemeSettings();
     if (settings.mode === 'system') {
       const media = window.matchMedia('(prefers-color-scheme: dark)');
@@ -73,10 +73,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const root = window.document.documentElement;
     const h = settings.accent === 'custom' ? settings.hue : 
-             settings.accent === 'blue' ? 220 :
-             settings.accent === 'green' ? 140 :
+             settings.accent === 'blue' ? 240 :
+             settings.accent === 'green' ? 150 :
              settings.accent === 'red' ? 0 :
-             settings.accent === 'purple' ? 284 :
+             settings.accent === 'purple' ? 300 :
              settings.accent === 'orange' ? 30 : 220;
     root.style.setProperty('--primary-hue', h.toString());
     if (settings.brutalistMode) root.classList.add('brutalist-mode');
@@ -87,7 +87,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     else root.classList.remove('focus-mode');
     localStorage.setItem('virex-settings', JSON.stringify(settings));
 
-    // this updates the favicon color so it matches the theme accent
+    // this updates favicon color so it matches the theme accent kinda obvious but genius
+    // like tell me who tf else does this 😭
     const primaryColor = actualTheme === 'dark' ? `oklch(0.8 0.12 ${h})` : `oklch(0.6 0.15 ${h})`;
     const faviconSvg = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
