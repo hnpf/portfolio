@@ -1,63 +1,45 @@
-## Virex Portfolio
+# virex.lol
 
-My portfolio! A material 3 focused, minimalist but beautiful portfolio built with React 19, focusing on information density, and deep immersion.
+my portfolio. it uses material 3 rules, react 19, and it's dense and immersive! [live site](https://virex.lol)
 
-![Virex Preview](github/demo/virex.png)
+![preview](github/demo/virex.png)
 
-##  Quick Start:
+## stack
+
+[React 19](https://react.dev/) + [Vite 6](https://vitejs.dev/) — [Tailwind 4](https://tailwindcss.com/) — [Motion](https://motion.dev/) — [Lucide](https://lucide.dev/) — deployed on [Vercel](https://vercel.com)
+
+## quick start
 
 ```bash
-# install dependencies
 npm install
-
-# start up the dev server
-npm run dev
-
-# build for production
-npm run build
+npm run dev    # dev server
+npm run build  # prod build
 ```
 
-## The Tech Stack:
+## what's in here:
 
-- **Framework**: [React 19](https://react.dev/) + [Vite 6](https://vitejs.dev/)
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/) (Expressive UI, Material 3 expressive rules and patterns)
-- **Animation**: [Motion](https://motion.dev/) (Framer Motion)
-- **Content**: [React Markdown](https://github.com/remarkjs/react-markdown) + [Remark GFM](https://github.com/remarkjs/remark-gfm)
-- **Deployment**: [Vercel](https://vercel.com)
-- **Icons**: [Lucide React](https://lucide.dev/)
+**lens** - photography gallery with a bento grid layout, lightbox, swipe/drag navigation
 
-## Key Features:
+**loom docs** - embedded docs viewer for my [Loom language](https://github.com/hnpf/LOOM_PROGRAMMING_LANGUAGE). prefetches all markdown on load for full body-content search
 
-### Lens (Photography Archive)
-A fully rewritten photography gallery optimized for performance.
-- **Bento Layout**: Dynamic, responsive grid for visual storytelling.
-- **Optimized Lightbox**: Smooth transitions and intuitive controls.
+**blog** - markdown blog with read-tracking, rss at `/rss.xml`, and a zen/focus mode
 
-### Loom Language Docs
-Integrated documentation viewer for the **Loom** programming language.
-- **Deep Search**: Pre-fetches Markdown for real-time body-content searching.
-- **Tutorials & Guides**: Stdlib and concurrency documentation.
+**url shortener** - `/r/:path` redirect system backed by sqlite, managed from the dash
 
-### Blog & Devlog
-A functional, lightweight blog engine with full Markdown support.
-- **RSS Feed**: Available at `/rss.xml`.
-- **Zen Mode**: Immersive reading with depth-of-field blurs and card "peeking."
-- **Brutalist Mode**: One-click UI shift to 0px border radii.
+**settings** - theme (light/dark/system), accent color w/ custom hue, brutalist mode, jetbrains mono font, sidebar flip/collapse, focus mode
 
-### Technical Prowess
-- **Dynamic Favicon**: Favicon updates instantly to match your theme accent.
-- **PWA Support**: Fully installable via a custom manifest.
-- **SEO Optimized**: Dynamic OpenGraph tags and JSON-LD structured data.
-- **LLM Friendly**: Includes `llms.txt` and `llms-full.txt` for AI context.
+misc: dynamic favicon that matches your accent color, PWA manifest, OpenGraph + JSON-LD, `llms.txt`
 
-## Project Structure
+## structure
 
-- `src/`: Core React components and logic.
-- `public/loom/`: Loom language documentation and binary assets.
-- `public/photography/`: Optimized WebP image archives.
-- `public/llms.txt`: Machine-readable site context.
+```
+src/          components + logic
+public/
+  loom/       language docs + binaries
+  photography/ webp photography archive
+  llms.txt    clanker-readable site context
+```
 
 ---
 
-Built with love, by [virex](https://github.com/hnpf). 
-*Check out the [live site](https://virex.lol) or follow the [RSS feed](https://virex.lol/rss.xml).*
+[hnpf](https://github.com/hnpf)
