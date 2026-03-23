@@ -1,55 +1,49 @@
 import express from 'express';
 import { randomBytes } from 'crypto';
-import { vxShorten, vxResolve, vxListAll, vxIsReserved, vxSlugExists } from './db.js';
+import { vxshort, vxresolve, vxlistall, vxisreserved, vxpathexist } from './db.js';
 
 const app = express();
 app.use(express.json());
 
-// _genslug genuinly does what it says and nothing else
-const _genslug = () => {
-  return randomBytes(3).toString('hex').slice(0, 6);
-};
+// genpath does what it says and nothing else
+const genpath = () => randomBytes(3).toString('hex').slice(0, 6);
 
 app.post('/api/shorten', (req, res) => {
   try {
-    let { url, slug, src = 'web' } = req.body;
+    let { url, path, src = 'web' } = req.body;
+
     try {
       const parsed = new URL(url);
-      if (!['http:', 'https:'].includes(parsed.protocol)) {
+      if (!['http:', 'https:'].includes(parsed.protocol))
         return res.status(400).json({ error: 'invalid protocol, stick to http/https!' });
-      }
-      if (url.length > 2048) {
+      if (url.length > 2048)
         return res.status(400).json({ error: 'url is too long!' });
-      }
     } catch {
       return res.status(400).json({ error: 'url is malformed!' });
     }
 
-    if (slug) {
-      if (!/^[a-z0-9-]{3,20}$/i.test(slug)) {
-        return res.status(400).json({ error: 'slug must be alphanumeric (3-20 chars)!' });
-      }
-      if (vxIsReserved(slug)) {
-        return res.status(409).json({ error: `/${slug} is a virex route, pick something else!` });
-      }
-      if (vxSlugExists(slug)) {
-        return res.status(409).json({ error: 'slug is already taken!' });
-      }
+    if (path) {
+      if (!/^[a-z0-9-]{3,20}$/i.test(path))
+        return res.status(400).json({ error: 'path must be alphanumeric (3-20 chars)!' });
+      if (vxisreserved(path))
+        return res.status(409).json({ error: `/${path} is a virex route, pick something else!` });
+      if (vxpathexist(path))
+        return res.status(409).json({ error: 'this custom path is already taken!' });
     } else {
-      // keep trying if _genslug somehow hits a collision. probably fucking with us if it does.
+      // keep trying if genpath somehow hits a collision. probably fucking with us if it does.
       let tries = 0;
       do {
-        slug = _genslug();
-        if (++tries > 10) return res.status(500).json({ error: 'failed to generate unique slug' });
-      } while (vxSlugExists(slug) || vxIsReserved(slug));
+        path = genpath();
+        if (++tries > 10) return res.status(500).json({ error: 'failed to generate unique path' });
+      } while (vxpathexist(path) || vxisreserved(path));  // was vxpathexists (typo), would've blown up ngl
     }
 
-    vxShorten(url, slug, src);
+    vxshort(url, path, src);
     const host = req.get('host');
     res.status(201).json({
-      slug,
+      path,
       original_url: url,
-      short: `${req.protocol}://${host}/r/${slug}`
+      short: `${req.protocol}://${host}/r/${path}`
     });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
@@ -58,24 +52,25 @@ app.post('/api/shorten', (req, res) => {
 
 app.get('/api/urls', (req, res) => {
   try {
-    res.json(vxListAll());
+    res.json(vxlistall());
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
-app.get('/r/:slug', (req, res) => {
-  try {
-    const url = vxResolve(req.params.slug);
-    if (url) {
-      return res.redirect(301, url.original_url);
-    }
 
-    // redirect to the main apps 404 with da context
-    res.redirect(`/404?missing=${req.params.slug}`);
+app.get('/r/:path', (req, res) => {
+  try {
+    const entry = vxresolve(req.params.path);
+    if (entry) return res.redirect(301, entry.original_url);
+    // redirect to the main app's 404 with context
+    res.redirect(`/404?missing=${req.params.path}`);
   } catch (err: any) {
     res.status(500).send(`error: ${err.message}`);
   }
 });
+
+// future ref: add DELETE /api/urls/:id when the dash gets a delete button
+// const del_handler = ... ehh?????
 
 if (!process.env.VERCEL) {
   const port = process.env.PORT || 6767;
