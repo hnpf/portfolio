@@ -40,32 +40,46 @@ import {
 } from 'lucide-react';
 import NotFound from './NotFound';
 import DashPage from './Dash';
+import NoPage from './No';
 import { useTheme } from './ThemeContext';
 import { cn, PROJECTS, BLOG_POSTS, CHANGELOGS, TRACKER_ITEMS, HARDWARE_SPECS, TECH_STACK, type ChangelogEntry } from './constants';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-// --- The building blocks ---
+// --- building blocks ---
 
 const HelloVirex = () => {
   const words = ['virex', 'вирекс', 'βίρεξ', 'վիրեքս', 'וירקס', 'ვირექს', '비렉스', '维雷克斯', 'ڤيركس'];
-  const [wordIndex, setWordIndex] = useState(0);
+  const [widx, setWidx] = useState(0);
 
   useEffect(() => {
-    const wordTicker = setTimeout(() => {
-      setWordIndex((prev) => (prev + 1) % words.length);
+    const ticker = setTimeout(() => {
+      setWidx((prev) => (prev + 1) % words.length);
     }, 4000);
-    return () => clearTimeout(wordTicker);
-  }, [wordIndex, words.length]);
+    return () => clearTimeout(ticker);
+  }, [widx, words.length]);
 
   return (
     <div className="h-[8rem] md:h-[10rem] flex items-center">
       <AnimatePresence mode="wait">
         <motion.h1
-          key={words[wordIndex]}
-          initial={{ opacity: 0, y: 20, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -20, scale: 0.8, filter: 'blur(10px)' }}
+          key={words[widx]}
+          initial={{
+            opacity: 0,
+            y: 20,
+            scale: 0.8
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            scale: 1
+          }}
+          exit={{
+            opacity: 0,
+            y: -20,
+            scale: 0.8,
+            filter: 'blur(10px)'
+          }}
           transition={{ 
             type: "spring",
             stiffness: 300,
@@ -74,14 +88,14 @@ const HelloVirex = () => {
           }}
           className="text-8xl md:text-[10rem] font-display font-black tracking-tighter leading-[0.8] text-balance"
         >
-          {words[wordIndex]}
+          {words[widx]}
         </motion.h1>
       </AnimatePresence>
     </div>
   );
 };
 
-const SidebarItem = ({ glyph: Icon, text, isSelected, onSelect, isMini }: any) => (
+const SideItem = ({ glyph: Icon, text, isSelected, onSelect, isMini }: any) => (
   <button
     onClick={onSelect}
     className={cn(
@@ -100,7 +114,7 @@ const SidebarItem = ({ glyph: Icon, text, isSelected, onSelect, isMini }: any) =
   </button>
 );
 
-const BottomNavItem = ({ glyph: Icon, text, isSelected, onSelect, imgSrc, wiggle }: any) => (
+const BotNav = ({ glyph: Icon, text, isSelected, onSelect, imgSrc, wiggle }: any) => (
   <button
     onClick={onSelect}
     className={cn(
@@ -125,10 +139,10 @@ const BottomNavItem = ({ glyph: Icon, text, isSelected, onSelect, imgSrc, wiggle
         } : { rotate: 0, scale: 1 }}
         transition={wiggle ? {
           duration: 1.2,
-          repeat: 1, // exactly twice
+          repeat: 1,
           repeatDelay: 0.1,
           ease: "easeInOut"
-        } : { duration: 0.3 }} // snappy return
+        } : { duration: 0.3 }}
       >
         {imgSrc ? (
           <img 
@@ -156,11 +170,11 @@ const BottomNavItem = ({ glyph: Icon, text, isSelected, onSelect, imgSrc, wiggle
 );
 
 const Card = ({ children, className, delay = 0, onClick }: any) => {
-  const [firstLoad, setFirstLoad] = useState(true);
+  const [fresh, setFresh] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setFirstLoad(false);
+      setFresh(false);
     }, (delay + 0.4) * 1000);
 
     return () => clearTimeout(timer);
@@ -168,7 +182,10 @@ const Card = ({ children, className, delay = 0, onClick }: any) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 15 }}
+      initial={{
+        opacity: 0,
+        y: 15
+      }}
       animate={{ 
         opacity: 1, 
         y: 0,
@@ -180,7 +197,7 @@ const Card = ({ children, className, delay = 0, onClick }: any) => {
       whileTap={{ scale: 0.99 }}
       transition={{ 
         duration: 0.2, 
-        delay: firstLoad ? delay : 0,
+        delay: fresh ? delay : 0,
         ease: [0.33, 1, 0.68, 1],
         type: "spring",
         stiffness: 500,
@@ -194,31 +211,31 @@ const Card = ({ children, className, delay = 0, onClick }: any) => {
   );
 };
 
-const CodeBlock = ({ children, className }: any) => {
-  const [copyDone, setCopyDone] = useState(false);
+const Code = ({ children, className }: any) => {
+  const [copied, setCopied] = useState(false);
   
   // a quick hack to pull text from react nodes
-  const extractCode = (nodes: any): string => {
+  const get_code = (nodes: any): string => {
     if (typeof nodes === 'string') return nodes;
-    if (Array.isArray(nodes)) return nodes.map(extractCode).join('');
-    if (nodes?.props?.children) return extractCode(nodes.props.children);
+    if (Array.isArray(nodes)) return nodes.map(get_code).join('');
+    if (nodes?.props?.children) return get_code(nodes.props.children);
     return '';
   };
 
-  const code = extractCode(children).replace(/\n$/, '');
-  const doCopy = () => {
+  const code = get_code(children).replace(/\n$/, '');
+  const copy = () => {
     navigator.clipboard.writeText(code);
-    setCopyDone(true);
-    setTimeout(() => setCopyDone(false), 2000);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <div className="relative group/code">
       <button
-        onClick={doCopy}
+        onClick={copy}
         className="absolute right-3 top-3 p-2 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] text-[var(--on-surface-variant)] hover:text-[var(--on-primary-container)] rounded-xl transition-all duration-150 opacity-0 group-hover/code:opacity-100 z-10 backdrop-blur-md border border-[var(--outline-variant)] active:scale-90"
       >
-        {copyDone ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
+        {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
       </button>
       <pre className={cn(
         "bg-black/10 dark:bg-white/5 p-6 rounded-l-3xl rounded-r-xl overflow-x-auto font-mono text-sm my-6 border border-[var(--outline-variant)] custom-scrollbar",
@@ -230,14 +247,14 @@ const CodeBlock = ({ children, className }: any) => {
   );
 };
 
-// --- Pages ---
+// --- pages ---
 
-const LoomDocsViewer = ({ onBack }: { onBack: () => void }) => {
-  const [activeArticle, setActiveArticle] = useState('tutorial.md');
-  const [articleText, setArticleText] = useState('');
-  const [isFetching, setIsFetching] = useState(true);
-  const [findText, setFindText] = useState('');
-  const [localCache, setLocalCache] = useState<Record<string, string>>({});
+const LoomDocs = ({ onBack }: { onBack: () => void }) => {
+  const [article, setArticle] = useState('tutorial.md');
+  const [text, setText] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [q, setQ] = useState('');
+  const [cache, setCache] = useState<Record<string, string>>({});
 
   const docs = [
     { id: 'tutorial.md', label: 'Tutorial' },
@@ -248,43 +265,43 @@ const LoomDocsViewer = ({ onBack }: { onBack: () => void }) => {
     { id: 'expressive_comments.md', label: 'Comments' },
   ];
 
-  // Prefetch all docs on mount for searching
+  // prefetch all on mount for search
   useEffect(() => {
     docs.forEach(doc => {
       fetch(`/loom/docs/markdown/${doc.id}`)
         .then(res => res.text())
-        .then(text => setLocalCache(prev => ({ ...prev, [doc.id]: text })))
+        .then(t => setCache(prev => ({ ...prev, [doc.id]: t })))
         .catch(console.error);
     });
   }, []);
 
-  const searchedArticles = docs.filter(doc => {
-    const query = findText.toLowerCase();
-    const labelMatch = doc.label.toLowerCase().includes(query);
-    const contentMatch = localCache[doc.id]?.toLowerCase().includes(query);
-    return labelMatch || contentMatch;
+  const filtered = docs.filter(doc => {
+    const query = q.toLowerCase();
+    const label_match = doc.label.toLowerCase().includes(query);
+    const content_match = cache[doc.id]?.toLowerCase().includes(query);
+    return label_match || content_match;
   });
 
   useEffect(() => {
-    setIsFetching(true);
-    if (localCache[activeArticle]) {
-      setArticleText(localCache[activeArticle]);
-      setIsFetching(false);
+    setLoading(true);
+    if (cache[article]) {
+      setText(cache[article]);
+      setLoading(false);
     } else {
-      fetch(`/loom/docs/markdown/${activeArticle}`)
+      fetch(`/loom/docs/markdown/${article}`)
         .then(res => res.text())
         .then(md => {
-          setArticleText(md);
-          setIsFetching(false);
+          setText(md);
+          setLoading(false);
         })
         .catch(err => {
-          setArticleText('# Error\nCould not load the requested documentation.');
-          setIsFetching(false);
+          setText('# Error\nCould not load the requested documentation.');
+          setLoading(false);
         });
     }
-  }, [activeArticle, localCache]);
+  }, [article, cache]);
 
-  const currentArticle = docs.find(d => d.id === activeArticle);
+  const cur = docs.find(d => d.id === article);
   return (
     <div className="max-w-4xl mx-auto space-y-12 px-4 md:px-0">
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
@@ -299,28 +316,28 @@ const LoomDocsViewer = ({ onBack }: { onBack: () => void }) => {
             type="text" 
             placeholder="Search documentation..."
             className="w-full bg-[var(--surface-variant)] text-[var(--on-surface-variant)] px-12 py-3 rounded-2xl border-2 border-transparent focus:border-[var(--primary)] outline-none transition-all font-bold"
-            value={findText}
-            onChange={(e) => setFindText(e.target.value)}
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
           />
           <Terminal size={18} className="absolute left-4 top-1/2 -translate-y-1/2 opacity-40" />
         </div>
       </div>
       <div className="flex overflow-x-auto scrollbar-hide py-2 gap-3 px-2">
-        {searchedArticles.map(doc => {
-          const isContentMatch = findText && !doc.label.toLowerCase().includes(findText.toLowerCase()) && localCache[doc.id]?.toLowerCase().includes(findText.toLowerCase());
+        {filtered.map(doc => {
+          const in_content = q && !doc.label.toLowerCase().includes(q.toLowerCase()) && cache[doc.id]?.toLowerCase().includes(q.toLowerCase());
           return (
             <button
               key={doc.id}
-              onClick={() => setActiveArticle(doc.id)}
+              onClick={() => setArticle(doc.id)}
               className={cn(
                 "px-5 py-2 rounded-2xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap shrink-0 border-2 flex items-center gap-2",
-                activeArticle === doc.id 
+                article === doc.id 
                   ? "bg-[var(--primary)] text-[var(--on-primary)] border-[var(--primary)] shadow-lg" 
                   : "bg-[var(--surface-variant)] text-[var(--on-surface-variant)] border-[var(--outline-variant)] hover:border-[var(--outline)]"
               )}
             >
               {doc.label}
-              {isContentMatch && <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" title="Match found in content" />}
+              {in_content && <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" title="Match found in content" />}
             </button>
           );
         })}
@@ -331,15 +348,21 @@ const LoomDocsViewer = ({ onBack }: { onBack: () => void }) => {
             loom documentation
           </span>
         </div>
-        <h1 className="page-title !text-6xl !md:text-8xl leading-[0.9]">{currentArticle?.label}</h1>
+        <h1 className="page-title !text-6xl !md:text-8xl leading-[0.9]">{cur?.label}</h1>
       </header>
       <motion.div
-        key={activeArticle}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        key={article}
+        initial={{
+          opacity: 0,
+          y: 10
+        }}
+        animate={{
+          opacity: 1,
+          y: 0
+        }}
         className="markdown-body pt-8 border-t border-[var(--outline-variant)] motion-gpu"
       >
-        {isFetching ? (
+        {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="w-12 h-12 border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin" />
           </div>
@@ -347,130 +370,139 @@ const LoomDocsViewer = ({ onBack }: { onBack: () => void }) => {
           <ReactMarkdown 
             remarkPlugins={[remarkGfm]}
             components={{
-              pre: ({ node, ...props }) => <CodeBlock {...props} />
+              pre: ({ node, ...props }) => <Code {...props} />
             }}
           >
-            {articleText}
+            {text}
           </ReactMarkdown>
         )}
       </motion.div>
     </div>
   );
 };
-const LoomPage = () => {
-  const [hasCopied, setHasCopied] = useState(false);
-  const [showDocs, setShowDocs] = useState(false);
-  const installCmd = 'curl -s https://virex.lol/loom/install.sh | bash';
 
-  const doCopyInstall = () => {
-    navigator.clipboard.writeText(installCmd);
-    setHasCopied(true);
-    setTimeout(() => setHasCopied(false), 2000);
+const LoomPage = () => {
+  const [copied, setCopied] = useState(false);
+  const [docs, setDocs] = useState(false);
+  const install_cmd = 'curl -s https://virex.lol/loom/install.sh | bash';
+
+  const copy_cmd = () => {
+    navigator.clipboard.writeText(install_cmd);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
-  if (showDocs) {
-    return <LoomDocsViewer onBack={() => setShowDocs(false)} />;
+  if (docs) {
+    return <LoomDocs onBack={() => setDocs(false)} />;
   }
 
   return (
     <div className="max-w-5xl mx-auto space-y-16 px-4 md:px-0 pb-20">
       <header className="page-header space-y-8">
         <h1 className="page-title !text-8xl !md:text-[10rem] leading-[0.8] text-balance">
-          LOOM
+          loom
         </h1>
         <p className="text-2xl md:text-4xl font-display font-light text-[var(--on-surface-variant)] leading-tight max-w-4xl">
-          A lightweight, expressive, and efficient programming language built for speed and simplicity.
+          a lightweight, expressive, and efficient programming language built for speed and simplicity.
         </p>
       </header>
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8 pt-8 border-t border-[var(--outline-variant)]">
         <Card delay={0.4} className="md:col-span-2 lg:col-span-1 xl:col-span-2 bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[400px]">
-          <h2 className="text-4xl md:text-7xl font-display font-black leading-[0.9] tracking-tight">"Code with the speed of thought."</h2>
+          <h2 className="text-4xl md:text-7xl font-display font-black leading-[0.9] tracking-tight">"latency is a bug."</h2>
           <div>
             <br></br>
             <p className="text-xl md:text-2xl opacity-90 font-medium max-w-2xl mb-10 leading-snug">
-              Loom combines low-level performance with a high-level, expressive syntax. 
-              Designed for developers who demand both efficiency and readability.
+              loom combines low-level performance with a high-level, expressive syntax. 
+              designed for developers who want both efficiency and readability.
             </p>
             <div className="flex flex-wrap gap-4">
               <button 
-                onClick={() => setShowDocs(true)}
+                onClick={() => setDocs(true)}
                 className="m3-button-filled bg-white text-black text-xl h-16 px-10 rounded-2xl hover:scale-105"
               >
-                Read the Docs <BookOpen size={24} />
+                read the docs <BookOpen size={24} />
               </button>
               <a 
                 href="https://github.com/hnpf/LOOM_PROGRAMMING_LANGUAGE" 
                 target="_blank"
                 className="m3-button-tonal h-16 px-10 text-xl rounded-2xl border-white/20 border flex items-center gap-2"
               >
-                GitHub <Github size={24} />
+                github <Github size={24} />
               </a>
             </div>
           </div>
         </Card>
         <Card delay={0.5} className="p-10 space-y-6">
           <h3 className="text-3xl font-display font-bold flex items-center gap-3">
-            <Download className="text-[var(--primary)]" /> Install Loom
+            <Download className="text-[var(--primary)]" /> get loom!
           </h3>
           <p className="text-xl opacity-70 leading-relaxed">
-            Ready to start? Get the latest version of Loom with a single command.
+            ready to start? get the latest version of loom with a single command.
           </p>
-          <CodeBlock className="language-bash !my-0 whitespace-nowrap">
-            {installCmd}
-          </CodeBlock>
+          <Code className="language-bash !my-0 whitespace-nowrap">
+            {install_cmd}
+          </Code>
         </Card>
         <Card delay={0.6} className="p-10 space-y-6 bg-[var(--primary-container)] text-[var(--on-primary-container)]">
           <h3 className="text-3xl font-display font-bold flex items-center gap-3">
-            <Terminal /> Hello World
+            <Terminal /> hello, to you too!
           </h3>
-          <CodeBlock className="language-loom !bg-black/5 !my-0">
-{`// Your first Loom program
+          <Code className="language-loom !bg-black/5 !my-0">
+{`// this is your first loom program.
 act main() {
-    print("Hello, world!")
+    print("hello, world!")
 }
 main()`}
-          </CodeBlock>
+          </Code>
         </Card>
       </section>
     </div>
   );
 };
 
-const YearProgress = () => {
-  const [today, setToday] = useState(new Date());
+const YearProg = () => {
+  const [now, setNow] = useState(new Date());
+
   useEffect(() => {
-    const ticker = setInterval(() => setToday(new Date()), 1000);
+    const ticker = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(ticker);
   }, []);
-  const startOfYear = new Date(today.getFullYear(), 0, 1);
-  const nextYear = new Date(today.getFullYear() + 1, 0, 1);
-  const percent = ((today.getTime() - startOfYear.getTime()) / (nextYear.getTime() - startOfYear.getTime())) * 100;
+
+  const year = now.getFullYear();
+  const start = new Date(year, 0, 1).getTime();
+  const end = new Date(year + 1, 0, 1).getTime();
+  const pct = ((now.getTime() - start) / (end - start)) * 100;
 
   return (
-    <div className="w-full space-y-4">
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-end">
-          <div className="space-y-1">
-            <h3 className="text-[14px] font-black tracking-[0.3em] opacity-40">Year Progress</h3>
-            <div className="text-3xl font-display font-black tracking-tighter leading-none">
-              {today.getFullYear()}
-            </div>
-          </div>
-          <span className="text-3xl font-display font-black tracking-tighter text-[var(--primary)]">
-            {percent.toFixed(2)}%
+    <div className="w-full font-sans selection:bg-primary/30">
+      <div className="flex items-baseline justify-between mb-2">
+        <div className="flex flex-col gap-3">
+          <span className="text-[14px] tracking-[0.2em] font-black opacity-50">
+            our chronology
           </span>
+          <h2 className="text-4xl font-black tracking-tighter leading-none">
+            {year}
+          </h2>
         </div>
-        <div className="h-3 w-full bg-black/10 dark:bg-white/10 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-[var(--primary)]"
-            initial={{ width: 0 }}
-            animate={{ width: `${percent}%` }}
-            transition={{ type: "spring", stiffness: 100, damping: 30 }}
-          />
+        <div className="text-right">
+          <div className="text-2xl font-black tracking-tighter tabular-nums">
+            {pct.toFixed(4)}%
+          </div>
         </div>
       </div>
-      <div className="flex justify-between items-center opacity-40 text-[13px] font-bold tracking-widest">
-        <span>Time: {today.toLocaleTimeString()}</span>
+
+      {/* background track */}
+      <div className="relative h-1 w-full bg-black/5 dark:bg-white/10 overflow-hidden">
+        <motion.div
+          className="absolute inset-y-0 left-0 bg-current"
+          initial={{ width: 0 }}
+          animate={{ width: `${pct}%` }}
+          transition={{ duration: 1, ease: "linear" }}
+        />
+      </div>
+
+      <div className="mt-3 flex justify-between text-[11px] font-bold opacity-40 tracking-tight">
+        <span>{now.toLocaleTimeString().toLowerCase()}</span>
       </div>
     </div>
   );
@@ -483,8 +515,14 @@ const HomePage = ({ setPage, settings }: any) => (
         <HelloVirex />
       ) : (
         <motion.h1 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{
+            opacity: 0,
+            y: 30
+          }}
+          animate={{
+            opacity: 1,
+            y: 0
+          }}
           transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
           className="page-title !text-8xl !md:text-[10rem] leading-[0.8] text-balance"
         >
@@ -492,58 +530,74 @@ const HomePage = ({ setPage, settings }: any) => (
         </motion.h1>
       )}
       <motion.p 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
+        initial={{
+          opacity: 0,
+          y: 20
+        }}
+        animate={{
+          opacity: 1,
+          y: 0
+        }}
+        transition={{ 
+        	delay: 0.2, 
+        	duration: 0.6, 
+        	ease: [0.33, 1, 0.68, 1] 
+	}}
         className="text-2xl md:text-4xl font-display font-light text-[var(--on-surface-variant)] leading-tight max-w-4xl"
       >
-        An independent software researcher, and problem solver.
+        i am an independent software dev, and problem solver.
       </motion.p>
     </header>
     <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8">
       <Card delay={0.4} className="md:col-span-2 lg:col-span-1 xl:col-span-2 bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[400px]">
-        <h2 className="text-4xl md:text-7xl font-display font-black leading-[0.9] tracking-tight">"Logic is the most honest form of expression."</h2>
+        <h2 className="text-4xl md:text-7xl font-display font-black leading-[0.9] tracking-tight">"logic doesn't lie."</h2>
         <div>
+          <p className="text-xl md:text-2xl opacity-90 font-medium max-w-2xl mb-14 leading-snug">
+            software shouldn't be complicated.
           <br></br>
-          <br></br>
-          <p className="text-xl md:text-2xl opacity-90 font-medium max-w-2xl mb-10 leading-snug">
-            I make software that reads like prose and runs like a proof.
-          <br></br>
-            Full-stack, systems minded, always one abstraction deeper.
+            build it clean, run it fast, skip the abstractions.
           </p>
           <motion.button
-            whileHover={{ scale: 1.05, x: 5 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            whileHover={{
+                scale: 1.05, 
+                x: 5 
+            }}
+            whileTap={{
+                scale: 0.95 
+            }}
+            transition={{ 
+            	type: "spring", 
+            	stiffness: 500, 
+            	damping: 20,
+            	mass: 0.5
+            }}
             onClick={() => setPage('readme')}
             className="m3-button-filled bg-white text-black text-xl h-16 px-10 rounded-2xl flex items-center gap-2 group"
           >
-            Explore more!
-            <motion.span
-              animate={{ x: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-            >
+            explore more!
+            <motion.span>
               <ChevronRight size={24} />
             </motion.span>
-          </motion.button>        </div>
+          </motion.button>
+        </div>
       </Card>
-      <Card delay={0.5} className="flex flex-col justify-between">
+      <Card delay={0.0} className="flex flex-col justify-between">
         <div className="space-y-6">
           <div className="w-16 h-16 bg-[var(--primary-container)] rounded-3xl flex items-center justify-center">
             <Activity size={32} className="text-[var(--primary)]" />
           </div>
-          <h3 className="text-3xl font-display font-bold">Correctness isn't a feature.</h3>
-          <p className="text-xl opacity-70 leading-relaxed">I don't treat reliability as optional. Good enough isn't, not when the alternative is actually getting it right.</p>
+          <h3 className="text-3xl font-display font-bold">no half-measures.</h3>
+          <p className="text-xl opacity-70 leading-relaxed">reliability isn't a feature, it's the bare minimum</p>
         </div>
       </Card>
       <Card delay={0.6} className="bg-[var(--primary-container)] text-[var(--on-primary-container)] flex flex-col justify-center p-10">
-        <YearProgress />
+        <YearProg />
       </Card>
       <div className="md:col-span-2 lg:col-span-1 xl:col-span-2 mt-8 mb-4 flex items-center gap-6 px-4">
         <div className="h-[1px] flex-1 bg-[var(--outline-variant)] opacity-30" />
         <div className="flex flex-col items-center gap-1">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 whitespace-nowrap">Source Archive</h3>
-          <div className="text-2xl font-display font-black tracking-tighter">Projects & Research</div>
+          <h3 className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 whitespace-nowrap">made + contributed</h3>
+          <div className="text-2xl font-display font-black tracking-tighter">projects and research</div>
         </div>
         <div className="h-[1px] flex-1 bg-[var(--outline-variant)] opacity-30" />
       </div>
@@ -591,39 +645,47 @@ const HomePage = ({ setPage, settings }: any) => (
 );
 
 const BlogPage = ({ targetId, navigateTo }: any) => {
-  const [copyState, setCopyState] = useState(false);
-  const [finishedArticles, setFinishedArticles] = useState<string[]>(() => {
+  const [copied, setCopied] = useState(false);
+  // const [active_cat, setActiveCat] = useState<string | null>(null)  
+  // later: category filter, never got around to it rip
+  const [read, setRead] = useState<string[]>(() => {
     const saved = localStorage.getItem('virex-read-posts');
     return saved ? JSON.parse(saved) : [];
   });
-  const selectedPost = BLOG_POSTS.find(p => p.id === targetId || p.link === targetId);
+  const post = BLOG_POSTS.find(p => p.id === targetId || p.link === targetId);
 
   useEffect(() => {
-    if (!targetId || !selectedPost) {
+    if (!targetId || !post) {
       return;
     }
 
-    const scrollWatcher = () => {
-      const pixelsDown = document.documentElement.scrollTop;
-      const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const percentRead = (pixelsDown / totalHeight) * 100;
-      if (percentRead > 95 && !finishedArticles.includes(selectedPost.id)) {
-        setFinishedArticles(prev => {
-          const next = [...prev, selectedPost.id];
+    const on_scroll = () => {
+      const scrolled = document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const pct = (scrolled / height) * 100;
+      if (pct > 95 && !read.includes(post.id)) {
+        setRead(prev => {
+          const next = [...prev, post.id];
           localStorage.setItem('virex-read-posts', JSON.stringify(next));
           return next;
         });
       }
     };
-    window.addEventListener('scroll', scrollWatcher);
-    return () => window.removeEventListener('scroll', scrollWatcher);
-  }, [targetId, finishedArticles, selectedPost]);
+    window.addEventListener('scroll', on_scroll);
+    return () => window.removeEventListener('scroll', on_scroll);
+  }, [targetId, read, post]);
 
-  if (selectedPost) {
+  if (post) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{
+          opacity: 0,
+          y: 15
+        }}
+        animate={{
+          opacity: 1,
+          y: 0
+        }}
         className="max-w-4xl mx-auto space-y-12 px-4 md:px-0 motion-gpu relative"
       >
         <div className="flex justify-between items-center sticky top-0 py-4 bg-[var(--surface)]/80 backdrop-blur-md z-40">
@@ -635,62 +697,63 @@ const BlogPage = ({ targetId, navigateTo }: any) => {
             <span>Back to feed</span>
           </button>
           <div className="hidden md:flex items-center gap-3 opacity-50 text-xs font-black uppercase tracking-[0.2em]">
-            {finishedArticles.includes(selectedPost.id) && <CheckCircle2 size={14} className="text-green-500" />}
-            <span>{selectedPost.readTime}</span>
+            {read.includes(post.id) && <CheckCircle2 size={14} className="text-green-500" />}
+            <span>{post.readTime}</span>
           </div>
-        </div>        <header className="mb-16 space-y-8 pt-8">
+        </div>
+        <header className="mb-16 space-y-8 pt-8">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
               <span className="px-5 py-2 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-2xl text-xs font-black uppercase tracking-widest shadow-sm">
-                {selectedPost.category}
+                {post.category}
               </span>
               <div className="flex items-center gap-2 opacity-50 text-sm font-bold">
                 <Calendar size={14} />
-                <span>{selectedPost.date}</span>
+                <span>{post.date}</span>
               </div>
-              {finishedArticles.includes(selectedPost.id) && (
+              {read.includes(post.id) && (
                 <div className="flex items-center gap-2 text-green-500 text-xs font-black uppercase tracking-widest bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20">
                   <CheckCircle2 size={12} /> Read
                 </div>
               )}
             </div>
             <h1 className="page-title !text-6xl !md:text-8xl leading-[0.9] text-balance">
-              {selectedPost.title}
+              {post.title}
             </h1>
           </div>
           <div className="p-8 bg-[var(--surface-variant)] rounded-[2.5rem] border border-[var(--outline-variant)]/30 italic opacity-80 text-xl leading-relaxed">
-            {selectedPost.snippet}
+            {post.snippet}
           </div>
         </header>
         <div className="markdown-body py-12">
           <ReactMarkdown 
             remarkPlugins={[remarkGfm]}
             components={{
-              pre: ({ node, ...props }) => <CodeBlock {...props} />
+              pre: ({ node, ...props }) => <Code {...props} />
             }}
           >
-            {selectedPost.content}
+            {post.content}
           </ReactMarkdown>
         </div>
 
         <footer className="pt-16 pb-24 border-t border-[var(--outline-variant)] flex flex-col items-center gap-8">
           <div className="text-center space-y-2">
-            <h4 className="text-3xl font-display font-black">Enjoyed the deep dive?</h4>
-            <p className="opacity-60 font-medium">Share this research with your network.</p>
+            <h4 className="text-3xl font-display font-black">enjoyed the deep dive?</h4>
+            <p className="opacity-60 font-medium">share this post with your friends!</p>
           </div>
           <button 
             onClick={() => {
-              navigator.clipboard.writeText(`${window.location.origin}/blog/${selectedPost.link}`);
-              setCopyState(true);
-              setTimeout(() => setCopyState(false), 2000);
+              navigator.clipboard.writeText(`${window.location.origin}/blog/${post.link}`);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
             }}
             className={cn(
               "m3-button-filled h-20 px-16 text-xl rounded-[2rem] shadow-2xl transition-all relative overflow-hidden",
-              copyState ? "bg-green-600 shadow-green-500/20" : "hover:shadow-[var(--primary)]/20"
+              copied ? "bg-green-600 shadow-green-500/20" : "hover:shadow-[var(--primary)]/20"
             )}
           >
             <AnimatePresence mode="wait">
-              {copyState ? (
+              {copied ? (
                 <motion.div
                   key="check"
                   initial={{ opacity: 0, y: 10 }}
@@ -698,7 +761,7 @@ const BlogPage = ({ targetId, navigateTo }: any) => {
                   exit={{ opacity: 0, y: -10 }}
                   className="flex items-center gap-3"
                 >
-                  <Check size={24} /> Link Copied
+                  <Check size={24} /> link copied!
                 </motion.div>
               ) : (
                 <motion.div
@@ -708,7 +771,7 @@ const BlogPage = ({ targetId, navigateTo }: any) => {
                   exit={{ opacity: 0, y: -10 }}
                   className="flex items-center gap-3"
                 >
-                  <Copy size={24} /> Copy Research Link
+                  <Copy size={24} /> copy post link
                 </motion.div>
               )}
             </AnimatePresence>
@@ -718,66 +781,70 @@ const BlogPage = ({ targetId, navigateTo }: any) => {
     );
   }
 
-  const spotlightPost = BLOG_POSTS[0];
-  const remainingPosts = BLOG_POSTS.slice(1);
+  const featured = BLOG_POSTS[0];
+  const rest = BLOG_POSTS.slice(1);
   return (
     <div className="max-w-6xl mx-auto space-y-20 px-4 md:px-0 pb-32">
       <header className="page-header space-y-8">
-        <h2 className="page-title">Journal</h2>
+        <h2 className="page-title">Blog</h2>
       </header>
-
 
       <section>
         <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{
+            opacity: 0,
+            scale: 0.98
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1
+          }}
           className="relative rounded-[3.5rem] overflow-hidden bg-[var(--primary-container)] text-[var(--on-primary-container)] border-4 border-[var(--outline-variant)] shadow-2xl group cursor-pointer"
-          onClick={() => navigateTo('blog', spotlightPost.link)}
+          onClick={() => navigateTo('blog', featured.link)}
         >
           <div className="p-8 md:p-16 space-y-8 relative z-10">
             <div className="flex items-center gap-4">
-              <span className="px-4 py-1.5 bg-[var(--primary)] text-[var(--on-primary)] rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
-                Featured Report
+              <span className="px-4 py-1.5 bg-[var(--primary)] text-[var(--on-primary)] rounded-full text-[13px] font-black tracking-widest shadow-lg">
+                Featured post!
               </span>
               <span className="text-sm font-bold opacity-60 flex items-center gap-2">
-                <Calendar size={14} /> {spotlightPost.date}
+                <Calendar size={14} /> {featured.date}
               </span>
-              {finishedArticles.includes(spotlightPost.id) && <CheckCircle2 size={20} className="text-green-500 shadow-xl" />}
+              {read.includes(featured.id) && <CheckCircle2 size={20} className="text-green-500 shadow-xl" />}
             </div>
             <div className="space-y-4 max-w-4xl">
               <h3 className="text-5xl md:text-7xl font-display font-black tracking-tighter leading-[0.95] group-hover:translate-x-2 transition-transform duration-500">
-                {spotlightPost.title}
+                {featured.title}
               </h3>
               <p className="text-xl md:text-2xl opacity-80 leading-relaxed font-medium text-pretty">
-                {spotlightPost.snippet}
+                {featured.snippet}
               </p>
             </div>
             <div className="flex items-center gap-6 pt-4">
               <div className="m3-button-filled !rounded-[1.5rem] !px-8 !py-4 group-hover:scale-105 transition-transform shadow-xl">
-                Read Full Entry <ArrowUpRight size={20} />
+                read full entry <ArrowUpRight size={20} />
               </div>
-              <span className="text-sm font-black uppercase tracking-widest opacity-40 italic">{spotlightPost.readTime}</span>
+              <span className="text-sm font-black uppercase tracking-widest opacity-40 italic">{featured.readTime}</span>
             </div>
           </div>
         </motion.div>
       </section>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {remainingPosts.map((post, i) => (
+        {rest.map((p, i) => (
           <Card 
-            key={post.id} 
+            key={p.id} 
             delay={i * 0.1} 
             className="cursor-pointer group relative overflow-hidden bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)]/20 border-2 border-[var(--outline-variant)]/50 hover:border-[var(--primary)]" 
-            onClick={() => navigateTo('blog', post.link)}
+            onClick={() => navigateTo('blog', p.link)}
           >
             <div className="space-y-6">
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-3">
                   <span className="text-[10px] font-black uppercase tracking-widest text-[var(--primary)] px-2 py-1 bg-[var(--primary-container)]/30 rounded-md">
-                    {post.category}
-                    
+                    {p.category}
                   </span>
-                  <span className="text-[10px] font-bold opacity-40 uppercase tracking-widest">{post.date}</span>
-                  {finishedArticles.includes(post.id) && <CheckCircle2 size={16} className="text-green-500" />}
+                  <span className="text-[10px] font-bold opacity-40 uppercase tracking-widest">{p.date}</span>
+                  {read.includes(p.id) && <CheckCircle2 size={16} className="text-green-500" />}
                 </div>
                 <div className="w-10 h-10 rounded-2xl bg-[var(--surface)] border border-[var(--outline-variant)] flex items-center justify-center group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-500">
                   <ChevronRight size={20} />
@@ -785,21 +852,19 @@ const BlogPage = ({ targetId, navigateTo }: any) => {
               </div>
               <div className="space-y-2">
                 <h4 className="text-3xl font-display font-black leading-tight group-hover:translate-x-1 transition-transform">
-                  {post.title}
+                  {p.title}
                 </h4>
-                
                 <p className="text-lg opacity-60 leading-relaxed line-clamp-2 text-pretty">
-                  {post.snippet}
+                  {p.snippet}
                 </p>
               </div>
               <div className="pt-4 flex items-center justify-between border-t border-[var(--outline-variant)] opacity-40 text-[10px] font-black uppercase tracking-widest">
-                <span>Archive No. {BLOG_POSTS.length - i - 1}</span>
-                <span>{post.readTime}</span>
+                <span>Post No. {BLOG_POSTS.length - i - 1}</span>
+                <span>{p.readTime}</span>
               </div>
             </div>
           </Card>
         ))}
-        
       </div>
     </div>
   );
@@ -810,20 +875,25 @@ const ChangelogPage = () => {
     <div className="max-w-4xl mx-auto space-y-16 px-4 md:px-0 mb-32">
       <header className="page-header space-y-4">
         <h2 className="page-title">Changelog</h2>
-        <p className="text-2xl opacity-60 font-medium">Tracking the evolution of VIREX.</p>
+        <p className="text-2xl opacity-60 font-medium">Tracking virex changes.</p>
       </header>
 
       <div className="space-y-24">
         {CHANGELOGS.map((entry, i) => (
           <motion.section 
             key={entry.id}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{
+              opacity: 0,
+              x: -20
+            }}
+            whileInView={{
+              opacity: 1,
+              x: 0
+            }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
             className="relative pl-12 border-l-2 border-[var(--outline-variant)]  r"
           >
-            
             <div className="space-y-8">
               <div className="space-y-2">
                 <div className="flex items-center gap-4">
@@ -862,7 +932,9 @@ const ChangelogPage = () => {
 };
 
 const LensPage = () => {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [idx, setIdx] = useState<number | null>(null);
+  // const swipe_start = useRef<number | null>(null)  
+  // switched to framer drag,dead maybe
   
   // if you wish to use your own photos, replace them here:
   // public/photography/ 
@@ -894,25 +966,25 @@ const LensPage = () => {
     { id: '21', url: '/photography/PXL_20260301_211813696.webp', description: 'A cute wild Tan jumping spider!' }
   ];
 
-  const nextPhoto = (e?: any) => {
+  const next = (e?: any) => {
     e?.stopPropagation();
-    if (selectedIndex !== null) setSelectedIndex((selectedIndex + 1) % photos.length);
+    if (idx !== null) setIdx((idx + 1) % photos.length);
   };
-  const prevPhoto = (e?: any) => {
+  const prev = (e?: any) => {
     e?.stopPropagation();
-    if (selectedIndex !== null) setSelectedIndex((selectedIndex - 1 + photos.length) % photos.length);
+    if (idx !== null) setIdx((idx - 1 + photos.length) % photos.length);
   };
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (selectedIndex === null) return;
-      if (e.key === 'ArrowRight') nextPhoto();
-      if (e.key === 'ArrowLeft') prevPhoto();
-      if (e.key === 'Escape') setSelectedIndex(null);
+    const on_key = (e: KeyboardEvent) => {
+      if (idx === null) return;
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'Escape') setIdx(null);
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedIndex]);
+    window.addEventListener('keydown', on_key);
+    return () => window.removeEventListener('keydown', on_key);
+  }, [idx]);
 
   return (
     <div className="max-w-[1600px] mx-auto space-y-12">
@@ -923,15 +995,21 @@ const LensPage = () => {
       </header>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-[250px] md:auto-rows-[350px] grid-flow-dense px-4 md:px-0">
         {photos.map((photo, i) => {
-          const isPortrait = photo.orientation === 'portrait';
-          const isLarge = i % 8 === 0 && !isPortrait; 
-          const isWide = i % 5 === 2 && !isPortrait && !isLarge;
+          const portrait = photo.orientation === 'portrait';
+          const large = i % 8 === 0 && !portrait; 
+          const wide = i % 5 === 2 && !portrait && !large;
           
           return (
             <motion.div
               key={photo.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{
+                opacity: 0,
+                scale: 0.95
+              }}
+              whileInView={{
+                opacity: 1,
+                scale: 1
+              }}
               viewport={{ margin: "200px" }}
               transition={{ 
                 duration: 0.4,
@@ -939,11 +1017,11 @@ const LensPage = () => {
               }}
               className={cn(
                 "rounded-[2.5rem] overflow-hidden cursor-pointer relative group border-2 border-transparent hover:border-[var(--primary)] transition-all motion-gpu",
-                isLarge ? "md:col-span-2 md:row-span-2" :
-                isWide ? "md:col-span-2" :
-                isPortrait ? "row-span-2" : ""
+                large ? "md:col-span-2 md:row-span-2" :
+                wide ? "md:col-span-2" :
+                portrait ? "row-span-2" : ""
               )}
-              onClick={() => setSelectedIndex(i)}
+              onClick={() => setIdx(i)}
             >
               <img
                 src={photo.url}
@@ -952,7 +1030,8 @@ const LensPage = () => {
                 decoding="async"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 referrerPolicy="no-referrer"
-              />              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end p-8">
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end p-8">
                 <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   <p className="text-white text-xl font-bold leading-tight drop-shadow-lg">{photo.description}</p>
                 </div>
@@ -962,50 +1041,58 @@ const LensPage = () => {
         })}
       </div>
       <AnimatePresence>
-        {selectedIndex !== null && (
+        {idx !== null && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[200] flex flex-col bg-[var(--surface)]/95 backdrop-blur-xl overflow-hidden"
-            onClick={() => setSelectedIndex(null)}
+            onClick={() => setIdx(null)}
           >
-
             <div className="flex items-start justify-between p-6 md:p-8 z-[210] gap-4">
               <div className="space-y-1 min-w-0 flex-1">
                 <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--primary)]"></div>
                 <div className="text-[var(--on-surface)] font-display font-black text-2xl md:text-4xl tracking-tight">
-                  {photos[selectedIndex].description}
+                  {photos[idx].description}
                 </div>
               </div>
               <button 
-                onClick={() => setSelectedIndex(null)}
+                onClick={() => setIdx(null)}
                 className="shrink-0 w-12 h-12 md:w-14 md:h-14 bg-[var(--surface-variant)] hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all border border-[var(--outline-variant)]/30 active:scale-90"
               >
                 <X size={24} />
               </button>
             </div>
 
-            {/* Content area */}
+            {/* content area */}
             <div className="flex-1 relative flex items-center justify-center p-4 md:p-12 lg:p-20 overflow-hidden">
               <motion.div
-                key={selectedIndex}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
+                key={idx}
+                initial={{
+                  opacity: 0,
+                  scale: 0.95
+                }}
+                animate={{
+                  opacity: 1,
+                  scale: 1
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.95
+                }}
                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
                 dragElastic={0.8}
                 onDragEnd={(_, info) => {
-                  if (info.offset.x > 100) prevPhoto();
-                  else if (info.offset.x < -100) nextPhoto();
+                  if (info.offset.x > 100) prev();
+                  else if (info.offset.x < -100) next();
                 }}
                 className="relative max-w-full max-h-full flex items-center justify-center cursor-grab active:cursor-grabbing"
                 onClick={(e) => e.stopPropagation()}
               >
                 <img
-                  src={photos[selectedIndex].url}
+                  src={photos[idx].url}
                   className="max-w-full max-h-full object-contain rounded-xl md:rounded-[2rem] shadow-2xl border border-[var(--outline-variant)]/20 pointer-events-none"
                   referrerPolicy="no-referrer"
                   loading="eager"
@@ -1018,7 +1105,7 @@ const LensPage = () => {
                 <div className="flex flex-col">
                   <span className="text-[10px] font-black uppercase tracking-widest text-[var(--on-surface-variant)] opacity-40 mb-1">position</span>
                   <div className="flex items-center gap-2 text-[var(--on-surface)] font-mono">
-                    <span className="text-[var(--primary)] font-bold">{String(selectedIndex + 1).padStart(2, '0')}</span>
+                    <span className="text-[var(--primary)] font-bold">{String(idx + 1).padStart(2, '0')}</span>
                     <span className="opacity-20">/</span>
                     <span className="opacity-60">{String(photos.length).padStart(2, '0')}</span>
                   </div>
@@ -1026,28 +1113,28 @@ const LensPage = () => {
                 <div className="w-[1px] h-8 bg-[var(--outline-variant)]/30" />
               </div>
 
-              {/* Desktop Nav Arrows moved to center */}
+              {/* desktop nav arrows moved to center */}
               <div className="hidden md:flex items-center gap-2 bg-[var(--surface-variant)]/50 rounded-3xl p-1.5 border border-[var(--outline-variant)]/30">
                 <button 
                   className="w-12 h-12 bg-[var(--surface)]/50 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-[1.25rem] flex items-center justify-center transition-all border border-[var(--outline-variant)]/30 active:scale-90"
-                  onClick={prevPhoto}
+                  onClick={prev}
                 >
                   <ChevronLeft size={24} />
                 </button>
                 <button 
                   className="w-12 h-12 bg-[var(--surface)]/50 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-[1.25rem] flex items-center justify-center transition-all border border-[var(--outline-variant)]/30 active:scale-90"
-                  onClick={nextPhoto}
+                  onClick={next}
                 >
                   <ChevronRight size={24} />
                 </button>
               </div>
 
               <div className="hidden md:flex items-center gap-3">
-                <span className="text-[10px] font-black uppercase tracking-widest text-[var(--on-surface-variant)] opacity-40">use keys or arrows to cycle archive</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-[var(--on-surface-variant)] opacity-40">use keys or arrows to cycle images</span>
               </div>
               
               <div className="flex md:hidden items-center gap-3">
-                <span className="text-[10px] font-black uppercase tracking-widest text-[var(--on-surface-variant)] opacity-40">swipe left/right to cycle archive</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-[var(--on-surface-variant)] opacity-40">swipe left/right to cycle images</span>
               </div>
             </div>
           </motion.div>
@@ -1086,8 +1173,8 @@ const TrackerPage = () => {
                     <BookOpen size={14} /> Advice
                   </h4>
                   <ul className="space-y-2 text-[15px] font-medium leading-tight opacity-90">
-                    {item.tips.map((tip, idx) => (
-                      <li key={idx} className="flex gap-2">
+                    {item.tips.map((tip, tidx) => (
+                      <li key={tidx} className="flex gap-2">
                         <span className="text-[var(--primary)] font-bold">›</span>
                         {tip}
                       </li>
@@ -1116,8 +1203,8 @@ const TrackerPage = () => {
 };
 
 const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
-  const [showScreenshot, setShowScreenshot] = useState(false);
-  const [blownUpCard, setBlownUpCard] = useState<any>(null);
+  const [screenshot, setScreenshot] = useState(false);
+  const [expanded, setExpanded] = useState<any>(null);
   const pets = [
     { 
       name: 'INK', 
@@ -1139,26 +1226,38 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
     <div className="max-w-6xl mx-auto space-y-16 px-4 md:px-0 pb-24">
       {/* this is the big popup modal for when you click a card to read more */}
       <AnimatePresence>
-        {blownUpCard && (
+        {expanded && (
           <>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setBlownUpCard(null)}
+              onClick={() => setExpanded(null)}
               className="fixed inset-0 bg-black/60 backdrop-blur-xl z-[100] flex items-center justify-center p-4 md:p-12"
             >
               <motion.div
-                initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                initial={{
+                  scale: 0.9,
+                  opacity: 0,
+                  y: 20
+                }}
+                animate={{
+                  scale: 1,
+                  opacity: 1,
+                  y: 0
+                }}
+                exit={{
+                  scale: 0.9,
+                  opacity: 0,
+                  y: 20
+                }}
                 onClick={(e) => e.stopPropagation()}
                 className="w-full max-w-2xl max-h-[90vh] md:max-h-[85vh] overflow-y-auto overflow-x-hidden bg-[var(--surface)] rounded-l-[2.5rem] rounded-r-[1rem] relative shadow-[0_0_50px_rgba(0,0,0,0.3)] border border-[var(--outline-variant)]/50 custom-scrollbar overscroll-contain"
               >
                 <div className="p-8 md:p-16">
                   <div className="sticky top-0 float-right z-10 -mr-4 -mt-4 md:-mr-8 md:-mt-8">
                     <button 
-                      onClick={() => setBlownUpCard(null)}
+                      onClick={() => setExpanded(null)}
                       className="p-3 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] text-[var(--on-surface-variant)] hover:text-[var(--on-primary-container)] rounded-2xl transition-all shadow-lg backdrop-blur-md"
                     >
                       <X size={24} />
@@ -1168,29 +1267,29 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                   <div className="space-y-8">
                     <div className="space-y-6">
                       <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--primary)] px-3 py-1.5 bg-[var(--primary-container)]/30 rounded-lg">
-                        {blownUpCard.category}
+                        {expanded.category}
                       </span>
                       <h3 className="text-4xl md:text-6xl font-display font-black tracking-tight leading-tight pt-2">
-                        {blownUpCard.title}
+                        {expanded.title}
                       </h3>
                     </div>
                     
                     <div className="text-xl md:text-2xl opacity-70 leading-relaxed font-medium text-pretty space-y-6">
-                      {blownUpCard.content}
+                      {expanded.content}
                     </div>
 
                     <div className="pt-8 flex flex-wrap gap-2 border-t border-[var(--outline-variant)]/30">
-                      {blownUpCard.tags?.map((tag: string) => (
+                      {expanded.tags?.map((tag: string) => (
                         <span key={tag} className="px-4 py-2 bg-[var(--surface-variant)]/50 rounded-full text-[10px] font-black uppercase tracking-widest opacity-60">
                           {tag}
                         </span>
                       ))}
                     </div>
-                  </div>
-                </div>
 
-                <div className="absolute -right-12 -bottom-12 opacity-[0.03] pointer-events-none">
-                  {blownUpCard.icon}
+                    <div className="absolute -right-12 -bottom-12 opacity-[0.03] pointer-events-none">
+                      {expanded.icon}
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             </motion.div>
@@ -1206,7 +1305,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
             </h1>
             <div className="group relative mt-4">
               <div className="text-[16px] md:text-[23px] font-display opacity-50 font-black leading-tight tracking-tight">
-                PGP Fingerprint
+                PGP fingerprint
               </div>
               <div className="text-[9px] md:text-[11px] font-mono leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity select-all border-l-2 border-[var(--primary)] pl-3">
                 1D4D 0BDB 03DA F87B 2151 <br />
@@ -1216,7 +1315,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
           </div>
           <div className="flex flex-wrap gap-2 md:gap-3">
             <span className="px-3 py-3 md:px-4 md:py-4 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-lg text-[10px] md:text-[12px] font-black uppercase tracking-widest flex items-center gap-2">
-              <Activity className="w-3.5 h-3.5 md:w-[17px] md:h-[17px]" /> Researcher
+              <Activity className="w-3.5 h-3.5 md:w-[17px] md:h-[17px]" /> Researching
             </span>
             <span className="px-3 py-3 md:px-4 md:py-4 bg-[var(--surface-variant)] text-[var(--on-surface-variant)] rounded-lg text-[10px] md:text-[12px] font-black uppercase tracking-widest flex items-center gap-2">
               <MapPin className="w-3.5 h-3.5 md:w-[17px] md:h-[17px]" /> Nederland
@@ -1224,7 +1323,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
             <span className="px-3 py-3 md:px-4 md:py-4 bg-[var(--surface-variant)] text-[var(--on-surface-variant)] rounded-lg text-[10px] md:text-[12px] font-black uppercase tracking-widest flex items-center gap-2">
               <CheckCircle2 className="w-3.5 h-3.5 md:w-[17px] md:h-[17px]" /> 4+ Years XP
             </span>
-            <span className="px-3 py-3 md:px-3 md:py-4 bg-[var(--surface-variant)] text-[var(--on-surface-variant)] rounded-lg text-[10px] md:text-[12px] font-black uppercase tracking-widest flex items-center gap-2">He/They</span>
+            <span className="px-3 py-3 md:px-3 md:py-4 bg-[var(--surface-variant)] text-[var(--on-surface-variant)] rounded-lg text-[10px] md:text-[13px] font-black tracking-widest flex items-center gap-2">He/Him They/Them</span>
           </div>
         </div>
       </header>
@@ -1233,37 +1332,43 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
         <div className="md:col-span-12 lg:col-span-8">
           <div className="relative group/terminal h-full">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{
+                opacity: 0,
+                y: 20
+              }}
+              animate={{
+                opacity: 1,
+                y: 0
+              }}
               className="bg-[#0a0a0a] rounded-[1.5rem] overflow-hidden border border-white/10 shadow-2xl h-full min-h-[300px] md:min-h-[400px] flex flex-col font-mono relative"
             >
-              {/* Terminal head */}
+              {/* term head */}
               <div className="px-6 py-3 md:py-4 bg-white/[0.03] border-b border-white/5 flex items-center justify-center relative">
                 <span className="text-[10px] md:text-sm text-white/40 tracking-[0.2em] flex items-center font-black uppercase whitespace-nowrap">
                   virex@shinigami
                 </span>
               </div>
 
-              {/* Term body */}
+              {/* term body */}
               <div className="p-6 md:p-10 text-[12px] md:text-[15px] leading-relaxed space-y-6 flex-1 overflow-y-auto custom-scrollbar">
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 md:gap-3">
                     <span className="text-[var(--primary)] font-black">❯</span>
-                    <span className="text-white/90">./fetch_system_status.sh --verbose</span>
+                    <span className="text-white/90">./info_util.sh --verbose</span>
                   </div>
 
                   <div className="pl-4 md:pl-6 space-y-2 md:space-y-1">
                     <div className="flex justify-between sm:justify-start gap-4">
                       <span className="text-[var(--primary)] font-bold opacity-80 uppercase text-[10px] md:text-[13px] min-w-[65px] md:min-w-[80px]">OS</span>
-                      <span className="text-white/60 text-right sm:text-left">Arch Linux x86_64</span>
+                      <span className="text-white/60 text-right sm:text-left">Alpine Linux (v3.23) x86_64</span>
                     </div>
                     <div className="flex justify-between sm:justify-start gap-4">
                       <span className="text-[var(--primary)] font-bold opacity-80 uppercase text-[10px] md:text-[13px] min-w-[65px] md:min-w-[80px]">Shell</span>
-                      <span className="text-white/60 text-right sm:text-left">fish</span>
+                      <span className="text-white/60 text-right sm:text-left">zsh</span>
                     </div>
                     <div className="flex justify-between sm:justify-start gap-4">
                       <span className="text-[var(--primary)] font-bold opacity-80 uppercase text-[10px] md:text-[13px] min-w-[65px] md:min-w-[80px]">Kernel</span>
-                      <span className="text-white/60 text-right sm:text-left">6.19.6-zen</span>
+                      <span className="text-white/60 text-right sm:text-left">6.18.19-0-lts</span>
                     </div>
                     <div className="flex justify-between sm:justify-start gap-4">
                       <span className="text-[var(--primary)] font-bold opacity-80 uppercase text-[10px] md:text-[13px] min-w-[65px] md:min-w-[80px]">CPU</span>
@@ -1271,7 +1376,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                     </div>
                     <div className="flex justify-between sm:justify-start gap-4">
                       <span className="text-[var(--primary)] font-bold opacity-80 uppercase text-[10px] md:text-[13px] min-w-[65px] md:min-w-[80px]">GPU</span>
-                      <span className="text-white/60 text-right sm:text-left">RX 6800 XT</span>
+                      <span className="text-white/60 text-right sm:text-left">AMD Radeon RX 6800 XT</span>
                     </div>
                   </div>
                 </div>
@@ -1279,17 +1384,17 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
               <div className="absolute inset-0 pointer-events-none opacity-[0.02] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%]" />
             </motion.div>
           </div>
-        </div>        <Card className="md:col-span-12 lg:col-span-4 p-10 flex flex-col justify-between bg-[var(--primary-container)] text-[var(--on-primary-container)] border-none relative overflow-hidden group">
+        </div>
+        <Card className="md:col-span-12 lg:col-span-4 p-10 flex flex-col justify-between bg-[var(--primary-container)] text-[var(--on-primary-container)] border-none relative overflow-hidden group">
           <div className="space-y-6 relative z-10">
             <p className="text-2xl font-display font-black leading-tight tracking-tight">
-              {"Security isn't a feature you jump on. I study how systems work, and break. CTFs, vulnerability research, Metasploit, Wireshark: because the only honest way to defend something, is to know exactly how it falls apart."}
+              {"security isnt a feature you just jump on. the only honest way to defend something is to know exactly how it falls apart."}
             </p>
           </div>
           <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
             <Fingerprint size={160} />
           </div>
         </Card>
-
 
         <div className="md:col-span-12 grid grid-cols-2 gap-4 md:gap-6">
           <Card className="p-6 md:p-10 space-y-4 md:space-y-8 h-full bg-[var(--surface-variant)]/40 border-none shadow-sm flex flex-col justify-between">
@@ -1315,8 +1420,14 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
         </div>
         <div className="md:col-span-12">
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{
+              opacity: 0,
+              scale: 0.97
+            }}
+            whileInView={{
+              opacity: 1,
+              scale: 1
+            }}
             viewport={{ once: true }}
             className="relative rounded-[3.5rem] overflow-hidden bg-[var(--primary-container)] text-[var(--on-primary-container)] border-4 border-[var(--outline-variant)] shadow-2xl group p-10 md:p-16 space-y-10"
           >
@@ -1324,31 +1435,28 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <span className="text-md font-bold opacity-60 flex items-center gap-2">
-                    <Activity size={14} /> 2021 — PRESENT
+                    <Activity size={14} /> 2021 —  present
                   </span>
                 </div>
                 <h3 className="text-5xl md:text-7xl font-display font-black tracking-tighter leading-[0.95] group-hover:translate-x-2 transition-transform duration-500">
-                  The Technical Journey
+                  virex lore
                 </h3>
               </div>
               <button 
-                onClick={() => setBlownUpCard({
-                  category: 'Evolution',
-                  title: 'The Technical Journey',
+                onClick={() => setExpanded({
+                  category: 'evolution',
+                  title: 'virex lore',
                   icon: <Activity size={320} />,
                   content: (
                     <div className="space-y-6">
                       <p>
-                        I started my <span className="font-bold text-[var(--primary)]">junior software researching</span> journey around 2021, focusing on exploratory security research and scripting.
+                        i started my <span className="font-bold text-[var(--primary)]">junior software researching</span> around 2021, focusing on security and scripting.
                       </p>
                       <p>
-                        What began as a curiosity for how binaries worked evolved into a passion for <span className="font-bold text-[var(--primary)]">full-stack development</span> and systems architecture.
+                        what started as a curiosity for how software worked quickly turned into a huge interest for <span className="font-bold text-[var(--primary)]">programming</span> and hardware interest.
                       </p>
                       <p>
-                        Since then, I’ve evolved into a <span className="font-bold text-[var(--primary)]">full-stack developer</span> with a deep interest in cybersecurity and systems architecture.
-                      </p>
-                      <p>
-                        By 2024, my focus shifted toward <span className="font-bold text-[var(--primary)]">social engineering methodology</span> and <span className="font-bold text-[var(--primary)]">vulnerability research</span>.
+                        since then, i became a <span className="font-bold text-[var(--primary)]">semi-fullstack developer</span> with a big interest in cybersecurity and programming.
                       </p>
                     </div>
                   )
@@ -1360,21 +1468,21 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10 border-t border-[var(--on-primary-container)]/10 pt-10">
-            {/* sex */}
+            {/* copy and paste */}
               <div className="space-y-6 text-xl opacity-80 leading-relaxed font-medium text-pretty">
                 <p>
-                  I started my <span className="font-bold text-[var(--primary)]">junior software researching</span> journey around 2021, focusing on exploratory security research and scripting.
+                  i started my <span className="font-bold text-[var(--primary)]">junior software researching</span> around 2021, focusing on security and scripting.
                 </p>
                 <p className="hidden md:block">
-                  What began as a curiosity for how binaries worked evolved into a passion for <span className="font-bold text-[var(--primary)]">full-stack development</span> and systems architecture.
+                  what started as a curiosity for how software worked quickly turned into a huge interest for <span className="font-bold text-[var(--primary)]">programming</span> and hardware interest.
                 </p>
               </div>
               <div className="hidden md:block space-y-6 text-xl opacity-80 leading-relaxed font-medium text-pretty">
                 <p>
-                  Since then, I’ve evolved into a <span className="font-bold text-[var(--primary)]">full-stack developer</span> with a deep interest in cybersecurity and systems architecture.
+                  since then, i became a <span className="font-bold text-[var(--primary)]">semi-fullstack developer</span> with a big interest in cybersecurity and programming.
                 </p>
                 <p>
-                  By 2024, my focus shifted toward <span className="font-bold text-[var(--primary)]">social engineering methodology</span> and <span className="font-bold text-[var(--primary)]">vulnerability research</span>.
+                  by the end of 2023, my focus shifted toward <span className="font-bold text-[var(--primary)]">linux</span> and <span className="font-bold text-[var(--primary)]">programming languages</span>.
                 </p>
               </div>
             </div>
@@ -1389,23 +1497,19 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
             <div className="space-y-3 md:space-y-6">
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-2 md:gap-3">
-                  <span className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-[var(--primary)] px-2 py-1 bg-[var(--primary-container)]/30 rounded-md">
-                    Mission
-                  </span>
                   
                 </div>
                 <button 
-                  onClick={() => setBlownUpCard({
-                    category: 'Mission',
-                    title: 'Software Philosophy',
-                    icon: <Cpu size={320} />,
-                    tags: ['Research', 'Privacy', 'Performance', 'Aesthetics'],
+                  onClick={() => setExpanded({
+                    category: 'mission',
+                    title: 'my personal take',
+                    tags: ['research', 'privacy', 'performance', 'aesthetics'],
                     content: (
                       <div className="space-y-6">
-                        <p>The web got heavy.. And I push back!</p>
+                        <p>the internet went to shit, and i push back!</p>
                         <p>
-                          Minimal libraries, resilient architecture, even software that just does what it says and nothing else.
-                          In a dead internet era, clean code is a form of protest.
+                          using minimal libraries, durable design, even software that just does what it says and nothing else.
+                          good code can be used as a form of protest.
                         </p>
                       </div>
                     )
@@ -1414,18 +1518,15 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                 >
                   <Maximize2 size={16} className="group-hover/btn:scale-110" />
                 </button>
-                <div className="hidden md:flex w-10 h-10 rounded-2xl bg-[var(--surface)] border border-[var(--outline-variant)] items-center justify-center text-[var(--primary)]">
-                  <Cpu size={20} />
-                </div>
               </div>
               <div className="space-y-2 md:space-y-4">
-                <h4 className="text-lg md:text-3xl font-display font-black leading-tight">Philosophy</h4>
+                <h4 className="text-lg md:text-3xl font-display font-black leading-tight">my personal take</h4>
                 <p className="text-xs md:text-lg opacity-60 leading-tight md:leading-relaxed text-pretty font-medium line-clamp-4 md:line-clamp-none">
-                  The web got heavy.. And I push back! Minimal libraries, resilient architecture, and even software that just works.
+                  the internet went to shit, and i push back! using minimal libraries, durable design, even software that just does what it says and nothing else.
                 </p>
               </div>
               <div className="pt-4 hidden md:flex flex-wrap gap-2 border-t border-[var(--outline-variant)]/30">
-                {['Research', 'Privacy', 'Performance', 'Aesthetics'].map(tag => (
+                {['research', 'privacy', 'performance', 'aesthetics'].map(tag => (
                   <span key={tag} className="px-3 py-1 bg-[var(--surface-variant)]/50 rounded-full text-[10px] font-black uppercase tracking-widest opacity-60">
                     {tag}
                   </span>
@@ -1436,25 +1537,16 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
           <Card className="p-5 md:p-10 space-y-4 md:space-y-8 bg-[var(--surface-variant)]/30 border-2 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] hover:bg-[var(--primary-container)]/10">
             <div className="space-y-3 md:space-y-6">
               <div className="flex justify-between items-start">
-                <div className="flex items-center gap-2 md:gap-3">
-                  <span className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-[var(--primary)] px-2 py-1 bg-[var(--primary-container)]/30 rounded-md">
-                    Library
-                  </span>
-                </div>
                 <button 
-                  onClick={() => setBlownUpCard({
-                    category: 'Library',
-                    title: 'Digital Archival',
-                    icon: <BookOpen size={320} />,
-                    tags: ['Archival', 'Privacy', 'CEH', 'Aesthetics'],
+                  onClick={() => setExpanded({
+                    category: 'library',
+                    title: '..and archival!',
+                    tags: ['archival', 'privacy', 'aesthetics'],
                     content: (
                       <div className="space-y-6">
-                        <p>Digital preservation by obligation.</p>
+                        <p>preservation by nature.</p>
                         <p>
-                          Legacy software, obscure docs, tools nobody ships anymore; The internet forgets too easily, so I archive what I need.
-                        </p>
-                        <p className="text-xs opacity-50 italic">
-                          On rotation: black metal, ethereal black metal, doom, DSBM
+                          i collect legacy software, old documentation, and i keep backups of everything i find.
                         </p>
                       </div>
                     )
@@ -1463,18 +1555,15 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                 >
                   <Maximize2 size={16} className="group-hover/btn:scale-110" />
                 </button>
-                <div className="hidden md:flex w-10 h-10 rounded-2xl bg-[var(--surface)] border border-[var(--outline-variant)] items-center justify-center text-[var(--primary)]">
-                  <BookOpen size={20} />
-                </div>
               </div>
               <div className="space-y-2 md:space-y-4">
-                <h4 className="text-lg md:text-3xl font-display font-black leading-tight">Archival</h4>
+                <h4 className="text-lg md:text-3xl font-display font-black leading-tight">.. and archival!</h4>
                 <p className="text-xs md:text-lg opacity-60 leading-tight md:leading-relaxed text-pretty font-medium line-clamp-4 md:line-clamp-none">
-                  Digital preservation by obligation. Legacy software, obscure docs, and tools the internet forgot.
+                  preservation by nature. i collect legacy software, old documentation, and i keep backups of everything i find.
                 </p>
               </div>
               <div className="pt-4 hidden md:flex flex-wrap gap-2 border-t border-[var(--outline-variant)]/30">
-                {['Archival', 'Privacy', 'CEH', 'Aesthetics'].map(tag => (
+                {['archival', 'privacy', 'aesthetics'].map(tag => (
                   <span key={tag} className="px-3 py-1 bg-[var(--surface-variant)]/50 rounded-full text-[10px] font-black uppercase tracking-widest opacity-60">
                     {tag}
                   </span>
@@ -1485,19 +1574,18 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
         </div>
       </div>
 
-
       <footer className="pt-24 pb-12 border-t border-[var(--outline-variant)] flex flex-col items-center gap-8">
         <div className="text-center space-y-2">
-          <h2 className="text-4xl font-display font-black tracking-tight">Contact me!</h2>
+          <h2 className="text-4xl font-display font-black tracking-tight">you can find me here!</h2>
         </div>
         <div className="flex flex-wrap justify-center gap-4">
           <a href="https://github.com/hnpf" target="_blank" className="m3-button-tonal px-8 h-14 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-black hover:text-white transition-all shadow-lg">
             <Github size={20} />
             GitHub
           </a>
-          <a href="https://discord.gg/vixencommunity" target="_blank" className="m3-button-tonal px-8 h-14 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-[#5865F2] hover:text-white transition-all shadow-lg">
+          <a href="https://discord.gg/vixencommunity" target="_blank" className="m3-button-tonal px-8 h-14 rounded-2xl font- tracking-widest text-md flex items-center gap-3 hover:bg-[#5865F2] hover:text-white transition-all shadow-lg">
             <MessageSquare size={20} />
-            Discord
+            vixen
           </a>
           <a href="mailto:deprecated@virex.lol" className="m3-button-tonal px-8 h-14 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all shadow-lg">
             <Mail size={20} />
@@ -1509,138 +1597,142 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
   );
 };
 
-// --- Main app shell ---
+// --- main app shell ---
 
 export default function App() {
   const { settings, updateSettings, actualTheme, cycleTheme } = useTheme();
   const [page, setPage] = useState('home');
-  const [wiggleOnce, setWiggleOnce] = useState(false);
+  const [do_wiggle, setDoWiggle] = useState(false);
 
   useEffect(() => {
     // wait a bit after load then wiggle once
-    const timer = setTimeout(() => setWiggleOnce(true), 1200);
+    const timer = setTimeout(() => setDoWiggle(true), 1200);
     // turn it off after it finishes its cycles (forced short duration tho)
-    const stopTimer = setTimeout(() => setWiggleOnce(false), 2200);
+    const stop = setTimeout(() => setDoWiggle(false), 2200);
     return () => {
       clearTimeout(timer);
-      clearTimeout(stopTimer);
+      clearTimeout(stop);
     };
   }, []);
+
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const on_key = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && settings.focusMode) {
         updateSettings({ focusMode: false });
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', on_key);
+    return () => window.removeEventListener('keydown', on_key);
   }, [settings.focusMode, updateSettings]);
+
   const [blogPostId, setBlogPostId] = useState<string | null>(null);
   const [hwOpen, setHwOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   // keeping the address bar in sync with state so the back button actually fucking works
   useEffect(() => {
-    const syncUrlWithState = () => {
-      const currentLocation = window.location.pathname;
-      if (currentLocation === '/' || currentLocation === '') {
+    const sync_url = () => {
+      const loc = window.location.pathname;
+      if (loc === '/' || loc === '') {
         setPage('home');
         setBlogPostId(null);
-      } else if (currentLocation.startsWith('/blog/')) {
-        const id = currentLocation.split('/')[2];
+      } else if (loc.startsWith('/blog/')) {
+        const id = loc.split('/')[2];
         setPage('blog');
         setBlogPostId(id);
       } else {
-        const pageSlug = currentLocation.replace('/', '').toLowerCase();
-        const ALLOWED_SECTIONS = ['home', 'blog', 'lens', 'tracker', 'readme', 'loom', 'changelog', 'dash'];
-        setPage(ALLOWED_SECTIONS.includes(pageSlug) ? pageSlug : '404');
+        const path = loc.replace('/', '').toLowerCase();
+        const ALLOWED_SECTIONS = ['home', 'blog', 'lens', 'tracker', 'readme', 'loom', 'changelog', 'dash', 'no'];
+        setPage(ALLOWED_SECTIONS.includes(path) ? path : '404');
         setBlogPostId(null);
       }
     };
 
-    syncUrlWithState();
-    window.addEventListener('popstate', syncUrlWithState);
-    return () => window.removeEventListener('popstate', syncUrlWithState);
+    sync_url();
+    window.addEventListener('popstate', sync_url);
+    return () => window.removeEventListener('popstate', sync_url);
   }, []);
 
-  // updating the title so people know where they are
+  // updating the title so people know where they are lol
+  // console.log('page:', page, blogPostId)
   useEffect(() => {
-    const cleanName = page === 'readme' ? 'Info' : page.charAt(0).toUpperCase() + page.slice(1);
-    const siteTitle = (page === 'blog' && blogPostId) 
+    const name = page === 'readme' ? 'Info' : page.charAt(0).toUpperCase() + page.slice(1);
+    const title = (page === 'blog' && blogPostId) 
       ? `Virex | ${BLOG_POSTS.find(p => p.id === blogPostId || p.link === blogPostId)?.title || 'Post'}`
-      : page === 'home' ? 'Virex' : `Virex | ${cleanName}`;
-    document.title = siteTitle;
+      : page === 'home' ? 'Virex' : `Virex | ${name}`;
+    document.title = title;
 
-    // gotta also update the social tags for the seo mfs
-    let description = "Independent software researcher, innovator, and problem solver. Exploring systems programming, UI/UX architecture, and vulnerability research.";
-    let ogTitle = siteTitle;
-    let ogImage = "https://virex.lol/photography/pfp/main.png";
+    // gotta also update the social tags for the seo ppl
+    let desc = "i am virex. a software researcher and problem solver, i explore systems and programming, UI/UX, and security research.";
+    let og_title = title;
+    let og_img = "https://virex.lol/photography/pfp/main.png";
     if (page === 'blog' && blogPostId) {
-      const post = BLOG_POSTS.find(p => p.id === blogPostId || p.link === blogPostId);
-      if (post) {
-        description = post.snippet;
-        ogTitle = `Virex Blog | ${post.title}`;
+      const p = BLOG_POSTS.find(p => p.id === blogPostId || p.link === blogPostId);
+      if (p) {
+        desc = p.snippet;
+        og_title = `Virex Blog | ${p.title}`;
       }
     } else if (page === 'readme') {
-      description = "The README archive: A deep dive into the technical evolution, mission, and identity of Virex.";
+      desc = "README: my personal biography, a quick summary about my mission, and identity.";
     } else if (page === 'loom') {
-      description = "Loom: A lightweight, expressive, and efficient programming language built for speed and simplicity.";
+      desc = "loom: a small, expressive, and efficient programming language built for speed and readability.";
     } else if (page === 'lens') {
-      description = "The Visual Archive: A collection of photography by Virex, exploring nature, technology, and light.";
+      desc = "lens: my photography collection, all done with a literal phone.";
     }
-    const updateMeta = (name: string, content: string, isProperty = false) => {
-      let el = document.querySelector(isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`);
+
+    const set_meta = (key: string, val: string, is_prop = false) => {
+      let el = document.querySelector(is_prop ? `meta[property="${key}"]` : `meta[name="${key}"]`);
       if (!el) {
         el = document.createElement('meta');
-        if (isProperty) el.setAttribute('property', name);
-        else el.setAttribute('name', name);
+        if (is_prop) el.setAttribute('property', key);
+        else el.setAttribute('name', key);
         document.head.appendChild(el);
       }
-      el.setAttribute('content', content);
+      el.setAttribute('content', val);
     };
-    updateMeta('description', description);
-    updateMeta('og:title', ogTitle, true);
-    updateMeta('og:description', description, true);
-    updateMeta('og:image', ogImage, true);
-    updateMeta('twitter:title', ogTitle);
-    updateMeta('twitter:description', description);
+    set_meta('description', desc);
+    set_meta('og:title', og_title, true);
+    set_meta('og:description', desc, true);
+    set_meta('og:image', og_img, true);
+    set_meta('twitter:title', og_title);
+    set_meta('twitter:description', desc);
 
-    // --- JSON-LD structured data ---
-    const existingJsonLd = document.getElementById('json-ld-structured-data');
-    if (existingJsonLd) existingJsonLd.remove();
+    // --- JSON-LD structured stuff ---
+    const old_ld = document.getElementById('json-ld-structured-data');
+    if (old_ld) old_ld.remove();
 
-    const jsonLd: any = {
+    const ld: any = {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Virex",
       "url": "https://virex.lol",
       "author": {
         "@type": "Person",
-        "name": "Virex"
+        "name": "virex"
       }
     };
     // ok
 
     if (page === 'blog' && blogPostId) {
-      const post = BLOG_POSTS.find(p => p.id === blogPostId || p.link === blogPostId);
-      if (post) {
-        jsonLd["@type"] = "BlogPosting";
-        jsonLd["headline"] = post.title;
-        jsonLd["description"] = post.snippet;
-        jsonLd["datePublished"] = new Date(post.date).toISOString();
-        jsonLd["author"] = { "@type": "Person", "name": "Virex" };
+      const p = BLOG_POSTS.find(p => p.id === blogPostId || p.link === blogPostId);
+      if (p) {
+        ld["@type"] = "BlogPosting";
+        ld["headline"] = p.title;
+        ld["description"] = p.snippet;
+        ld["datePublished"] = new Date(p.date).toISOString();
+        ld["author"] = { "@type": "Person", "name": "Virex" };
       }
     }
 
     const script = document.createElement('script');
     script.id = 'json-ld-structured-data';
     script.type = 'application/ld+json';
-    script.text = JSON.stringify(jsonLd);
+    script.text = JSON.stringify(ld);
     document.head.appendChild(script);
 
   }, [page, blogPostId, settings.accent, settings.mode]); 
 
-  const navigateTo = (newPage: string, postId: string | null = null) => {
+  const goto = (newPage: string, postId: string | null = null) => {
     const url = newPage === 'home' ? '/' : postId ? `/blog/${postId}` : `/${newPage}`;
     window.history.pushState({}, '', url);
     setPage(newPage);
@@ -1648,26 +1740,39 @@ export default function App() {
     window.scrollTo(0, 0);
   };
 
-  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [show_top, setShowTop] = useState(false);
   useEffect(() => {
-    const handleScroll = () => setShowScrollTop(window.scrollY > 400);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const on_scroll = () => setShowTop(window.scrollY > 400);
+    window.addEventListener('scroll', on_scroll);
+    return () => window.removeEventListener('scroll', on_scroll);
   }, []);
-  // back tot top stuff
+
+  // back to top
   return (
     <div className={cn(
       "min-h-screen flex flex-col lg:flex-row font-sans relative",
       settings.sidebarFlipped && "lg:flex-row-reverse"
     )}>
       <AnimatePresence>
-        {showScrollTop && (
+        {show_top && (
           <motion.button
             key={settings.sidebarFlipped ? 'flipped' : 'normal'}
             layout
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{
+              opacity: 0,
+              scale: 0.8,
+              y: 20
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: 0
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0.8,
+              y: 20
+            }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
@@ -1706,11 +1811,20 @@ export default function App() {
       </AnimatePresence>
       {/*desktop sidebar*/}
       <AnimatePresence mode="popLayout">
-        {!settings.focusMode && (
+        {!settings.focusMode && page !== 'no' && (
           <motion.aside 
-            initial={{ x: settings.sidebarFlipped ? 400 : -400, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: settings.sidebarFlipped ? 400 : -400, opacity: 0 }}
+            initial={{
+              x: settings.sidebarFlipped ? 400 : -400,
+              opacity: 0
+            }}
+            animate={{
+              x: 0,
+              opacity: 1
+            }}
+            exit={{
+              x: settings.sidebarFlipped ? 400 : -400,
+              opacity: 0
+            }}
             transition={{ type: "spring", damping: 25, stiffness: 120 }}
             className={cn(
               "hidden lg:flex flex-col sticky top-0 h-screen z-40 bg-[var(--outline-variant)] transition-[width] duration-300 ease-in-out",
@@ -1720,125 +1834,146 @@ export default function App() {
                 : "pr-[var(--sidebar-border)] py-[var(--sidebar-border)] rounded-r-[3rem]"
             )}
           >
-        <div className={cn(
-          "flex flex-col h-full w-full bg-[var(--surface)] transition-all duration-300",
-          settings.sidebarCollapsed ? "p-4" : "p-6",
-          settings.sidebarFlipped ? "rounded-l-[2.375rem]" : "rounded-r-[2.375rem]"
-        )}>
-          <div className={cn(
-            "flex items-center gap-4 py-6 mb-10",
-            settings.sidebarCollapsed ? "justify-center px-0" : "px-2"
-          )}>
-            <motion.div 
-              whileHover={{ rotate: 10, scale: 1.1 }}
-              animate={wiggleOnce ? { 
-                rotate: [0, -10, 10, -10, 10, 0],
-                scale: [1, 1.1, 1.1, 1.1, 1.1, 1]
-              } : { rotate: 0, scale: 1 }}
-              transition={wiggleOnce ? {
-                duration: 1.2,
-                repeat: 1, // exactly twice?
-                repeatDelay: 0.1,
-                ease: "easeInOut"
-              } : { duration: 0.3 }} // snappy return.
-              onClick={() => navigateTo('readme')}
-              className="w-14 h-14 rounded-3xl bg-[var(--primary)] text-[var(--on-primary)] flex items-center justify-center font-black text-3xl shadow-xl shrink-0 overflow-hidden group/pfp cursor-pointer"
-            >
-              <img 
-                src="/photography/pfp/main.png" 
-                alt="virex" 
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
-                  const svg = document.createElement('img');
-                  svg.src = '/2.svg';
-                  svg.className = 'w-10 h-10 p-1 transition-transform group-hover/pfp:scale-110';
-                  svg.style.color = 'var(--on-primary)';
-                  (e.target as HTMLImageElement).parentElement!.appendChild(svg);
-                }}
-                referrerPolicy="no-referrer"
-              />
-            </motion.div>
-            {!settings.sidebarCollapsed && (
-              <div className="overflow-hidden whitespace-nowrap">
-                <div className="font-display font-black text-2xl tracking-tighter">virex (美烈久)</div>
-                <div className="text-[10px] uppercase tracking-[0.3em] opacity-50 font-black">CYBERSEC/DEV</div>
-              </div>
-            )}
-          </div>
-          <nav className="flex-1 flex flex-col gap-3">
-            <SidebarItem glyph={Home} text="Home" isSelected={page === 'home'} onSelect={() => navigateTo('home')} isMini={settings.sidebarCollapsed} />
-            <SidebarItem glyph={Fingerprint} text="Info" isSelected={page === 'readme'} onSelect={() => navigateTo('readme')} isMini={settings.sidebarCollapsed} />
-            <SidebarItem glyph={BookText} text="Blog" isSelected={page === 'blog'} onSelect={() => navigateTo('blog')} isMini={settings.sidebarCollapsed} />
-            <SidebarItem glyph={Camera} text="Lens" isSelected={page === 'lens'} onSelect={() => navigateTo('lens')} isMini={settings.sidebarCollapsed} />
-            <SidebarItem glyph={Activity} text="Tracker" isSelected={page === 'tracker'} onSelect={() => navigateTo('tracker')} isMini={settings.sidebarCollapsed} />
-            <SidebarItem glyph={LinkIcon} text="Short" isSelected={page === 'dash'} onSelect={() => navigateTo('dash')} isMini={settings.sidebarCollapsed} />
-            {/*<SidebarItem glyph={Terminal} text="Loom" isSelected={page === 'loom'} onSelect={() => navigateTo('loom')} isMini={settings.sidebarCollapsed} />*/}
-          </nav>
-          <div className="mt-auto flex flex-col gap-3 pt-6 border-t border-[var(--outline-variant)]">
-            <div className={cn("flex gap-2", settings.sidebarCollapsed && "flex-col items-center")}>
-              <button 
-                onClick={cycleTheme}
-                className={cn(
-                  "flex items-center justify-center p-4 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] rounded-2xl transition-all group relative",
-                  settings.sidebarCollapsed ? "w-14 h-14" : "flex-1"
-                )}
-              >
-                {actualTheme === 'light' && <Sun size={20} />}
-                {actualTheme === 'dark' && <Moon size={20} />}
-                <div className="absolute bottom-full mb-4 px-2 py-1 bg-black text-white text-[10px] rounded opacity-0 group-hover:opacity-100 pointer-events-none uppercase font-black">Cycle Theme</div>
-              </button>
-              <button 
-                onClick={() => setHwOpen(true)}
-                className={cn(
-                  "flex items-center justify-center p-4 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] rounded-2xl transition-all group relative",
-                  settings.sidebarCollapsed ? "w-14 h-14" : "flex-1"
-                )}
-              >
-                <Cpu size={20} />
-                <div className="absolute bottom-full mb-4 px-2 py-1 bg-black text-white text-[10px] rounded opacity-0 group-hover:opacity-100 pointer-events-none uppercase font-black">Hardware</div>
-              </button>
-            </div>
-            <SidebarItem glyph={SettingsIcon} text="Settings" onSelect={() => setSettingsOpen(true)} isMini={settings.sidebarCollapsed} />
-            
-            <AnimatePresence>
-              {!settings.sidebarCollapsed && (
+            <div className={cn(
+              "flex flex-col h-full w-full bg-[var(--surface)] transition-all duration-300",
+              settings.sidebarCollapsed ? "p-4" : "p-6",
+              settings.sidebarFlipped ? "rounded-l-[2.375rem]" : "rounded-r-[2.375rem]"
+            )}>
+              <div className={cn(
+                "flex items-center gap-4 py-6 mb-10",
+                settings.sidebarCollapsed ? "justify-center px-0" : "px-2"
+              )}>
                 <motion.div 
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="flex gap-2 overflow-hidden"
+                  whileHover={{ rotate: 10, scale: 1.1 }}
+                  animate={do_wiggle ? { 
+                    rotate: [0, -10, 10, -10, 10, 0],
+                    scale: [1, 1.1, 1.1, 1.1, 1.1, 1]
+                  } : { rotate: 0, scale: 1 }}
+                  transition={do_wiggle ? {
+                    duration: 1.2,
+                    repeat: 1, // nvm // exactly twice? 
+                    repeatDelay: 0.1,
+                    ease: "easeInOut"
+                  } : { duration: 0.3 }} // snappy return.
+                  onClick={() => goto('readme')}
+                  className="w-14 h-14 rounded-3xl bg-[var(--primary)] text-[var(--on-primary)] flex items-center justify-center font-black text-3xl shadow-xl shrink-0 overflow-hidden group/pfp cursor-pointer"
                 >
-                  <a href="https://github.com/hnpf" target="_blank" className="flex items-center justify-center p-4 hover:bg-[var(--surface-variant)] rounded-2xl transition-all flex-1"><Github size={20} /></a>
-                  <a href="https://discord.gg/vixencommunity" target="_blank" className="flex items-center justify-center p-4 hover:bg-[var(--surface-variant)] rounded-2xl transition-all flex-1"><MessageSquare size={20} /></a>
+                  <img 
+                    src="/photography/pfp/main.png" 
+                    alt="virex" 
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                      const svg = document.createElement('img');
+                      svg.src = '/2.svg';
+                      svg.className = 'w-10 h-10 p-1 transition-transform group-hover/pfp:scale-110';
+                      svg.style.color = 'var(--on-primary)';
+                      (e.target as HTMLImageElement).parentElement!.appendChild(svg);
+                    }}
+                    referrerPolicy="no-referrer"
+                  />
                 </motion.div>
-              )}
-            </AnimatePresence>
-            <button 
-              onClick={() => updateSettings({ sidebarCollapsed: !settings.sidebarCollapsed })}
-              className={cn(
-                "flex items-center justify-center p-4 hover:bg-[var(--surface-variant)] rounded-2xl transition-all",
-                settings.sidebarCollapsed && "w-14 mx-auto"
-              )}
-            >
-              {settings.sidebarCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-            </button>
-          </div>
-        </div>
-      </motion.aside>
-    )}
-  </AnimatePresence>
-  {/*main*/}
-  <motion.main 
-    layout
-    className="flex-1 p-6 md:p-12 lg:p-16 pb-40 lg:pb-16 overflow-x-hidden page-container"
-  >
+                {!settings.sidebarCollapsed && (
+                  <div className="overflow-hidden whitespace-nowrap">
+                    <div className="font-display font-black text-2xl tracking-tighter">virex (美烈久)</div>
+                    <div className="text-[10px] uppercase tracking-[0.3em] opacity-50 font-black">dev/cybersec</div>
+                  </div>
+                )}
+              </div>
+              <nav className="flex-1 flex flex-col gap-3">
+                <SideItem glyph={Home} text="Home" isSelected={page === 'home'} onSelect={() => goto('home')} isMini={settings.sidebarCollapsed} />
+                <SideItem glyph={Fingerprint} text="Info" isSelected={page === 'readme'} onSelect={() => goto('readme')} isMini={settings.sidebarCollapsed} />
+                <SideItem glyph={BookText} text="Blog" isSelected={page === 'blog'} onSelect={() => goto('blog')} isMini={settings.sidebarCollapsed} />
+                <SideItem glyph={Camera} text="Lens" isSelected={page === 'lens'} onSelect={() => goto('lens')} isMini={settings.sidebarCollapsed} />
+                <SideItem glyph={Activity} text="Tracker" isSelected={page === 'tracker'} onSelect={() => goto('tracker')} isMini={settings.sidebarCollapsed} />
+                <SideItem glyph={LinkIcon} text="Short" isSelected={page === 'dash'} onSelect={() => goto('dash')} isMini={settings.sidebarCollapsed} />
+                {/*<SideItem glyph={Terminal} text="Loom" isSelected={page === 'loom'} onSelect={() => goto('loom')} isMini={settings.sidebarCollapsed} />*/}
+              </nav>
+              <div className="mt-auto flex flex-col gap-3 pt-6 border-t border-[var(--outline-variant)]">
+                <div className={cn("flex gap-2", settings.sidebarCollapsed && "flex-col items-center")}>
+                  <button 
+                    onClick={cycleTheme}
+                    className={cn(
+                      "flex items-center justify-center p-4 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] rounded-2xl transition-all group relative",
+                      settings.sidebarCollapsed ? "w-14 h-14" : "flex-1"
+                    )}
+                  >
+                    {actualTheme === 'light' && <Sun size={20} />}
+                    {actualTheme === 'dark' && <Moon size={20} />}
+                    <div className="absolute bottom-full mb-4 px-2 py-1 bg-black text-white text-[10px] rounded opacity-0 group-hover:opacity-100 pointer-events-none uppercase font-black">Cycle Theme</div>
+                  </button>
+                  <button 
+                    onClick={() => setHwOpen(true)}
+                    className={cn(
+                      "flex items-center justify-center p-4 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] rounded-2xl transition-all group relative",
+                      settings.sidebarCollapsed ? "w-14 h-14" : "flex-1"
+                    )}
+                  >
+                    <Cpu size={20} />
+                    <div className="absolute bottom-full mb-4 px-2 py-1 bg-black text-white text-[10px] rounded opacity-0 group-hover:opacity-100 pointer-events-none uppercase font-black">Hardware</div>
+                  </button>
+                </div>
+                <SideItem glyph={SettingsIcon} text="Settings" onSelect={() => setSettingsOpen(true)} isMini={settings.sidebarCollapsed} />
+                
+                <AnimatePresence>
+                  {!settings.sidebarCollapsed && (
+                    <motion.div 
+                      initial={{
+                        opacity: 0,
+                        height: 0
+                      }}
+                      animate={{
+                        opacity: 1,
+                        height: 'auto'
+                      }}
+                      exit={{
+                        opacity: 0,
+                        height: 0
+                      }}
+                      className="flex gap-2 overflow-hidden"
+                    >
+                      <a href="https://github.com/hnpf" target="_blank" className="flex items-center justify-center p-4 hover:bg-[var(--surface-variant)] rounded-2xl transition-all flex-1"><Github size={20} /></a>
+                      <a href="https://discord.gg/vixencommunity" target="_blank" className="flex items-center justify-center p-4 hover:bg-[var(--surface-variant)] rounded-2xl transition-all flex-1"><MessageSquare size={20} /></a>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                <button 
+                  onClick={() => updateSettings({ sidebarCollapsed: !settings.sidebarCollapsed })}
+                  className={cn(
+                    "flex items-center justify-center p-4 hover:bg-[var(--surface-variant)] rounded-2xl transition-all",
+                    settings.sidebarCollapsed && "w-14 mx-auto"
+                  )}
+                >
+                  {settings.sidebarCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+                </button>
+              </div>
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
+      {/*main*/}
+      <motion.main 
+        layout
+        className="flex-1 p-6 md:p-12 lg:p-16 pb-40 lg:pb-16 overflow-x-hidden page-container"
+      >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={page + (blogPostId || '')}
-            initial={{ opacity: 0, y: 15, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -15, scale: 0.98 }}
+            initial={{
+              opacity: 0,
+              y: 15,
+              scale: 0.98
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1
+            }}
+            exit={{
+              opacity: 0,
+              y: -15,
+              scale: 0.98
+            }}
             transition={{
               duration: settings.disableAnimations ? 0 : 0.4,
               ease: [0.22, 1, 0.36, 1], // custom cubic for a somewhat fluid feel
@@ -1849,16 +1984,18 @@ export default function App() {
               }
             }}
             className="motion-gpu"
-          >            {page === 'home' && <HomePage setPage={navigateTo} settings={settings} />}
-            {page === 'blog' && <BlogPage targetId={blogPostId} navigateTo={navigateTo} />}
+          >
+            {page === 'home' && <HomePage setPage={goto} settings={settings} />}
+            {page === 'blog' && <BlogPage targetId={blogPostId} navigateTo={goto} />}
             {page === 'lens' && <LensPage />}
             {page === 'tracker' && <TrackerPage />}
-            {page === 'readme' && <ReadmePage setPage={navigateTo} />}
+            {page === 'readme' && <ReadmePage setPage={goto} />}
             {page === 'loom' && <LoomPage />}
             {page === 'changelog' && <ChangelogPage />}
             {page === 'dash' && <DashPage />}
-            {!['home', 'blog', 'lens', 'tracker', 'readme', 'loom', 'changelog', 'dash'].includes(page) && (
-              <NotFound go={navigateTo} />
+            {page === 'no' && <NoPage />}
+            {!['home', 'blog', 'lens', 'tracker', 'readme', 'loom', 'changelog', 'dash', 'no'].includes(page) && (
+              <NotFound go={goto} />
             )}
           </motion.div>
         </AnimatePresence>
@@ -1866,36 +2003,59 @@ export default function App() {
         <AnimatePresence>
           {settings.focusMode && (
             <motion.button
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: 20 }}
+              initial={{
+                opacity: 0,
+                scale: 0.8,
+                y: 20
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                y: 0
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.8,
+                y: 20
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => updateSettings({ focusMode: false })}
-              className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-[var(--primary)] text-[var(--on-primary)] rounded-full font-bold shadow-2xl flex items-center gap-3 border-2 border-white/20 backdrop-blur-md"
+              className="fixed bottom-15 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-[var(--primary)] text-[var(--on-primary)] rounded-full font-bold shadow-2xl flex items-center gap-3 border-2 border-white/20 backdrop-blur-md"
             >
               <EyeOff size={20} />
-              <span>Exit Focus Mode</span>
+              <span>exit focus:</span>
               <span className="text-[10px] opacity-60 bg-black/20 px-2 py-0.5 rounded uppercase tracking-wider">Esc</span>
+              <span>or click me!</span>
             </motion.button>
           )}
         </AnimatePresence>
       </motion.main>
       <AnimatePresence>
-        {!settings.focusMode && (
+        {(!settings.focusMode && page !== 'no') && (
           <motion.nav 
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
+            initial={{
+              y: 100,
+              opacity: 0
+            }}
+            animate={{
+              y: 0,
+              opacity: 1
+            }}
+            exit={{
+              y: 100,
+              opacity: 0
+            }}
             transition={{ type: "spring", damping: 25, stiffness: 120 }}
-            className="lg:hidden fixed bottom-0 left-0 right-0 bg-[var(--surface)] border-t border-[var(--outline-variant)] px-4 pt-1 pb-[env(safe-area-inset-bottom,16px)] flex justify-around z-40 shadow-[0_-8px_32px_rgba(0,0,0,0.06)] backdrop-blur-xl motion-gpu"
+            className="lg:hidden fixed bottom-0 left-0 right-0 bg-[var(--surface)] border-t border-[var(--outline-variant)] px-4 pt-1 pb-[env(safe-area-inset-bottom,16px)] flex justify-around z-40 shadow-[0_-8px_32px_rgba(0,0,0,0.06)] motion-gpu"
             style={{ willChange: 'transform' }}
           >
-            <BottomNavItem glyph={Home} text="Home" isSelected={page === 'home'} onSelect={() => navigateTo('home')} />
-            <BottomNavItem glyph={Fingerprint} text="Info" isSelected={page === 'readme'} onSelect={() => navigateTo('readme')} />
-            <BottomNavItem glyph={BookText} text="Blog" isSelected={page === 'blog'} onSelect={() => navigateTo('blog')} />
-            <BottomNavItem glyph={Camera} text="Lens" isSelected={page === 'lens'} onSelect={() => navigateTo('lens')} />
-            <BottomNavItem glyph={SettingsIcon} text="More" onSelect={() => setSettingsOpen(true)} />          </motion.nav>
+            <BotNav glyph={Home} text="Home" isSelected={page === 'home'} onSelect={() => goto('home')} />
+            <BotNav glyph={Fingerprint} text="Info" isSelected={page === 'readme'} onSelect={() => goto('readme')} />
+            <BotNav glyph={BookText} text="Blog" isSelected={page === 'blog'} onSelect={() => goto('blog')} />
+            <BotNav glyph={Camera} text="Lens" isSelected={page === 'lens'} onSelect={() => goto('lens')} />
+            <BotNav glyph={SettingsIcon} text="More" onSelect={() => setSettingsOpen(true)} />
+          </motion.nav>
         )}
       </AnimatePresence>
       {/* the sidebar for when you wanna see the machine, kinda pointless but nice to have*/}
@@ -1934,7 +2094,7 @@ export default function App() {
                   </div>
                 </section>
                 <section className="space-y-4">
-                  <h3 className="text-xs font-bold uppercase tracking-widest opacity-50">Processing Units</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest opacity-50">processors</h3>
                   <div className="grid gap-4">
                     {HARDWARE_SPECS.processing.map(spec => (
                       <div key={spec.label} className="p-4 bg-[var(--surface-variant)] rounded-3xl">
@@ -1955,7 +2115,6 @@ export default function App() {
                     ))}
                   </div>
                 </section>
-
               </div>
             </motion.aside>
           </>
@@ -1974,9 +2133,21 @@ export default function App() {
               className="absolute inset-0 bg-black/60 backdrop-blur-md"
             />
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 10 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 10 }}
+              initial={{
+                scale: 0.95,
+                opacity: 0,
+                y: 10
+              }}
+              animate={{
+                scale: 1,
+                opacity: 1,
+                y: 0
+              }}
+              exit={{
+                scale: 0.95,
+                opacity: 0,
+                y: 10
+              }}
               className="relative w-full max-w-xl bg-[var(--surface)] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-[var(--outline-variant)]"
             >
               <div className="flex justify-between items-center p-6 md:p-8 border-b border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10">
@@ -1993,10 +2164,8 @@ export default function App() {
                 <section className="space-y-6">
                   <div className="flex items-center gap-3">
                     <Palette size={20} className="text-[var(--primary)]" />
-                    <h3 className="text-sm font-black uppercase tracking-[0.2em] text-[var(--on-surface-variant)]">Appearance</h3>
+                    <h3 className="text-sm font-black uppercase tracking-[0.2em] text-[var(--on-surface-variant)]">appearance</h3>
                   </div>
-                  
-                
                   <div className="relative grid grid-cols-3 gap-2 p-1.5 bg-[var(--surface-variant)] rounded-full overflow-hidden">
                     {/* sliding shit */}
                     <AnimatePresence mode="popLayout">
@@ -2026,11 +2195,11 @@ export default function App() {
                         {m === 'light' && <Sun size={16} />}
                         {m === 'dark' && <Moon size={16} />}
                         {m === 'system' && <Monitor size={16} />}
-                        
                         <span className="hidden sm:inline">{m}</span>
                       </button>
                     ))}
-                  </div>                  <div className="space-y-4">
+                  </div>
+                  <div className="space-y-4">
                     <div className="text-sm font-bold text-[var(--on-surface)]">Accent Color</div>
                     <div className="flex flex-wrap gap-4">
                       {(['orange', 'blue', 'green', 'red', 'purple', 'custom'] as const).map(c => (
@@ -2053,7 +2222,6 @@ export default function App() {
                               <div className={cn(
                                 "w-1/2 h-full",
                                 c === 'orange' && "bg-orange-500",
-                                
                                 c === 'blue' && "bg-blue-500",
                                 c === 'green' && "bg-emerald-500",
                                 c === 'red' && "bg-rose-500",
@@ -2090,7 +2258,17 @@ export default function App() {
                       ))}
                     </div>
                     {settings.accent === 'custom' && (
-                      <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="pt-2 space-y-3">
+                      <motion.div
+                        initial={{
+                          opacity: 0,
+                          height: 0
+                        }}
+                        animate={{
+                          opacity: 1,
+                          height: 'auto'
+                        }}
+                        className="pt-2 space-y-3"
+                      >
                         <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] opacity-50 px-1">
                           <span>Hue Shift</span>
                           <span className="text-[var(--primary)] font-bold">{settings.hue}°</span>
@@ -2121,15 +2299,15 @@ export default function App() {
                 <section className="space-y-6">
                   <div className="flex items-center gap-3">
                     <Layers size={20} className="text-[var(--primary)]" />
-                    <h3 className="text-sm font-black uppercase tracking-[0.2em] text-[var(--on-surface-variant)]">System Tweaks</h3>
+                    <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)]">Extras</h3>
                   </div>
                   <div className="flex flex-col gap-1">
                     {[
-                      { key: 'helloAnimation', label: 'Hello Animation', desc: 'Fluent language-cycling header' },
-                      { key: 'brutalistMode', label: 'Brutalist Mode', desc: 'Sharp edges only' },
-                      { key: 'developerFont', label: 'Developer Font', desc: 'Switch to JetBrains Mono' },
-                      { key: 'focusMode', label: 'Focus Mode', desc: 'Minimalist zen layout' },
-                      { key: 'sidebarFlipped', label: 'Flip Sidebar', desc: 'Desktop layout orientation' },
+                      { key: 'helloAnimation', label: 'Hello Animation', desc: 'fluent language-cycling virex header' },
+                      { key: 'brutalistMode', label: 'Brutalist Mode', desc: 'sharp edges only' },
+                      { key: 'developerFont', label: 'Developer Font', desc: 'use JetBrains Mono!' },
+                      { key: 'focusMode', label: 'Focus Mode', desc: 'a minimal zen layout' },
+                      { key: 'sidebarFlipped', label: 'Flip Sidebar', desc: 'changes desktop sidebar orientation to the right' },
                     ].map((tweak, index, array) => (
                       <button
                         key={tweak.key}
@@ -2159,27 +2337,28 @@ export default function App() {
                             }}
                             className="w-5 h-5 bg-white rounded-full shadow-md"
                           />
-                        </div>                      </button>
+                        </div>
+                      </button>
                     ))}
                   </div>
                 </section>
 
-                {/* the boring version info stuff */}
+                {/* boring ver info stuff */}
                 <section className="space-y-6">
                   <div className="flex items-center gap-3">
                     <Terminal size={20} className="text-[var(--primary)]" />
-                    <h3 className="text-sm font-black uppercase tracking-[0.2em] text-[var(--on-surface-variant)]">Other Info</h3>
+                    <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)]">Other Info</h3>
                   </div>
                   <button
                     onClick={() => {
                       setSettingsOpen(false);
-                      navigateTo('changelog');
+                      goto('changelog');
                     }}
                     className="w-full flex items-center justify-between p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group"
                   >
                     <div>
-                      <div className="font-bold">View Changelog</div>
-                      <div className="text-xs opacity-60 font-medium">See what's new in v2026.03.15</div>
+                      <div className="font-bold">View changelog</div>
+                      <div className="text-xs opacity-60 font-medium">See what's new in v2026.03.16</div>
                     </div>
                     <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
                   </button>
