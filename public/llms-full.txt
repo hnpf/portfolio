@@ -1,42 +1,43 @@
-# virex.lol \ Full Documentation for LLMs!
+# virex.lol; full context for LLMs
 
-## About Me
-I am virex, an independent software researcher and I have 4+ years of experience (started ~2021). 
-I specialize in:
-- Hardware & Systems Programming
-- User Experience and UI Architecture (Such as Material Design 3, LibAdwaita)
-- This site uses React, Vite, Tailwind, Framer Motion, React MD and GFM, and Vercel for deployment.
-- Independent Vulnerability Research & Penetration testing
+## about
 
-## Key Projects
+virex, independent software researcher. 4+ years (started ~2021).
+areas: hardware/systems programming, UI/UX architecture (Material Design 3, LibAdwaita), vulnerability research and pentesting.
 
-### 1. Loom Programming Language (v0.1)
-Loom is a modern, concurrent programming language designed for crafting developer tools and system automation.
-- **Shell-First**: Run shell commands directly with the `$` operator.
-- **Structured Concurrency**: Native `spawn` and `await` blocks.
-- **Expressive Comments**: Generate documentation automatically using `//*`, `//!`, `//?`.
-- **Trait-Based Design**: Decouple data from behavior with `trait` and `weave`.
-- **Ghost Imports**: Import logic directly from Markdown with `pull "logic.md"`.
-- **Safety Blocks**: Resource-aware execution with `safety(mem: 128MB)`.
-- **Performance**: Up to 50x speedup over interpreted code using the `weave` compiler.
-- **Installation**: `curl -s https://virex.lol/loom/install.sh | bash`
+## projects
 
-### 2. Lens Photography
-A collection of some of my photography, featuring cats, spiders (Phidippus audax, Aphonopelma seemanni), and nature.
+### loom (v0.1)
+a modern, concurrent programming language for developer tools and system automation.
 
-### 3. Other Projects
-- **Google Pixel Plymouth Theme**: Pixel-accurate Gemini boot animation for Linux.
-- **SYSDUPD**: Update manager for Linux (Python, GTK4, LibAdwaita).
-- **Automate**: Wayland autoclicker for Linux.
+key features:
+- shell-first: run shell commands inline with `$`
+- structured concurrency: native `spawn` and `await`
+- expressive comments: `//*` `//?` `//!` for auto-doc generation
+- trait-based design: `trait` + `weave` to decouple data from behavior
+- ghost imports: pull logic from markdown via `pull "logic.md"`
+- safety blocks: resource-aware execution with `safety(mem: 128MB)`
+- performance: up to 50x over interpreted with the `weave` compiler
+- install: `curl -s https://virex.lol/loom/install.sh | bash`
 
-## Hardware Specs
-- **Host**: MSI MEG Z690 GODLIKE
-- **CPU**: Intel(R) Core(TM) i5-14600k (20 cores) @ 5.30 GHz
-- **GPU**: AMD Radeon RX 6800 XT
-- **Memory**: 40GB DDR4 @ 3700 Mt/s
-- **OS**: Linux (Hyprland, Kernel 6.19.6-zen)
+### lens
+photography archive; cat, spiders (p. audax, a. seemanni), nature, misc
 
-## Links (NOT LIMITED TO)
-- Homepage: https://virex.lol
-- Loom Docs: https://virex.lol/loom
-- GitHub: https://github.com/hnpf
+### other
+- **google pixel plymouth theme**: pixel-accurate gemini boot animation for linux
+- **sysdupd**: linux update manager (python, gtk4, libadwaita)
+- **automate**: wayland autoclicker for linux
+
+## hardware
+
+- **MOBO**: ASRock Z690 Pro RS
+- **CPU**: i5-14600K (20 cores) @ 5.3GHz
+- **GPU**: AMD Radeon RX 6800 XT (16GB)
+- **RAM**: 40GB DDR4 @ 3700 MT/s
+- **OS**: Linux (Hyprland / Debian 13, kernel 6.19.6-zen)
+
+## links
+
+- site: https://virex.lol
+- loom docs: https://virex.lol/loom
+- github: https://github.com/hnpf

@@ -1,21 +1,25 @@
-# Virex Portfolio
+# virex.lol
 
-I am virex, an independent software researcher and I have 4+ years of experience (started ~2021). 
-I'm focusing on systems programming, UI/UX architecture, and vulnerability research.
+virex; independent software researcher, 4+ years (started ~2021).
+focused on systems programming, UI/UX, and vulnerability research.
 
-## Project Overview
-- **Loom Language**: A lightweight, expressive, and efficient programming language built for speed and simplicity.
-- **Lens**: A photography showcase of nature, technology, and more.
-- **Tracker**: A progress tracker for cybersecurity (CEH), design (Material 3), and systems automation (Rust).
+## projects
 
-## Tech Stack
-React 19, Vite, Tailwind CSS 4, Rust, Python, Node.js, TypeScript, better-sqlite3, Express.
+- **Loom**: a lightweight, expressive programming language built for speed and simplicity
+- **Lens**: photography — nature, cats, spiders, misc
+- **Tracker**: personal progress tracker for CEH prep, Material 3, and Rust/systems work
 
-## Contact
-- Email: deprecated@virex.lol
-- Discord: https://discord.gg/vixencommunity
-- GitHub: https://github.com/hnpf
+## stack
 
-## Documentation for LLMs
-- [Full Documentation](/llms-full.txt)
-- [Loom Documentation](/loom)
+React 19, Vite, Tailwind CSS 4, TypeScript, Rust, Python, Node.js, Express, better-sqlite3
+
+## contact
+
+- email: deprecated@virex.lol
+- vixen: https://discord.gg/vixencommunity
+- github: https://github.com/hnpf
+
+## links
+
+- full docs: /llms-full.txt
+- loom docs: /loom
