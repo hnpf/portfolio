@@ -2882,12 +2882,12 @@ export default function App() {
                           <div className="text-xs opacity-60 font-medium">{tweak.desc}</div>
                         </div>
                         <div className={cn(
-                          "w-12 h-7 rounded-full relative transition-all duration-200 flex items-center px-[5px]",
-                          settings[tweak.key as keyof typeof settings] ? "bg-[var(--primary)]" : "bg-black/20 dark:bg-white/20"
+                          "w-12 h-7 rounded-full relative transition-all duration-200 flex items-center px-1.5",
+                          settings[tweak.key as keyof typeof settings] ? "bg-[var(--primary)]" : "bg-black/40 dark:bg-white/60"
                         )}>
                           <motion.div
                             animate={{
-                              x: settings[tweak.key as keyof typeof settings] ? 14 : 0,
+                              x: settings[tweak.key as keyof typeof settings] ? 16 : 0,
                               scale: settings[tweak.key as keyof typeof settings] ? 1 : 0.8
                             }}
                             className="w-5 h-5 bg-white rounded-full shadow-md"
