@@ -14,7 +14,7 @@ const Uppercasecard = ({ children, className, delay = 0 }: any) => (
       y: 0
     }}
     transition={{ duration: 0.4, delay, ease: [0.33, 1, 0.68, 1] }}
-    className={cn("bg-[var(--surface-variant)]/20 border-2 border-[var(--outline-variant)]/50 rounded-[2.5rem] p-8 md:p-12", className)}
+    className={cn("bg-[var(--surface-variant)]/20 border-6 border-[var(--outline-variant)]/50 rounded-[2.5rem] p-8 md:p-12", className)}
   >
     {children}
   </motion.div>
@@ -138,7 +138,7 @@ export default function DashPage() {
                 <input
                   type="url"
                   placeholder={placeholder}
-                  className="w-full bg-[var(--surface)] border-2 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-3xl px-8 py-5 text-xl outline-none transition-all shadow-inner"
+                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-3xl px-8 py-5 text-xl outline-none transition-all shadow-inner"
                   value={url}
                   onChange={e => setUrl(e.target.value)}
                   required
@@ -152,7 +152,7 @@ export default function DashPage() {
                 <input
                   type="text"
                   placeholder="optional"
-                  className="w-full bg-[var(--surface)] border-2 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-3xl px-8 py-5 text-xl font-mono outline-none transition-all shadow-inner"
+                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-3xl px-8 py-5 text-xl font-mono outline-none transition-all shadow-inner"
                   value={path}
                   onChange={e => setpath(e.target.value)}
                 />
@@ -199,7 +199,7 @@ export default function DashPage() {
           </div>
         </Uppercasecard>
 
-        <Uppercasecard delay={0.1} className="p-0 overflow-hidden border-0 md:border-2">
+        <Uppercasecard delay={0.1} className="p-0 overflow-hidden border-0 md:border-6">
           {/* desktop table view */}
           <div className="hidden md:block">
             <table className="w-full text-left border-collapse">

@@ -51,12 +51,33 @@ export interface TrackerItem {
 }
 
 export const PROJECTS: Project[] = [
-  {
+  /*{
     id: 'loom-lang',
     title: 'loom lang',
     description: 'a lightweight, expressive, and efficient programming language. made for speed and simplicity.',
     link: '/loom',
     tags: ['Rust', 'Interpreter']
+  },*/
+  {
+    id: 'cons blog',
+    title: 'cons blog',
+    description: 'a simple react/tsx blog site. follows material design expressive guidelines without being overly bloated and confusing.',
+    link: 'https://github.com/hnpf/conspiracy.blog',
+    tags: ['react', 'typescript']
+  },  
+  {
+    id: 'mixtapes',
+    title: 'Mixtapes',
+    description: 'a modern Linux LibAdwaita-themed YT Music player.',
+    link: 'https://github.com/m-obeid/Mixtapes',
+    tags: ['python', 'yt-music']
+  },  
+  {
+    id: 'beetrap',
+    title: 'Beetrap',
+    description: 'a honeypot written in Go, it mimics common network services (SSH, FTP, HTTP) and logs connection attempts in a real-time TUI',
+    link: 'https://github.com/hnpf/beetrap',
+    tags: ['GoLang', 'honeypot']
   },
   {
     id: 'sniffcli',
@@ -97,8 +118,71 @@ export const PROJECTS: Project[] = [
 
 export const BLOG_POSTS: BlogPost[] = [  
   
-  
-  
+  {
+    id: 'bladeandbath-shitpost',
+    title: 'brutal fantasies is literally the best we\'ll get to our human peakness',
+    snippet: 'ok.. i\'m coming back from the dead again to talk about the only album that matters right now, and i know its late talking about it. sorry not sorry.',
+    content: `
+## why im back (again)
+
+it has been almost a week since i last posted but i literally dont care because i took like a month long break before that so i have energy again. the urge called and i answered with a blog post :)
+
+i was gonna talk about sukkubys or blade and bath coming back to life because that whole scene is actually moving lately but i had a realization...
+
+## the only thing that matters
+
+**brutal fantasies** is literally the best album on this planet. no contest. its peak. its the absolute ceiling of the genre. 
+
+everyone else can stop recording now because this is it. the atmosphere is perfect. the production? exactly what it needs to be. the absolute dread and instrumental?? oh my god! this is modern beethoven! i have been looping this and honestly nothing else is hitting the same right now. WHAT ARE THEY FEEDING THESE ARTISTS?!
+
+## this is kinda what i noticed on the album..
+
+*   vocals that actually hurt to listen to (in a REALLY good way)
+*   that specific raw energy that most dsbm bands try to fake but totally fail at
+*   literally no skips!
+
+| album | rating |
+| :--- | :--- |
+| Brutal Fantasies | 11/10 |
+| Soundtrack for a Suicide: Opus II | 11/10 |
+| Eternal Damnation | 11/10 |
+| ..Of Mourning | 10/10 |
+| and everything else | MID! |
+---
+## anyways, happy wallowing!
+    `,
+    date: 'Apr 30, 2026',
+    category: 'music',
+    readTime: '2 min read',
+    votes: { up: 0, down: 0 },
+    link: 'bladeandbathpeak'
+  },
+  {
+  id: 'ricing-supremacy',
+  title: 'ricing supremacy and why ricing makes you an actually better dev',
+  snippet: 'PLEASE stop staring at ugly default themes. your environment is a reflection of your work.',
+  content: `
+# aesthetic is actual efficiency (dont @ me!)
+
+if you're still on any default terminal theme, i'm praying for you. making things look good isn't just a "ricer on reddit" thing but more about building a comfortable space where you actually *want* to suffer through merge conflicts!
+
+## why color palettes?
+
+it's the total peak of human engineering. colors, decent contrast, and something that won't torch your retinas at midnight
+
+## final thoughts
+
+stop settling for defaults. start spending time actually configuring your colorscheme instead of shipping :). it's actually something called investment.
+
+> "also, if your terminal is ugly, your logic is probably ugly too :3" - virex ong
+
+  `,
+  date: 'Apr 26, 2026',
+  category: 'tech',
+  readTime: '2 min read',
+  votes: { up: 0, down: 0 },
+  link: 'gruvbox-supremacy'
+},
   
 {
     id: 'idek-anymore',
@@ -125,10 +209,7 @@ it’s not just about flashing mrchromebox! it's about making sure the audio act
     readTime: '4 min read',
     votes: { up: 0, down: 0 },
     link: 'ewaste-1-fr'
-  },  
-  
-  
-  
+  },
   
   {
     id: 'sysdupd',
@@ -272,9 +353,6 @@ apparently, they missed the deadline set by the transparency act and are now doi
     link: 'epstein-files-is-a-joke'
   },  
   
-  
-  
-  
   {
     id: 'why-love-open-source',
     title: 'heres why i love open source',
@@ -297,6 +375,71 @@ it's literally just people helping people for learning (and overall better code 
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [
+  {
+    id: 'md3-liquid-sidebar-fix',
+    version: '2026.04.30-B',
+    title: 'liquid physics, fixes, and stability update!',
+    date: 'Apr 30, 2026',
+    changes: [
+      {
+        category: 'sidebar fixes & changes',
+        items: [
+          'profile makeover: wrapped the sidebar header in a nice rounded material container with expressive padding',
+          'pfp edge fix: squashed the bleed-through bug on pfp edges by switching to ring offsets and nested clipping',
+          'liquid physics: implemented "ultra-low" mass spring physics for sidebar navigation, creating a "mercury-drop" flow effect',
+          'md3 update refinements: added variable stroke weights and tonal containers for navigation items, aligning with android 16/m3e design cues',
+          'bug fix: squashed a hyperspecific rendering bug that caused corners to sharpen during rapid hovering',
+          'performance: removed heavy filters and blurs to ensure locked 60fps during complex sidebar transitions'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'md3-tactile-vibe-shift',
+    version: '2026.04.26',
+    title: 'MD3 makeover and tactile shift',
+    date: 'Apr 26, 2026',
+    changes: [
+      {
+        category: 'material design 3 makeover',
+        items: [
+          'sidebar overhaul: better use of vertical space and refined page section with proper M3 navigation standards',
+          'sidebar cleanup: removed redundant hardware specs and quick theme toggles to focus on navigation',
+          'floating sidebar: undock the sidebar with rounded corners for a modern, airy feel',
+          'visual depth: added a subtle noise/grain overlay to containers for a more tactile, organic texture'
+        ]
+      },
+      {
+        category: 'animations and feedback',
+        items: [
+          '120Hz mode: added high-refresh animation toggle for snappier, low-latency spring physics',
+          'signature borders: standardized 6px "signature" borders across all cards, chips, and interactive elements',
+          'hover feedback: refined hover animations for cards and chips with scale-up and border-accent effects'
+        ]
+      },
+      {
+        category: 'performance and stability',
+        items: [
+          'lens recovery: fixed ReferenceError that caused the gallery to blank out (oops)',
+          'sidebar contrast: fixed "darkened" active pill by correcting background layering',
+          'lens architecture: moved border hover to ::after pseudo-elements for better paint performance',
+          'GPU optimization: swapped backdrop-blur-xl for backdrop-blur-md and added will-change: transform to gallery images',
+          'motion refinement: simplified gallery reveal animations to reduce simultaneous compositor work',
+          'grain engine: replaced live SVG filters with a high-performance tiled background noise engine',
+          'focus mode fix: optimized blur logic to skip heavy image grids, saving massive GPU cycles',
+          'layer management: removed excessive will-change hints to prevent browser layer explosion'
+        ]
+      },
+      {
+        category: 'debug and security',
+        items: [
+          'debug overhaul: added layout grid lines and technical build metrics (CPU/GPU/OS) inside the debug view',
+          'safety first: implemented a confirmation modal for debug mode to prevent accidental layout confusion',
+          'terminal refinement: added hover states and standardized 6px borders to the lore terminal'
+        ]
+      }
+    ]
+  },
   {
     id: 'virex-shorten-launch',
     version: '2026.03.16-C',
@@ -487,7 +630,7 @@ export const HARDWARE_SPECS = {
   core: [
     { label: 'Host', value: 'ASRock Z690 Pro RS' },
     { label: 'DE/WM', value: 'GNOME 49.4' },
-    { label: 'Kernel', value: 'Linux 6.18.19-0-lts' }
+    { label: 'Kernel', value: 'Linux 6.19.10-zen1-1-zen' }
   ],
   processing: [
     { label: 'CPU', value: 'Intel(R) Core(TM) i5-14600k (20 cores) @ 5.30 GHz' },

@@ -5,7 +5,6 @@ focused on systems programming, UI/UX, and vulnerability research.
 
 ## projects
 
-- **Loom**: a lightweight, expressive programming language built for speed and simplicity
 - **Lens**: photography — nature, cats, spiders, misc
 - **Tracker**: personal progress tracker for CEH prep, Material 3, and Rust/systems work
 
@@ -22,4 +21,3 @@ React 19, Vite, Tailwind CSS 4, TypeScript, Rust, Python, Node.js, Express, bett
 ## links
 
 - full docs: /llms-full.txt
-- loom docs: /loom

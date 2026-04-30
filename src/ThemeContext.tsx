@@ -12,8 +12,11 @@ interface ThemeSettings {
   brutalistMode: boolean;
   developerFont: boolean;
   focusMode: boolean;
+  floatingSidebar: boolean;
+  debugMode: boolean;
   helloAnimation: boolean;
   disableAnimations: boolean;
+  highHz: boolean;
 }
 
 interface ThemeContextType {
@@ -32,8 +35,11 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   brutalistMode: false,
   developerFont: false,
   focusMode: false,
+  floatingSidebar: false,
+  debugMode: false,
   helloAnimation: true,
   disableAnimations: false,
+  highHz: false,
 };
 
 // lookup is cleaner than a ternary chain here
@@ -49,18 +55,30 @@ const ACCENT_HUES: Record<AccentColor, number> = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const is_apr = () => {
+    const now = new Date();
+    return now.getMonth() === 3 && now.getDate() === 1;
+  };
+
   const [settings, setSettings] = useState<ThemeSettings>(() => {
     const saved = localStorage.getItem('virex-settings');
-    return saved ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) } : DEFAULT_SETTINGS;
+    const base = saved ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) } : DEFAULT_SETTINGS;
+    if (is_apr()) {
+      return { ...base, mode: 'light', accent: 'custom', hue: 108 };
+    }
+    return base;
   });
   const [actualTheme, setActualTheme] = useState<'light' | 'dark'>('dark');
 
   useEffect(() => {
     const root = document.documentElement;
     const apply = () => {
-      const resolved = settings.mode === 'system'
+      let resolved = settings.mode === 'system'
         ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
         : settings.mode;
+      
+      if (is_apr()) resolved = 'light';
+
       setActualTheme(resolved);
       root.classList.toggle('dark', resolved === 'dark');
     };
@@ -72,8 +90,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [settings.mode]);
 
+  useEffect(() => {
+    if (!is_apr()) return;
+    // cursed fish cursor
+    const style = document.createElement('style');
+    style.innerHTML = `
+      * { cursor: url('/fsh-spin.gif'), auto !important; }
+      img { animation: fsh-blink 0.4s infinite !important; }
+      @keyframes fsh-blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+    `;
+    document.head.appendChild(style);
+    return () => { style.remove(); };
+  }, []);
+
   // quick toggle, ignores system pref intentionally
   const cycleTheme = () => {
+    if (is_apr()) return; // no escape lol
     setSettings(prev => ({ ...prev, mode: actualTheme === 'light' ? 'dark' : 'light' }));
   };
 
@@ -85,6 +117,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     root.classList.toggle('brutalist-mode', settings.brutalistMode);
     root.classList.toggle('developer-font', settings.developerFont);
     root.classList.toggle('focus-mode', settings.focusMode);
+    root.classList.toggle('debug-mode', settings.debugMode);
 
     localStorage.setItem('virex-settings', JSON.stringify(settings));
 

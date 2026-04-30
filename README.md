@@ -1,45 +1,58 @@
 # virex.lol
 
-my portfolio. it uses material 3 rules, react 19, and it's dense and immersive! [live site](https://virex.lol)
+my personal hub and experiment website. it's basically a custom modern-android-like interface for my research, photography, and rants. built with material 3 rules and react 19. [virex.lol](https://virex.lol)
 
 ![preview](github/demo/virex.png)
 
 ## stack
 
-[React 19](https://react.dev/) + [Vite 6](https://vitejs.dev/) — [Tailwind 4](https://tailwindcss.com/) — [Motion](https://motion.dev/) — [Lucide](https://lucide.dev/) — deployed on [Vercel](https://vercel.com)
+- **front:** [React 19](https://react.dev/) + [Vite 6](https://vitejs.dev/) — [Tailwind 4](https://tailwindcss.com/) — [Motion](https://motion.dev/) (liquid physics) — [Lucide](https://lucide.dev/)
+- **back:** [Express](https://expressjs.com/) on [Vercel](https://vercel.com) + [SQLite](https://sqlite.org) (`better-sqlite3`)
+- **assets:** WebP optimized via `sharp`, custom noise engine for texture
 
-## quick start
+## features
+
+**lens** - bento-grid photo gallery. supports swipe/drag, keyboard nav, and high-refresh animations. optimized assets from ~200MB to ~40MB. you should do the same.
+
+**blog** - rants, linux ricing, and e-waste torture. supports read-tracking and rss at `/rss.xml`, which i don't bother updating since no one uses rss.
+
+**virex shorten** - high-perf url shortener at `/r/:slug`. managed via dash, backed by sqlite. includes route shadowing protection to keep things safe too.
+
+**lore** - interactive bio with real-time build metrics and pgp integration.
+
+**tracker** - current research lab (cybersec, dev, design). tracking random stuff to even toolings.
+
+**settings** - deep personalization:
+- accent hue slider + light/dark/system sync
+- highHz mode
+- brutalist mode (0px radiuses which loooks beautiful and might give u some nostalgia from old virex)
+- zen mode (full immersion + focus blurs, really sexy)
+- jetbrains mono font override
+- and much, much more!
+
+## getting started
 
 ```bash
 npm install
-npm run dev    # dev server
-npm run build  # prod build
+npm run dev         # starts vite + local api
+npm run build       # prod build
 ```
+or, use pnpm!
 
-## what's in here:
-
-**lens** - photography gallery with a bento grid layout, lightbox, swipe/drag navigation
-
-**loom docs** - embedded docs viewer for my [Loom language](https://github.com/hnpf/LOOM_PROGRAMMING_LANGUAGE). prefetches all markdown on load for full body-content search
-
-**blog** - markdown blog with read-tracking, rss at `/rss.xml`, and a zen/focus mode
-
-**url shortener** - `/r/:path` redirect system backed by sqlite, managed from the dash
-
-**settings** - theme (light/dark/system), accent color w/ custom hue, brutalist mode, jetbrains mono font, sidebar flip/collapse, focus mode
-
-misc: dynamic favicon that matches your accent color, PWA manifest, OpenGraph + JSON-LD, `llms.txt`
-
-## structure
+## layout
 
 ```
-src/          components + logic
+api/          express handlers + sqlite logic
 public/
-  loom/       language docs + binaries
-  photography/ webp photography archive
-  llms.txt    clanker-readable site context
+  photography/ webp archive
+  loom/        docs + binaries
+src/
+  App.tsx      main router + page logic
+  Dash.tsx     shortener mgmt
+  constants.ts data source
 ```
+
+[see my profile](https://github.com/hnpf)
 
 ---
-
-[hnpf](https://github.com/hnpf)
+## licensed under GNU General Public License v3.0

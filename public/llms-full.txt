@@ -7,19 +7,6 @@ areas: hardware/systems programming, UI/UX architecture (Material Design 3, LibA
 
 ## projects
 
-### loom (v0.1)
-a modern, concurrent programming language for developer tools and system automation.
-
-key features:
-- shell-first: run shell commands inline with `$`
-- structured concurrency: native `spawn` and `await`
-- expressive comments: `//*` `//?` `//!` for auto-doc generation
-- trait-based design: `trait` + `weave` to decouple data from behavior
-- ghost imports: pull logic from markdown via `pull "logic.md"`
-- safety blocks: resource-aware execution with `safety(mem: 128MB)`
-- performance: up to 50x over interpreted with the `weave` compiler
-- install: `curl -s https://virex.lol/loom/install.sh | bash`
-
 ### lens
 photography archive; cat, spiders (p. audax, a. seemanni), nature, misc
 
@@ -39,5 +26,4 @@ photography archive; cat, spiders (p. audax, a. seemanni), nature, misc
 ## links
 
 - site: https://virex.lol
-- loom docs: https://virex.lol/loom
 - github: https://github.com/hnpf

@@ -53,7 +53,6 @@
 
   /* optimization */
   .m3-card, .m3-chip, .m3-button-filled, .m3-button-tonal, .sidebar-item, .bottom-nav-item {
-    will-change: transform, opacity;
     backface-visibility: hidden;
   }
 
@@ -77,14 +76,14 @@
 
   /* level hover focus for cards */
   .focus-mode .m3-card,
-  .focus-mode section > div:not(.flex) {
+  .focus-mode .readme-card {
     transition: backdrop-filter 0.4s ease, filter 0.4s ease, transform 0.4s ease;
     filter: blur(4px) grayscale(20%);
     transform: scale(0.98);
   }
 
   .focus-mode .m3-card:hover,
-  .focus-mode section > div:not(.flex):hover {
+  .focus-mode .readme-card:hover {
     filter: blur(0) grayscale(0);
     transform: scale(1);
     z-index: 20;
@@ -139,7 +138,7 @@
 
 @layer components {
   .m3-card {
-    @apply bg-[var(--surface-variant)] rounded-[2.4rem] p-10 transition-[border-color,background-color,box-shadow] duration-150 border-2 border-transparent hover:border-[var(--outline)] hover:shadow-2xl;
+    @apply bg-[var(--surface-variant)] rounded-[2.4rem] p-10 transition-[border-color,background-color,box-shadow,transform] duration-150 border-6 border-[var(--outline-variant)] hover:border-[var(--primary)] hover:shadow-2xl;
   }
   
   .m3-button-filled {
@@ -151,7 +150,7 @@
   }
 
   .m3-chip {
-    @apply px-4 py-2 bg-[var(--surface-variant)] text-[var(--on-surface-variant)] rounded-2xl font-black text-sm uppercase tracking-tighter border-4 border-[var(--outline-variant)] transition-[border-color,background-color,color] duration-150 hover:border-[var(--primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)];
+    @apply px-4 py-2 bg-[var(--surface-variant)] text-[var(--on-surface-variant)] rounded-2xl font-black text-sm uppercase tracking-tighter border-6 border-[var(--outline-variant)] transition-[border-color,background-color,color,transform] duration-150 hover:border-[var(--primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] hover:scale-105 active:scale-95;
   }
 
   .markdown-body {
@@ -186,4 +185,72 @@
   .page-title {
     @apply text-7xl md:text-9xl font-display font-black tracking-tighter leading-none;
   }
-}
+
+  /* april fools lol */
+  .fsh-mode p, .fsh-mode div:not(.sidebar-item):not(.sidebar-pill):not(.active-pill), .fsh-mode img, .fsh-mode span {
+    color: #0000ee !important;
+    text-decoration: underline !important;
+    cursor: pointer !important;
+  }
+  
+  .fsh-flip {
+    transform: rotate(180deg) !important;
+  }
+
+  /* sketchy ads */
+  .fsh-ad {
+    background: #ffff00 !important;
+    border: 5px dashed #ff0000 !important;
+    color: #ff0000 !important;
+    font-family: "Comic Sans MS", "Comic Sans", cursive !important;
+    animation: flash 0.5s infinite;
+  }
+
+  @keyframes flash {
+    0% { border-color: #ff0000; }
+    50% { border-color: #00ff00; }
+    100% { border-color: #ff0000; }
+  }
+
+  .fsh-tiled-bg {
+    background-image: url('/fsh-spin.gif') !important;
+    background-repeat: repeat !important;
+    background-size: 150px !important;
+    opacity: 0.15;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .lens-item {
+    @apply relative border-6 border-[var(--outline-variant)] transition-colors;
+  }
+  .lens-item::after {
+    content: "";
+    @apply absolute inset-0 border-6 border-transparent transition-colors pointer-events-none rounded-[inherit] z-10;
+  }
+  .lens-item:hover::after {
+    @apply border-[var(--primary)];
+  }
+
+  /* grain effect - simplified for performance */
+  /* removed for performance, was causing massive lag on scroll due to blend mode */
+
+  /* debug mode */
+  .debug-mode * {
+    outline: 1px solid rgba(255, 0, 0, 0.1) !important;
+  }
+
+  .debug-grid-active::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 9999;
+  }
+  }
