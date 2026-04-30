@@ -224,11 +224,11 @@
   }
 
   .lens-item {
-    @apply relative border-6 border-[var(--outline-variant)] transition-colors;
+    @apply relative transition-colors;
   }
   .lens-item::after {
     content: "";
-    @apply absolute inset-0 border-6 border-transparent transition-colors pointer-events-none rounded-[inherit] z-10;
+    @apply absolute inset-0 border-6 border-[var(--outline-variant)] transition-colors pointer-events-none rounded-[inherit] z-10;
   }
   .lens-item:hover::after {
     @apply border-[var(--primary)];
