@@ -48,6 +48,8 @@ import { cn, PROJECTS, BLOG_POSTS, CHANGELOGS, TRACKER_ITEMS, HARDWARE_SPECS, TE
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import CopyLinkCapsule from './CopyLinkCapsule';
+import Slider from './M3Slider';
+import Switch from './M3Switch';
 
 // --- building blocks ---
 
@@ -304,16 +306,15 @@ const SideItem = memo(({ glyph: Icon, text, isSelected, onSelect, isMini, isFirs
     >
       {/* Background layer - simplified to avoid variable conflicts */}
       <motion.div
-        className={cn("absolute inset-0 -z-20", rd)}
-        animate={{
+        className={cn("absolute inset-0 -z-20 transition-[background-color,opacity] duration-200", rd)}
+        style={{
           backgroundColor: isSelected 
             ? "transparent" 
-            : isHovered 
-            ? "var(--surface-variant)" 
-            : "var(--surface-variant)",
+            : "var(--surface-variant)"
+        }}
+        animate={{
           opacity: isSelected ? 0 : isHovered ? 0.8 : 0.4
         }}
-        transition={{ duration: 0.2 }}
       />
 
       {/* Shared Active Pill - moved out of AnimatePresence for a smoother shared transition */}
@@ -340,10 +341,12 @@ const SideItem = memo(({ glyph: Icon, text, isSelected, onSelect, isMini, isFirs
         animate={{
           scale: isSelected ? 1.1 : isHovered ? 1.05 : 1,
           rotate: isSelected ? -5 : isHovered ? -2 : 0,
-          color: isSelected ? "var(--on-primary-container)" : isHovered ? "var(--primary)" : "var(--on-surface-variant)"
         }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        className="relative z-10 shrink-0"
+        style={{ 
+          color: isSelected ? "var(--on-primary-container)" : isHovered ? "var(--primary)" : "var(--on-surface-variant)"
+        }}
+        className="relative z-10 shrink-0 transition-colors duration-200"
       >
         <Icon 
           size={24} 
@@ -357,10 +360,12 @@ const SideItem = memo(({ glyph: Icon, text, isSelected, onSelect, isMini, isFirs
           animate={{ 
             x: isSelected ? 2 : 0,
             opacity: 1,
+          }}
+          style={{
             color: isSelected ? "var(--on-primary-container)" : "inherit"
           }}
           transition={{ type: "spring", stiffness: 400, damping: 25 }}
-          className="font-bold tracking-tight relative z-10"
+          className="font-bold tracking-tight relative z-10 transition-colors duration-200"
         >
           {text}
         </motion.span>
@@ -407,10 +412,12 @@ const SideAction = ({ children, onClick, isMini, tooltip, className }: any) => {
       <motion.div
         animate={{ 
           scale: isHovered ? 1.1 : 1,
+        }}
+        style={{
           color: isHovered ? "var(--on-primary-container)" : "inherit"
         }}
         transition={{ duration: 0.2 }}
-        className="relative z-10"
+        className="relative z-10 transition-colors duration-200"
       >
         {children}
       </motion.div>
@@ -2232,7 +2239,7 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v1.5.1-stable (3a2f1c1)</span>
+              <span>v1.5.5-stable (m3-revamp)</span>
             </div>
           </div>
         </div>
@@ -2314,11 +2321,13 @@ export default function App() {
               paddingRight: settings.sidebarFlipped 
                 ? (settings.floatingSidebar ? "1.5rem" : "0px") 
                 : (settings.floatingSidebar ? "1.5rem" : "12px"),
-              backgroundColor: settings.floatingSidebar ? "transparent" : "var(--outline-variant)",
               borderTopLeftRadius: (settings.floatingSidebar || settings.sidebarFlipped) ? "3rem" : "0rem",
               borderBottomLeftRadius: (settings.floatingSidebar || settings.sidebarFlipped) ? "3rem" : "0rem",
               borderTopRightRadius: (settings.floatingSidebar || !settings.sidebarFlipped) ? "3rem" : "0rem",
               borderBottomRightRadius: (settings.floatingSidebar || !settings.sidebarFlipped) ? "3rem" : "0rem",
+            }}
+            style={{
+              backgroundColor: settings.floatingSidebar ? "transparent" : "var(--outline-variant)"
             }}
             exit={{
               x: settings.sidebarFlipped ? 400 : -400,
@@ -2333,7 +2342,7 @@ export default function App() {
             }}
             layout
             className={cn(
-              "hidden lg:flex flex-col sticky top-0 h-screen z-40 motion-gpu"
+              "hidden lg:flex flex-col sticky top-0 h-screen z-40 motion-gpu transition-colors duration-300"
             )}
           >
             <motion.div 
@@ -2343,13 +2352,15 @@ export default function App() {
                 borderRadius: settings.floatingSidebar 
                   ? "2.5rem 2.5rem 2.5rem 2.5rem" 
                   : (settings.sidebarFlipped ? "2.375rem 0 0 2.375rem" : "0 2.375rem 2.375rem 0"),
-                backgroundColor: (scrolled && !settings.floatingSidebar) ? "var(--surface)" : "var(--surface)",
                 backdropFilter: (scrolled || settings.floatingSidebar) ? "blur(24px)" : "blur(0px)",
                 borderWidth: settings.floatingSidebar ? "6px" : "0px",
                 borderBottomWidth: (scrolled && !settings.floatingSidebar) ? "1px" : (settings.floatingSidebar ? "6px" : "0px"),
                 boxShadow: settings.floatingSidebar 
                   ? "0 25px 50px -12px rgba(0, 0, 0, 0.25)" 
                   : "0 0px 0px 0px rgba(0, 0, 0, 0)",
+              }}
+              style={{
+                backgroundColor: "var(--surface)"
               }}
               transition={{ 
                 type: "spring", 
@@ -2359,7 +2370,7 @@ export default function App() {
                 restDelta: 0.001
               }}
               className={cn(
-                "flex flex-col h-full w-full motion-gpu border-[var(--outline-variant)]",
+                "flex flex-col h-full w-full motion-gpu border-[var(--outline-variant)] transition-colors duration-300",
                 (scrolled && !settings.floatingSidebar) && "border-b-[var(--outline-variant)]/30"
               )}
             >
@@ -2817,26 +2828,31 @@ export default function App() {
                       >
                         <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] opacity-50 px-1">
                           <span>Hue Shift</span>
-                          <span className="text-[var(--primary)] font-bold">{settings.hue}°</span>
                         </div>
-                        <div className="relative h-8 flex items-center">
-                          <input 
-                            type="range" min="0" max="360" 
-                            value={settings.hue} 
-                            onChange={(e) => updateSettings({ hue: parseInt(e.target.value) })}
-                            className="w-full h-3 rounded-full appearance-none cursor-pointer bg-transparent relative z-10 
-                                      [&::-webkit-slider-runnable-track]:h-3 [&::-webkit-slider-runnable-track]:rounded-full
-                                      [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 
-                                      [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white
-                                      [&::-webkit-slider-thumb]:border-[4px] [&::-webkit-slider-thumb]:border-[var(--primary)]
-                                      [&::-webkit-slider-thumb]:-mt-[6px] [&::-webkit-slider-thumb]:shadow-xl
-                                      [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-150
-                                      active:[&::-webkit-slider-thumb]:scale-110"
-                            style={{
-                              background: 'linear-gradient(to right, oklch(0.6 0.15 0), oklch(0.6 0.15 60), oklch(0.6 0.15 120), oklch(0.6 0.15 180), oklch(0.6 0.15 240), oklch(0.6 0.15 300), oklch(0.6 0.15 360))'
-                            }}
-                          />
+                        <Slider 
+                          value={settings.hue} 
+                          onChange={(v) => updateSettings({ hue: v })}
+                          min={0}
+                          max={360}
+                          step={1}
+                          size="s"
+                          leadingIcon={<Pipette size={16} />}
+                          format={(v) => `${v.toFixed(0)}°`}
+                        />
+
+                        <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] opacity-50 px-1 pt-2">
+                          <span>Saturation</span>
                         </div>
+                        <Slider 
+                          value={settings.saturation} 
+                          onChange={(v) => updateSettings({ saturation: v })}
+                          min={0}
+                          max={100}
+                          step={1}
+                          size="s"
+                          leadingIcon={<Layers size={16} />}
+                          format={(v) => `${v.toFixed(0)}%`}
+                        />
                       </motion.div>
                     )}
                   </div>
@@ -2858,17 +2874,10 @@ export default function App() {
                       { key: 'debugMode', label: 'Debug Mode', desc: 'show layout grid and build info' },
                       { key: 'highHz', label: '120Hz Animations', desc: 'high-refresh snappiness' },
                     ].map((tweak, index, array) => (
-                      <button
+                      <label
                         key={tweak.key}
-                        onClick={() => {
-                          if (tweak.key === 'debugMode' && !settings.debugMode) {
-                            setShowDebugConfirm(true);
-                          } else {
-                            updateSettings({ [tweak.key]: !settings[tweak.key as keyof typeof settings] });
-                          }
-                        }}
                         className={cn(
-                          "flex items-center border-6 border-[var(--outline-variant)]  justify-between p-5 transition-all text-left",
+                          "flex items-center border-6 border-[var(--outline-variant)] justify-between p-5 transition-all text-left cursor-pointer",
                           index === 0 ? "rounded-t-[2rem] rounded-b-[0.9rem]" : 
                           index === array.length - 1 ? "rounded-b-[2rem] rounded-t-[0.9rem]" : 
                           "rounded-[0.9rem]",
@@ -2881,19 +2890,17 @@ export default function App() {
                           <div className="font-bold">{tweak.label}</div>
                           <div className="text-xs opacity-60 font-medium">{tweak.desc}</div>
                         </div>
-                        <div className={cn(
-                          "w-12 h-7 rounded-full relative transition-all duration-200 flex items-center px-1.5",
-                          settings[tweak.key as keyof typeof settings] ? "bg-[var(--primary)]" : "bg-black/40 dark:bg-white/60"
-                        )}>
-                          <motion.div
-                            animate={{
-                              x: settings[tweak.key as keyof typeof settings] ? 16 : 0,
-                              scale: settings[tweak.key as keyof typeof settings] ? 1 : 0.8
-                            }}
-                            className="w-5 h-5 bg-white rounded-full shadow-md"
-                          />
-                        </div>
-                      </button>
+                        <Switch 
+                          checked={settings[tweak.key as keyof typeof settings] as boolean}
+                          onChange={(checked) => {
+                            if (tweak.key === 'debugMode' && checked) {
+                              setShowDebugConfirm(true);
+                            } else {
+                              updateSettings({ [tweak.key]: checked });
+                            }
+                          }}
+                        />
+                      </label>
                     ))}
                   </div>
                 </section>
@@ -2913,7 +2920,7 @@ export default function App() {
                   >
                     <div>
                       <div className="font-bold">View changelog</div>
-                      <div className="text-xs opacity-60 font-medium">See what's new in v2026.04.30</div>
+                      <div className="text-xs opacity-60 font-medium">See what's new in v2026.05.01</div>
                     </div>
                     <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
                   </button>
