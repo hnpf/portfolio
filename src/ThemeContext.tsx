@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useLayoutEffect } from 'react';
 
 type ThemeMode = 'light' | 'dark' | 'system';
 type AccentColor = 'orange' | 'green' | 'red' | 'purple' | 'blue' | 'custom';
@@ -7,6 +7,7 @@ interface ThemeSettings {
   mode: ThemeMode;
   accent: AccentColor;
   hue: number;
+  saturation: number;
   sidebarFlipped: boolean;
   sidebarCollapsed: boolean;
   brutalistMode: boolean;
@@ -30,6 +31,7 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   mode: 'system',
   accent: 'purple',
   hue: 220,
+  saturation: 100,
   sidebarFlipped: false,
   sidebarCollapsed: false,
   brutalistMode: false,
@@ -70,7 +72,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   });
   const [actualTheme, setActualTheme] = useState<'light' | 'dark'>('dark');
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = document.documentElement;
     const apply = () => {
       let resolved = settings.mode === 'system'
@@ -105,14 +107,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // quick toggle, ignores system pref intentionally
   const cycleTheme = () => {
-    if (is_apr()) return; // no escape lol
+    if (is_apr()) return;
     setSettings(prev => ({ ...prev, mode: actualTheme === 'light' ? 'dark' : 'light' }));
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = document.documentElement;
     const h = settings.accent === 'custom' ? settings.hue : ACCENT_HUES[settings.accent];
+    const s = settings.accent === 'custom' ? settings.saturation : 100;
+    
     root.style.setProperty('--primary-hue', h.toString());
+    root.style.setProperty('--primary-chroma', (s / 100 * 0.3).toFixed(3));
 
     root.classList.toggle('brutalist-mode', settings.brutalistMode);
     root.classList.toggle('developer-font', settings.developerFont);
