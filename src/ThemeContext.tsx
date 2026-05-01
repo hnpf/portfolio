@@ -10,6 +10,7 @@ interface ThemeSettings {
   saturation: number;
   sidebarFlipped: boolean;
   sidebarCollapsed: boolean;
+  profileContainer: boolean;
   brutalistMode: boolean;
   developerFont: boolean;
   focusMode: boolean;
@@ -34,6 +35,7 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   saturation: 100,
   sidebarFlipped: false,
   sidebarCollapsed: false,
+  profileContainer: true,
   brutalistMode: false,
   developerFont: false,
   focusMode: false,
