@@ -64,6 +64,8 @@ src/
 ## todo ..maybe.
 - [ ] amoled capability
 - [ ] allow profile container to be toggled off since it's ugly sometimes.
+- [ ] maybe some sick ass bounce/squish animation for slider when you try to drag past the borders
+- [ ] or a small stretch-squish physics-based animation when switch toggles 
 - [ ] fix hover secondary flicker bug
 - [ ] actually update the rss feed
 - [ ] tracker: persist state to sqlite instead of constants.ts
