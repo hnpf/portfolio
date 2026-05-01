@@ -120,7 +120,7 @@ export const BLOG_POSTS: BlogPost[] = [
   
   {
     id: 'bladeandbath-shitpost',
-    title: 'brutal fantasies is literally the best we\'ll get to our human peakness',
+    title: 'brutal fantasies is literally the peak of human existence',
     snippet: 'ok.. i\'m coming back from the dead again to talk about the only album that matters right now, and i know its late talking about it. sorry not sorry.',
     content: `
 ## why im back (again)
@@ -375,6 +375,38 @@ it's literally just people helping people for learning (and overall better code 
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [
+  {
+    id: 'm3-consistency-revamp',
+    version: '2026.05.01',
+    title: 'm3 consistency revamp',
+    date: 'May 01, 2026',
+    changes: [
+      {
+        category: 'material 3 expressive component overhaul',
+        items: [
+          'slider redesign: using vanilla material 3 expressive slider (!almost! direct port from android 16) to the settings for new saturation and overhauled hue shift.',
+          'switch redesign: same as slider, now uses android 16 expressive 2-icon style switch',
+          'saturation: a new customization option has arrived! saturation! you can now express your vibrancy depending on the mood or the setup, just how i like it :) - amoled potentially coming soon <3'
+        ]
+      },
+      {
+        category: 'component overhaul pre-deployment fixes',
+        items: [
+          'switch overhaul: rewritten with pixel-perfect dimensions (52x32) and symmetric 6px handle gaps for better visuals',
+          'switch stability: fixed inconsistent Y-axis positioning by standardizing centering with top: 50% and margin-top: -8px',
+          'slider refinement: moved icon color transitions to CSS to prevent oklch interpolation artifacts during saturation shifts'
+        ]
+      },
+      {
+        category: 'global & theme fixes',
+        items: [
+          'saturation fix: transitioned all variable-based color animations from MotionValue to CSS transitions to stop "random" color cycling',
+          'flicker bug prevention: implemented a blocking theme-initialization script in index.html and switched to useLayoutEffect in ThemeProvider to eliminate a purple flash on reload',
+          'sidebar fixes: moved sidebar background animations to style/CSS to ensure stability during rapid navigation or theme changes'
+        ]
+      }
+    ]
+  },
   {
     id: 'md3-liquid-sidebar-fix',
     version: '2026.04.30-B',
