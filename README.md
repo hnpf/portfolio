@@ -16,7 +16,7 @@ personal hub and experiment site. material 3 ui, custom android-like shell, buil
 
 **lens** — bento-grid photo gallery. swipe/drag, keyboard nav, high-refresh animations. assets compressed ~200mb → ~40mb.
 
-**blog** — linux, e-waste, dev rants. read-tracking + rss at `/rss.xml` (technically works, practically ignored).
+**blog** — linux, e-waste, dev rants. read-tracking + rss at `/rss.xml` (it's officially re-supported and i actually update it now so yeah.)
 
 **virex shorten** — url shortener at `/r/:slug`. sqlite-backed, dash-managed, route shadow protection included.
 
