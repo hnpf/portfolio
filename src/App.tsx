@@ -2377,18 +2377,16 @@ export default function App() {
               <motion.div 
                 layout
                 className={cn(
-                  "flex items-center gap-4 py-6 mb-10 transition-all duration-300 isolate",
+                  "flex items-center gap-4 transition-all duration-300 isolate",
                   settings.sidebarCollapsed 
-                    ? "justify-center px-0" 
-                    : "bg-[var(--surface-variant)]/20 ring-6 ring-[var(--outline-variant)]/30 rounded-t-[28px] rounded-b-[15px] px-4 mx-2 overflow-hidden"
+                    ? "justify-center px-0 mb-10 py-6" 
+                    : settings.profileContainer
+                      ? "bg-[var(--surface-variant)]/20 ring-6 ring-[var(--outline-variant)]/30 rounded-t-[28px] rounded-b-[15px] px-4 mx-2 overflow-hidden mb-10 py-6"
+                      : "px-4 mx-2 mb-8 py-2"
                 )}
               >
                 <motion.div 
-                  whileHover={{ 
-                    scale: 1.05, 
-                    rotate: 5,
-                    transition: { type: "spring", stiffness: 400, damping: 15 }
-                  }}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   animate={do_wiggle ? { 
                     rotate: [0, -10, 10, -10, 10, 0],
@@ -2399,9 +2397,14 @@ export default function App() {
                     repeat: 1, 
                     repeatDelay: 0.1,
                     ease: "easeInOut"
-                  } : { duration: 0.3 }}
+                  } : { duration: 0.2 }}
                   onClick={() => goto('readme')}
-                  className="w-20 h-20 rounded-[30px] ring-6 ring-[var(--outline-variant)] bg-[var(--primary)] text-[var(--on-primary)] flex items-center justify-center font-black text-3xl shadow-xl shrink-0 relative group/pfp cursor-pointer isolate"
+                  className={cn(
+                    "w-20 h-20 flex items-center justify-center font-black text-3xl shrink-0 relative group/pfp cursor-pointer isolate transition-all duration-300",
+                    settings.profileContainer 
+                      ? "rounded-[30px] ring-6 ring-[var(--outline-variant)] bg-[var(--primary)] text-[var(--on-primary)] shadow-xl" 
+                      : "rounded-[30px] bg-transparent border-6 border-[var(--outline-variant)]/30 shadow-none hover:border-[var(--primary)]/50"
+                  )}
                 >
                   <div className="absolute inset-0 rounded-[inherit] overflow-hidden">
                     <img 
@@ -2858,52 +2861,74 @@ export default function App() {
                   </div>
                 </section>
                 {/* little toggles to change stuff */}
-                <section className="space-y-6">
-                  <div className="flex items-center gap-3">
-                    <Layers size={20} className="text-[var(--primary)]" />
-                    <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)]">Extras</h3>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    {[
+                {[
+                  {
+                    title: 'Customization',
+                    icon: <Palette size={20} className="text-[var(--primary)]" />,
+                    items: [
                       { key: 'helloAnimation', label: 'Hello Animation', desc: 'fluent language-cycling virex header' },
                       { key: 'brutalistMode', label: 'Brutalist Mode', desc: 'sharp edges only' },
                       { key: 'developerFont', label: 'Developer Font', desc: 'use JetBrains Mono!' },
                       { key: 'focusMode', label: 'Focus Mode', desc: 'a minimal zen layout' },
+                      { key: 'highHz', label: '120Hz Animations', desc: 'high-refresh snappiness' },
+                    ]
+                  },
+                  {
+                    title: 'Sidebar',
+                    icon: <Layers size={20} className="text-[var(--primary)]" />,
+                    items: [
                       { key: 'sidebarFlipped', label: 'Flip Sidebar', desc: 'changes desktop sidebar orientation to the right' },
                       { key: 'floatingSidebar', label: 'Floating Sidebar', desc: 'undock the sidebar with rounded corners' },
+                      { key: 'profileContainer', label: 'Profile Container', desc: 'show the ring and background around your profile' },
+                    ]
+                  },
+                  {
+                    title: 'Debug',
+                    icon: <Cpu size={20} className="text-[var(--primary)]" />,
+                    items: [
                       { key: 'debugMode', label: 'Debug Mode', desc: 'show layout grid and build info' },
-                      { key: 'highHz', label: '120Hz Animations', desc: 'high-refresh snappiness' },
-                    ].map((tweak, index, array) => (
-                      <label
-                        key={tweak.key}
-                        className={cn(
-                          "flex items-center border-6 border-[var(--outline-variant)] justify-between p-5 transition-all text-left cursor-pointer",
-                          index === 0 ? "rounded-t-[2rem] rounded-b-[0.9rem]" : 
-                          index === array.length - 1 ? "rounded-b-[2rem] rounded-t-[0.9rem]" : 
-                          "rounded-[0.9rem]",
-                          settings[tweak.key as keyof typeof settings] 
-                            ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]" 
-                            : "bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/30"
-                        )}
-                      >
-                        <div>
-                          <div className="font-bold">{tweak.label}</div>
-                          <div className="text-xs opacity-60 font-medium">{tweak.desc}</div>
-                        </div>
-                        <Switch 
-                          checked={settings[tweak.key as keyof typeof settings] as boolean}
-                          onChange={(checked) => {
-                            if (tweak.key === 'debugMode' && checked) {
-                              setShowDebugConfirm(true);
-                            } else {
-                              updateSettings({ [tweak.key]: checked });
-                            }
-                          }}
-                        />
-                      </label>
-                    ))}
-                  </div>
-                </section>
+                    ]
+                  }
+                ].map((section) => (
+                  <section key={section.title} className="space-y-6">
+                    <div className="flex items-center gap-3">
+                      {section.icon}
+                      <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)]">{section.title}</h3>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      {section.items.map((tweak, index, array) => (
+                        <label
+                          key={tweak.key}
+                          className={cn(
+                            "flex items-center border-6 border-[var(--outline-variant)] justify-between p-5 transition-all text-left cursor-pointer",
+                            array.length === 1 ? "rounded-[2rem]" :
+                            index === 0 ? "rounded-t-[2rem] rounded-b-[0.9rem]" : 
+                            index === array.length - 1 ? "rounded-b-[2rem] rounded-t-[0.9rem]" : 
+                            "rounded-[0.9rem]",
+                            settings[tweak.key as keyof typeof settings] 
+                              ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]" 
+                              : "bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/30"
+                          )}
+                        >
+                          <div>
+                            <div className="font-bold">{tweak.label}</div>
+                            <div className="text-xs opacity-60 font-medium">{tweak.desc}</div>
+                          </div>
+                          <Switch 
+                            checked={settings[tweak.key as keyof typeof settings] as boolean}
+                            onChange={(checked) => {
+                              if (tweak.key === 'debugMode' && checked) {
+                                setShowDebugConfirm(true);
+                              } else {
+                                updateSettings({ [tweak.key]: checked });
+                              }
+                            }}
+                          />
+                        </label>
+                      ))}
+                    </div>
+                  </section>
+                ))}
 
                 {/* boring ver info stuff */}
                 <section className="space-y-6">
