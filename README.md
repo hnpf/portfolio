@@ -63,15 +63,14 @@ src/
 
 ## todo ..maybe.
 - [ ] amoled capability
-- [ ] maybe some sick ass bounce/squish animation for slider when you try to drag past the borders
+- [ ] maybe some sick bounce/squish animation for slider when you try to drag past the borders
 - [ ] or a small stretch-squish physics-based animation when switch toggles 
-- [ ] fix hover secondary flicker bug
+- [x] fix hover secondary flicker bug
 - [x] actually update the rss feed
 - [ ] tracker: persist state to sqlite instead of constants.ts
 - [ ] lens: lazy-load below-fold tiles (currently loads all ~40mb upfront)
 - [ ] blog: tags + filter ui
-- [ ] settings: export/import config as json - future shit. 
-- [ ] look into service worker for offline shell
+- [ ] settings: export/import config as json - future work. 
 
 ---
 
