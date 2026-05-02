@@ -386,7 +386,9 @@ export const CHANGELOGS: ChangelogEntry[] = [
         items: [
           'slider redesign: using vanilla material 3 expressive slider (!almost! direct port from android 16) to the settings for new saturation and overhauled hue shift.',
           'switch redesign: same as slider, now uses android 16 expressive 2-icon style switch',
-          'saturation: a new customization option has arrived! saturation! you can now express your vibrancy depending on the mood or the setup, just how i like it :) - amoled potentially coming soon <3'
+          'saturation: a new customization option has arrived! saturation! you can now express your vibrancy depending on the mood or the setup, just how i like it :) - amoled potentially coming soon <3',
+          'toggle grouping: added settings toggle grouping so things don\'t get cluttered. introduced in v1.5.7-stable (m3-revamp-patches)',
+          'profile container toggle: in the *sidebar* settings, there\'s a new toggle! profile container switch; which just toggles the profile container. introduced in v1.5.7-stable (m3-revamp-patches)'
         ]
       },
       {
