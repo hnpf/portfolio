@@ -304,20 +304,18 @@ const SideItem = memo(({ glyph: Icon, text, isSelected, onSelect, isMini, isFirs
       )}
       style={{ transform: 'translateZ(0)' }}
     >
-      {/* Background layer - simplified to avoid variable conflicts */}
+      {/* flicker fix ehehe */}
       <motion.div
-        className={cn("absolute inset-0 -z-20 transition-[background-color,opacity] duration-200", rd)}
-        style={{
-          backgroundColor: isSelected 
-            ? "transparent" 
-            : "var(--surface-variant)"
-        }}
+        className={cn("absolute inset-0 -z-20", rd)}
+        initial={false}
         animate={{
+          backgroundColor: "var(--surface-variant)",
           opacity: isSelected ? 0 : isHovered ? 0.8 : 0.4
         }}
+        transition={{ duration: 0.2 }}
       />
 
-      {/* Shared Active Pill - moved out of AnimatePresence for a smoother shared transition */}
+      {/* moved out of AnimatePresence for a smoother shared transition */}
       {isSelected && (
         <motion.div
           layoutId="sidebar-pill-active"
