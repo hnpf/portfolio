@@ -2239,7 +2239,7 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v1.5.5-stable (m3-revamp)</span>
+              <span>v1.5.7-stable (m3-revamp-patches)</span>
             </div>
           </div>
         </div>
