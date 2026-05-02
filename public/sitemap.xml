@@ -29,55 +29,51 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/session-log-immersion-2026</loc>
-    <priority>0.8</priority>
+    <loc>https://virex.lol/changelog</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/the-great-refactor-2026</loc>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://virex.lol/blog/markdown-test</loc>
+    <loc>https://virex.lol/dash</loc>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/cybersec-101</loc>
-    <priority>0.7</priority>
+    <loc>https://virex.lol/blog/bladeandbathpeak</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/11</loc>
-    <priority>0.7</priority>
+    <loc>https://virex.lol/blog/gruvbox-supremacy</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/10</loc>
-    <priority>0.7</priority>
+    <loc>https://virex.lol/blog/ewaste-1-fr</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/7</loc>
-    <priority>0.7</priority>
+    <loc>https://virex.lol/blog/sysdupd</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/6</loc>
-    <priority>0.7</priority>
+    <loc>https://virex.lol/blog/pixel-10-review</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/5</loc>
-    <priority>0.7</priority>
+    <loc>https://virex.lol/blog/cloud-is-someone-elses-computer</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/8</loc>
-    <priority>0.7</priority>
+    <loc>https://virex.lol/blog/why-i-actually-use-arch</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/4</loc>
-    <priority>0.7</priority>
+    <loc>https://virex.lol/blog/the-internet-is-dead</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/1</loc>
-    <priority>0.7</priority>
+    <loc>https://virex.lol/blog/epstein-files-is-a-joke</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://virex.lol/blog/2</loc>
-    <priority>0.7</priority>
+    <loc>https://virex.lol/blog/why-love-open-source</loc>
+    <priority>0.8</priority>
   </url>
 </urlset>
