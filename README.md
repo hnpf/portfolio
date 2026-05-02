@@ -63,6 +63,7 @@ src/
 
 ## todo ..maybe.
 - [ ] amoled capability
+- [ ] mobile navbar pill text + icon centered in capsule like state for collapsed sidebar instead of just shortening the buttons themselves
 - [ ] maybe some sick bounce/squish animation for slider when you try to drag past the borders
 - [ ] or a small stretch-squish physics-based animation when switch toggles 
 - [x] fix hover secondary flicker bug
