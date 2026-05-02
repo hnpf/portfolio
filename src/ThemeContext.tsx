@@ -109,7 +109,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // quick toggle, ignores system pref intentionally
   const cycleTheme = () => {
-    if (is_apr()) return;
+    if (is_apr()) return; // no escape lol
     setSettings(prev => ({ ...prev, mode: actualTheme === 'light' ? 'dark' : 'light' }));
   };
 
