@@ -63,8 +63,8 @@ src/
 
 ## todo ..maybe.
 - [ ] amoled capability
-- [ ] allow profile container to be toggled off since it's ugly sometimes.
-- [ ] section out the settings toggle area instead of a wall of unsorted toggles (such as: customization, debug, sidebar, etc. all grouped into their own categories with their own isfirst/islast rounding logic. 
+- [x] allow profile container to be toggled off since it's ugly sometimes.
+- [x] section out the settings toggle area instead of a wall of unsorted toggles (such as: customization, debug, sidebar, etc. all grouped into their own categories with their own isfirst/islast rounding logic. 
 - [ ] maybe some sick ass bounce/squish animation for slider when you try to drag past the borders
 - [ ] or a small stretch-squish physics-based animation when switch toggles 
 - [ ] fix hover secondary flicker bug
