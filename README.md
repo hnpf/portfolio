@@ -67,7 +67,6 @@ src/
 - [ ] mobile navbar pill text + icon centered in capsule like state for collapsed sidebar instead of just shortening the buttons themselves
 - [ ] maybe some sick bounce/squish animation for slider when you try to drag past the borders
 - [ ] or a small stretch-squish physics-based animation when switch toggles 
-- [ ] lens: lazy-load below-fold tiles (currently loads all ~40mb upfront)
 - [ ] blog: tags + filter ui
 - [ ] settings: export/import config as json - future work. 
 
