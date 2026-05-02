@@ -52,9 +52,15 @@ export default function DashPage() {
       const ct = res.headers.get('content-type');
       if (ct && ct.includes('application/json')) {
         const data = await res.json();
-        setLinks(data);
+        if (Array.isArray(data)) {
+          setLinks(data);
+        } else if (data.error) {
+          setError(data.error);
+        }
       }
-    } catch {}
+    } catch (e: any) {
+      setError('failed to load links');
+    }
   };
 
   useEffect(() => {
