@@ -6,6 +6,63 @@
   <description>Research, development, and systems exploration by Virex.</description>
 
   <item>
+    <title>brutal fantasies is literally the peak of human existence</title>
+    <link>https://virex.lol/blog/bladeandbathpeak</link>
+    <description>ok.. i'm coming back from the dead again to talk about the only album that matters right now, and i know its late talking about it. sorry not sorry.</description>
+    <content:encoded><![CDATA[
+<h2>why im back (again)</h2>
+<p>it has been almost a week since i last posted but i literally dont care because i took like a month long break before that so i have energy again. the urge called and i answered with a blog post :)</p>
+<p>i was gonna talk about sukkubys or blade and bath coming back to life because that whole scene is actually moving lately but i had a realization...</p>
+
+<h2>the only thing that matters</h2>
+<p><strong>brutal fantasies</strong> is literally the best album on this planet. no contest. its peak. its the absolute ceiling of the genre. </p>
+<p>everyone else can stop recording now because this is it. the atmosphere is perfect. the production? exactly what it needs to be. the absolute dread and instrumental?? oh my god! this is modern beethoven! i have been looping this and nothing else is hitting the same right now. WHAT ARE THEY FEEDING THESE ARTISTS?!</p>
+
+<h2>this is kinda what i noticed on the album..</h2>
+<ul>
+  <li>vocals that actually hurt to listen to (in a REALLY good way)</li>
+  <li>that specific raw energy that most dsbm bands try to fake but totally fail at</li>
+  <li>literally no skips!</li>
+</ul>
+
+<table>
+  <thead>
+    <tr><th>album</th><th>rating</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Brutal Fantasies</td><td>11/10</td></tr>
+    <tr><td>Soundtrack for a Suicide: Opus II</td><td>11/10</td></tr>
+    <tr><td>Eternal Damnation</td><td>11/10</td></tr>
+    <tr><td>..Of Mourning</td><td>10/10</td></tr>
+    <tr><td>and everything else</td><td>MID!</td></tr>
+  </tbody>
+</table>
+<hr />
+<h2>anyways, happy wallowing!</h2>
+    ]]></content:encoded>
+    <pubDate>Thu, 30 Apr 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>ricing supremacy and why ricing makes you an actually better dev</title>
+    <link>https://virex.lol/blog/gruvbox-supremacy</link>
+    <description>PLEASE stop staring at ugly default themes. your environment is a reflection of your work.</description>
+    <content:encoded><![CDATA[
+<h1>aesthetic is actual efficiency (dont @ me!)</h1>
+<p>if you're still on any default terminal theme, i'm praying for you. making things look good isn't just a "ricer on reddit" thing but more about building a comfortable space where you actually <em>want</em> to suffer through merge conflicts!</p>
+
+<h2>why color palettes?</h2>
+<p>it's the total peak of human engineering. colors, decent contrast, and something that won't torch your retinas at midnight</p>
+
+<h2>final thoughts</h2>
+<p>stop settling for defaults. start spending time actually configuring your colorscheme instead of shipping :). it's actually something called investment.</p>
+
+<blockquote><p>"also, if your terminal is ugly, your logic is probably ugly too :3" - virex ong</p></blockquote>
+    ]]></content:encoded>
+    <pubDate>Sun, 26 Apr 2026 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
     <title>turning ewaste into a small dev rig</title>
     <link>https://virex.lol/blog/ewaste-1-fr</link>
     <description>this is why I decided to torture myself by putting debian on a snappy chromebook and how it actually kinda works!</description>
@@ -87,8 +144,8 @@
   <li><strong>no bloat</strong>: exactly what i need and nothing else.</li>
   <li><strong>the wiki</strong>: the holy grail of documentation.</li>
   <li><strong>rolling release</strong>: latest kernel features immediately.</li>
+  <li>my rig (RX 6800 XT / i5-14600K) runs much better when i own the hardware instead of the OS owning me.</li>
 </ul>
-<p>my rig (RX 6800 XT / i5-14600K) runs much better when i own the hardware instead of the OS owning me.</p>
     ]]></content:encoded>
     <pubDate>Tue, 14 Jan 2026 00:00:00 GMT</pubDate>
   </item>
