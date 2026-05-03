@@ -2,7 +2,7 @@
 
 personal hub and experimental site. material 3 ui, custom android-like shell, built on react 19. research, photography, rants.
 
-### screenshots
+## screenshots
 
 **desktop**
 <table>
