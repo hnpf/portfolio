@@ -2,8 +2,27 @@
 
 personal hub and experimental site. material 3 ui, custom android-like shell, built on react 19. research, photography, rants.
 
-![preview](github/demo/virex.png)
+### screenshots
 
+**desktop**
+<table>
+  <tr>
+    <td><img src="github/demo/virex.png" width="220"/></td>
+    <td><img src="github/demo/blog.png" width="220"/></td>
+    <td><img src="github/demo/settings.png" width="220"/></td>
+    <td><img src="github/demo/readme.png" width="220"/></td>
+  </tr>
+</table>
+
+**mobile**
+<table>
+  <tr>
+    <td><img src="github/demo/mobilevirex.png" width="160"/></td>
+    <td><img src="github/demo/mobileblog.png" width="160"/></td>
+    <td><img src="github/demo/mobilesettings.png" width="160"/></td>
+    <td><img src="github/demo/mobilereadme.png" width="160"/></td>
+  </tr>
+</table>
 ## stack
 
 | layer | tech |
