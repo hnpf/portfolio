@@ -50,7 +50,7 @@ import {
   BLOG_POSTS,
   CHANGELOGS,
   TRACKER_ITEMS,
-  HARDWARE_SPECS,
+  //HARDWARE_SPECS,
   TECH_STACK,
   type ChangelogEntry,
 } from "./constants";
@@ -246,8 +246,9 @@ const CursedPopup = ({
 }) => {
   if (!is_apr()) return null;
   return (
-    <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-[var(--surface)]/80 backdrop-blur-3xl overflow-hidden">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[var(--surface)]/80 backdrop-blur-3xl overflow-hidden motion-gpu">
       <div className="fsh-tiled-bg !opacity-40" />
+
       <div className="bg-[var(--primary-container)] border-4 border-[var(--primary)] p-8 md:p-12 max-w-2xl w-full rounded-[3rem] shadow-2xl relative z-10 animate-pulse">
         <div className="flex items-center gap-4 mb-8">
           <h2 className="text-3xl font-display font-black text-[var(--on-primary-container)] tracking-tight">
@@ -424,7 +425,7 @@ const SideItem = memo(
               color: isSelected ? "var(--on-primary-container)" : "inherit",
             }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className="font-bold tracking-tight relative z-10 transition-colors duration-200"
+            className="font-display font-black tracking-tighter text-lg relative z-10 transition-colors duration-200"
           >
             {text}
           </motion.span>
@@ -984,9 +985,10 @@ const HomePage = ({ setPage, settings }: any) => (
           duration: 0.6,
           ease: [0.33, 1, 0.68, 1],
         }}
-        className="text-2xl md:text-4xl font-display font-light text-[var(--on-surface-variant)] leading-tight max-w-4xl"
+        className="text-2xl md:text-4xl font-display font-black text-[var(--on-surface-variant)] leading-tight max-w-4xl"
       >
-        i am an independent software dev, linux lover, and problem solver.
+        <br></br>i am an independent software dev, linux lover, and problem
+        solver.
       </motion.p>
       {/* phase 2 button */}
       <FshBtn />
@@ -1024,7 +1026,7 @@ const HomePage = ({ setPage, settings }: any) => (
               mass: 0.5,
             }}
             onClick={() => setPage("readme")}
-            className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[22px] font-display font-black tracking-tight h-18 px-12 rounded-[24px] flex items-center gap-3 group"
+            className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[20px] font-display font-black tracking-tight h-18 px-12 rounded-[24px] flex items-center gap-3 group"
           >
             explore more!
             <motion.span
@@ -1277,7 +1279,7 @@ const BlogPage = ({ targetId, navigateTo }: any) => {
         >
           <div className="p-8 md:p-16 space-y-8 relative z-10">
             <div className="flex items-center gap-4">
-              <span className="px-4 py-1.5 bg-[var(--primary)] text-[var(--on-primary)] rounded-full text-[13px] font-black tracking-widest shadow-lg">
+              <span className="px-4 py-1.5 bg-[var(--primary)] text-[var(--on-primary)] rounded-full text-[12px] font-black tracking-widest shadow-lg">
                 Featured post!
               </span>
               <span className="text-sm font-bold opacity-60 flex items-center gap-2">
@@ -1941,7 +1943,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
               4+ Years XP
             </span>
             <span className="px-3 py-3 md:px-3 md:py-4 bg-[var(--surface-variant)] border-6 border-[var(--outline-variant)] text-[var(--on-surface-variant)] rounded-[20px] text-[10px] md:text-[13px] font-black tracking-widest flex items-center gap-2 hover:border-[var(--primary)] hover:scale-105 transition-all">
-              He/Him They/Them
+              He/They
             </span>
           </div>
         </div>
@@ -2737,7 +2739,7 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v1.5.7-stable (m3-revamp-patches)</span>
+              <span>v.1.6.1-stable (v2026.05.02)</span>
             </div>
           </div>
         </div>
@@ -2923,51 +2925,50 @@ export default function App() {
                   "border-b-[var(--outline-variant)]/30",
               )}
             >
-              <motion.div
-                layout
+              <div
                 className={cn(
-                  "flex items-center gap-4 transition-all duration-300 isolate",
+                  "flex items-center gap-4 isolate",
                   settings.sidebarCollapsed
                     ? "justify-center px-0 mb-10 py-6"
                     : settings.profileContainer
-                      ? "bg-[var(--surface-variant)]/20 ring-6 ring-[var(--outline-variant)]/30 rounded-t-[28px] rounded-b-[15px] px-4 mx-2 overflow-hidden mb-10 py-6"
+                      ? "bg-[var(--surface-variant)]/20 ring-6 ring-[var(--outline-variant)]/30 rounded-[2.5rem] px-4 mx-2 mb-10 py-6"
                       : "px-4 mx-2 mb-8 py-2",
                 )}
               >
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  animate={
-                    do_wiggle
-                      ? {
-                          rotate: [0, -10, 10, -10, 10, 0],
-                          scale: [1, 1.1, 1.1, 1.1, 1.1, 1],
-                        }
-                      : { rotate: 0, scale: 1 }
-                  }
-                  transition={
-                    do_wiggle
-                      ? {
-                          duration: 1.2,
-                          repeat: 1,
-                          repeatDelay: 0.1,
-                          ease: "easeInOut",
-                        }
-                      : { duration: 0.2 }
-                  }
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.94 }}
+                  animate={{
+                    rotate: do_wiggle ? [0, -10, 10, -10, 10, 0] : 0,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 250,
+                    damping: 25,
+                    mass: 0.5,
+                  }}
                   onClick={() => goto("readme")}
                   className={cn(
-                    "w-20 h-20 flex items-center justify-center font-black text-3xl shrink-0 relative group/pfp cursor-pointer isolate transition-all duration-300",
+                    "flex items-center justify-center shrink-0 relative group/pfp cursor-pointer isolate",
                     settings.profileContainer
-                      ? "rounded-[30px] ring-6 ring-[var(--outline-variant)] bg-[var(--primary)] text-[var(--on-primary)] shadow-xl"
-                      : "rounded-[30px] bg-transparent border-6 border-[var(--outline-variant)]/30 shadow-none hover:border-[var(--primary)]/50",
+                      ? "w-24 h-24 rounded-[32px] shadow-xl"
+                      : "w-24 h-24 -ml-5 rounded-[32px] shadow-none",
                   )}
                 >
                   <div className="absolute inset-0 rounded-[inherit] overflow-hidden">
+                    <div 
+                      className={cn(
+                        "absolute inset-0 z-20 rounded-[inherit] ring-inset transition-colors duration-250 pointer-events-none",
+                        settings.profileContainer 
+                          ? "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]" 
+                          : "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]"
+                      )} 
+                    />
+                    <div className="absolute inset-0 bg-[var(--surface-variant)]/50 -z-10" />
                     <img
                       src="/photography/pfp/main.png"
                       alt="virex"
-                      className="w-full h-full object-cover rounded-[inherit] group-hover/pfp:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover rounded-[inherit] group-hover/pfp:scale-110 transition-transform duration-250"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = "none";
                         const svg = document.createElement("img");
@@ -2985,7 +2986,7 @@ export default function App() {
                 </motion.div>
                 {!settings.sidebarCollapsed && (
                   <div className="overflow-hidden whitespace-nowrap">
-                    <div className="font-display font-black text-2xl tracking-tighter">
+                    <div className="font-display font-black text-xl md:text-2xl tracking-tighter">
                       virex (美烈久)
                     </div>
                     <div className="text-[10px] uppercase tracking-[0.3em] opacity-50 font-black">
@@ -2993,11 +2994,11 @@ export default function App() {
                     </div>
                   </div>
                 )}
-              </motion.div>
+              </div>
               {!settings.sidebarCollapsed && (
-                <div className="flex items-center gap-4 mb-4 px-4">
-                  <BookOpen size={25} className="text-[var(--primary)]" />
-                  <h3 className="text-[15px] font-black tracking-[0.3em] text-[var(--on-surface-variant)] opacity-40">
+                <div className="flex items-center gap-3 mb-6 px-4">
+                  <div className="h-6 w-1 bg-[var(--primary)] rounded-full" />
+                  <h3 className="text-xl font-display font-black tracking-tighter text-[var(--on-surface-variant)]">
                     Pages
                   </h3>
                 </div>
@@ -3386,13 +3387,14 @@ export default function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSettingsOpen(false)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-md"
+              className="absolute inset-0 bg-black/60 backdrop-blur-md motion-gpu"
+              style={{ willChange: "opacity" }}
             />
             <motion.div
               initial={{
-                scale: 0.95,
+                scale: 0.92,
                 opacity: 0,
-                y: 10,
+                y: 20,
               }}
               animate={{
                 scale: 1,
@@ -3400,11 +3402,18 @@ export default function App() {
                 y: 0,
               }}
               exit={{
-                scale: 0.95,
+                scale: 0.92,
                 opacity: 0,
-                y: 10,
+                y: 20,
               }}
-              className="relative w-full max-w-xl bg-[var(--surface)] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-[var(--outline-variant)]"
+              transition={{
+                type: "spring",
+                stiffness: 450,
+                damping: 38,
+                mass: 0.8,
+              }}
+              className="relative w-full max-w-xl bg-[var(--surface)] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-[var(--outline-variant)] motion-gpu settings-modal-content"
+              style={{ willChange: "transform, opacity" }}
             >
               <div className="flex justify-between items-center p-6 md:p-8 border-b border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10">
                 <h2 className="text-2xl font-bold flex items-center gap-3">
@@ -3738,7 +3747,7 @@ export default function App() {
                     <div>
                       <div className="font-bold">View changelog</div>
                       <div className="text-xs opacity-60 font-medium">
-                        See what's new in v2026.05.01
+                        See what's new in v2026.05.02
                       </div>
                     </div>
                     <ChevronRight
