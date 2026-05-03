@@ -1024,16 +1024,19 @@ const HomePage = ({ setPage, settings }: any) => (
               mass: 0.5,
             }}
             onClick={() => setPage("readme")}
-            className="m3-button-filled !transition-none bg-white text-black text-[22px] font-display font-black tracking-tight h-16 px-12 rounded-3xl flex items-center gap-3 group"
+            className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[22px] font-display font-black tracking-tight h-18 px-12 rounded-[24px] flex items-center gap-3 group"
           >
             explore more!
             <motion.span
               variants={{
-                hover: { x: 5 }
+                hover: { x: 5 },
               }}
               transition={{ type: "spring", stiffness: 1000, damping: 15 }}
             >
-              <ChevronRight size={28} className="group-hover:translate-x-1 transition-transform" />
+              <ChevronRight
+                size={28}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </motion.span>
           </motion.button>
         </div>
@@ -1119,7 +1122,7 @@ const HomePage = ({ setPage, settings }: any) => (
                 whileTap={{ scale: 0.95 }}
                 href={project.link}
                 target="_blank"
-                className="inline-flex items-center gap-2 text-[var(--primary)] font-black tracking-widest text-[14px] group"
+                className="inline-flex items-center gap-2 text-[var(--primary)] font-black tracking-widest text-[17px] group"
               >
                 View project{" "}
                 <motion.span
@@ -1127,7 +1130,7 @@ const HomePage = ({ setPage, settings }: any) => (
                   whileHover={{ x: 3 }}
                   transition={{ type: "spring", stiffness: 400, damping: 28 }}
                 >
-                  <ExternalLink size={14} />
+                  <ExternalLink size={17} />
                 </motion.span>
               </motion.a>
             )}
