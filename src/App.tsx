@@ -3289,7 +3289,7 @@ export default function App() {
           </motion.nav>
         )}
       </AnimatePresence>
-      {/* the sidebar for when you wanna see the machine, kinda pointless but nice to have*/}
+      {/* the sidebar for when you wanna see the machine, kinda pointless but nice to have
       <AnimatePresence>
         {hwOpen && (
           <>
@@ -3374,7 +3374,8 @@ export default function App() {
             </motion.aside>
           </>
         )}
-      </AnimatePresence>
+      </AnimatePresence>      */}
+      {/* ^ dead now, rip! :( */}
 
       {/* the big settings modal */}
       <AnimatePresence>
