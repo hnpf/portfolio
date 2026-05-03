@@ -81,7 +81,7 @@ src/
   main.tsx
 ```
 
-## todo ..maybe.
+## current todo (bug fixes, features, etc. this list changes!)
 - [x] fix hover secondary flicker bug
 - [ ] fix desktop window height making profile container "squished" when being too low. (honestly would just enforce the noprofilecontainer setting) 
 - [ ] amoled capability
