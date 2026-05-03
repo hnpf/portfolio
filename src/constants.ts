@@ -375,6 +375,39 @@ it's literally just people helping people for learning (and overall better code 
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [
+
+
+  {
+    id: "m3-home-overhaul",
+    version: "2026.05.02",
+    title: "home and consistency update",
+    date: "May 02, 2026",
+    changes: [
+      {
+        category: "home & blog fixes",
+        items: [
+          "Year Prog Chip: completely overhauled the year progress chip and added a WavyProgress component.",
+          "Fonts: re-formatted lots of text to use the font-black instead of font-display. also reworked some of the project section including projects & research, and view project fonts.",
+          "Expressive Buttons: updated the blog's 'read full entry' button to match the 'explore more' styling, including a 24px to 40px morphing border radius on hover.",
+        ],
+      },
+      {
+        category: "sidebar fixes",
+        items: [
+          "Overhauled PFP section: completely changed the pfp container styling itself, as well as the animations.",
+          "Fixed PFP centering: resolved an alignment bug where the profile picture was off-center when the sidebar was collapsed without the profile container.",
+          "Auto-hide profile container: implemented a height-based guard (720px) that automatically enforces no-container mode in compact views to prevent layout squishing.",
+          "profile section: moved the profile section further left since there was indeed room to do so.",
+        ],
+      },
+      {
+        category: "settings performance",
+        items: [
+          "fixed sidebar lag upon open"
+        ],
+      },
+    ],
+  },
   {
     id: "m3-consistency-revamp",
     version: "2026.05.01",
