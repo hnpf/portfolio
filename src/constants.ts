@@ -93,7 +93,7 @@ export const PROJECTS: Project[] = [
     id: "sysdupd",
     title: "SYSDUPD",
     description:
-      "have you wanted to just update your linux system and forgot how, or just too scared to? i never have, but this could be the solution for you!",
+      "have you wanted to just update your linux system and forgot how, or just too scared to? I never have, but this could be the solution for you!",
     link: "https://github.com/hnpf/sysdupd",
     tags: ["Gtk4", "Python"],
   },
