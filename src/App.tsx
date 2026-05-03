@@ -1319,7 +1319,7 @@ const BlogPage = ({ targetId, navigateTo }: any) => {
                 }}
                 className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[20px] font-display font-black tracking-tight h-18 px-12 rounded-[24px] flex items-center gap-3 group/btn"
               >
-                read full entry
+                read entry
                 <motion.span
                   variants={{
                     hover: { x: 5 },
