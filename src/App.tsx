@@ -987,7 +987,7 @@ const HomePage = ({ setPage, settings }: any) => (
         }}
         className="text-2xl md:text-4xl font-display font-black text-[var(--on-surface-variant)] leading-tight max-w-4xl"
       >
-        <br></br>i am an independent software dev, linux lover, and problem
+        <br></br>I am an independent software dev, linux lover, and problem
         solver.
       </motion.p>
       {/* phase 2 button */}
@@ -1003,7 +1003,7 @@ const HomePage = ({ setPage, settings }: any) => (
         </h2>
         <div>
           <p className="text-xl md:text-3xl opacity-90 font-medium max-w-2xl mb-2 ">
-            <br></br>i make things that work the way its supposed to.
+            <br></br>I make things that work the way its supposed to.
           </p>
           <p className="text-xl md:text-2xl opacity-90 font-medium mb-10 ">
             just do it the efficient and right way.
@@ -1053,7 +1053,7 @@ const HomePage = ({ setPage, settings }: any) => (
             <Activity size={32} className="text-[var(--primary)]" />
           </div>
           <h3 className="text-3xl font-display font-bold">
-            i don't ship things i wouldn't use.
+            I don't ship things i wouldn't use.
           </h3>
           <p className="text-xl opacity-70 leading-relaxed">
             done right, or not done at all.
@@ -2145,7 +2145,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                     content: (
                       <div className="space-y-6">
                         <p>
-                          i started my{" "}
+                          I started my{" "}
                           <span className="font-bold text-[var(--primary)]">
                             junior software researching
                           </span>{" "}
@@ -2160,7 +2160,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                           and hardware interest.
                         </p>
                         <p>
-                          since then, i became a{" "}
+                          since then, I became a{" "}
                           <span className="font-bold text-[var(--primary)]">
                             semi-fullstack developer
                           </span>{" "}
@@ -2183,7 +2183,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
               {/* copy and paste */}
               <div className="space-y-6 text-xl opacity-80 leading-relaxed font-medium text-pretty">
                 <p>
-                  i started my{" "}
+                  I started my{" "}
                   <span className="font-bold text-[var(--primary)]">
                     junior software researching
                   </span>{" "}
@@ -2200,7 +2200,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
               </div>
               <div className="hidden md:block space-y-6 text-xl opacity-80 leading-relaxed font-medium text-pretty">
                 <p>
-                  since then, i became a{" "}
+                  since then, I became a{" "}
                   <span className="font-bold text-[var(--primary)]">
                     semi-fullstack developer
                   </span>{" "}
@@ -2242,7 +2242,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                       content: (
                         <div className="space-y-6">
                           <p>
-                            the internet is modernized, and we should fight
+                            the internet is modernized, and we can fight
                             back!
                           </p>
                           <p>
@@ -2264,7 +2264,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                   my opinion
                 </h4>
                 <p className="text-xs md:text-lg opacity-60 leading-tight md:leading-relaxed text-pretty font-medium line-clamp-4 md:line-clamp-none">
-                  the internet is modernized, and we should fight back! using
+                  the internet is modernized, and we can fight back! using
                   minimal libraries, durable design, even software that just
                   does what it says and nothing else.
                 </p>
@@ -2296,8 +2296,8 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                         <div className="space-y-6">
                           <p>preservation by nature.</p>
                           <p>
-                            i collect legacy software, old documentation, and i
-                            keep backups of everything i find.
+                            I collect legacy software, old documentation, and I
+                            keep backups of everything I find.
                           </p>
                         </div>
                       ),
@@ -2313,8 +2313,8 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                   .. and archival!
                 </h4>
                 <p className="text-xs md:text-lg opacity-60 leading-tight md:leading-relaxed text-pretty font-medium line-clamp-4 md:line-clamp-none">
-                  preservation by nature. i collect legacy software, old
-                  documentation, and i keep backups of everything i find.
+                  preservation by nature. I collect legacy software, old
+                  documentation, and I keep backups of everything I find.
                 </p>
               </div>
               <div className="pt-4 hidden md:flex flex-wrap gap-2 border-t border-[var(--outline-variant)]/30">
