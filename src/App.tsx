@@ -932,7 +932,7 @@ const YearProg = () => {
         <WavyProgress
           percent={pct}
           className="text-[var(--on-primary-container)]"
-          thickness={7}
+          thickness={6}
           height={20}
         />
       </div>
