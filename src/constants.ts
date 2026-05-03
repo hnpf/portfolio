@@ -669,25 +669,6 @@ export const TRACKER_ITEMS: TrackerItem[] = [
   },
 ];
 
-export const HARDWARE_SPECS = {
-  core: [
-    { label: "Host", value: "ASRock Z690 Pro RS" },
-    { label: "DE/WM", value: "GNOME 49.4" },
-    { label: "Kernel", value: "Linux 6.19.10-zen1-1-zen" },
-  ],
-  processing: [
-    {
-      label: "CPU",
-      value: "Intel(R) Core(TM) i5-14600k (20 cores) @ 5.30 GHz",
-    },
-    { label: "GPU", value: "AMD Radeon RX 6800 XT" },
-  ],
-  mem: [
-    { label: "Memory", value: "40 GiB DDR4 @ 3700 Mt/s" },
-    { label: "Storage Capacity", value: "73.8GB / 1.82TB" },
-  ],
-};
-
 export const TECH_STACK = {
   web: ["React", "TypeScript", "TailwindCSS", "Next.js", "Node", "Javascript"],
   technical: ["Rust", "Golang", "Java", "Python", "C", "Docker", "bash"],
