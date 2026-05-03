@@ -97,8 +97,13 @@
     .m3-button-filled,
     .m3-button-tonal,
     .sidebar-item,
-    .bottom-nav-item {
+    .bottom-nav-item,
+    .settings-modal-content,
+    .m3-switch,
+    .m3-slider {
         backface-visibility: hidden;
+        transform: translateZ(0);
+        will-change: transform;
     }
 
     .brutalist-mode * {
