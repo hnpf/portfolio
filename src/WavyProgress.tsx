@@ -16,18 +16,13 @@ export default function WavyProgress({
   percent,
   className,
 }: WavyProgressProps) {
-  // unique id so multiple instances dont fight over the same filter def
-  const filter_id = useMemo(
-    () => `aa-${Math.random().toString(36).slice(2, 7)}`,
-    [],
-  );
-
   const left = thickness * 0.5;
   const right = width - thickness * 0.5;
   const percentX = (percent / 100) * (right - left) + left;
 
   const smil_data = useMemo(() => {
     let paths: string[] = [];
+    // 30 fps for 1 second = 30 frames
     for (let x = 0; x <= 1000; x += 1000 / 30) {
       paths.push(
         linear(thickness / 2, height - thickness / 2, left, percentX, x),
@@ -45,22 +40,13 @@ export default function WavyProgress({
       role="progressbar"
       className={className}
       preserveAspectRatio="none"
-      shapeRendering="geometricPrecision"
-      style={{ width: "100%", height: "auto", overflow: "visible" }}
+      style={{ width: "100%", height: "auto" }}
     >
-      <defs>
-        <filter id={filter_id} x="-10%" y="-100%" width="120%" height="300%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="blur" />
-          <feComposite in="blur" in2="SourceGraphic" operator="over" />
-        </filter>
-      </defs>
-
       <path
         fill="none"
         stroke="currentColor"
         strokeWidth={thickness}
         strokeLinecap="round"
-        filter={`url(#${filter_id})`}
       >
         <animate
           attributeName="d"
@@ -69,7 +55,6 @@ export default function WavyProgress({
           values={smil_data}
         />
       </path>
-
       <line
         fill="none"
         stroke="currentColor"
@@ -79,8 +64,7 @@ export default function WavyProgress({
         y1={height / 2}
         x2={right}
         y2={height / 2}
-        opacity={track_opacity * 0.3}
-        filter={`url(#${filter_id})`}
+        opacity={track_opacity * 0.3} // dimmed track
       />
     </svg>
   );
