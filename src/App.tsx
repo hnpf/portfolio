@@ -2536,6 +2536,8 @@ export default function App() {
     h: window.innerHeight,
   });
 
+  const show_pfp_container = settings.profileContainer && viewport.h > 720;
+
   useEffect(() => {
     const on_resize = () =>
       set_viewport({ w: window.innerWidth, h: window.innerHeight });
@@ -2961,7 +2963,7 @@ export default function App() {
                   "flex items-center gap-4 isolate",
                   settings.sidebarCollapsed
                     ? "justify-center px-0 mb-10 py-6"
-                    : settings.profileContainer
+                    : show_pfp_container
                       ? "bg-[var(--surface-variant)]/20 ring-6 ring-[var(--outline-variant)]/30 rounded-[2.5rem] px-4 mx-2 mb-10 py-6"
                       : "px-4 mx-2 mb-8 py-2",
                 )}
@@ -2985,16 +2987,16 @@ export default function App() {
                   onClick={() => goto("readme")}
                   className={cn(
                     "flex items-center justify-center shrink-0 relative group/pfp cursor-pointer isolate",
-                    settings.profileContainer
+                    show_pfp_container
                       ? "w-24 h-24 rounded-[32px] shadow-xl"
-                      : "w-24 h-24 -ml-5 rounded-[32px] shadow-none",
+                      : cn("w-24 h-24 rounded-[32px] shadow-none", !settings.sidebarCollapsed && "-ml-5"),
                   )}
                 >
                   <div className="absolute inset-0 rounded-[inherit] overflow-hidden">
                     <div 
                       className={cn(
                         "absolute inset-0 z-20 rounded-[inherit] ring-inset transition-colors duration-250 pointer-events-none",
-                        settings.profileContainer 
+                        show_pfp_container 
                           ? "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]" 
                           : "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]"
                       )} 
