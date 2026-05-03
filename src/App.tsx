@@ -1008,24 +1008,32 @@ const HomePage = ({ setPage, settings }: any) => (
           </p>
           <motion.button
             whileHover={{
-              scale: 1.05,
-              x: 5,
+              scale: 1.02,
+              x: 4,
+              backgroundColor: "var(--primary-container)",
+              color: "var(--on-primary-container)",
+              boxShadow: "0 20px 40px -10px var(--primary)",
             }}
             whileTap={{
-              scale: 0.95,
+              scale: 0.98,
             }}
             transition={{
               type: "spring",
-              stiffness: 400,
-              damping: 30,
-              mass: 1,
+              stiffness: 800,
+              damping: 20,
+              mass: 0.5,
             }}
             onClick={() => setPage("readme")}
-            className="m3-button-filled bg-white text-black text-[22px] h-16 px-10 rounded-[25px] flex items-center gap-2 group  transition-all"
+            className="m3-button-filled !transition-none bg-white text-black text-[22px] font-display font-black tracking-tight h-16 px-12 rounded-3xl flex items-center gap-3 group"
           >
             explore more!
-            <motion.span>
-              <ChevronRight size={24} />
+            <motion.span
+              variants={{
+                hover: { x: 5 }
+              }}
+              transition={{ type: "spring", stiffness: 1000, damping: 15 }}
+            >
+              <ChevronRight size={28} className="group-hover:translate-x-1 transition-transform" />
             </motion.span>
           </motion.button>
         </div>
