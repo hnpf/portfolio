@@ -1014,6 +1014,7 @@ const HomePage = ({ setPage, settings }: any) => (
               x: 4,
               backgroundColor: "var(--primary-container)",
               color: "var(--on-primary-container)",
+              borderRadius: "40px",
               boxShadow: "0 20px 40px -10px var(--primary)",
             }}
             whileTap={{
@@ -1068,10 +1069,10 @@ const HomePage = ({ setPage, settings }: any) => (
       <div className="md:col-span-2 lg:col-span-1 xl:col-span-2 mt-8 mb-4 flex items-center gap-6 px-4">
         <div className="h-[1px] flex-1 bg-[var(--outline-variant)] opacity-30" />
         <div className="flex flex-col items-center gap-1">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 whitespace-nowrap">
+          <h3 className="text-[16px] font-black tracking-[0.3em] opacity-40 whitespace-nowrap">
             projects and research
           </h3>
-          <div className="text-2xl font-display font-black tracking-tighter">
+          <div className="text-2xl font-black tracking-[0.1em] font-black tracking-tighter">
             built or contributed to:
           </div>
         </div>
@@ -1298,9 +1299,39 @@ const BlogPage = ({ targetId, navigateTo }: any) => {
               </p>
             </div>
             <div className="flex items-center gap-6 pt-4">
-              <div className="m3-button-filled !rounded-[1.5rem] !px-8 !py-4 group-hover:scale-105 transition-transform shadow-xl">
-                read full entry <ArrowUpRight size={20} />
-              </div>
+              <motion.div
+                whileHover={{
+                  scale: 1.02,
+                  x: 4,
+                  backgroundColor: "var(--primary)",
+                  color: "var(--on-primary)",
+                  borderRadius: "40px",
+                  boxShadow: "0 20px  -10px var(--primary)",
+                }}
+                whileTap={{
+                  scale: 0.98,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 800,
+                  damping: 20,
+                  mass: 0.5,
+                }}
+                className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[20px] font-display font-black tracking-tight h-18 px-12 rounded-[24px] flex items-center gap-3 group/btn"
+              >
+                read full entry
+                <motion.span
+                  variants={{
+                    hover: { x: 5 },
+                  }}
+                  transition={{ type: "spring", stiffness: 1000, damping: 15 }}
+                >
+                  <ArrowUpRight
+                    size={28}
+                    className="group-hover/btn:translate-x-1 transition-transform"
+                  />
+                </motion.span>
+              </motion.div>
               <span className="text-sm font-black uppercase tracking-widest opacity-40 italic">
                 {featured.readTime}
               </span>
@@ -2936,16 +2967,20 @@ export default function App() {
                 )}
               >
                 <motion.div
-                  whileHover={{ scale: 1.08 }}
-                  whileTap={{ scale: 0.94 }}
+                  whileHover={{ 
+                    scale: 1.1,
+                    rotate: -2,
+                    y: -2
+                  }}
+                  whileTap={{ scale: 0.92, rotate: 5 }}
                   animate={{
                     rotate: do_wiggle ? [0, -10, 10, -10, 10, 0] : 0,
                   }}
                   transition={{
                     type: "spring",
-                    stiffness: 250,
-                    damping: 25,
-                    mass: 0.5,
+                    stiffness: 400,
+                    damping: 22,
+                    mass: 0.6,
                   }}
                   onClick={() => goto("readme")}
                   className={cn(
