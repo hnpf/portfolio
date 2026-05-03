@@ -1,6 +1,6 @@
 # [virex.lol](https://virex.lol)
 
-personal hub and experiment site. material 3 ui, custom android-like shell, built on react 19. research, photography, rants.
+personal hub and experimental site. material 3 ui, custom android-like shell, built on react 19. research, photography, rants.
 
 ![preview](github/demo/virex.png)
 
