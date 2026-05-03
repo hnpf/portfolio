@@ -917,7 +917,7 @@ const YearProg = () => {
             current year
           </span>
         </div>
-        <div className="text-right flex flex-col items-end">
+        <div className="text-right flex flex-col items-end mb-4">
           <div className="text-4xl font-display font-black tracking-tight tabular-nums text-[var(--on-primary-container)]">
             {pct.toFixed(2)}
             <span className="text-2xl ml-0.5 opacity-60">%</span>
@@ -1053,7 +1053,7 @@ const HomePage = ({ setPage, settings }: any) => (
             <Activity size={32} className="text-[var(--primary)]" />
           </div>
           <h3 className="text-3xl font-display font-bold">
-            I don't ship things i wouldn't use.
+            I don't ship things that I wouldn't use.
           </h3>
           <p className="text-xl opacity-70 leading-relaxed">
             done right, or not done at all.
@@ -2242,8 +2242,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
                       content: (
                         <div className="space-y-6">
                           <p>
-                            the internet is modernized, and we can fight
-                            back!
+                            the internet is modernized, and we can fight back!
                           </p>
                           <p>
                             using minimal libraries, durable design, even
@@ -2969,10 +2968,10 @@ export default function App() {
                 )}
               >
                 <motion.div
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.1,
                     rotate: -2,
-                    y: -2
+                    y: -2,
                   }}
                   whileTap={{ scale: 0.92, rotate: 5 }}
                   animate={{
@@ -2989,17 +2988,20 @@ export default function App() {
                     "flex items-center justify-center shrink-0 relative group/pfp cursor-pointer isolate",
                     show_pfp_container
                       ? "w-24 h-24 rounded-[32px] shadow-xl"
-                      : cn("w-24 h-24 rounded-[32px] shadow-none", !settings.sidebarCollapsed && "-ml-5"),
+                      : cn(
+                          "w-24 h-24 rounded-[32px] shadow-none",
+                          !settings.sidebarCollapsed && "-ml-5",
+                        ),
                   )}
                 >
                   <div className="absolute inset-0 rounded-[inherit] overflow-hidden">
-                    <div 
+                    <div
                       className={cn(
                         "absolute inset-0 z-20 rounded-[inherit] ring-inset transition-colors duration-250 pointer-events-none",
-                        show_pfp_container 
-                          ? "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]" 
-                          : "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]"
-                      )} 
+                        show_pfp_container
+                          ? "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]"
+                          : "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]",
+                      )}
                     />
                     <div className="absolute inset-0 bg-[var(--surface-variant)]/50 -z-10" />
                     <img
