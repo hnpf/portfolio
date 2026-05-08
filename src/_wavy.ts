@@ -1,6 +1,6 @@
 /**
  * wavy logic helpers for SMIL animations
- * ported from a16 comp wavy progress impl
+ * ported from m3-svelte wavy progress impl
  */
 
 export function linear(
@@ -18,7 +18,8 @@ export function linear(
   const phase = (time / 1000) * 2 * Math.PI;
 
   let path = `M ${x_start} ${y_mid}`;
-  const segments = Math.ceil((x_target - x_start) / 2);
+  // double the segments for smoother anti-aliasing
+  const segments = Math.ceil((x_target - x_start));
   
   for (let i = 0; i <= segments; i++) {
     const x = x_start + (i / segments) * (x_target - x_start);
