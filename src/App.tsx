@@ -1656,17 +1656,23 @@ const LensPage = () => {
     };
     window.addEventListener("keydown", on_key);
     
-    // preload next and prev images
     if (idx !== null) {
+      document.body.style.overflow = "hidden"; // lol bye loser
+      // preload next and prev images
       const next_idx = (idx + 1) % LENS_PHOTOS.length;
       const prev_idx = (idx - 1 + LENS_PHOTOS.length) % LENS_PHOTOS.length;
       [next_idx, prev_idx].forEach(i => {
         const img = new window.Image();
         img.src = LENS_PHOTOS[i].url;
       });
+    } else {
+      document.body.style.overflow = "";
     }
 
-    return () => window.removeEventListener("keydown", on_key);
+    return () => {
+      window.removeEventListener("keydown", on_key);
+      document.body.style.overflow = "";
+    };
   }, [idx]);
 
   return (
@@ -1697,12 +1703,12 @@ const LensPage = () => {
             onClick={() => setIdx(null)}
           >
             {/* top islands - ungrouped capsule + circle */}
-            <div className="z-[230] p-6 md:p-12 flex justify-center items-center gap-3 md:gap-4 pointer-events-none">
-              <div className="bg-[var(--surface-variant)]/60 backdrop-blur-xl px-6 py-3 md:px-10 md:py-5 rounded-[2.5rem] md:rounded-[3rem] border-6 border-[var(--outline-variant)]/40 flex flex-col shadow-2xl pointer-events-auto min-w-0 max-w-[240px] md:max-w-xl">
+            <div className="z-[230] p-6 md:p-8 flex justify-center items-center gap-3 md:gap-4 pointer-events-none">
+              <div className="bg-[var(--surface-variant)]/60 backdrop-blur-xl px-6 py-3 md:px-8 md:py-4 rounded-[2.5rem] md:rounded-[2.5rem] border-6 border-[var(--outline-variant)]/40 flex flex-col shadow-2xl pointer-events-auto min-w-0 max-w-[240px] md:max-w-lg">
                 <div className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[var(--primary)] mb-0.5 md:mb-1">
                   Description
                 </div>
-                <div className="text-[var(--on-surface)] font-display font-black text-lg md:text-3xl tracking-tight leading-tight truncate">
+                <div className="text-[var(--on-surface)] font-display font-black text-lg md:text-2xl tracking-tight leading-tight truncate">
                   {LENS_PHOTOS[idx].description}
                 </div>
               </div>
@@ -1717,9 +1723,9 @@ const LensPage = () => {
                   mass: 0.5 
                 }}
                 onClick={() => setIdx(null)}
-                className="w-14 h-14 md:w-22 md:h-22 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto cursor-pointer"
+                className="w-14 h-14 md:w-18 md:h-18 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto cursor-pointer"
               >
-                <X size={window.innerWidth < 768 ? 28 : 44} />
+                <X size={window.innerWidth < 768 ? 28 : 36} />
               </motion.button>
             </div>
 
