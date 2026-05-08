@@ -70,7 +70,7 @@ export const PROJECTS: Project[] = [
     id: "mixtapes",
     title: "Mixtapes",
     description: "a modern Linux LibAdwaita-themed YT Music player.",
-    link: "https://github.com/m-obeid/Mixtapes",
+    link: "https://github.com/hnpf/Mixtapes",
     tags: ["python", "yt-music"],
   },
   {
@@ -375,8 +375,25 @@ it's literally just people helping people for learning (and overall better code 
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [
-
-
+  {
+    id: "lens-overhaul-m3e",
+    version: "2026.05.08",
+    title: "the lens overhaul (m3 expressive!)",
+    date: "May 08, 2026",
+    changes: [
+      {
+        category: "photography overhaul",
+        items: [
+          "m3e ui: completely redesigned the expanded view into a sleek, floating island structure inspired by google's recent \"floating pill\" nav design.",
+          "the floating islands themselves: metadata and controls are now condensed into highly-rounded capsules, providing more breathing room for the photography itself.",
+          "better and more tactile feedback: added ultra snappy spring animations to navigation and close buttons, including a physical squeeze/rotate effect on click.",
+          "performance and preloading: added background preloading for the carousel, making sure the next and previous pixels are ready before you even click.",
+          "raw view: added a 'view raw photo' action to the info hub for one-click access to full-resolution images, without the UI getting in the way.",
+          "scroll isolation: fixed a long-standing bug where the background page would scroll while an image was expanded.",
+        ],
+      },
+    ],
+  },
   {
     id: "m3-home-overhaul",
     version: "2026.05.02",
@@ -402,9 +419,7 @@ export const CHANGELOGS: ChangelogEntry[] = [
       },
       {
         category: "settings performance",
-        items: [
-          "fixed sidebar lag upon open"
-        ],
+        items: ["fixed sidebar lag upon open"],
       },
     ],
   },
