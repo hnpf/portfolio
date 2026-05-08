@@ -999,7 +999,7 @@ const HomePage = ({ setPage, settings }: any) => (
         className="md:col-span-2 lg:col-span-1 xl:col-span-2 bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[400px]"
       >
         <h2 className="text-4xl md:text-7xl font-display font-black leading-[0.9] tracking-tight">
-          "software should be readable, and reliable!"
+          "software should be readable, and reliable!
         </h2>
         <div>
           <p className="text-xl md:text-3xl opacity-90 font-medium max-w-2xl mb-2 ">
@@ -1592,12 +1592,13 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ margin: "200px", once: true }}
+      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
+      viewport={{ margin: "100px", once: true }}
       transition={{
-        duration: 0.4,
+        duration: 0.5,
         delay: i < 6 ? i * 0.05 : 0,
+        ease: [0.22, 1, 0.36, 1],
       }}
       style={{ willChange: "transform, opacity" }}
       className={cn(
@@ -1618,17 +1619,15 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
         loading={i < 4 ? "eager" : "lazy"}
         decoding="async"
         className={cn(
-          "w-full h-full object-cover transition-transform group-hover:scale-110",
-          settings.highHz ? "duration-300" : "duration-500",
+          "w-full h-full object-cover transition-transform group-hover:scale-105",
+          settings.highHz ? "duration-500" : "duration-700",
         )}
         referrerPolicy="no-referrer"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end p-8 z-20">
-        <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-          <p className="text-white text-xl font-bold leading-tight drop-shadow-lg">
-            {photo.description}
-          </p>
-        </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8 z-20">
+        <p className="text-white text-lg font-bold leading-tight drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+          {photo.description}
+        </p>
       </div>
     </motion.div>
   );
@@ -1656,6 +1655,17 @@ const LensPage = () => {
       if (e.key === "Escape") setIdx(null);
     };
     window.addEventListener("keydown", on_key);
+    
+    // preload next and prev images
+    if (idx !== null) {
+      const next_idx = (idx + 1) % LENS_PHOTOS.length;
+      const prev_idx = (idx - 1 + LENS_PHOTOS.length) % LENS_PHOTOS.length;
+      [next_idx, prev_idx].forEach(i => {
+        const img = new window.Image();
+        img.src = LENS_PHOTOS[i].url;
+      });
+    }
+
     return () => window.removeEventListener("keydown", on_key);
   }, [idx]);
 
@@ -1666,7 +1676,7 @@ const LensPage = () => {
           <h2 className="page-title">Lens</h2>
         </div>
       </header>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-[250px] md:auto-rows-[350px] px-4 md:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 auto-rows-[280px] md:auto-rows-[380px] px-4 md:px-0">
         {LENS_PHOTOS.map((photo, i) => (
           <PhotoItem
             key={photo.id}
@@ -1683,68 +1693,131 @@ const LensPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] flex flex-col bg-[var(--surface)] overflow-hidden"
+            className="fixed inset-0 z-[200] flex flex-col bg-[var(--surface)]/95 backdrop-blur-3xl overflow-hidden"
             onClick={() => setIdx(null)}
           >
-            <div className="flex items-start justify-between p-6 md:p-8 z-[210] gap-4">
-              <div className="space-y-1 min-w-0 flex-1">
-                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--primary)]"></div>
-                <div className="text-[var(--on-surface)] font-display font-black text-2xl md:text-4xl tracking-tight">
+            {/* top islands - ungrouped capsule + circle */}
+            <div className="z-[230] p-6 md:p-12 flex justify-center items-center gap-3 md:gap-4 pointer-events-none">
+              <div className="bg-[var(--surface-variant)]/60 backdrop-blur-xl px-6 py-3 md:px-10 md:py-5 rounded-[2.5rem] md:rounded-[3rem] border-6 border-[var(--outline-variant)]/40 flex flex-col shadow-2xl pointer-events-auto min-w-0 max-w-[240px] md:max-w-xl">
+                <div className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[var(--primary)] mb-0.5 md:mb-1">
+                  Description
+                </div>
+                <div className="text-[var(--on-surface)] font-display font-black text-lg md:text-3xl tracking-tight leading-tight truncate">
                   {LENS_PHOTOS[idx].description}
                 </div>
               </div>
-              <button
+              
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.9, rotate: -8 }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 800, 
+                  damping: 15,
+                  mass: 0.5 
+                }}
                 onClick={() => setIdx(null)}
-                className="shrink-0 w-12 h-12 md:w-14 md:h-14 bg-[var(--surface-variant)] hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all border border-[var(--outline-variant)]/30 active:scale-90"
+                className="w-14 h-14 md:w-22 md:h-22 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto cursor-pointer"
               >
-                <X size={24} />
-              </button>
+                <X size={window.innerWidth < 768 ? 28 : 44} />
+              </motion.button>
             </div>
 
-            {/* content area */}
-            <div className="flex-1 relative flex items-center justify-center p-4 md:p-12 lg:p-20 overflow-hidden">
+            {/* central content area - image and side arrows */}
+            <div className="flex-1 relative w-full flex items-center justify-center px-4 md:px-32 lg:px-48 min-h-0 overflow-hidden">
+              {/* desktop side arrows */}
+              <div className="hidden md:flex absolute left-8 inset-y-0 items-center z-[220] pointer-events-none">
+                <button
+                  onClick={prev}
+                  className="w-20 h-20 bg-[var(--surface-variant)]/40 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all border-6 border-[var(--outline-variant)]/40 backdrop-blur-xl pointer-events-auto active:scale-90 shadow-2xl"
+                >
+                  <ChevronLeft size={44} />
+                </button>
+              </div>
+
               <motion.div
                 key={idx}
                 initial={{
                   opacity: 0,
-                  scale: 0.95,
+                  scale: 0.8,
+                  x: 40,
+                  scaleY: 1.1,
+                  scaleX: 0.9,
                 }}
                 animate={{
                   opacity: 1,
                   scale: 1,
+                  x: 0,
+                  scaleY: 1,
+                  scaleX: 1,
                 }}
                 exit={{
                   opacity: 0,
-                  scale: 0.95,
+                  scale: 0.8,
+                  x: -40,
+                  scaleY: 1.1,
+                  scaleX: 0.9,
                 }}
-                transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                transition={{
+                  type: "spring",
+                  damping: 20,
+                  stiffness: 150,
+                  mass: 1,
+                }}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.8}
+                dragElastic={0.4}
                 onDragEnd={(_, info) => {
-                  if (info.offset.x > 100) prev();
-                  else if (info.offset.x < -100) next();
+                  if (info.offset.x > 50) prev();
+                  else if (info.offset.x < -50) next();
                 }}
-                className="relative max-w-full max-h-full flex items-center justify-center cursor-grab active:cursor-grabbing"
+                className="relative w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing z-[205]"
                 onClick={(e) => e.stopPropagation()}
               >
                 <img
                   src={LENS_PHOTOS[idx].url}
-                  className="max-w-full max-h-full object-contain rounded-xl md:rounded-[2rem] shadow-2xl border border-[var(--outline-variant)]/20 pointer-events-none"
+                  className="max-w-full max-h-full object-contain rounded-[40px] md:rounded-[60px] shadow-[0_48px_96px_-24px_rgba(0,0,0,0.6)] border-[12px] border-white/10 pointer-events-none select-none"
                   referrerPolicy="no-referrer"
                   loading="eager"
                   decoding="async"
                 />
               </motion.div>
+
+              <div className="hidden md:flex absolute right-8 inset-y-0 items-center z-[220] pointer-events-none">
+                <button
+                  onClick={next}
+                  className="w-20 h-20 bg-[var(--surface-variant)]/40 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all border-6 border-[var(--outline-variant)]/40 backdrop-blur-xl pointer-events-auto active:scale-90 shadow-2xl"
+                >
+                  <ChevronRight size={44} />
+                </button>
+              </div>
             </div>
-            <div className="p-6 md:p-10 bg-[var(--surface-variant)] border-t border-[var(--outline-variant)]/20 z-[210] flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-6">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[var(--on-surface-variant)] opacity-40 mb-1">
-                    position
+
+            {/* bottom island - unified navigation, raw, and position */}
+            <div className="z-[230] p-6 md:p-12 flex flex-col items-center gap-6 pointer-events-none">
+              <div className="flex items-center gap-1 md:gap-2 bg-[var(--surface-variant)]/60 backdrop-blur-xl p-2 md:p-3 rounded-full border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto">
+                {/* mobile navigation buttons integrated into island */}
+                <div className="flex md:hidden items-center gap-1 pr-2 border-r-2 border-[var(--outline-variant)]/20">
+                  <button
+                    className="w-11 h-11 bg-transparent hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all active:scale-90"
+                    onClick={prev}
+                  >
+                    <ChevronLeft size={22} />
+                  </button>
+                  <button
+                    className="w-11 h-11 bg-transparent hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all active:scale-90"
+                    onClick={next}
+                  >
+                    <ChevronRight size={22} />
+                  </button>
+                </div>
+
+                <div className="px-4 md:px-8 py-1 md:py-2 flex flex-col items-center">
+                  <span className="text-[11px] md:text-[13px] font-black text-[var(--on-surface-variant)] opacity-60">
+                    pos
                   </span>
-                  <div className="flex items-center gap-2 text-[var(--on-surface)] font-mono">
-                    <span className="text-[var(--primary)] font-bold">
+                  <div className="flex items-center gap-1 md:gap-2 text-[var(--on-surface)] font-mono font-bold text-xs md:text-base">
+                    <span className="text-[var(--primary)]">
                       {String(idx + 1).padStart(2, "0")}
                     </span>
                     <span className="opacity-20">/</span>
@@ -1753,34 +1826,23 @@ const LensPage = () => {
                     </span>
                   </div>
                 </div>
-                <div className="w-[1px] h-8 bg-[var(--outline-variant)]/30" />
-              </div>
 
-              {/* desktop nav arrows moved to center */}
-              <div className="hidden md:flex items-center gap-2 bg-[var(--surface-variant)]/50 rounded-3xl p-1.5 border border-[var(--outline-variant)]/30">
+                <div className="w-[2px] h-8 md:h-10 bg-[var(--outline-variant)]/30 rounded-full mx-1 md:mx-2" />
+
                 <button
-                  className="w-12 h-12 bg-[var(--surface)]/50 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-[1.25rem] flex items-center justify-center transition-all border border-[var(--outline-variant)]/30 active:scale-90"
-                  onClick={prev}
+                  onClick={() => window.open(LENS_PHOTOS[idx].url, "_blank")}
+                  className="w-11 h-11 md:w-14 md:h-14 bg-[var(--primary-container)] hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-primary-container)] rounded-full flex items-center justify-center transition-all border-4 md:border-6 border-[var(--outline-variant)]/20 active:scale-90 group relative"
                 >
-                  <ChevronLeft size={24} />
-                </button>
-                <button
-                  className="w-12 h-12 bg-[var(--surface)]/50 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-[1.25rem] flex items-center justify-center transition-all border border-[var(--outline-variant)]/30 active:scale-90"
-                  onClick={next}
-                >
-                  <ChevronRight size={24} />
+                  <ExternalLink size={window.innerWidth < 768 ? 20 : 28} />
+                  <span className="absolute -top-14 left-1/2 -translate-x-1/2 bg-[var(--surface-variant)] text-[var(--on-surface)] text-[10px] font-black px-4 py-2 rounded-xl border-4 border-[var(--outline-variant)] opacity-0 group-hover:opacity-100 transition-all scale-90 group-hover:scale-100 whitespace-nowrap pointer-events-none shadow-xl">
+                    Open Raw
+                  </span>
                 </button>
               </div>
 
-              <div className="hidden md:flex items-center gap-3">
-                <span className="text-[10px] font-black uppercase tracking-widest text-[var(--on-surface-variant)] opacity-40">
-                  use keys or arrows to cycle images
-                </span>
-              </div>
-
-              <div className="flex md:hidden items-center gap-3">
-                <span className="text-[10px] font-black uppercase tracking-widest text-[var(--on-surface-variant)] opacity-40">
-                  swipe left/right to cycle images
+              <div className="hidden md:flex items-center gap-3 bg-black/10 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/5 shadow-xl">
+                <span className="text-[10px] font-black uppercase tracking-widest text-white/40 tracking-[0.2em]">
+                  Keyboard: arrows to cycle · esc to close
                 </span>
               </div>
             </div>
