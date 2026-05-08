@@ -392,6 +392,14 @@ export const CHANGELOGS: ChangelogEntry[] = [
           "scroll isolation: fixed a long-standing bug where the background page would scroll while an image was expanded.",
         ],
       },
+      {
+        category: "other changes",
+        items: [
+          "geometricPrecision: forced the SVG to use the highest quality rendering hints, so no more jagged steps on the curves.",
+          "double segment density: doubled path resolution to keep curves looking smooth and fluid, even at high zoom levels.",
+          "overflow & joins: added `overflow: visible` and `stroke-linejoin: round` to prevent tiny pixel-gaps and sharp edgs that appers on the waves."
+        ],
+      },
     ],
   },
   {
