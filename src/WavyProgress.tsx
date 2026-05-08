@@ -40,13 +40,15 @@ export default function WavyProgress({
       role="progressbar"
       className={className}
       preserveAspectRatio="none"
-      style={{ width: "100%", height: "auto" }}
+      style={{ width: "100%", height: "auto", overflow: "visible" }}
+      shapeRendering="geometricPrecision"
     >
       <path
         fill="none"
         stroke="currentColor"
         strokeWidth={thickness}
         strokeLinecap="round"
+        strokeLinejoin="round"
       >
         <animate
           attributeName="d"
