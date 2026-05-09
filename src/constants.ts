@@ -376,6 +376,24 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "sidebar-styling-polish",
+    version: "2026.05.08-B",
+    title: "sidebar styling & extra polish",
+    date: "May 08, 2026",
+    changes: [
+      {
+        category: "sidebar & navigation",
+        items: [
+          "collapsed sidebar revamp: completely overhauled the sidebar collapsed state. featuring m3e style pills-on-icons + text below for an immersive touch!",
+          "pixel-perfect centering: made sure collapsed pills to top-3px for exact vertical alignment with icons.",
+          "m3 grouping: restored isFirst logic to the settings button due to a bug.",
+          "visual separation: added a subtle side border to the non-floating sidebar and increased separator visibility.",
+          "ux spacing: increased vertical gap between settings and expand controls in collapsed state for better ergonomics.",
+        ],
+      },
+    ],
+  },
+  {
     id: "lens-overhaul-m3e",
     version: "2026.05.08",
     title: "the lens overhaul (m3 expressive!)",
