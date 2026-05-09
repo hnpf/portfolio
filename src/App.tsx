@@ -399,8 +399,8 @@ const SideItem = memo(
             )}
             initial={false}
             animate={{
-              borderRadius: isMini 
-                ? "9999px" 
+              borderRadius: isMini
+                ? "9999px"
                 : (isFirst && isLast) ? "28px" : isFirst ? "28px 28px 15px 15px" : isLast ? "15px 15px 28px 28px" : "15px"
             }}
             style={isMini ? { left: "50%", x: "-50%" } : {}}
@@ -493,7 +493,7 @@ const SideAction = ({ children, onClick, isMini, tooltip, className }: any) => {
       className={cn(
         "flex items-center justify-center p-4 rounded-xl group relative outline-none overflow-hidden cursor-pointer motion-gpu",
         !className?.includes("bg-") &&
-          "bg-[var(--surface-variant)] text-[var(--on-surface-variant)]",
+        "bg-[var(--surface-variant)] text-[var(--on-surface-variant)]",
         isMini ? "w-14 h-14 mx-auto" : "flex-1",
         className,
       )}
@@ -575,19 +575,19 @@ const BotNav = ({
         animate={
           wiggle
             ? {
-                rotate: [0, -10, 10, -10, 10, 0],
-                scale: [1, 1.1, 1.1, 1.1, 1.1, 1],
-              }
+              rotate: [0, -10, 10, -10, 10, 0],
+              scale: [1, 1.1, 1.1, 1.1, 1.1, 1],
+            }
             : { rotate: 0, scale: 1 }
         }
         transition={
           wiggle
             ? {
-                duration: 1.2,
-                repeat: 1,
-                repeatDelay: 0.1,
-                ease: "easeInOut",
-              }
+              duration: 1.2,
+              repeat: 1,
+              repeatDelay: 0.1,
+              ease: "easeInOut",
+            }
             : { duration: 0.3 }
         }
       >
@@ -1695,7 +1695,7 @@ const LensPage = () => {
       if (e.key === "Escape") setIdx(null);
     };
     window.addEventListener("keydown", on_key);
-    
+
     if (idx !== null) {
       document.body.style.overflow = "hidden"; // lol bye loser
       // preload next and prev images
@@ -1745,22 +1745,22 @@ const LensPage = () => {
             {/* top islands - ungrouped capsule + circle */}
             <div className="z-[230] p-6 md:p-8 flex justify-center items-center gap-3 md:gap-4 pointer-events-none">
               <div className="bg-[var(--surface-variant)]/60 backdrop-blur-xl px-6 py-3 md:px-8 md:py-4 rounded-[2.5rem] md:rounded-[2.5rem] border-6 border-[var(--outline-variant)]/40 flex flex-col shadow-2xl pointer-events-auto min-w-0 max-w-[240px] md:max-w-lg">
-                <div className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[var(--primary)] mb-0.5 md:mb-1">
-                  Description
+                <div className="text-[9px] md:text-[18px] font-black tracking-[0.2em] text-[var(--primary)] mb-0.5 md:mb-1">
+                  description
                 </div>
                 <div className="text-[var(--on-surface)] font-display font-black text-lg md:text-2xl tracking-tight leading-tight truncate">
                   {LENS_PHOTOS[idx].description}
                 </div>
               </div>
-              
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9, rotate: -8 }}
-                transition={{ 
-                  type: "spring", 
-                  stiffness: 800, 
+                transition={{
+                  type: "spring",
+                  stiffness: 800,
                   damping: 15,
-                  mass: 0.5 
+                  mass: 0.5
                 }}
                 onClick={() => setIdx(null)}
                 className="w-14 h-14 md:w-18 md:h-18 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto cursor-pointer"
@@ -1859,8 +1859,8 @@ const LensPage = () => {
                 </div>
 
                 <div className="px-4 md:px-8 py-1 md:py-2 flex flex-col items-center">
-                  <span className="text-[11px] md:text-[13px] font-black text-[var(--on-surface-variant)] opacity-60">
-                    pos
+                  <span className="text-[11px] md:text-[16px] font-black text-[var(--on-surface-variant)] opacity-60">
+                    image position:
                   </span>
                   <div className="flex items-center gap-1 md:gap-2 text-[var(--on-surface)] font-mono font-bold text-xs md:text-base">
                     <span className="text-[var(--primary)]">
@@ -1887,8 +1887,8 @@ const LensPage = () => {
               </div>
 
               <div className="hidden md:flex items-center gap-3 bg-black/10 backdrop-blur-md px-6 py-2.5 rounded-full border border-white/5 shadow-xl">
-                <span className="text-[10px] font-black uppercase tracking-widest text-white/40 tracking-[0.2em]">
-                  Keyboard: arrows to cycle · esc to close
+                <span className="text-[13px] font-black  tracking-widest text-white/40 tracking-[0.2em]">
+                  Keyboard: arrows to cycle & esc to close
                 </span>
               </div>
             </div>
@@ -3082,8 +3082,8 @@ export default function App() {
               className={cn(
                 "flex flex-col h-full w-full motion-gpu border-[var(--outline-variant)] transition-colors duration-300",
                 scrolled &&
-                  !settings.floatingSidebar &&
-                  "border-b-[var(--outline-variant)]/30",
+                !settings.floatingSidebar &&
+                "border-b-[var(--outline-variant)]/30",
               )}
             >
               <div
@@ -3118,9 +3118,9 @@ export default function App() {
                     show_pfp_container
                       ? "w-24 h-24 rounded-[40px] shadow-xl"
                       : cn(
-                          "w-24 h-24 rounded-[40px] shadow-none",
-                          !settings.sidebarCollapsed && "-ml-5",
-                        ),
+                        "w-24 h-24 rounded-[40px] shadow-none",
+                        !settings.sidebarCollapsed && "-ml-5",
+                      ),
                     settings.sidebarCollapsed && "w-16 h-16 rounded-[24px]",
                   )}
                 >
@@ -3909,7 +3909,7 @@ export default function App() {
                           <Switch
                             checked={
                               settings[
-                                tweak.key as keyof typeof settings
+                              tweak.key as keyof typeof settings
                               ] as boolean
                             }
                             onChange={(checked) => {
