@@ -60,6 +60,7 @@ import CopyLinkCapsule from "./CopyLinkCapsule";
 import Slider from "./M3Slider";
 import Switch from "./M3Switch";
 import WavyProgress from "./WavyProgress";
+import "./navigation/navigation-rail.css";
 
 // --- building blocks ---
 
@@ -343,79 +344,106 @@ const SideItem = memo(
     const [isHovered, setIsHovered] = useState(false);
     const { settings } = useTheme();
 
-    const rd = isFirst
-      ? "rounded-t-[28px] rounded-b-[15px]"
-      : isLast
-        ? "rounded-t-[15px] rounded-b-[28px]"
-        : "rounded-[15px]";
+    const rd = isFirst && isLast
+      ? "rounded-[28px]"
+      : isFirst
+        ? "rounded-t-[28px] rounded-b-[15px]"
+        : isLast
+          ? "rounded-t-[15px] rounded-b-[28px]"
+          : "rounded-[15px]";
+
+    // transition settings
+    const sideItemSpring = {
+      type: "spring",
+      stiffness: settings.highHz ? 1100 : 1000,
+      damping: settings.highHz ? 45 : 40,
+      mass: 0.25,
+    };
 
     return (
       <motion.button
+        layout="position"
         whileTap={{ scale: 0.96 }}
         onClick={onSelect}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={cn(
-          "flex items-center justify-center gap-4 px-4 group relative sidebar-item outline-none cursor-pointer text-[16px] font-black motion-gpu ring-6 ring-[var(--outline-variant)]/30 isolate overflow-hidden",
-          isFloating ? "py-3" : "py-4",
-          rd,
-          isMini && "px-0 w-14 mx-auto",
+          "relative group outline-none cursor-pointer font-black motion-gpu isolate overflow-hidden flex items-center",
+          isMini ? "w-full h-16 flex-col justify-center gap-0 ring-0 bg-transparent shadow-none" : "w-full py-4 px-4 justify-start gap-4 ring-6 ring-[var(--outline-variant)]/30",
+          !isMini && (isFloating ? "py-3" : "py-4"),
+          isMini && isSelected && "active",
+          !isMini && rd,
         )}
-        style={{ transform: "translateZ(0)" }}
       >
-        {/* flicker fix ehehe */}
-        <motion.div
-          className={cn("absolute inset-0 -z-20", rd)}
-          initial={false}
-          animate={{
-            backgroundColor: "var(--surface-variant)",
-            opacity: isSelected ? 0 : isHovered ? 0.8 : 0.4,
-          }}
-          transition={{ duration: 0.2 }}
-        />
+        {/* hov background layer */}
+        {!isMini && (
+          <motion.div
+            className={cn("absolute inset-0 -z-20", rd)}
+            initial={false}
+            animate={{
+              backgroundColor: "var(--surface-variant)",
+              opacity: isSelected ? 0 : isHovered ? 0.8 : 0.4,
+            }}
+            transition={{ duration: 0.1 }}
+          />
+        )}
 
-        {/* moved out of AnimatePresence for a smoother shared transition */}
+        {/* m3 active indicator pill/bg */}
         {isSelected && (
           <motion.div
             layoutId="sidebar-pill-active"
             className={cn(
-              "absolute inset-0 bg-[var(--primary-container)] -z-10 active-pill",
-              rd,
+              "absolute bg-[var(--primary-container)] active-pill",
+              isMini ? "w-16 h-9 top-[3px] z-0" : "inset-0 -z-10",
+              isMini ? "rounded-full" : rd
             )}
-            style={{
-              willChange: "transform",
-              backfaceVisibility: "hidden",
-              WebkitBackfaceVisibility: "hidden",
-              transform: "translateZ(0)",
+            initial={false}
+            animate={{
+              borderRadius: isMini 
+                ? "9999px" 
+                : (isFirst && isLast) ? "28px" : isFirst ? "28px 28px 15px 15px" : isLast ? "15px 15px 28px 28px" : "15px"
             }}
-            transition={{
-              type: "spring",
-              stiffness: 500,
-              damping: 35,
-              mass: 0.4,
-            }}
+            style={isMini ? { left: "50%", x: "-50%" } : {}}
+            transition={sideItemSpring}
           />
         )}
 
-        <motion.div
-          animate={{
-            scale: isSelected ? 1.1 : isHovered ? 1.05 : 1,
-            rotate: isSelected ? -5 : isHovered ? -2 : 0,
-          }}
-          transition={{ type: "spring", stiffness: 400, damping: 25 }}
-          style={{
-            color: isSelected
-              ? "var(--on-primary-container)"
-              : isHovered
-                ? "var(--primary)"
-                : "var(--on-surface-variant)",
-          }}
-          className="relative z-10 shrink-0 transition-colors duration-200"
-        >
-          <Icon size={24} strokeWidth={isSelected ? 2.5 : 2} fill="none" />
-        </motion.div>
+        {/* collapsed hover pill (mirroring on) */}
+        {isMini && isHovered && !isSelected && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.8, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="absolute w-16 h-9 top-[3px] bg-[var(--surface-variant)] rounded-full -z-10"
+            style={{ left: "50%", x: "-50%" }}
+          />
+        )}
 
-        {!isMini && (
+        {/* icon container */}
+        <div className={cn(
+          "relative z-10 shrink-0 flex items-center justify-center transition-all duration-300",
+          isMini ? "h-8 w-14" : "w-6 h-6"
+        )}>
+          <motion.div
+            animate={{
+              scale: isSelected ? 1.1 : isHovered ? 1.05 : 1,
+              rotate: isSelected ? -5 : isHovered ? -2 : 0,
+            }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            style={{
+              color: isSelected
+                ? "var(--on-primary-container)"
+                : isHovered
+                  ? "var(--primary)"
+                  : "var(--on-surface-variant)",
+            }}
+          >
+            <Icon size={24} strokeWidth={isSelected ? 2.5 : 2} fill="none" />
+          </motion.div>
+        </div>
+
+        {/* label (expanded or collapsed) */}
+        {!isMini ? (
           <motion.span
             animate={{
               x: isSelected ? 2 : 0,
@@ -429,13 +457,25 @@ const SideItem = memo(
           >
             {text}
           </motion.span>
+        ) : (
+          <span className="text-[10px] font-black uppercase tracking-widest mt-1 opacity-60 group-hover:opacity-100 transition-opacity relative z-10">
+            {text}
+          </span>
         )}
 
-        {isMini && (
-          <div className="absolute left-full ml-6 px-3 py-1.5 bg-[var(--on-surface)] text-[var(--surface)] text-xs font-bold rounded-xl opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0 pointer-events-none z-50 whitespace-nowrap shadow-xl">
-            {text}
-          </div>
-        )}
+        {/* collapsed tooltip */}
+        <AnimatePresence>
+          {isMini && isHovered && (
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              className="absolute left-full ml-6 px-3 py-1.5 bg-[var(--on-surface)] text-[var(--surface)] text-xs font-bold rounded-xl z-50 whitespace-nowrap shadow-xl pointer-events-none"
+            >
+              {text}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.button>
     );
   },
@@ -2435,6 +2475,15 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
 
 export default function App() {
   const { settings, updateSettings, actualTheme, cycleTheme } = useTheme();
+
+  // transition settings for sidebar and components
+  const springConfig = {
+    type: "spring",
+    stiffness: settings.highHz ? 1100 : 1000,
+    damping: settings.highHz ? 45 : 40,
+    mass: 0.25,
+  };
+
   const [page, setPage] = useState(() => {
     const loc = window.location.pathname;
     if (loc === "/" || loc === "") return "home";
@@ -2839,7 +2888,7 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v.1.7.0-stable (v2026.05.08)</span>
+              <span>v.1.7.1-stable (v2026.05.08-B)</span>
             </div>
           </div>
         </div>
@@ -2921,8 +2970,8 @@ export default function App() {
               opacity: 1,
               width: settings.sidebarCollapsed
                 ? settings.floatingSidebar
-                  ? 170
-                  : 112
+                  ? 144
+                  : 96
                 : settings.floatingSidebar
                   ? 350
                   : 320,
@@ -2970,9 +3019,9 @@ export default function App() {
             }}
             transition={{
               type: "spring",
-              stiffness: 220,
-              damping: 28,
-              mass: 1,
+              stiffness: settings.highHz ? 350 : 300,
+              damping: settings.highHz ? 35 : 30,
+              mass: 0.8,
               restDelta: 0.001,
             }}
             layout
@@ -2984,7 +3033,7 @@ export default function App() {
               layout
               animate={{
                 padding: settings.sidebarCollapsed
-                  ? "12px"
+                  ? "0px"
                   : settings.floatingSidebar
                     ? "20px"
                     : "24px",
@@ -2998,6 +3047,18 @@ export default function App() {
                     ? "blur(24px)"
                     : "blur(0px)",
                 borderWidth: settings.floatingSidebar ? "6px" : "0px",
+                borderRightWidth:
+                  !settings.floatingSidebar && !settings.sidebarFlipped
+                    ? "1px"
+                    : settings.floatingSidebar
+                      ? "6px"
+                      : "0px",
+                borderLeftWidth:
+                  !settings.floatingSidebar && settings.sidebarFlipped
+                    ? "1px"
+                    : settings.floatingSidebar
+                      ? "6px"
+                      : "0px",
                 borderBottomWidth:
                   scrolled && !settings.floatingSidebar
                     ? "1px"
@@ -3013,9 +3074,9 @@ export default function App() {
               }}
               transition={{
                 type: "spring",
-                stiffness: 220,
-                damping: 28,
-                mass: 1,
+                stiffness: settings.highHz ? 350 : 300,
+                damping: settings.highHz ? 35 : 30,
+                mass: 0.8,
                 restDelta: 0.001,
               }}
               className={cn(
@@ -3027,12 +3088,12 @@ export default function App() {
             >
               <div
                 className={cn(
-                  "flex items-center gap-4 isolate",
+                  "flex items-center isolate",
                   settings.sidebarCollapsed
-                    ? "justify-center px-0 mb-10 py-6"
+                    ? "justify-center px-0 mb-10 py-10"
                     : show_pfp_container
-                      ? "bg-[var(--surface-variant)]/20 ring-6 ring-[var(--outline-variant)]/30 rounded-[2.5rem] px-4 mx-2 mb-10 py-6"
-                      : "px-4 mx-2 mb-8 py-2",
+                      ? "bg-[var(--surface-variant)]/20 ring-6 ring-[var(--outline-variant)]/30 rounded-[2.5rem] px-4 mx-2 mb-10 py-6 gap-4"
+                      : "px-4 mx-2 mb-8 py-2 gap-4",
                 )}
               >
                 <motion.div
@@ -3055,11 +3116,12 @@ export default function App() {
                   className={cn(
                     "flex items-center justify-center shrink-0 relative group/pfp cursor-pointer isolate",
                     show_pfp_container
-                      ? "w-24 h-24 rounded-[32px] shadow-xl"
+                      ? "w-24 h-24 rounded-[40px] shadow-xl"
                       : cn(
-                          "w-24 h-24 rounded-[32px] shadow-none",
+                          "w-24 h-24 rounded-[40px] shadow-none",
                           !settings.sidebarCollapsed && "-ml-5",
                         ),
+                    settings.sidebarCollapsed && "w-16 h-16 rounded-[24px]",
                   )}
                 >
                   <div className="absolute inset-0 rounded-[inherit] overflow-hidden">
@@ -3069,6 +3131,7 @@ export default function App() {
                         show_pfp_container
                           ? "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]"
                           : "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]",
+                        settings.sidebarCollapsed && "ring-4",
                       )}
                     />
                     <div className="absolute inset-0 bg-[var(--surface-variant)]/50 -z-10" />
@@ -3110,7 +3173,13 @@ export default function App() {
                   </h3>
                 </div>
               )}
-              <nav className="flex-1 flex flex-col gap-5">
+              <nav
+                className={cn(
+                  "flex-1 flex flex-col gap-6",
+                  settings.sidebarCollapsed ? "items-center" : "items-stretch",
+                )}
+                data-rail-state={settings.sidebarCollapsed ? "default" : "open"}
+              >
                 <SideItem
                   isFirst
                   glyph={Home}
@@ -3193,52 +3262,73 @@ export default function App() {
                   </div>
                 )}
               </nav>
-              <div className="mt-auto flex flex-col pt-6 pb-4 text-[15px] border-t border-[var(--outline-variant)]">
-                <div className="flex flex-col gap-5">
+              <div
+                className={cn(
+                  "mt-auto flex flex-col pt-4",
+                  settings.sidebarCollapsed ? "pb-10 items-center gap-6" : "pb-4 px-2 gap-4",
+                )}
+                data-rail-state={settings.sidebarCollapsed ? "default" : "open"}
+              >
+                {/* idk */}
+                <div className="mx-4 h-px bg-[var(--outline-variant)]" />
+
+                <div
+                  className={cn(
+                    "flex flex-col",
+                    settings.sidebarCollapsed ? "w-full items-center gap-6" : "gap-4",
+                  )}
+                >
                   <SideItem
                     glyph={SettingsIcon}
                     text="Settings"
                     onSelect={() => setSettingsOpen(true)}
                     isMini={settings.sidebarCollapsed}
                     isFirst
-                    isLast
                     isFloating={settings.floatingSidebar}
                   />
 
                   {!settings.sidebarCollapsed && (
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-2 w-full">
                       <BounceButton
                         icon={Github}
                         label="GitHub"
                         url="https://github.com/hnpf"
-                        className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-5 px-4 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-all"
+                        className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-all text-sm font-black"
                       />
                       <BounceButton
                         icon={MessageSquare}
                         label="Discord"
                         url="https://conspiracy.rip/discord"
-                        className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-5 px-4 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-all"
+                        className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-all text-sm font-black"
                       />
                     </div>
                   )}
 
-                  <button
-                    onClick={() =>
-                      updateSettings({
-                        sidebarCollapsed: !settings.sidebarCollapsed,
-                      })
-                    }
-                    className={cn(
-                      "flex items-center justify-center py-4 rounded-t-[15px] rounded-b-[28px] bg-[var(--surface-variant)]/30 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)] transition-all ring-6 ring-[var(--outline-variant)]/30 outline-none cursor-pointer",
-                      settings.sidebarCollapsed ? "w-14 mx-auto" : "w-full",
-                    )}
-                  >
-                    {settings.sidebarCollapsed ? (
-                      <ChevronRight size={20} />
-                    ) : (
-                      <ChevronLeft size={20} />
-                    )}
-                  </button>
+                  <div className={cn("w-full flex justify-center", settings.sidebarCollapsed && "px-0")}>
+                    <motion.button
+                      layout
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() =>
+                        updateSettings({
+                          sidebarCollapsed: !settings.sidebarCollapsed,
+                        })
+                      }
+                      className={cn(
+                        "flex items-center justify-center ring-6 ring-[var(--outline-variant)]/30 outline-none cursor-pointer transition-all duration-300",
+                        settings.sidebarCollapsed
+                          ? "w-14 h-14 rounded-[18px] bg-[var(--surface-variant)] text-[var(--on-surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)]"
+                          : "w-full py-4 rounded-t-[15px] rounded-b-[28px] bg-[var(--surface-variant)]/30 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)]",
+                      )}
+                      transition={springConfig}
+                    >
+                      {settings.sidebarCollapsed ? (
+                        <ChevronRight size={20} />
+                      ) : (
+                        <ChevronLeft size={20} />
+                      )}
+                    </motion.button>
+                  </div>
                 </div>
               </div>
 
@@ -3854,7 +3944,7 @@ export default function App() {
                     <div>
                       <div className="font-bold">View changelog</div>
                       <div className="text-xs opacity-60 font-medium">
-                        See what's new in v2026.05.08
+                        See what's new in v2026.05.08-B
                       </div>
                     </div>
                     <ChevronRight
