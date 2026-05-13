@@ -89,6 +89,7 @@ src/
 - [ ] maybe some sick bounce/squish animation for slider when you try to drag past the borders
 - [x] or a small stretch-squish physics-based animation when switch toggles 
 - [ ] blog: tags + filter ui
+- [ ] padding for icons in sidebar, idk why that suddenly icked me.
 - [ ] settings: export/import config as json - future work. 
 
 ---
