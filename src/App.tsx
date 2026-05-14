@@ -342,28 +342,27 @@ const SideItem = memo(
     isFloating,
     isShort,
     layoutId,
-    isHidden,
   }: any) => {
     const [isHovered, setIsHovered] = useState(false);
     const { settings } = useTheme();
 
     // squishy spring, better settle
     const squishySpring = {
-      type: "spring",
+      type: "spring" as const,
       stiffness: settings.highHz ? 400 : 350,
       damping: 30,
       mass: 0.6,
     };
 
     const sideItemSpring = {
-      type: "spring",
+      type: "spring" as const,
       stiffness: settings.highHz ? 1100 : 1000,
       damping: 45,
       mass: 0.25,
     };
 
     const settingsSpring = {
-      type: "spring",
+      type: "spring" as const,
       stiffness: settings.highHz ? 450 : 350,
       damping: settings.highHz ? 35 : 30,
       mass: 1,
@@ -382,20 +381,19 @@ const SideItem = memo(
     if (isMini) {
       return (
         <motion.button
-          layoutId={isHidden ? undefined : layoutId}
           layout="position"
           initial={false}
           animate={{
-            opacity: isHidden ? 0 : 1,
-            scale: isHidden ? 0.8 : 1,
+            opacity: 1,
+            scale: 1,
           }}
           transition={{
             opacity: { duration: 0.2 },
-            layout: layoutId === "settings-expansion" ? settingsSpring : squishySpring,
+            layout: settingsSpring,
             default: squishySpring,
           }}
-          whileHover={{ scale: isHidden ? 0.8 : 1.05 }}
-          whileTap={{ scale: isHidden ? 0.8 : 0.9, rotate: -4 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.9, rotate: -4 }}
           onClick={onSelect}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -403,7 +401,6 @@ const SideItem = memo(
             "relative group outline-none cursor-pointer font-black motion-gpu isolate flex flex-col justify-center items-center w-full shadow-none bg-transparent gap-0",
             isShort ? "h-12" : "h-16",
             isSelected && "active",
-            isHidden && "pointer-events-none",
           )}
         >
           {/* icon container */}
@@ -428,14 +425,14 @@ const SideItem = memo(
             )}
 
             <motion.div
-              layoutId={text === "Settings" ? "settings-icon" : undefined}
+              layoutId={text === "Settings" ? layoutId : undefined}
               animate={{
                 scale: isSelected ? 1.1 : isHovered ? 1.05 : 1,
                 rotate:
                   isSelected ? -5 : isHovered ? (text === "Settings" ? 45 : -2) : 0,
               }}
               transition={text === "Settings" ? settingsSpring : {
-                type: "spring",
+                type: "spring" as const,
                 stiffness: 400,
                 damping: 25,
               }}
@@ -474,29 +471,27 @@ const SideItem = memo(
 
     return (
       <motion.button
-        layoutId={isHidden ? undefined : layoutId}
         layout="position"
         initial={false}
         animate={{
-          opacity: isHidden ? 0 : 1,
-          scale: isHidden ? 0.95 : 1,
-          x: isHidden ? -20 : 0,
+          opacity: 1,
+          scale: 1,
+          x: 0,
         }}
         transition={{
           opacity: { duration: 0.2 },
-          layout: layoutId === "settings-expansion" ? settingsSpring : squishySpring,
+          layout: settingsSpring,
           default: squishySpring,
         }}
-        whileHover={{ scale: isHidden ? 0.95 : 1.02, x: isHidden ? -20 : 4 }}
-        whileTap={{ scale: isHidden ? 0.95 : 0.96, x: isHidden ? -20 : -2 }}
+        whileHover={{ scale: 1.02, x: 4 }}
+        whileTap={{ scale: 0.96, x: -2 }}
         onClick={onSelect}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={cn(
-          "relative group outline-none cursor-pointer font-black motion-gpu isolate flex items-center w-full px-4 justify-start gap-4 ring-6 ring-[var(--outline-variant)]/30",
+          "relative group outline-none cursor-pointer font-black motion-gpu isolate flex items-center w-full px-4 justify-center gap-4 ring-6 ring-[var(--outline-variant)]/30",
           isFloating ? "py-2.5" : isShort ? "py-3" : "py-4",
           rd,
-          isHidden && "pointer-events-none",
         )}
       >
         {/* hov background layer */}
@@ -532,14 +527,14 @@ const SideItem = memo(
 
         <div className="relative z-10 shrink-0 flex items-center justify-center transition-all duration-300 w-6 h-6">
           <motion.div
-            layoutId={text === "Settings" ? "settings-icon" : undefined}
+            layoutId={text === "Settings" ? layoutId : undefined}
             animate={{
               scale: isSelected ? 1.1 : isHovered ? 1.05 : 1,
               rotate:
                 isSelected ? -5 : isHovered ? (text === "Settings" ? 45 : -2) : 0,
             }}
             transition={text === "Settings" ? settingsSpring : {
-              type: "spring",
+              type: "spring" as const,
               stiffness: 400,
               damping: 25,
             }}
@@ -563,7 +558,7 @@ const SideItem = memo(
           style={{
             color: isSelected ? "var(--on-primary-container)" : "inherit",
           }}
-          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          transition={{ type: "spring" as const, stiffness: 400, damping: 25 }}
           className="font-display font-black tracking-tighter text-lg relative z-10 transition-colors duration-200"
         >
           {text}
@@ -638,13 +633,12 @@ const BotNav = ({
   imgSrc,
   wiggle,
   layoutId,
-  isHidden,
 }: any) => {
   const [isHovered, setIsHovered] = useState(false);
   const { settings } = useTheme();
 
   const settingsSpring = {
-    type: "spring",
+    type: "spring" as const,
     stiffness: settings.highHz ? 450 : 350,
     damping: settings.highHz ? 35 : 30,
     mass: 1,
@@ -653,21 +647,14 @@ const BotNav = ({
 
   return (
     <motion.button
-      layoutId={isHidden ? undefined : layoutId}
       initial={false}
       animate={{
-        opacity: isHidden ? 0 : 1,
-        scale: isHidden ? 0.8 : 1,
-        y: isHidden ? 20 : 0,
+        opacity: 1,
+        scale: 1,
+        y: 0,
       }}
       transition={{
         opacity: { duration: 0.2 },
-        layout: layoutId === "settings-expansion" ? settingsSpring : {
-          type: "spring",
-          stiffness: 450,
-          damping: 28,
-          mass: 0.8,
-        },
         default: {
           type: "spring",
           stiffness: 450,
@@ -675,7 +662,7 @@ const BotNav = ({
           mass: 0.8,
         },
       }}
-      whileTap={{ scale: isHidden ? 0.8 : 0.9, y: isHidden ? 20 : 5 }}
+      whileTap={{ scale: 0.9, y: 5 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onSelect}
@@ -684,7 +671,6 @@ const BotNav = ({
         isSelected
           ? "text-[var(--on-surface)]"
           : "text-[var(--on-surface-variant)]",
-        isHidden && "pointer-events-none",
       )}
     >
       <div className="relative flex items-center justify-center w-16 h-8 mb-1">
@@ -704,7 +690,7 @@ const BotNav = ({
           )}
         </AnimatePresence>
         <motion.div
-          layoutId={text === "More" ? "settings-icon" : undefined}
+          layoutId={text === "More" ? layoutId : undefined}
           animate={
             wiggle
               ? {
@@ -755,14 +741,14 @@ const BotNav = ({
         )}
       </motion.div>
     </div>
-    <span
+    <motion.span
       className={cn(
         "text-[11px] font-bold tracking-tight transition-all duration-200",
         isSelected ? "opacity-100" : "opacity-70",
       )}
     >
       {text}
-    </span>
+    </motion.span>
   </motion.button>
   );
 };
@@ -2799,6 +2785,15 @@ export default function App() {
   });
   const [hwOpen, setHwOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [isSettingsClosing, setIsSettingsClosing] = useState(false);
+
+  const handleSettingsClose = () => {
+    setIsSettingsClosing(true);
+    setTimeout(() => {
+      setSettingsOpen(false);
+      setIsSettingsClosing(false);
+    }, 250);
+  };
   const [showDebugConfirm, setShowDebugConfirm] = useState(false);
   const [viewport, set_viewport] = useState({
     w: window.innerWidth,
@@ -2812,7 +2807,7 @@ export default function App() {
 
   // locked in spring for the settings expansion
   const settingsSpring = {
-    type: "spring",
+    type: "spring" as const,
     stiffness: settings.highHz ? 450 : 350,
     damping: settings.highHz ? 35 : 30,
     mass: 1,
@@ -2986,6 +2981,7 @@ export default function App() {
   }, [page, blogPostId, settings.accent, settings.mode]);
 
   const goto = (newPage: string, postId: string | null = null) => {
+    handleSettingsClose();
     const url =
       newPage === "home" ? "/" : postId ? `/blog/${postId}` : `/${newPage}`;
     window.history.pushState({}, "", url);
@@ -2995,7 +2991,6 @@ export default function App() {
     });
     window.scrollTo(0, 0);
   };
-
   const [show_top, setShowTop] = useState(false);
   const [scrolled, set_scrolled] = useState(false);
 
@@ -3586,7 +3581,6 @@ export default function App() {
                     isFirst
                     isFloating={settings.floatingSidebar}
                     layoutId="settings-expansion"
-                    isHidden={settingsOpen}
                   />
 
                   {!settings.sidebarCollapsed && (
@@ -3791,7 +3785,6 @@ export default function App() {
               text="More"
               onSelect={() => setSettingsOpen(true)}
               layoutId="settings-expansion"
-              isHidden={settingsOpen}
             />
           </motion.nav>
         )}
@@ -3893,21 +3886,52 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setSettingsOpen(false)}
+              onClick={handleSettingsClose}
               className="absolute inset-0 bg-black/60 backdrop-blur-md motion-gpu"
               style={{ willChange: "opacity" }}
             />
             <motion.div
               layoutId="settings-expansion"
-              initial={{ opacity: 0, scale: 0.85, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.85, y: 20 }}
-              transition={settingsSpring}
+              initial={{ opacity: 0, scale: 0.9, y: 20, x: 20 }}
+              animate={{ 
+                opacity: 1, 
+                scale: isSettingsClosing ? 0.85 : 1, 
+                y: isSettingsClosing ? 30 : 0, 
+                x: isSettingsClosing ? 30 : 0,
+                filter: isSettingsClosing ? "blur(4px)" : "blur(0px)"
+              }}
+              exit={{ 
+                opacity: 0, 
+                scale: 0.4, 
+                y: 120, 
+                x: 120,
+                filter: "blur(8px)",
+                transition: {
+                  type: "spring",
+                  stiffness: 1000,
+                  damping: 40,
+                  mass: 0.5,
+                  restDelta: 0.01
+                }
+              }}
+              transition={{
+                ...settingsSpring,
+                stiffness: isSettingsClosing ? 800 : settingsSpring.stiffness,
+                damping: isSettingsClosing ? 40 : settingsSpring.damping
+              }}
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-xl bg-[var(--surface)] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-[var(--outline-variant)] motion-gpu settings-modal-content"
               style={{ willChange: "transform, opacity" }}
             >
-              <div
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: isSettingsClosing ? 0 : 1,
+                  y: isSettingsClosing ? 15 : 0,
+                  scale: isSettingsClosing ? 0.98 : 1
+                }}
+                exit={{ opacity: 0, transition: { duration: 0.05 } }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
                 className="flex flex-col h-full overflow-hidden"
               >
                 <div
@@ -3915,10 +3939,10 @@ export default function App() {
                 >
                   <h2 className="text-2xl font-bold flex items-center gap-3">
                     <SettingsIcon size={24} className="text-[var(--primary)]" />
-                    Settings
+                    <span>Settings</span>
                   </h2>
                   <button
-                    onClick={() => setSettingsOpen(false)}
+                    onClick={handleSettingsClose}
                     className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors"
                   >
                     <X size={24} />
@@ -4290,7 +4314,7 @@ export default function App() {
                   </button>
                 </section>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       )}
