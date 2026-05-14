@@ -85,11 +85,11 @@ src/
 - [x] fix hover secondary flicker bug
 - [x] fix desktop window height making profile container "squished" when being too low. (honestly would just enforce the noprofilecontainer setting) 
 - [ ] amoled capability
-- [ ] mobile navbar pill text + icon centered in capsule like state for collapsed sidebar instead of just shortening the buttons themselves
+- [x] mobile navbar pill text + icon centered in capsule like state for collapsed sidebar instead of just shortening the buttons themselves
 - [ ] maybe some sick bounce/squish animation for slider when you try to drag past the borders
 - [x] or a small stretch-squish physics-based animation when switch toggles 
 - [ ] blog: tags + filter ui
-- [ ] padding for icons in sidebar, idk why that suddenly icked me.
+- [x] center sidebar icons
 - [ ] settings: export/import config as json - future work. 
 
 ---
