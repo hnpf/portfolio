@@ -1074,6 +1074,8 @@ const YearProg = () => {
   const ms_left = end - now.getTime();
   const days_left = Math.floor(ms_left / (1000 * 60 * 60 * 24));
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
     <div className="w-full font-sans selection:bg-primary/30">
       <div className="flex items-end justify-between mb-4">
@@ -1100,8 +1102,8 @@ const YearProg = () => {
         <WavyProgress
           percent={pct}
           className="text-[var(--on-primary-container)]"
-          thickness={6}
-          height={20}
+          thickness={isMobile ? 8 : 6}
+          height={isMobile ? 24 : 20}
         />
       </div>
 
@@ -1403,10 +1405,70 @@ const BlogPage = ({ targetId, navigateTo }: any) => {
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
-              pre: ({ node, ...props }) => <Code {...props} />,
-            }}
+              pre: ({ node, ...props }: any) => <Code {...props} />,
+              h1: ({ children }: any) => (
+                <h1 className="text-5xl font-display font-black tracking-tight mb-8 text-[var(--primary)]">
+                  {children}
+                </h1>
+              ),
+              h2: ({ children }: any) => (
+                <h2 className="text-3xl font-display font-black tracking-tight mt-12 mb-6">
+                  {children}
+                </h2>
+              ),
+              h3: ({ children }: any) => (
+                <h3 className="text-xl font-black uppercase tracking-[0.2em] opacity-40 mt-8 mb-4">
+                  {children}
+                </h3>
+              ),
+              p: ({ children }: any) => {
+                // handle the custom spacer tag
+                const text = Array.isArray(children) ? children[0] : children;
+                if (
+                  typeof text === "string" &&
+                  text.startsWith("SPACER_H_")
+                ) {
+                  const height = text.replace("SPACER_H_", "");
+                  return (
+                    <div
+                      style={{ height: height || "2rem" }}
+                      aria-hidden="true"
+                    />
+                  );
+                }
+                return (
+                  <p className="text-xl leading-relaxed opacity-80 mb-6 text-pretty">
+                    {children}
+                  </p>
+                );
+              },
+              ul: ({ children }: any) => (
+                <ul className="space-y-4 mb-8 list-none">
+                  {children}
+                </ul>
+              ),
+              li: ({ children }: any) => (
+                <li className="flex gap-4 text-xl opacity-80 leading-relaxed">
+                  <span className="text-[var(--primary)] font-black select-none mt-1">//</span>
+                  <span>{children}</span>
+                </li>
+              ),
+              code: ({ node, inline, className, children, ...props }: any) => {
+                if (inline) {
+                  return (
+                    <code className="bg-[var(--primary-container)]/30 text-[var(--primary)] px-1.5 py-0.5 rounded-md font-mono text-sm font-bold">
+                      {children}
+                    </code>
+                  );
+                }
+                return <code className={className} {...props}>{children}</code>;
+              }
+            } as any}
           >
-            {post.content}
+            {post.content.replace(
+              /<spacer\s+height="([^"]+)"\s*\/>/g,
+              "SPACER_H_$1",
+            )}
           </ReactMarkdown>
         </div>
 
@@ -1593,9 +1655,9 @@ const ChangelogPage = () => {
                 </h3>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="columns-1 md:columns-2 gap-8 space-y-8 md:space-y-0">
                 {entry.changes.map((group) => (
-                  <div key={group.category} className="space-y-4">
+                  <div key={group.category} className="break-inside-avoid space-y-4 mb-8">
                     <h4 className="text-xs font-black uppercase tracking-[0.3em] opacity-40 flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-[var(--primary)]" />
                       {group.category}
