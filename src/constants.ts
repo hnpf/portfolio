@@ -376,6 +376,47 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "desktop-mode-overhaul",
+    version: "2026.05.13",
+    title: "settings & animation overhaul",
+    date: "May 13, 2026",
+    changes: [
+      {
+        category: "sidebar & navigation",
+        items: [
+          "page menu effects: added lots of effects to the sideitem's container in the sidebar (shadows, animations, etc)",
+          "scrolling buttons: since pages now collapse when the window is too short, you can now press a button to scroll for you!",
+          "collapsed sidebar state: fixed pills and centered them correctly this time",
+          "squish: added bouncy, rotating spring animations to the scroll buttons. they squish when you click and pop in with some flair.",
+        ],
+      },
+      {
+        category: "settings modal & animation polish",
+        items: [
+          "settings expansion: completely overhauled the settings modal opening animation with a premium, squishy spring feel.",
+          "AMOLED mode: added a new toggle for pure black backgrounds, perfect for saving battery on OLED screens.",
+          "physics locking: harmonized the spring math across the sidebar, mobile nav, and the modal itself so icons stay perfectly synchronized during expansion.",
+          "locked-in content: removed layout stabilization from the modal's internals, forcing all content to follow the container's bounce and scale for a more solid feel.",
+          "toggle refinement: synchronized the appearance mode toggle pill with the modal's physics, keeping sure that it doesn't drift during transitions",
+          "stability: fixed event bubbling and layout conflicts that caused the settings to force close when toggling focus mode.",
+          "immersive sliders: implemented Material 3 Expressive style sliders for hue and saturation. ticks and handles are now vertical lines that stick out slightly beyond the track borders.",
+          "bounce/squish sliders: added a juicy spring-loaded overshoot animation when dragging sliders past their boundaries, with dynamic transform origins for realistic stretching.",
+          "modal stability: implemented scroll locking to prevent background displacement during quick scrolls.",
+          "focus mode fixes: conditionalized layout synchronization to prevent modals from disappearing when toggling focus mode while they are open.",
+        ],
+      },
+      {
+        category: "logic changes",
+        items: [
+          "split the logic: actually separated the expanded and collapsed states inside SideItem.",
+          "smart masking: added a CSS mask (nav-mask) that fades items out at the top and bottom.",
+          "unique layout IDs: the expanded background now uses sidebar-expanded-bg and the collapsed capsule uses sidebar-mini-pill.",
+          "clean transitions: since they're separate now, the expanded mode will properly fill the whole button background again without trying to follow the icon.",
+        ],
+      },
+    ],
+  },
+  {
     id: "sidebar-styling-polish",
     version: "2026.05.08-B",
     title: "sidebar styling & extra polish",
