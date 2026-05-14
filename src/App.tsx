@@ -340,96 +340,209 @@ const SideItem = memo(
     isFirst,
     isLast,
     isFloating,
+    isShort,
+    layoutId,
+    isHidden,
   }: any) => {
     const [isHovered, setIsHovered] = useState(false);
     const { settings } = useTheme();
 
-    const rd = isFirst && isLast
-      ? "rounded-[28px]"
-      : isFirst
-        ? "rounded-t-[28px] rounded-b-[15px]"
-        : isLast
-          ? "rounded-t-[15px] rounded-b-[28px]"
-          : "rounded-[15px]";
+    // squishy spring, better settle
+    const squishySpring = {
+      type: "spring",
+      stiffness: settings.highHz ? 400 : 350,
+      damping: 30,
+      mass: 0.6,
+    };
 
-    // transition settings
     const sideItemSpring = {
       type: "spring",
       stiffness: settings.highHz ? 1100 : 1000,
-      damping: settings.highHz ? 45 : 40,
+      damping: 45,
       mass: 0.25,
     };
 
+    const settingsSpring = {
+      type: "spring",
+      stiffness: settings.highHz ? 450 : 350,
+      damping: settings.highHz ? 35 : 30,
+      mass: 1,
+      restDelta: 0.001,
+    };
+
+    const rd =
+      isFirst && isLast
+        ? "rounded-[28px]"
+        : isFirst
+          ? "rounded-t-[28px] rounded-b-[15px]"
+          : isLast
+            ? "rounded-t-[15px] rounded-b-[28px]"
+            : "rounded-[15px]";
+
+    if (isMini) {
+      return (
+        <motion.button
+          layoutId={isHidden ? undefined : layoutId}
+          layout="position"
+          initial={false}
+          animate={{
+            opacity: isHidden ? 0 : 1,
+            scale: isHidden ? 0.8 : 1,
+          }}
+          transition={{
+            opacity: { duration: 0.2 },
+            layout: layoutId === "settings-expansion" ? settingsSpring : squishySpring,
+            default: squishySpring,
+          }}
+          whileHover={{ scale: isHidden ? 0.8 : 1.05 }}
+          whileTap={{ scale: isHidden ? 0.8 : 0.9, rotate: -4 }}
+          onClick={onSelect}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className={cn(
+            "relative group outline-none cursor-pointer font-black motion-gpu isolate flex flex-col justify-center items-center w-full shadow-none bg-transparent gap-0",
+            isShort ? "h-12" : "h-16",
+            isSelected && "active",
+            isHidden && "pointer-events-none",
+          )}
+        >
+          {/* icon container */}
+          <div className="relative z-10 shrink-0 flex items-center justify-center transition-all duration-300 h-8 w-14">
+            {/* m3 active indicator pill (mini version) */}
+            {isSelected && (
+              <motion.div
+                layoutId="sidebar-mini-pill"
+                className="absolute inset-0 bg-[var(--primary-container)] rounded-full z-0"
+                transition={sideItemSpring}
+              />
+            )}
+
+            {/* mini hover pill */}
+            {isHovered && !isSelected && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 0.8, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                className="absolute inset-0 bg-[var(--surface-variant)] rounded-full -z-10"
+              />
+            )}
+
+            <motion.div
+              layoutId={text === "Settings" ? "settings-icon" : undefined}
+              animate={{
+                scale: isSelected ? 1.1 : isHovered ? 1.05 : 1,
+                rotate:
+                  isSelected ? -5 : isHovered ? (text === "Settings" ? 45 : -2) : 0,
+              }}
+              transition={text === "Settings" ? settingsSpring : {
+                type: "spring",
+                stiffness: 400,
+                damping: 25,
+              }}
+              style={{
+                color: isSelected
+                  ? "var(--on-primary-container)"
+                  : isHovered
+                    ? "var(--primary)"
+                    : "var(--on-surface-variant)",
+              }}
+              className="relative z-10"
+            >
+              <Icon size={24} strokeWidth={isSelected ? 2.5 : 2} fill="none" />
+            </motion.div>
+          </div>
+
+          <span className="text-[10px] font-black uppercase tracking-widest mt-1 opacity-60 group-hover:opacity-100 transition-opacity relative z-10">
+            {text}
+          </span>
+
+          <AnimatePresence>
+            {isHovered && (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                className="absolute left-full ml-6 px-3 py-1.5 bg-[var(--on-surface)] text-[var(--surface)] text-xs font-bold rounded-xl z-50 whitespace-nowrap shadow-xl pointer-events-none"
+              >
+                {text}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.button>
+      );
+    }
+
     return (
       <motion.button
+        layoutId={isHidden ? undefined : layoutId}
         layout="position"
-        whileTap={{ scale: 0.96 }}
+        initial={false}
+        animate={{
+          opacity: isHidden ? 0 : 1,
+          scale: isHidden ? 0.95 : 1,
+          x: isHidden ? -20 : 0,
+        }}
+        transition={{
+          opacity: { duration: 0.2 },
+          layout: layoutId === "settings-expansion" ? settingsSpring : squishySpring,
+          default: squishySpring,
+        }}
+        whileHover={{ scale: isHidden ? 0.95 : 1.02, x: isHidden ? -20 : 4 }}
+        whileTap={{ scale: isHidden ? 0.95 : 0.96, x: isHidden ? -20 : -2 }}
         onClick={onSelect}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={cn(
-          "relative group outline-none cursor-pointer font-black motion-gpu isolate overflow-hidden flex items-center",
-          isMini ? "w-full h-16 flex-col justify-center gap-0 ring-0 bg-transparent shadow-none" : "w-full py-4 px-4 justify-start gap-4 ring-6 ring-[var(--outline-variant)]/30",
-          !isMini && (isFloating ? "py-3" : "py-4"),
-          isMini && isSelected && "active",
-          !isMini && rd,
+          "relative group outline-none cursor-pointer font-black motion-gpu isolate flex items-center w-full px-4 justify-start gap-4 ring-6 ring-[var(--outline-variant)]/30",
+          isFloating ? "py-2.5" : isShort ? "py-3" : "py-4",
+          rd,
+          isHidden && "pointer-events-none",
         )}
       >
         {/* hov background layer */}
-        {!isMini && (
-          <motion.div
-            className={cn("absolute inset-0 -z-20", rd)}
-            initial={false}
-            animate={{
-              backgroundColor: "var(--surface-variant)",
-              opacity: isSelected ? 0 : isHovered ? 0.8 : 0.4,
-            }}
-            transition={{ duration: 0.1 }}
-          />
-        )}
+        <motion.div
+          className={cn("absolute inset-0 -z-20", rd)}
+          initial={false}
+          animate={{
+            backgroundColor: "var(--surface-variant)",
+            opacity: isSelected ? 0 : isHovered ? 0.8 : 0.4,
+          }}
+          transition={{ duration: 0.1 }}
+        />
 
-        {/* m3 active indicator pill/bg */}
+        {/* expanded active indicator bg */}
         {isSelected && (
           <motion.div
-            layoutId="sidebar-pill-active"
-            className={cn(
-              "absolute bg-[var(--primary-container)] active-pill",
-              isMini ? "w-16 h-9 top-[3px] z-0" : "inset-0 -z-10",
-              isMini ? "rounded-full" : rd
-            )}
+            layoutId="sidebar-expanded-bg"
+            className={cn("absolute inset-0 bg-[var(--primary-container)]", rd)}
             initial={false}
             animate={{
-              borderRadius: isMini
-                ? "9999px"
-                : (isFirst && isLast) ? "28px" : isFirst ? "28px 28px 15px 15px" : isLast ? "15px 15px 28px 28px" : "15px"
+              borderRadius:
+                isFirst && isLast
+                  ? "28px"
+                  : isFirst
+                    ? "28px 28px 15px 15px"
+                    : isLast
+                      ? "15px 15px 28px 28px"
+                      : "15px",
             }}
-            style={isMini ? { left: "50%", x: "-50%" } : {}}
             transition={sideItemSpring}
           />
         )}
 
-        {/* collapsed hover pill (mirroring on) */}
-        {isMini && isHovered && !isSelected && (
+        <div className="relative z-10 shrink-0 flex items-center justify-center transition-all duration-300 w-6 h-6">
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 0.8, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            className="absolute w-16 h-9 top-[3px] bg-[var(--surface-variant)] rounded-full -z-10"
-            style={{ left: "50%", x: "-50%" }}
-          />
-        )}
-
-        {/* icon container */}
-        <div className={cn(
-          "relative z-10 shrink-0 flex items-center justify-center transition-all duration-300",
-          isMini ? "h-8 w-14" : "w-6 h-6"
-        )}>
-          <motion.div
+            layoutId={text === "Settings" ? "settings-icon" : undefined}
             animate={{
               scale: isSelected ? 1.1 : isHovered ? 1.05 : 1,
-              rotate: isSelected ? -5 : isHovered ? -2 : 0,
+              rotate:
+                isSelected ? -5 : isHovered ? (text === "Settings" ? 45 : -2) : 0,
             }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            transition={text === "Settings" ? settingsSpring : {
+              type: "spring",
+              stiffness: 400,
+              damping: 25,
+            }}
             style={{
               color: isSelected
                 ? "var(--on-primary-container)"
@@ -442,40 +555,19 @@ const SideItem = memo(
           </motion.div>
         </div>
 
-        {/* label (expanded or collapsed) */}
-        {!isMini ? (
-          <motion.span
-            animate={{
-              x: isSelected ? 2 : 0,
-              opacity: 1,
-            }}
-            style={{
-              color: isSelected ? "var(--on-primary-container)" : "inherit",
-            }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className="font-display font-black tracking-tighter text-lg relative z-10 transition-colors duration-200"
-          >
-            {text}
-          </motion.span>
-        ) : (
-          <span className="text-[10px] font-black uppercase tracking-widest mt-1 opacity-60 group-hover:opacity-100 transition-opacity relative z-10">
-            {text}
-          </span>
-        )}
-
-        {/* collapsed tooltip */}
-        <AnimatePresence>
-          {isMini && isHovered && (
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              className="absolute left-full ml-6 px-3 py-1.5 bg-[var(--on-surface)] text-[var(--surface)] text-xs font-bold rounded-xl z-50 whitespace-nowrap shadow-xl pointer-events-none"
-            >
-              {text}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.span
+          animate={{
+            x: isSelected ? 2 : 0,
+            opacity: 1,
+          }}
+          style={{
+            color: isSelected ? "var(--on-primary-container)" : "inherit",
+          }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          className="font-display font-black tracking-tighter text-lg relative z-10 transition-colors duration-200"
+        >
+          {text}
+        </motion.span>
       </motion.button>
     );
   },
@@ -545,52 +637,101 @@ const BotNav = ({
   onSelect,
   imgSrc,
   wiggle,
-}: any) => (
-  <button
-    onClick={onSelect}
-    className={cn(
-      "flex flex-col items-center gap-1 flex-1 pt-3 pb-2 transition-all duration-200 relative z-10 bottom-nav-item outline-none",
-      isSelected
-        ? "text-[var(--on-surface)]"
-        : "text-[var(--on-surface-variant)]",
-    )}
-  >
-    <div className="relative flex items-center justify-center w-16 h-8 mb-1">
-      <AnimatePresence mode="popLayout">
-        {isSelected && (
-          <motion.div
-            layoutId="active-pill"
-            className="absolute inset-0 bg-[var(--primary-container)] rounded-full -z-10 motion-gpu"
-            transition={{
-              type: "spring",
-              stiffness: 350,
-              damping: 30,
-              mass: 1,
-              restDelta: 0.001,
-            }}
-          />
-        )}
-      </AnimatePresence>
-      <motion.div
-        animate={
-          wiggle
-            ? {
-              rotate: [0, -10, 10, -10, 10, 0],
-              scale: [1, 1.1, 1.1, 1.1, 1.1, 1],
-            }
-            : { rotate: 0, scale: 1 }
-        }
-        transition={
-          wiggle
-            ? {
-              duration: 1.2,
-              repeat: 1,
-              repeatDelay: 0.1,
-              ease: "easeInOut",
-            }
-            : { duration: 0.3 }
-        }
-      >
+  layoutId,
+  isHidden,
+}: any) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const { settings } = useTheme();
+
+  const settingsSpring = {
+    type: "spring",
+    stiffness: settings.highHz ? 450 : 350,
+    damping: settings.highHz ? 35 : 30,
+    mass: 1,
+    restDelta: 0.001,
+  };
+
+  return (
+    <motion.button
+      layoutId={isHidden ? undefined : layoutId}
+      initial={false}
+      animate={{
+        opacity: isHidden ? 0 : 1,
+        scale: isHidden ? 0.8 : 1,
+        y: isHidden ? 20 : 0,
+      }}
+      transition={{
+        opacity: { duration: 0.2 },
+        layout: layoutId === "settings-expansion" ? settingsSpring : {
+          type: "spring",
+          stiffness: 450,
+          damping: 28,
+          mass: 0.8,
+        },
+        default: {
+          type: "spring",
+          stiffness: 450,
+          damping: 28,
+          mass: 0.8,
+        },
+      }}
+      whileTap={{ scale: isHidden ? 0.8 : 0.9, y: isHidden ? 20 : 5 }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={onSelect}
+      className={cn(
+        "flex flex-col items-center gap-1 flex-1 pt-3 pb-2 transition-all duration-200 relative z-10 bottom-nav-item outline-none",
+        isSelected
+          ? "text-[var(--on-surface)]"
+          : "text-[var(--on-surface-variant)]",
+        isHidden && "pointer-events-none",
+      )}
+    >
+      <div className="relative flex items-center justify-center w-16 h-8 mb-1">
+        <AnimatePresence mode="popLayout">
+          {isSelected && (
+            <motion.div
+              layoutId="active-pill"
+              className="absolute inset-0 bg-[var(--primary-container)] rounded-full -z-10 motion-gpu"
+              transition={{
+                type: "spring",
+                stiffness: 350,
+                damping: 30,
+                mass: 1,
+                restDelta: 0.001,
+              }}
+            />
+          )}
+        </AnimatePresence>
+        <motion.div
+          layoutId={text === "More" ? "settings-icon" : undefined}
+          animate={
+            wiggle
+              ? {
+                rotate: [0, -10, 10, -10, 10, 0],
+                scale: [1, 1.1, 1.1, 1.1, 1.1, 1],
+              }
+              : {
+                rotate: isHovered && text === "More" ? 45 : 0,
+                scale: isHovered ? 1.1 : 1,
+              }
+          }
+          transition={
+            wiggle
+              ? {
+                duration: 1.2,
+                repeat: 1,
+                repeatDelay: 0.1,
+                ease: "easeInOut",
+              }
+              : text === "More" ? settingsSpring : {
+                type: "spring",
+                stiffness: settings.highHz ? 600 : 500,
+                damping: settings.highHz ? 45 : 40,
+                mass: 1,
+              }
+          }
+        >
         {imgSrc ? (
           <img
             src={imgSrc}
@@ -622,8 +763,9 @@ const BotNav = ({
     >
       {text}
     </span>
-  </button>
-);
+  </motion.button>
+  );
+};
 
 const Card = ({ children, className, delay = 0, onClick }: any) => {
   const [fresh, setFresh] = useState(true);
@@ -1673,7 +1815,7 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
   );
 });
 
-const LensPage = () => {
+const LensPage = ({ viewport }: { viewport: any }) => {
   const [idx, setIdx] = useState<number | null>(null);
   const { settings } = useTheme();
 
@@ -1765,7 +1907,7 @@ const LensPage = () => {
                 onClick={() => setIdx(null)}
                 className="w-14 h-14 md:w-18 md:h-18 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto cursor-pointer"
               >
-                <X size={window.innerWidth < 768 ? 28 : 36} />
+                <X size={viewport.w < 768 ? 28 : 36} />
               </motion.button>
             </div>
 
@@ -1879,7 +2021,7 @@ const LensPage = () => {
                   onClick={() => window.open(LENS_PHOTOS[idx].url, "_blank")}
                   className="w-11 h-11 md:w-14 md:h-14 bg-[var(--primary-container)] hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-primary-container)] rounded-full flex items-center justify-center transition-all border-4 md:border-6 border-[var(--outline-variant)]/20 active:scale-90 group relative"
                 >
-                  <ExternalLink size={window.innerWidth < 768 ? 20 : 28} />
+                  <ExternalLink size={viewport.w < 768 ? 20 : 28} />
                   <span className="absolute -top-14 left-1/2 -translate-x-1/2 bg-[var(--surface-variant)] text-[var(--on-surface)] text-[10px] font-black px-4 py-2 rounded-xl border-4 border-[var(--outline-variant)] opacity-0 group-hover:opacity-100 transition-all scale-90 group-hover:scale-100 whitespace-nowrap pointer-events-none shadow-xl">
                     Open Raw
                   </span>
@@ -1971,6 +2113,17 @@ const TrackerPage = () => {
 const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
   const [screenshot, setScreenshot] = useState(false);
   const [expanded, setExpanded] = useState<any>(null);
+
+  useEffect(() => {
+    if (expanded) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [expanded]);
 
   return (
     <div className="max-w-6xl mx-auto space-y-16 px-4 md:px-0 pb-24">
@@ -2651,6 +2804,55 @@ export default function App() {
     w: window.innerWidth,
     h: window.innerHeight,
   });
+  const [canScrollUp, setCanScrollUp] = useState(false);
+  const [canScrollDown, setCanScrollDown] = useState(false);
+  const [navHoverSide, setNavHoverSide] = useState<"top" | "bottom" | null>(
+    null,
+  );
+
+  // locked in spring for the settings expansion
+  const settingsSpring = {
+    type: "spring",
+    stiffness: settings.highHz ? 450 : 350,
+    damping: settings.highHz ? 35 : 30,
+    mass: 1,
+    restDelta: 0.001,
+  };
+
+  useEffect(() => {
+    const nav = document.getElementById("sidebar-nav");
+    if (!nav) return;
+
+    const check = () => {
+      setCanScrollUp(nav.scrollTop > 5);
+      setCanScrollDown(
+        nav.scrollHeight - nav.scrollTop - nav.clientHeight > 5,
+      );
+    };
+
+    check();
+    nav.addEventListener("scroll", check);
+    window.addEventListener("resize", check);
+    return () => {
+      nav.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    };
+  }, [viewport.h, page, settings.sidebarCollapsed]);
+
+  useEffect(() => {
+    if (settingsOpen || hwOpen || showDebugConfirm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [settingsOpen, hwOpen, showDebugConfirm]);
+
+  const is_short = viewport.h < 720;
+  const is_tiny = viewport.h < 550;
+  const is_mobile = viewport.w < 768 && !settings.forceDesktop;
 
   const show_pfp_container = settings.profileContainer && viewport.h > 720;
 
@@ -2820,8 +3022,9 @@ export default function App() {
   return (
     <div
       className={cn(
-        "min-h-screen flex  flex-col lg:flex-row font-sans relative",
-        settings.sidebarFlipped && "lg:flex-row-reverse",
+        "min-h-screen flex font-sans relative",
+        settings.forceDesktop ? "flex-row" : "flex-col md:flex-row",
+        settings.sidebarFlipped && (settings.forceDesktop ? "flex-row-reverse" : "md:flex-row-reverse"),
         settings.debugMode && "debug-mode",
       )}
     >
@@ -2888,7 +3091,7 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v.1.7.1-stable (v2026.05.08-B)</span>
+              <span>v.1.8.1-stable (v2026.05.13)</span>
             </div>
           </div>
         </div>
@@ -2958,11 +3161,11 @@ export default function App() {
         )}
       </AnimatePresence>
       {/*desktop sidebar*/}
-      <AnimatePresence mode="popLayout">
-        {!settings.focusMode && page !== "no" && (
+      <AnimatePresence>
+        {!settings.focusMode && page !== "no" && !is_mobile && (
           <motion.aside
             initial={{
-              x: settings.sidebarFlipped ? 400 : -400,
+              x: settings.sidebarFlipped ? 60 : -60,
               opacity: 0,
             }}
             animate={{
@@ -3014,20 +3217,18 @@ export default function App() {
                 : "var(--outline-variant)",
             }}
             exit={{
-              x: settings.sidebarFlipped ? 400 : -400,
+              x: settings.sidebarFlipped ? 60 : -60,
               opacity: 0,
             }}
             transition={{
               type: "spring",
-              stiffness: settings.highHz ? 350 : 300,
-              damping: settings.highHz ? 35 : 30,
+              stiffness: settings.highHz ? 450 : 400,
+              damping: settings.highHz ? 40 : 35,
               mass: 0.8,
               restDelta: 0.001,
             }}
             layout
-            className={cn(
-              "hidden lg:flex flex-col sticky top-0 h-screen z-40 motion-gpu transition-colors duration-300",
-            )}
+            className="flex-col sticky top-0 h-screen z-40 motion-gpu transition-colors duration-300"
           >
             <motion.div
               layout
@@ -3090,10 +3291,10 @@ export default function App() {
                 className={cn(
                   "flex items-center isolate",
                   settings.sidebarCollapsed
-                    ? "justify-center px-0 mb-10 py-10"
+                    ? cn("justify-center px-0", is_short ? "mb-4 py-4" : "mb-10 py-10")
                     : show_pfp_container
-                      ? "bg-[var(--surface-variant)]/20 ring-6 ring-[var(--outline-variant)]/30 rounded-[2.5rem] px-4 mx-2 mb-10 py-6 gap-4"
-                      : "px-4 mx-2 mb-8 py-2 gap-4",
+                      ? cn("bg-[var(--surface-variant)]/20 ring-6 ring-[var(--outline-variant)]/30 rounded-[2.5rem] px-4 mx-2 gap-4", is_short ? "mb-4 py-3" : "mb-10 py-6")
+                      : cn("px-4 mx-2 gap-4", is_short ? "mb-4 py-1" : "mb-8 py-2"),
                 )}
               >
                 <motion.div
@@ -3165,7 +3366,7 @@ export default function App() {
                   </div>
                 )}
               </div>
-              {!settings.sidebarCollapsed && (
+              {!settings.sidebarCollapsed && !is_tiny && (
                 <div className="flex items-center gap-3 mb-6 px-4">
                   <div className="h-6 w-1 bg-[var(--primary)] rounded-full" />
                   <h3 className="text-xl font-display font-black tracking-tighter text-[var(--on-surface-variant)]">
@@ -3173,99 +3374,197 @@ export default function App() {
                   </h3>
                 </div>
               )}
-              <nav
-                className={cn(
-                  "flex-1 flex flex-col gap-6",
-                  settings.sidebarCollapsed ? "items-center" : "items-stretch",
-                )}
-                data-rail-state={settings.sidebarCollapsed ? "default" : "open"}
+              <div
+                className="flex-1 flex flex-col min-h-0 relative group/nav"
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const y = e.clientY - rect.top;
+                  setNavHoverSide(y < rect.height / 2 ? "top" : "bottom");
+                }}
+                onMouseLeave={() => setNavHoverSide(null)}
               >
-                <SideItem
-                  isFirst
-                  glyph={Home}
-                  text="Home"
-                  isSelected={page === "home"}
-                  onSelect={() => goto("home")}
-                  isMini={settings.sidebarCollapsed}
-                  isFloating={settings.floatingSidebar}
-                />
-                <SideItem
-                  glyph={Fingerprint}
-                  text="Info"
-                  isSelected={page === "readme"}
-                  onSelect={() => goto("readme")}
-                  isMini={settings.sidebarCollapsed}
-                  isFloating={settings.floatingSidebar}
-                />
-                <SideItem
-                  glyph={BookText}
-                  text="Blog"
-                  isSelected={page === "blog"}
-                  onSelect={() => goto("blog")}
-                  isMini={settings.sidebarCollapsed}
-                  isFloating={settings.floatingSidebar}
-                />
-                <SideItem
-                  glyph={Camera}
-                  text="Lens"
-                  isSelected={page === "lens"}
-                  onSelect={() => goto("lens")}
-                  isMini={settings.sidebarCollapsed}
-                  isFloating={settings.floatingSidebar}
-                />
-                <SideItem
-                  glyph={Activity}
-                  text="Tracker"
-                  isSelected={page === "tracker"}
-                  onSelect={() => goto("tracker")}
-                  isMini={settings.sidebarCollapsed}
-                  isFloating={settings.floatingSidebar}
-                />
-                <SideItem
-                  isLast
-                  glyph={LinkIcon}
-                  text="Short"
-                  isSelected={page === "dash"}
-                  onSelect={() => goto("dash")}
-                  isMini={settings.sidebarCollapsed}
-                  isFloating={settings.floatingSidebar}
-                />
-                {/*<SideItem glyph={Terminal} text="Loom" isSelected={page === 'loom'} onSelect={() => goto('loom')} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} />*/}
+                <nav
+                  id="sidebar-nav"
+                  className={cn(
+                    "flex-1 flex flex-col overflow-y-auto min-h-0 py-12 scrollbar-hide scroll-smooth",
+                    canScrollUp && canScrollDown
+                      ? "mask-both"
+                      : canScrollUp
+                        ? "mask-top"
+                        : canScrollDown
+                          ? "mask-bottom"
+                          : "",
+                    is_short ? "gap-2" : "gap-6",
+                    settings.sidebarCollapsed
+                      ? "items-center px-2"
+                      : "items-stretch px-4",
+                  )}
+                  data-rail-state={
+                    settings.sidebarCollapsed ? "default" : "open"
+                  }
+                >
+                  <SideItem
+                    isFirst
+                    glyph={Home}
+                    text="Home"
+                    isSelected={page === "home"}
+                    onSelect={() => goto("home")}
+                    isMini={settings.sidebarCollapsed}
+                    isFloating={settings.floatingSidebar}
+                    isShort={is_short}
+                  />
+                  <SideItem
+                    glyph={Fingerprint}
+                    text="Info"
+                    isSelected={page === "readme"}
+                    onSelect={() => goto("readme")}
+                    isMini={settings.sidebarCollapsed}
+                    isFloating={settings.floatingSidebar}
+                    isShort={is_short}
+                  />
+                  <SideItem
+                    glyph={BookText}
+                    text="Blog"
+                    isSelected={page === "blog"}
+                    onSelect={() => goto("blog")}
+                    isMini={settings.sidebarCollapsed}
+                    isFloating={settings.floatingSidebar}
+                    isShort={is_short}
+                  />
+                  <SideItem
+                    glyph={Camera}
+                    text="Lens"
+                    isSelected={page === "lens"}
+                    onSelect={() => goto("lens")}
+                    isMini={settings.sidebarCollapsed}
+                    isFloating={settings.floatingSidebar}
+                    isShort={is_short}
+                  />
+                  <SideItem
+                    glyph={Activity}
+                    text="Tracker"
+                    isSelected={page === "tracker"}
+                    onSelect={() => goto("tracker")}
+                    isMini={settings.sidebarCollapsed}
+                    isFloating={settings.floatingSidebar}
+                    isShort={is_short}
+                  />
+                  <SideItem
+                    isLast
+                    glyph={LinkIcon}
+                    text="Short"
+                    isSelected={page === "dash"}
+                    onSelect={() => goto("dash")}
+                    isMini={settings.sidebarCollapsed}
+                    isFloating={settings.floatingSidebar}
+                    isShort={is_short}
+                  />
+                  {/*<SideItem glyph={Terminal} text="Loom" isSelected={page === 'loom'} onSelect={() => goto('loom')} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} />*/}
 
-                {is_apr() && (
-                  <div className="mt-8 pt-4 border-t border-[var(--outline-variant)]/30 space-y-2">
-                    {!settings.sidebarCollapsed && (
-                      <div className="text-[1px] font-black uppercase tracking-[0.3em] opacity-40 px-4 mb-2">
-                        FISH CHANNEL
-                      </div>
-                    )}
-                    {[...Array(5)].map((_, i) => (
+                  {is_apr() && (
+                    <div className={cn("pt-4 border-t border-[var(--outline-variant)]/30 space-y-2", is_short ? "mt-2" : "mt-8")}>
+                      {!settings.sidebarCollapsed && (
+                        <div className="text-[1px] font-black uppercase tracking-[0.3em] opacity-40 px-4 mb-2">
+                          FISH CHANNEL
+                        </div>
+                      )}
+                      {[...Array(5)].map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => (window.location.href = "/fsh-spin.gif")}
+                          className={cn(
+                            "flex items-center gap-4 px-4 py-2 w-full hover:bg-[var(--surface-variant)] rounded-xl transition-all group",
+                            settings.sidebarCollapsed && "justify-center px-0",
+                          )}
+                        >
+                          <img
+                            src="/fsh-spin.gif"
+                            className="w-8 h-8 rounded-full group-hover:scale-125 transition-transform"
+                          />
+                          {!settings.sidebarCollapsed && (
+                            <span className="font-bold text-xs uppercase tracking-widest text-blue-600 underline">
+                              WATCH NOW! FISH #{i + 1}
+                            </span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </nav>
+
+                {/* scroll indicator buttons for short screens */}
+                <AnimatePresence>
+                  {canScrollUp && navHoverSide === "top" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -20, scale: 0.5, rotate: 10 }}
+                      animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                      exit={{ opacity: 0, y: -20, scale: 0.5, rotate: -10 }}
+                      whileHover={{ scale: 1.15, y: 2 }}
+                      whileTap={{ scale: 0.85, y: -5 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 600,
+                        damping: 20,
+                        mass: 0.8,
+                      }}
+                      className="absolute top-2 left-0 right-0 pointer-events-none flex flex-col items-center z-[50]"
+                    >
                       <button
-                        key={i}
-                        onClick={() => (window.location.href = "/fsh-spin.gif")}
-                        className={cn(
-                          "flex items-center gap-4 px-4 py-2 w-full hover:bg-[var(--surface-variant)] rounded-xl transition-all group",
-                          settings.sidebarCollapsed && "justify-center px-0",
-                        )}
+                        onClick={() =>
+                          document
+                            .getElementById("sidebar-nav")
+                            ?.scrollBy({ top: -150, behavior: "smooth" })
+                        }
+                        className="w-14 h-9 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-[0_12px_24px_rgba(0,0,0,0.3)] pointer-events-auto border-4 border-white/20 transition-transform"
                       >
-                        <img
-                          src="/fsh-spin.gif"
-                          className="w-8 h-8 rounded-full group-hover:scale-125 transition-transform"
+                        <ChevronLeft
+                          size={20}
+                          className="rotate-90 stroke-[3]"
                         />
-                        {!settings.sidebarCollapsed && (
-                          <span className="font-bold text-xs uppercase tracking-widest text-blue-600 underline">
-                            WATCH NOW! FISH #{i + 1}
-                          </span>
-                        )}
                       </button>
-                    ))}
-                  </div>
-                )}
-              </nav>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <AnimatePresence>
+                  {canScrollDown && navHoverSide === "bottom" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20, scale: 0.5, rotate: -10 }}
+                      animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                      exit={{ opacity: 0, y: 20, scale: 0.5, rotate: 10 }}
+                      whileHover={{ scale: 1.15, y: -2 }}
+                      whileTap={{ scale: 0.85, y: 5 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 600,
+                        damping: 20,
+                        mass: 0.8,
+                      }}
+                      className="absolute bottom-2 left-0 right-0 pointer-events-none flex flex-col items-center z-[50]"
+                    >
+                      <button
+                        onClick={() =>
+                          document
+                            .getElementById("sidebar-nav")
+                            ?.scrollBy({ top: 150, behavior: "smooth" })
+                        }
+                        className="w-14 h-9 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-[0_-12px_24px_rgba(0,0,0,0.3)] pointer-events-auto border-4 border-white/20 transition-transform"
+                      >
+                        <ChevronLeft
+                          size={20}
+                          className="-rotate-90 stroke-[3]"
+                        />
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               <div
                 className={cn(
                   "mt-auto flex flex-col pt-4",
-                  settings.sidebarCollapsed ? "pb-10 items-center gap-6" : "pb-4 px-2 gap-4",
+                  settings.sidebarCollapsed
+                    ? cn("items-center gap-6", is_short ? "pb-4" : "pb-10")
+                    : cn("px-2 gap-4", is_short ? "pb-2" : "pb-4"),
                 )}
                 data-rail-state={settings.sidebarCollapsed ? "default" : "open"}
               >
@@ -3283,8 +3582,11 @@ export default function App() {
                     text="Settings"
                     onSelect={() => setSettingsOpen(true)}
                     isMini={settings.sidebarCollapsed}
+                    isShort={is_short}
                     isFirst
                     isFloating={settings.floatingSidebar}
+                    layoutId="settings-expansion"
+                    isHidden={settingsOpen}
                   />
 
                   {!settings.sidebarCollapsed && (
@@ -3345,7 +3647,12 @@ export default function App() {
         )}
       </AnimatePresence>
       {/*main*/}
-      <motion.main className="flex-1 p-6 md:p-12 lg:p-16 pb-40 lg:pb-16 overflow-x-hidden page-container">
+      <motion.main
+        className={cn(
+          "flex-1 p-6 md:p-12 lg:p-16 overflow-x-hidden page-container",
+          settings.forceDesktop || viewport.w >= 768 ? "pb-16" : "pb-40",
+        )}
+      >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={page + (blogPostId || "")}
@@ -3383,7 +3690,7 @@ export default function App() {
             {page === "blog" && (
               <BlogPage targetId={blogPostId} navigateTo={goto} />
             )}
-            {page === "lens" && <LensPage />}
+            {page === "lens" && <LensPage viewport={viewport} />}
             {page === "tracker" && <TrackerPage />}
             {page === "readme" && <ReadmePage setPage={goto} />}
             {/*{page === 'loom' && <LoomPage />}*/}
@@ -3437,7 +3744,7 @@ export default function App() {
         </AnimatePresence>
       </motion.main>
       <AnimatePresence>
-        {!settings.focusMode && page !== "no" && (
+        {!settings.focusMode && page !== "no" && is_mobile && (
           <motion.nav
             initial={{
               y: 100,
@@ -3452,7 +3759,7 @@ export default function App() {
               opacity: 0,
             }}
             transition={{ type: "spring", damping: 25, stiffness: 120 }}
-            className="lg:hidden fixed -bottom-4 left-0 right-0 bg-[var(--surface)] border-t border-[var(--outline-variant)] px-4 pt-1 pb-[calc(env(safe-area-inset-bottom,16px)+1.5rem)] flex justify-around z-40 shadow-[0_-8px_32px_rgba(0,0,0,0.06)] motion-gpu"
+            className="fixed -bottom-4 left-0 right-0 bg-[var(--surface)] border-t border-[var(--outline-variant)] px-4 pt-1 pb-[calc(env(safe-area-inset-bottom,16px)+1.5rem)] flex justify-around z-40 shadow-[0_-8px_32px_rgba(0,0,0,0.06)] motion-gpu"
             style={{ willChange: "transform" }}
           >
             <BotNav
@@ -3483,6 +3790,8 @@ export default function App() {
               glyph={SettingsIcon}
               text="More"
               onSelect={() => setSettingsOpen(true)}
+              layoutId="settings-expansion"
+              isHidden={settingsOpen}
             />
           </motion.nav>
         )}
@@ -3572,7 +3881,8 @@ export default function App() {
             </motion.aside>
           </>
         )}
-      </AnimatePresence>      */}
+      </AnimatePresence>
+      */}
       {/* ^ dead now, rip! :( */}
 
       {/* the big settings modal */}
@@ -3588,43 +3898,35 @@ export default function App() {
               style={{ willChange: "opacity" }}
             />
             <motion.div
-              initial={{
-                scale: 0.92,
-                opacity: 0,
-                y: 20,
-              }}
-              animate={{
-                scale: 1,
-                opacity: 1,
-                y: 0,
-              }}
-              exit={{
-                scale: 0.92,
-                opacity: 0,
-                y: 20,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 450,
-                damping: 38,
-                mass: 0.8,
-              }}
+              layoutId="settings-expansion"
+              initial={{ opacity: 0, scale: 0.85, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.85, y: 20 }}
+              transition={settingsSpring}
+              onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-xl bg-[var(--surface)] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-[var(--outline-variant)] motion-gpu settings-modal-content"
               style={{ willChange: "transform, opacity" }}
             >
-              <div className="flex justify-between items-center p-6 md:p-8 border-b border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10">
-                <h2 className="text-2xl font-bold flex items-center gap-3">
-                  <SettingsIcon size={24} className="text-[var(--primary)]" />
-                  Settings
-                </h2>
-                <button
-                  onClick={() => setSettingsOpen(false)}
-                  className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors"
+              <div
+                className="flex flex-col h-full overflow-hidden"
+              >
+                <div
+                  className="flex justify-between items-center p-6 md:p-8 border-b border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10"
                 >
-                  <X size={24} />
-                </button>
-              </div>
-              <div className="p-6 md:p-10 space-y-10 overflow-y-auto scrollbar-hide">
+                  <h2 className="text-2xl font-bold flex items-center gap-3">
+                    <SettingsIcon size={24} className="text-[var(--primary)]" />
+                    Settings
+                  </h2>
+                  <button
+                    onClick={() => setSettingsOpen(false)}
+                    className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+                <div
+                  className="p-6 md:p-10 space-y-10 overflow-y-auto scrollbar-hide"
+                >
                 {/*making things look pretty pretty */}
                 <section className="space-y-6">
                   <div className="flex items-center gap-3">
@@ -3634,34 +3936,29 @@ export default function App() {
                     </h3>
                   </div>
                   <div className="relative grid grid-cols-3 gap-2 p-1.5 bg-[var(--surface-variant)] rounded-full overflow-hidden">
-                    {/* sliding shit */}
-                    <AnimatePresence mode="popLayout">
-                      <motion.div
-                        layoutId="active-mode-bg"
-                        initial={false}
-                        transition={{
-                          type: "spring",
-                          stiffness: 400,
-                          damping: 30,
-                        }}
-                        className="absolute inset-y-1.5 bg-[var(--primary)] rounded-full shadow-lg z-0"
-                        style={{
-                          left:
-                            settings.mode === "light"
-                              ? "6px"
-                              : settings.mode === "dark"
-                                ? "33.33%"
-                                : "66.66%",
-                          width: "calc(33.33% - 8px)",
-                          marginLeft:
-                            settings.mode === "dark"
-                              ? "4px"
-                              : settings.mode === "system"
-                                ? "2px"
-                                : "0px",
-                        }}
-                      />
-                    </AnimatePresence>
+                    {/* sliding capsule - now using animate to stay locked to modal physics */}
+                    <motion.div
+                      initial={false}
+                      animate={{
+                        left:
+                          settings.mode === "light"
+                            ? "6px"
+                            : settings.mode === "dark"
+                              ? "33.33%"
+                              : "66.66%",
+                        marginLeft:
+                          settings.mode === "dark"
+                            ? "4px"
+                            : settings.mode === "system"
+                              ? "2px"
+                              : "0px",
+                      }}
+                      transition={settingsSpring}
+                      className="absolute inset-y-1.5 bg-[var(--primary)] rounded-full shadow-lg z-0"
+                      style={{
+                        width: "calc(33.33% - 8px)",
+                      }}
+                    />
                     {(["light", "dark", "system"] as const).map((m) => (
                       <button
                         key={m}
@@ -3680,6 +3977,40 @@ export default function App() {
                       </button>
                     ))}
                   </div>
+
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      opacity: (settings.mode === "dark" || settings.mode === "system") ? 1 : 0,
+                      height: (settings.mode === "dark" || settings.mode === "system") ? "auto" : 0,
+                      marginBottom: (settings.mode === "dark" || settings.mode === "system") ? 24 : 0,
+                    }}
+                    transition={settingsSpring}
+                    className="overflow-hidden"
+                  >
+                    <label
+                      className={cn(
+                        "flex items-center border-6 border-[var(--outline-variant)] justify-between p-5 transition-all text-left cursor-pointer rounded-[2rem]",
+                        settings.amoledMode
+                          ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                          : "bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/30",
+                      )}
+                    >
+                      <div>
+                        <div className="font-bold">AMOLED Mode</div>
+                        <div className="text-xs opacity-60 font-medium">
+                          pure black backgrounds for OLED screens
+                        </div>
+                      </div>
+                      <Switch
+                        checked={settings.amoledMode}
+                        onChange={(checked) =>
+                          updateSettings({ amoledMode: checked })
+                        }
+                      />
+                    </label>
+                  </motion.div>
+
                   <div className="space-y-4">
                     <div className="text-sm font-bold text-[var(--on-surface)]">
                       Accent Color
@@ -3861,6 +4192,11 @@ export default function App() {
                         label: "Profile Container",
                         desc: "show the ring and background around your profile",
                       },
+                      {
+                        key: "forceDesktop",
+                        label: "Force Desktop",
+                        desc: "prevent switching to mobile layout on small screens",
+                      },
                     ],
                   },
                   {
@@ -3944,7 +4280,7 @@ export default function App() {
                     <div>
                       <div className="font-bold">View changelog</div>
                       <div className="text-xs opacity-60 font-medium">
-                        See what's new in v2026.05.08-B
+                        See what's new in v2026.05.13
                       </div>
                     </div>
                     <ChevronRight
@@ -3954,10 +4290,11 @@ export default function App() {
                   </button>
                 </section>
               </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
 
       <AnimatePresence>
         {showDebugConfirm && (
