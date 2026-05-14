@@ -156,6 +156,9 @@ everyone else can stop recording now because this is it. the atmosphere is perfe
 | ..Of Mourning | 10/10 |
 | and everything else | MID! |
 ---
+
+<spacer height="30px" />
+
 ## anyways, happy wallowing!
     `,
     date: "Apr 30, 2026",
@@ -387,6 +390,7 @@ export const CHANGELOGS: ChangelogEntry[] = [
           "page menu effects: added lots of effects to the sideitem's container in the sidebar (shadows, animations, etc)",
           "scrolling buttons: since pages now collapse when the window is too short, you can now press a button to scroll for you!",
           "collapsed sidebar state: fixed pills and centered them correctly this time",
+          "centered side items: balanced the navigation rail items by horizontally centering them in the sidebar on desktop.",
           "squish: added bouncy, rotating spring animations to the scroll buttons. they squish when you click and pop in with some flair.",
         ],
       },
@@ -394,10 +398,15 @@ export const CHANGELOGS: ChangelogEntry[] = [
         category: "settings modal & animation polish",
         items: [
           "settings expansion: completely overhauled the settings modal opening animation with a premium, squishy spring feel.",
+          "precision morphing: moved the shared layout target to the icon container, eliminating text stretching during settings expansion/collapse.",
+          "southeast bounce: added a dynamic southeast-drifting exit animation for the settings modal, providing a more fluid 'falling away' feel.",
+          "markdown overhaul: completely redesigned the blog renderer with custom styles for headers, lists, and inline code. added a <spacer /> component for better vertical rhythm.",
+          "changelog masonry: refactored the changelog layout to use a column-based flow, eliminating large vertical gaps between unevenly sized change groups.",
           "AMOLED mode: added a new toggle for pure black backgrounds, perfect for saving battery on OLED screens.",
           "physics locking: harmonized the spring math across the sidebar, mobile nav, and the modal itself so icons stay perfectly synchronized during expansion.",
-          "locked-in content: removed layout stabilization from the modal's internals, forcing all content to follow the container's bounce and scale for a more solid feel.",
-          "toggle refinement: synchronized the appearance mode toggle pill with the modal's physics, keeping sure that it doesn't drift during transitions",
+          "theme pre-loading: pre-calculated HSL variables and disabled mount animations for custom sliders to ensure instant theme application without layout shift.",
+          "stability: fixed a first-open shake bug on both mobile and desktop by stabilizing initial layout states.",
+          "toggle refinement: synchronized the appearance mode toggle pill with the modal's physics, ensuring it doesn't drift during transitions.",
           "stability: fixed event bubbling and layout conflicts that caused the settings to force close when toggling focus mode.",
           "immersive sliders: implemented Material 3 Expressive style sliders for hue and saturation. ticks and handles are now vertical lines that stick out slightly beyond the track borders.",
           "bounce/squish sliders: added a juicy spring-loaded overshoot animation when dragging sliders past their boundaries, with dynamic transform origins for realistic stretching.",
