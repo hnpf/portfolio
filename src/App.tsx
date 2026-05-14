@@ -2785,15 +2785,7 @@ export default function App() {
   });
   const [hwOpen, setHwOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [isSettingsClosing, setIsSettingsClosing] = useState(false);
 
-  const handleSettingsClose = () => {
-    setIsSettingsClosing(true);
-    setTimeout(() => {
-      setSettingsOpen(false);
-      setIsSettingsClosing(false);
-    }, 250);
-  };
   const [showDebugConfirm, setShowDebugConfirm] = useState(false);
   const [viewport, set_viewport] = useState({
     w: window.innerWidth,
@@ -2981,7 +2973,7 @@ export default function App() {
   }, [page, blogPostId, settings.accent, settings.mode]);
 
   const goto = (newPage: string, postId: string | null = null) => {
-    handleSettingsClose();
+    setSettingsOpen(false);
     const url =
       newPage === "home" ? "/" : postId ? `/blog/${postId}` : `/${newPage}`;
     window.history.pushState({}, "", url);
@@ -3886,52 +3878,34 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={handleSettingsClose}
+              onClick={() => setSettingsOpen(false)}
               className="absolute inset-0 bg-black/60 backdrop-blur-md motion-gpu"
               style={{ willChange: "opacity" }}
             />
             <motion.div
               layoutId="settings-expansion"
-              initial={{ opacity: 0, scale: 0.9, y: 20, x: 20 }}
-              animate={{ 
-                opacity: 1, 
-                scale: isSettingsClosing ? 0.85 : 1, 
-                y: isSettingsClosing ? 30 : 0, 
-                x: isSettingsClosing ? 30 : 0,
-                filter: isSettingsClosing ? "blur(4px)" : "blur(0px)"
-              }}
+              layout
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
               exit={{ 
                 opacity: 0, 
-                scale: 0.4, 
-                y: 120, 
-                x: 120,
-                filter: "blur(8px)",
+                scale: 0.6,
+                x: 40,
+                y: 40,
                 transition: {
                   type: "spring",
-                  stiffness: 1000,
-                  damping: 40,
+                  stiffness: 1200,
+                  damping: 50,
                   mass: 0.5,
-                  restDelta: 0.01
+                  restDelta: 0.001
                 }
               }}
-              transition={{
-                ...settingsSpring,
-                stiffness: isSettingsClosing ? 800 : settingsSpring.stiffness,
-                damping: isSettingsClosing ? 40 : settingsSpring.damping
-              }}
+              transition={settingsSpring}
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-xl bg-[var(--surface)] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-[var(--outline-variant)] motion-gpu settings-modal-content"
               style={{ willChange: "transform, opacity" }}
             >
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ 
-                  opacity: isSettingsClosing ? 0 : 1,
-                  y: isSettingsClosing ? 15 : 0,
-                  scale: isSettingsClosing ? 0.98 : 1
-                }}
-                exit={{ opacity: 0, transition: { duration: 0.05 } }}
-                transition={{ duration: 0.15, ease: "easeOut" }}
+              <div
                 className="flex flex-col h-full overflow-hidden"
               >
                 <div
@@ -3942,7 +3916,7 @@ export default function App() {
                     <span>Settings</span>
                   </h2>
                   <button
-                    onClick={handleSettingsClose}
+                    onClick={() => setSettingsOpen(false)}
                     className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors"
                   >
                     <X size={24} />
@@ -4119,13 +4093,14 @@ export default function App() {
                     </div>
                     {settings.accent === "custom" && (
                       <motion.div
-                        initial={{
-                          opacity: 0,
-                          height: 0,
-                        }}
+                        initial={false}
                         animate={{
                           opacity: 1,
                           height: "auto",
+                        }}
+                        exit={{
+                          opacity: 0,
+                          height: 0,
                         }}
                         className="pt-2 space-y-3"
                       >
@@ -4314,7 +4289,7 @@ export default function App() {
                   </button>
                 </section>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       )}
