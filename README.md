@@ -84,9 +84,9 @@ src/
 ## current todo (bug fixes, features, etc. this list changes!)
 - [x] fix hover secondary flicker bug
 - [x] fix desktop window height making profile container "squished" when being too low. (honestly would just enforce the noprofilecontainer setting) 
-- [ ] amoled capability
+- [x] amoled capability
 - [x] mobile navbar pill text + icon centered in capsule like state for collapsed sidebar instead of just shortening the buttons themselves
-- [ ] maybe some sick bounce/squish animation for slider when you try to drag past the borders
+- [x] maybe some sick bounce/squish animation for slider when you try to drag past the borders
 - [x] or a small stretch-squish physics-based animation when switch toggles 
 - [ ] blog: tags + filter ui
 - [x] center sidebar icons
