@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback, ReactNode } from "react";
-import { motion, useSpring, useTransform, animate } from "motion/react";
+import { motion, useSpring, useTransform, animate, useMotionValue } from "motion/react";
 
 type SliderSize = "xs" | "s" | "m" | "l" | "xl";
 
@@ -42,6 +42,7 @@ export default function Slider({
   const [offsetWidth, setOffsetWidth] = useState(600);
   const [offsetHeight, setOffsetHeight] = useState(600);
   const inlineSize = vertical ? offsetHeight : offsetWidth;
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -57,6 +58,8 @@ export default function Slider({
   }, []);
 
   const springValue = useSpring(value, { stiffness: 170, damping: 26 });
+  const overshoot = useMotionValue(0);
+  const springOvershoot = useSpring(overshoot, { stiffness: 600, damping: 30 });
 
   useEffect(() => {
     springValue.set(value);
@@ -90,6 +93,53 @@ export default function Slider({
   const iconSize = { xs: 0, s: 16, m: 24, l: 24, xl: 32 }[size];
   const iconThreshold = size === "xl" ? 48 : 40;
 
+  // squish/bounce logic
+  const handlePointerMove = useCallback((e: PointerEvent) => {
+    if (!isDragging || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const pos = vertical ? e.clientY : e.clientX;
+    const start = vertical ? rect.top : rect.left;
+    const end = vertical ? rect.bottom : rect.right;
+    const total = vertical ? rect.height : rect.width;
+
+    if (pos < start) {
+      const delta = (start - pos) / total;
+      overshoot.set(-Math.pow(delta, 0.7) * 40); // logarithm,ic resistance
+    } else if (pos > end) {
+      const delta = (pos - end) / total;
+      overshoot.set(Math.pow(delta, 0.7) * 40);
+    } else {
+      overshoot.set(0);
+    }
+  }, [isDragging, vertical, overshoot]);
+
+  const handlePointerUp = useCallback(() => {
+    setIsDragging(false);
+    animate(overshoot, 0, { type: "spring", stiffness: 500, damping: 20 });
+  }, [overshoot]);
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener("pointermove", handlePointerMove);
+      window.addEventListener("pointerup", handlePointerUp);
+      return () => {
+        window.removeEventListener("pointermove", handlePointerMove);
+        window.removeEventListener("pointerup", handlePointerUp);
+      };
+    }
+  }, [isDragging, handlePointerMove, handlePointerUp]);
+
+  const trackScale = useTransform(springOvershoot, (v) => 1 + Math.abs(v) / 150);
+  const trackX = useTransform(springOvershoot, (v) => v);
+  const originX = useTransform(springOvershoot, (v) => {
+    if (vertical) return 0.5;
+    return v > 0 ? 0 : 1;
+  });
+  const originY = useTransform(springOvershoot, (v) => {
+    if (!vertical) return 0.5;
+    return v > 0 ? 0 : 1;
+  });
+
   return (
     <motion.div
       ref={containerRef}
@@ -99,6 +149,7 @@ export default function Slider({
           "--handle": handlePos,
         } as any
       }
+      onPointerDown={() => !disabled && setIsDragging(true)}
     >
       <input
         type="range"
@@ -111,19 +162,32 @@ export default function Slider({
         onChange={() => {}}
       />
 
-      {/* track-1 (filled) */}
-      <div className="m3-slider__track-1">
-        {stopList.map((stop, i) => (
-          <div key={i} className="m3-slider__stop" style={{ "--x": stop - 0.5 } as React.CSSProperties} />
-        ))}
-      </div>
+      <motion.div
+        className="m3-slider__track-container"
+        style={{
+          x: trackX,
+          scaleX: vertical ? 1 : trackScale,
+          scaleY: vertical ? trackScale : 1,
+          originX,
+          originY,
+        }}
+      >
+        {/* track-1 (filled) */}
+        <div className="m3-slider__track-1">
+          {stopList.map((stop, i) => (
+            <div key={i} className="m3-slider__stop" style={{ "--x": stop - 0.5 } as React.CSSProperties} />
+          ))}
+        </div>
 
-      {/* track-2 (empty) */}
-      <div className="m3-slider__track-2">
-        {stopList.map((stop, i) => (
-          <div key={i} className="m3-slider__stop" style={{ "--x": stop - 0.5 } as React.CSSProperties} />
-        ))}
-      </div>
+        {/* track-2 (empty) */}
+        <div className="m3-slider__track-2">
+          {stopList.map((stop, i) => (
+            <div key={i} className="m3-slider__stop" style={{ "--x": stop - 0.5 } as React.CSSProperties} />
+          ))}
+        </div>
+
+        <div className="m3-slider__handle" />
+      </motion.div>
 
       {leadingIcon && (
         <span
@@ -155,11 +219,10 @@ export default function Slider({
         </span>
       )}
 
-      <div className="m3-slider__handle" />
-
       {showValue && (
         <div className="m3-slider__value">{format(value)}</div>
       )}
     </motion.div>
   );
 }
+
