@@ -22,8 +22,8 @@ export default function WavyProgress({
 
   const smil_data = useMemo(() => {
     let paths: string[] = [];
-    // 30 fps for 1 second = 30 frames
-    for (let x = 0; x <= 1000; x += 1000 / 30) {
+    // 20 fps for 1 second = 20 frames (enough for smooth waves now)
+    for (let x = 0; x <= 1000; x += 1000 / 20) {
       paths.push(
         linear(thickness / 2, height - thickness / 2, left, percentX, x),
       );
