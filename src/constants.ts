@@ -14,7 +14,6 @@ export interface BlogPost {
   category: string;
   readTime: string;
   link: string;
-  votes: { up: number; down: number };
 }
 
 export interface ChangelogEntry {
@@ -164,7 +163,6 @@ everyone else can stop recording now because this is it. the atmosphere is perfe
     date: "Apr 30, 2026",
     category: "music",
     readTime: "2 min read",
-    votes: { up: 0, down: 0 },
     link: "bladeandbathpeak",
   },
   {
@@ -191,7 +189,6 @@ stop settling for defaults. start spending time actually configuring your colors
     date: "Apr 26, 2026",
     category: "tech",
     readTime: "2 min read",
-    votes: { up: 0, down: 0 },
     link: "gruvbox-supremacy",
   },
 
@@ -219,7 +216,6 @@ it’s not just about flashing mrchromebox! it's about making sure the audio act
     date: "Mar 15, 2026",
     category: "linux",
     readTime: "4 min read",
-    votes: { up: 0, down: 0 },
     link: "ewaste-1-fr",
   },
 
@@ -378,6 +374,36 @@ it's literally just people helping people for learning (and overall better code 
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [
+  {
+    id: "performance-stability-overhaul",
+    version: "2026.05.18",
+    title: "performance & stability changes",
+    date: "May 18, 2026",
+    changes: [
+      {
+        category: "core optimization",
+        items: [
+          "April Fools logic: centralized IS_APR logic to a global constant, finally getting rid of hundreds of potential redundant Date object creations per second.",
+          "memory management: fixed potential leaks and re-render loops in sidebar navigation and theme provider.",
+        ],
+      },
+      {
+        category: "rendering performance",
+        items: [
+          "component memoization: memoized all major page components (Home, Blog, Lens, etc.) and core building blocks (Card, SideItem, BotNav) to minimize main-thread load.",
+          "WavyProgress SVG: optimized background SVGgen by reducing segment density and lowering fps for smoother wavyprogress animations.",
+          "stable identity: now using useCallback for the global 'goto' function to prevent unnecessary child re-renders.",
+        ],
+      },
+      {
+        category: "UX & animation refinement",
+        items: [
+          "settings animation: resimplified the settings modal transition to a more performant fade/scale effect, getting rid of more lag issues on mobile and low-end devices.",
+          "modal stability: improved touch-target feedback and removed heavy layout-morphing logic for a more responsive feel.",
+        ],
+      },
+    ],
+  },
   {
     id: "desktop-mode-overhaul",
     version: "2026.05.13",
@@ -757,7 +783,7 @@ export const TRACKER_ITEMS: TrackerItem[] = [
   {
     id: "cybersecurity-ceh",
     title: "ceh cert",
-    category: "security",
+    category: "Cybersec",
     tips: [
       "understand the methodology, not just the tool",
       "network layer basics are everything",
@@ -777,14 +803,14 @@ export const TRACKER_ITEMS: TrackerItem[] = [
   {
     id: "systems-automation",
     title: "automation",
-    category: "system",
+    category: "Dev",
     tips: ["if you must do it twice, script it", "minimalism is a feature."],
     tools: ["Rust", "Vim", "Linux", "GNOME"],
   },
   {
     id: "vulnerability-lab",
     title: "research",
-    category: "security",
+    category: "Cybersec",
     tips: [
       "documentation is 50% of the exploit",
       "keep the environment isolated",
