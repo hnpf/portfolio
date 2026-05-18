@@ -126,7 +126,7 @@ const BounceButton = ({
   );
 };
 
-const TechChip = ({ label }: { label: string }) => {
+const TechChip = ({ label, key }: { label: string; key?: any }) => {
   const ref = useRef<HTMLSpanElement>(null);
   const [pos, set_pos] = useState({ x: 50, y: 50 });
   const [hovered, set_hovered] = useState(false);
@@ -158,16 +158,15 @@ const TechChip = ({ label }: { label: string }) => {
   );
 };
 
-const is_apr = () => {
+const IS_APR = (() => {
   const now = new Date();
-  // 3 is april. 1 is 1st.
   return now.getMonth() === 3 && now.getDate() === 1;
-};
+})();
 
 const FshBtn = () => {
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [clicks, setClicks] = useState(0);
-  const active = is_apr();
+  const active = IS_APR;
 
   const run_away = (e: React.MouseEvent) => {
     if (!active || clicks > 5) return;
@@ -216,7 +215,7 @@ const AdCard = () => {
     return () => clearInterval(itv);
   }, [ads.length]);
 
-  if (!is_apr()) return null;
+  if (!IS_APR) return null;
 
   return (
     <Card className="fsh-ad flex flex-col items-center justify-center p-4 !bg-yellow-400">
@@ -245,7 +244,7 @@ const CursedPopup = ({
   content: string;
   onResolve: () => void;
 }) => {
-  if (!is_apr()) return null;
+  if (!IS_APR) return null;
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[var(--surface)]/80 backdrop-blur-3xl overflow-hidden motion-gpu">
       <div className="fsh-tiled-bg !opacity-40" />
@@ -342,29 +341,29 @@ const SideItem = memo(
     isFloating,
     isShort,
     layoutId,
+    highHz,
   }: any) => {
     const [isHovered, setIsHovered] = useState(false);
-    const { settings } = useTheme();
 
     // squishy spring, better settle
     const squishySpring = {
       type: "spring" as const,
-      stiffness: settings.highHz ? 400 : 350,
+      stiffness: highHz ? 400 : 350,
       damping: 30,
       mass: 0.6,
     };
 
     const sideItemSpring = {
       type: "spring" as const,
-      stiffness: settings.highHz ? 1100 : 1000,
+      stiffness: highHz ? 1100 : 1000,
       damping: 45,
       mass: 0.25,
     };
 
     const settingsSpring = {
       type: "spring" as const,
-      stiffness: settings.highHz ? 450 : 350,
-      damping: settings.highHz ? 35 : 30,
+      stiffness: highHz ? 450 : 350,
+      damping: highHz ? 35 : 30,
       mass: 1,
       restDelta: 0.001,
     };
@@ -568,7 +567,7 @@ const SideItem = memo(
   },
 );
 
-const SideAction = ({ children, onClick, isMini, tooltip, className }: any) => {
+const SideAction = memo(({ children, onClick, isMini, tooltip, className }: any) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -623,9 +622,9 @@ const SideAction = ({ children, onClick, isMini, tooltip, className }: any) => {
       )}
     </motion.button>
   );
-};
+});
 
-const BotNav = ({
+const BotNav = memo(({
   glyph: Icon,
   text,
   isSelected,
@@ -751,9 +750,9 @@ const BotNav = ({
     </motion.span>
   </motion.button>
   );
-};
+});
 
-const Card = ({ children, className, delay = 0, onClick }: any) => {
+const Card = memo(({ children, className, delay = 0, onClick }: any) => {
   const [fresh, setFresh] = useState(true);
   const { settings } = useTheme();
 
@@ -801,7 +800,7 @@ const Card = ({ children, className, delay = 0, onClick }: any) => {
       {children}
     </motion.div>
   );
-};
+});
 
 const Code = ({ children, className }: any) => {
   const [copied, setCopied] = useState(false);
@@ -1117,7 +1116,7 @@ const YearProg = () => {
   );
 };
 
-const HomePage = ({ setPage, settings }: any) => (
+const HomePage = memo(({ setPage, settings }: any) => (
   <div className="space-y-16 max-w-6xl mx-auto px-4 md:px-0 relative">
     <header className="page-header space-y-8">
       {settings.helloAnimation ? (
@@ -1312,9 +1311,9 @@ const HomePage = ({ setPage, settings }: any) => (
       </div>
     </section>
   </div>
-);
+));
 
-const BlogPage = ({ targetId, navigateTo }: any) => {
+const BlogPage = memo(({ targetId, navigateTo }: any) => {
   // const [active_cat, setActiveCat] = useState<string | null>(null)
   // later: category filter, never got around to it rip
   const [read, setRead] = useState<string[]>(() => {
@@ -1612,9 +1611,9 @@ const BlogPage = ({ targetId, navigateTo }: any) => {
       </div>
     </div>
   );
-};
+});
 
-const ChangelogPage = () => {
+const ChangelogPage = memo(() => {
   return (
     <div className="max-w-4xl mx-auto space-y-16 px-4 md:px-0 mb-32">
       <header className="page-header space-y-4">
@@ -1684,7 +1683,7 @@ const ChangelogPage = () => {
       </div>
     </div>
   );
-};
+});
 
 const LENS_PHOTOS = [
   {
@@ -1863,7 +1862,7 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
   );
 });
 
-const LensPage = ({ viewport }: { viewport: any }) => {
+const LensPage = memo(({ viewport }: { viewport: any }) => {
   const [idx, setIdx] = useState<number | null>(null);
   const { settings } = useTheme();
 
@@ -2087,9 +2086,9 @@ const LensPage = ({ viewport }: { viewport: any }) => {
       </AnimatePresence>
     </div>
   );
-};
+});
 
-const TrackerPage = () => {
+const TrackerPage = memo(() => {
   return (
     <div className="max-w-6xl mx-auto space-y-12">
       <header className="page-header flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -2156,9 +2155,9 @@ const TrackerPage = () => {
       </div>
     </div>
   );
-};
+});
 
-const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
+const ReadmePage = memo(({ setPage }: { setPage: (page: string) => void }) => {
   const [screenshot, setScreenshot] = useState(false);
   const [expanded, setExpanded] = useState<any>(null);
 
@@ -2670,7 +2669,7 @@ const ReadmePage = ({ setPage }: { setPage: (page: string) => void }) => {
       </footer>
     </div>
   );
-};
+});
 
 // --- main app shell ---
 
@@ -2679,7 +2678,7 @@ export default function App() {
 
   // transition settings for sidebar and components
   const springConfig = {
-    type: "spring",
+    type: "spring" as const,
     stiffness: settings.highHz ? 1100 : 1000,
     damping: settings.highHz ? 45 : 40,
     mass: 0.25,
@@ -2707,7 +2706,7 @@ export default function App() {
   const [popup, setPopup] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!is_apr()) return;
+    if (!IS_APR) return;
 
     // phase 4: the gamble
     const msgs = [
@@ -2948,7 +2947,7 @@ export default function App() {
   // updating the title so people know where they are lol
   // console.log('page:', page, blogPostId)
   useEffect(() => {
-    if (is_apr()) return;
+    if (IS_APR) return;
     const name =
       page === "readme" ? "Info" : page.charAt(0).toUpperCase() + page.slice(1);
     const title =
@@ -3034,7 +3033,7 @@ export default function App() {
     document.head.appendChild(script);
   }, [page, blogPostId, settings.accent, settings.mode]);
 
-  const goto = (newPage: string, postId: string | null = null) => {
+  const goto = React.useCallback((newPage: string, postId: string | null = null) => {
     setSettingsOpen(false);
     const url =
       newPage === "home" ? "/" : postId ? `/blog/${postId}` : `/${newPage}`;
@@ -3044,7 +3043,7 @@ export default function App() {
       setBlogPostId(postId);
     });
     window.scrollTo(0, 0);
-  };
+  }, []);
   const [show_top, setShowTop] = useState(false);
   const [scrolled, set_scrolled] = useState(false);
 
@@ -3077,7 +3076,7 @@ export default function App() {
         settings.debugMode && "debug-mode",
       )}
     >
-      {is_apr() && <div className="fsh-tiled-bg" />}
+      {IS_APR && <div className="fsh-tiled-bg" />}
       {popup && (
         <CursedPopup content={popup} onResolve={() => setPopup(null)} />
       )}
@@ -3140,7 +3139,7 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v.1.8.1-stable (v2026.05.13)</span>
+              <span>v.1.9.2-stable (v2026.05.18)</span>
             </div>
           </div>
         </div>
@@ -3453,6 +3452,7 @@ export default function App() {
                   }
                 >
                   <SideItem
+                    highHz={settings.highHz}
                     isFirst
                     glyph={Home}
                     text="Home"
@@ -3463,6 +3463,7 @@ export default function App() {
                     isShort={is_short}
                   />
                   <SideItem
+                    highHz={settings.highHz}
                     glyph={Fingerprint}
                     text="Info"
                     isSelected={page === "readme"}
@@ -3472,6 +3473,7 @@ export default function App() {
                     isShort={is_short}
                   />
                   <SideItem
+                    highHz={settings.highHz}
                     glyph={BookText}
                     text="Blog"
                     isSelected={page === "blog"}
@@ -3481,6 +3483,7 @@ export default function App() {
                     isShort={is_short}
                   />
                   <SideItem
+                    highHz={settings.highHz}
                     glyph={Camera}
                     text="Lens"
                     isSelected={page === "lens"}
@@ -3490,6 +3493,7 @@ export default function App() {
                     isShort={is_short}
                   />
                   <SideItem
+                    highHz={settings.highHz}
                     glyph={Activity}
                     text="Tracker"
                     isSelected={page === "tracker"}
@@ -3499,6 +3503,7 @@ export default function App() {
                     isShort={is_short}
                   />
                   <SideItem
+                    highHz={settings.highHz}
                     isLast
                     glyph={LinkIcon}
                     text="Short"
@@ -3510,7 +3515,7 @@ export default function App() {
                   />
                   {/*<SideItem glyph={Terminal} text="Loom" isSelected={page === 'loom'} onSelect={() => goto('loom')} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} />*/}
 
-                  {is_apr() && (
+                  {IS_APR && (
                     <div className={cn("pt-4 border-t border-[var(--outline-variant)]/30 space-y-2", is_short ? "mt-2" : "mt-8")}>
                       {!settings.sidebarCollapsed && (
                         <div className="text-[1px] font-black uppercase tracking-[0.3em] opacity-40 px-4 mb-2">
@@ -3627,6 +3632,7 @@ export default function App() {
                   )}
                 >
                   <SideItem
+                    highHz={settings.highHz}
                     glyph={SettingsIcon}
                     text="Settings"
                     onSelect={() => setSettingsOpen(true)}
@@ -3945,24 +3951,22 @@ export default function App() {
               style={{ willChange: "opacity" }}
             />
             <motion.div
-              layoutId="settings-expansion"
-              layout
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ 
                 opacity: 0, 
-                scale: 0.6,
-                x: 40,
-                y: 40,
+                scale: 0.9,
+                y: 20,
                 transition: {
-                  type: "spring",
-                  stiffness: 1200,
-                  damping: 50,
-                  mass: 0.5,
-                  restDelta: 0.001
+                  duration: 0.2
                 }
               }}
-              transition={settingsSpring}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 30,
+                mass: 0.8
+              }}
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-xl bg-[var(--surface)] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-[var(--outline-variant)] motion-gpu settings-modal-content"
               style={{ willChange: "transform, opacity" }}
@@ -4341,7 +4345,7 @@ export default function App() {
                     <div>
                       <div className="font-bold">View changelog</div>
                       <div className="text-xs opacity-60 font-medium">
-                        See what's new in v2026.05.13
+                        See what's new in v2026.05.18
                       </div>
                     </div>
                     <ChevronRight
