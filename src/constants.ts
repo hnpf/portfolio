@@ -375,6 +375,30 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "readme-overhaul-and-motion",
+    version: "v2026.05.21",
+    title: "the readme makeover & more motion",
+    date: "May 21, 2026",
+    changes: [
+      {
+        category: "new immersive UI",
+        items: [
+          "matrix hero: completely overhauled the Readme page into an immersive bio that slides the sidebar away for total focus.",
+          "solar composition: redesigned the background into a static diagonal solar arrangement with a pulsing primary-colored core.",
+          "virex flicker: added a persistent and fluent character-flickering effect to the hero header.",
+        ],
+      },
+      {
+        category: "bento physics & polish",
+        items: [
+          "universal shift: synchronized all bento cards with high-stiffness spring physics (stiffness 400), enabling instant 'shift-up' hover feedback.",
+          "identity section: added a high-impact bio section with a bold sans-serif font to replace the previous 'corporate' sharp look.",
+          "rounded aesthetics: swapped hero font to font-bold-sans.",
+        ],
+      },
+    ],
+  },
+  {
     id: "performance-stability-overhaul",
     version: "2026.05.18",
     title: "performance & stability changes",
