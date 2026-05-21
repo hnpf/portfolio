@@ -3,22 +3,30 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Copy, Check, ExternalLink, Link as LinkIcon, Plus, Hash, Globe, AlertTriangle } from 'lucide-react';
 import { cn } from './constants';
 
-const Uppercasecard = ({ children, className, delay = 0 }: any) => (
-  <motion.div
-    initial={{
-      opacity: 0,
-      y: 15
-    }}
-    animate={{
-      opacity: 1,
-      y: 0
-    }}
-    transition={{ duration: 0.4, delay, ease: [0.33, 1, 0.68, 1] }}
-    className={cn("bg-[var(--surface-variant)]/20 border-6 border-[var(--outline-variant)]/50 rounded-[2.5rem] p-8 md:p-12", className)}
-  >
-    {children}
-  </motion.div>
-);
+const Uppercasecard = ({ children, className, delay = 0 }: any) => {
+  const [hasEntered, setHasEntered] = useState(false);
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 15
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        transition: { 
+          duration: 0.4, 
+          delay: hasEntered ? 0 : delay, 
+          ease: [0.33, 1, 0.68, 1] 
+        }
+      }}
+      onAnimationComplete={() => setHasEntered(true)}
+      className={cn("bg-[var(--surface-variant)]/20 border-6 border-[var(--outline-variant)]/50 rounded-[2.5rem] p-8 md:p-12", className)}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 export default function DashPage() {
   const [url, setUrl] = useState('');
