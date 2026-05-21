@@ -88,12 +88,22 @@ const BounceButton = ({
 
   return (
     <motion.button
-      whileHover={{ scale: 1.05 }}
+      whileHover={{
+        scale: 1.08,
+        y: -5,
+        borderRadius: "40px",
+      }}
       whileTap={{ scale: 0.9, rotate: -2 }}
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 15,
+        mass: 1
+      }}
       onClick={_on_click}
       disabled={loading}
       className={cn(
-        "relative overflow-hidden transition-all duration-300",
+        "relative overflow-hidden transition-colors duration-300",
         loading && "cursor-wait opacity-80",
         className,
       )}
@@ -126,7 +136,7 @@ const BounceButton = ({
   );
 };
 
-const TechChip = ({ label, key }: { label: string; key?: any }) => {
+const TechChip = ({ label, key }: { label: string; key?: any }) => { // yes this is a required key prop, don't ask :(
   const ref = useRef<HTMLSpanElement>(null);
   const [pos, set_pos] = useState({ x: 50, y: 50 });
   const [hovered, set_hovered] = useState(false);
@@ -666,7 +676,7 @@ const BotNav = memo(({
       onMouseLeave={() => setIsHovered(false)}
       onClick={onSelect}
       className={cn(
-        "flex flex-col items-center gap-1 flex-1 pt-3 pb-2 transition-all duration-200 relative z-10 bottom-nav-item outline-none",
+        "flex flex-col items-center gap-1 flex-1 pt-3 pb-2 transition-colors duration-200 relative z-10 bottom-nav-item outline-none",
         isSelected
           ? "text-[var(--on-surface)]"
           : "text-[var(--on-surface-variant)]",
@@ -717,55 +727,44 @@ const BotNav = memo(({
               }
           }
         >
-        {imgSrc ? (
-          <img
-            src={imgSrc}
-            alt={text}
-            className={cn(
-              "w-6 h-6 rounded-full transition-transform duration-200 object-cover",
-              isSelected
-                ? "scale-110 ring-2 ring-[var(--primary)] ring-offset-2 ring-offset-black/20"
-                : "scale-100 grayscale opacity-60",
-            )}
-          />
-        ) : (
-          <Icon
-            size={24}
-            className={cn(
-              "transition-transform duration-200",
-              isSelected ? "scale-110" : "scale-100",
-            )}
-            strokeWidth={isSelected ? 2.5 : 2}
-          />
+          {imgSrc ? (
+            <img
+              src={imgSrc}
+              alt={text}
+              className={cn(
+                "w-6 h-6 rounded-full transition-transform duration-200 object-cover",
+                isSelected
+                  ? "scale-110 ring-2 ring-[var(--primary)] ring-offset-2 ring-offset-black/20"
+                  : "scale-100 grayscale opacity-60",
+              )}
+            />
+          ) : (
+            <Icon
+              size={24}
+              className={cn(
+                "transition-transform duration-200",
+                isSelected ? "scale-110" : "scale-100",
+              )}
+              strokeWidth={isSelected ? 2.5 : 2}
+            />
+          )}
+        </motion.div>
+      </div>
+      <motion.span
+        className={cn(
+          "text-[11px] font-bold tracking-tight transition-all duration-200",
+          isSelected ? "opacity-100" : "opacity-70",
         )}
-      </motion.div>
-    </div>
-    <motion.span
-      className={cn(
-        "text-[11px] font-bold tracking-tight transition-all duration-200",
-        isSelected ? "opacity-100" : "opacity-70",
-      )}
-    >
-      {text}
-    </motion.span>
-  </motion.button>
+      >
+        {text}
+      </motion.span>
+    </motion.button>
   );
 });
 
 const Card = memo(({ children, className, delay = 0, onClick }: any) => {
-  const [fresh, setFresh] = useState(true);
   const { settings } = useTheme();
-
-  useEffect(() => {
-    const timer = setTimeout(
-      () => {
-        setFresh(false);
-      },
-      (delay + 0.4) * 1000,
-    );
-
-    return () => clearTimeout(timer);
-  }, [delay]);
+  const [hasEntered, setHasEntered] = useState(false);
 
   return (
     <motion.div
@@ -776,7 +775,16 @@ const Card = memo(({ children, className, delay = 0, onClick }: any) => {
       animate={{
         opacity: 1,
         y: 0,
+        transition: {
+          delay: hasEntered ? 0 : delay,
+          duration: settings.disableAnimations ? 0 : settings.highHz ? 0.15 : 0.2,
+          ease: [0.33, 1, 0.68, 1],
+          type: "spring",
+          stiffness: settings.highHz ? 800 : 500,
+          damping: settings.highHz ? 40 : 30,
+        }
       }}
+      onAnimationComplete={() => setHasEntered(true)}
       whileHover={{
         y: -5,
         scale: 1.008,
@@ -784,7 +792,6 @@ const Card = memo(({ children, className, delay = 0, onClick }: any) => {
       whileTap={{ scale: 0.99 }}
       transition={{
         duration: settings.disableAnimations ? 0 : settings.highHz ? 0.15 : 0.2,
-        delay: fresh ? delay : 0,
         ease: [0.33, 1, 0.68, 1],
         type: "spring",
         stiffness: settings.highHz ? 800 : 500,
@@ -1215,7 +1222,7 @@ const HomePage = memo(({ setPage, settings }: any) => (
       </Card>
       <Card
         delay={0.0}
-        className="flex flex-col border-6 border-[var(--outline-variant)] justify-between hover:border-[var(--primary)] transition-all"
+        className="flex flex-col border-6 border-[var(--outline-variant)] justify-between hover:border-[var(--primary)] transition-colors"
       >
         <div className="space-y-6">
           <div className="w-16 h-16 bg-[var(--primary-container)] rounded-3xl flex items-center justify-center">
@@ -1253,7 +1260,7 @@ const HomePage = memo(({ setPage, settings }: any) => (
           <Card
             key={project.id}
             delay={0.7 + i * 0.1}
-            className="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-10 min-h-[350px] hover:border-[var(--primary)] transition-all"
+            className="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-10 min-h-[350px] hover:border-[var(--primary)] transition-colors"
           >
             <div>
               <div className="flex justify-between items-start mb-6">
@@ -1379,7 +1386,7 @@ const BlogPage = memo(({ targetId, navigateTo }: any) => {
         <header className="mb-16 space-y-8 pt-8">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <span className="px-5 py-2 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-2xl text-xs font-black uppercase tracking-widest shadow-sm">
+              <span className="px-5 py-2 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-2xl text-md font-black tracking-widest shadow-sm">
                 {post.category}
               </span>
               <div className="flex items-center gap-2 opacity-50 text-sm font-bold">
@@ -1504,7 +1511,7 @@ const BlogPage = memo(({ targetId, navigateTo }: any) => {
             opacity: 1,
             scale: 1,
           }}
-          className="relative rounded-[3.5rem] overflow-hidden bg-[var(--primary-container)] text-[var(--on-primary-container)] border-6 border-[var(--outline-variant)] shadow-2xl group cursor-pointer hover:border-[var(--primary)] transition-all"
+          className="relative rounded-[3.5rem] overflow-hidden bg-[var(--primary-container)] text-[var(--on-primary-container)] border-6 border-[var(--outline-variant)] shadow-2xl group cursor-pointer hover:border-[var(--primary)] transition-colors"
           onClick={() => navigateTo("blog", featured.link)}
         >
           <div className="p-8 md:p-16 space-y-8 relative z-10">
@@ -1573,7 +1580,7 @@ const BlogPage = memo(({ targetId, navigateTo }: any) => {
           <Card
             key={p.id}
             delay={i * 0.1}
-            className="cursor-pointer group relative overflow-hidden bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)]/20 border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-all"
+            className="cursor-pointer group relative overflow-hidden bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)]/20 border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors"
             onClick={() => navigateTo("blog", p.link)}
           >
             <div className="space-y-6">
@@ -1657,7 +1664,7 @@ const ChangelogPage = memo(() => {
               <div className="columns-1 md:columns-2 gap-8 space-y-8 md:space-y-0">
                 {entry.changes.map((group) => (
                   <div key={group.category} className="break-inside-avoid space-y-4 mb-8">
-                    <h4 className="text-xs font-black uppercase tracking-[0.3em] opacity-40 flex items-center gap-2">
+                    <h4 className="text-[13px] font-black tracking-[0.2em] opacity-40 flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-[var(--primary)]" />
                       {group.category}
                     </h4>
@@ -2101,7 +2108,7 @@ const TrackerPage = memo(() => {
           <Card
             key={item.id}
             delay={i * 0.1}
-            className="relative overflow-hidden group border-6 border-[var(--outline-variant)] bg-[var(--surface)] hover:border-[var(--primary)] transition-all"
+            className="relative overflow-hidden group border-6 border-[var(--outline-variant)] bg-[var(--surface)] hover:border-[var(--primary)] transition-colors"
           >
             <div className="relative z-10 space-y-6 p-2">
               <div className="flex justify-between items-start">
@@ -2157,517 +2164,364 @@ const TrackerPage = memo(() => {
   );
 });
 
-const ReadmePage = memo(({ setPage }: { setPage: (page: string) => void }) => {
-  const [screenshot, setScreenshot] = useState(false);
-  const [expanded, setExpanded] = useState<any>(null);
+const DynCard = ({ children, className, delay = 0, whileHover }: any) => {
+  const [hasEntered, setHasEntered] = useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        transition: {
+          delay: hasEntered ? 0 : delay,
+          type: "spring",
+          stiffness: 400,
+          damping: 30
+        }
+      }}
+      onAnimationComplete={() => setHasEntered(true)}
+      whileHover={whileHover}
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 30
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: string) => void }) => {
+  const letters = "virex".split("");
+  const [flickering, setFlick] = useState<number[]>([]);
+  const [swoopDone, setSwoopDone] = useState(false);
+  const { settings } = useTheme();
+
+  // spring for everything in this thng tbh, just to keep it consistent. why do i do this shit when im having bad days this clearly isnt healthy ;-;
+  // especially since most of these animations are pretty much unnoticeable 
+  // ...so its not like they need to be super optimized or whatever. 
+  // no one's gonna be looking at the spring config in the devtools anyways being like "oh this is a 700 stiffness spring, very nice, shows that da virex cares about the ux and whatever"
+  // cool.
+
+  const coolSpringy = {
+    type: "spring",
+    stiffness: settings.highHz ? 800 : 700,
+    damping: 25,
+    mass: 0.5
+  };
 
   useEffect(() => {
-    if (expanded) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [expanded]);
+    if (!swoopDone) return;
+    const itv = setInterval(() => {
+      if (Math.random() > 0.7) return;
+      const count = Math.floor(Math.random() * 2) + 1;
+      const indices = Array.from({ length: count }, () => Math.floor(Math.random() * letters.length));
+      setFlick(indices);
+      setTimeout(() => setFlick([]), 60 + Math.random() * 120);
+    }, 800 + Math.random() * 1000);
+    return () => clearInterval(itv);
+  }, [swoopDone, letters.length]);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-16 px-4 md:px-0 pb-24">
-      {/* this is the big popup modal for when you click a card to read more */}
-      <AnimatePresence>
-        {expanded && (
-          <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[500] flex flex-col bg-[var(--surface)] overflow-y-auto custom-scrollbar overflow-x-hidden selection:bg-[var(--primary)] selection:text-[var(--on-primary)]"
+    >
+      {/* bg effecting stuff*/}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <svg className="hidden">
+          <defs>
+            <filter id="gooey">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+              { /* love gaussian blur!~ */}
+              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+              <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+            </filter>
+          </defs>
+        </svg>
+
+        <div className="vx-frosted absolute inset-0">
+          {/* bigg star */}
+          <motion.div
+            animate={{
+              scale: [1, 1.05, 1],
+              opacity: [0.15, 0.2, 0.15]
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute w-[600px] h-[600px] bg-[var(--primary)] rounded-full blur-[85px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          />
+
+          {/* solar dots????? hehee */}
+          {[
+            { x: 15, y: 15, size: 250 },
+            { x: 30, y: 30, size: 180 },
+            { x: 70, y: 70, size: 200 },
+            { x: 85, y: 85, size: 300 },
+          ].map((p, i) => (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setExpanded(null)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 md:p-12"
-            >
-              <motion.div
-                initial={{
-                  scale: 0.9,
-                  opacity: 0,
-                  y: 20,
+              key={i}
+              animate={{
+                scale: [1, 1.1, 1],
+                opacity: [0.1, 0.15, 0.1]
+              }}
+              transition={{
+                duration: 8 + i * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i
+              }}
+              className="absolute bg-[var(--primary)] rounded-full blur-[50px]"
+              style={{
+                width: p.size,
+                height: p.size,
+                left: `${p.x}%`,
+                top: `${p.y}%`,
+                marginLeft: -p.size / 2,
+                marginTop: -p.size / 2
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,var(--surface)_90%)]" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-20 flex flex-col items-center">
+        {/* hreo */}
+        <div className="flex flex-col items-center mb-32 w-full">
+          <div className="flex gap-1 flex-gap-100 md:gap-6 mb-8 flex-wrap justify-center">
+            {letters.map((char, i) => (
+              <motion.span
+                key={i}
+                initial={{ y: -150, opacity: 0, scale: 0.8, filter: "blur(12px)" }}
+                animate={{ y: 0, opacity: 1, scale: 1, filter: "blur(0px)" }}
+                onAnimationComplete={() => {
+                  if (i === letters.length - 1) setSwoopDone(true);
                 }}
-                animate={{
-                  scale: 1,
-                  opacity: 1,
-                  y: 0,
+                transition={{
+                  delay: i * 0.1,
+                  type: "spring",
+                  stiffness: settings.highHz ? 180 : 150,
+                  damping: settings.highHz ? 25 : 22,
+                  mass: 0.8
                 }}
-                exit={{
-                  scale: 0.9,
-                  opacity: 0,
-                  y: 20,
-                }}
-                onClick={(e) => e.stopPropagation()}
-                className="w-full max-w-2xl max-h-[90vh] md:max-h-[85vh] overflow-y-auto overflow-x-hidden bg-[var(--surface)] rounded-l-[2.5rem] rounded-r-[1rem] relative shadow-[0_0_50px_rgba(0,0,0,0.3)] border border-[var(--outline-variant)]/50 custom-scrollbar overscroll-contain"
+                className={cn(
+                  "text-7xl md:text-[13rem] font-sans font-bold tracking-tighter transition-all duration-150 select-none",
+                  flickering.includes(i) ? "text-[var(--primary)] scale-105" : "text-[var(--on-surface)]"
+                )}
               >
-                <div className="p-8 md:p-16">
-                  <div className="sticky top-0 float-right z-10 -mr-4 -mt-4 md:-mr-8 md:-mt-8">
-                    <button
-                      onClick={() => setExpanded(null)}
-                      className="p-3 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] text-[var(--on-surface-variant)] hover:text-[var(--on-primary-container)] rounded-2xl transition-all shadow-lg backdrop-blur-md"
-                    >
-                      <X size={24} />
-                    </button>
-                  </div>
-
-                  <div className="space-y-8">
-                    <div className="space-y-6">
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--primary)] px-3 py-1.5 bg-[var(--primary-container)]/30 rounded-lg">
-                        {expanded.category}
-                      </span>
-                      <h3 className="text-4xl md:text-6xl font-display font-black tracking-tight leading-tight pt-2">
-                        {expanded.title}
-                      </h3>
-                    </div>
-
-                    <div className="text-xl md:text-2xl opacity-70 leading-relaxed font-medium text-pretty space-y-6">
-                      {expanded.content}
-                    </div>
-
-                    <div className="pt-8 flex flex-wrap gap-2 border-t border-[var(--outline-variant)]/30">
-                      {expanded.tags?.map((tag: string) => (
-                        <span
-                          key={tag}
-                          className="px-4 py-2 bg-[var(--surface-variant)]/50 rounded-full text-[10px] font-black uppercase tracking-widest opacity-60"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="absolute -right-12 -bottom-12 opacity-[0.03] pointer-events-none">
-                      {expanded.icon}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-      <header className="page-header border-b border-[var(--outline-variant)] pb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8 relative overflow-visible">
-        <div className="space-y-4">
-          <div className="flex flex-col gap-1">
-            <h1 className="page-title flex items-baseline">
-              virex
-              <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block">
-                .
+                {flickering.includes(i) ? String.fromCharCode(33 + Math.floor(Math.random() * 94)) : char}
               </motion.span>
-            </h1>
-            <div className="group relative mt-4">
-              <div className="text-[16px] md:text-[23px] font-display opacity-50 font-black leading-tight tracking-tight">
-                PGP fingerprint
+            ))}
+          </div>
+
+          <motion.div
+            // yea these are almost just useless animations but they add to the taste so who cares
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            // how the hell do i add a fucking gap between these items and the hero text without breaking the animation or making it look weird on mobile... flex gap is not working for some reason :(
+
+            className="flex flex-wrap justify-center gap-4 mt-12 md:mt-4"
+          >
+            <span className="px-6 py-3 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-2xl text-[11px] font-black uppercase tracking-widest flex items-center gap-3 border-4 border-[var(--primary)]/20 shadow-lg">
+              <Activity size={16} /> Researching
+            </span>
+            <span className="px-6 py-3 bg-[var(--surface-variant)] text-[var(--on-surface-variant)] rounded-2xl text-[11px] font-black uppercase tracking-widest flex items-center gap-3 border-4 border-[var(--outline-variant)]/40">
+              <MapPin size={16} /> Nederland
+            </span>
+            <span className="px-6 py-3 bg-[var(--surface-variant)] text-[var(--on-surface-variant)] rounded-2xl text-[11px] font-black uppercase tracking-widest flex items-center gap-3 border-4 border-[var(--outline-variant)]/40">
+              He / They
+            </span>
+          </motion.div>
+        </div>
+
+        {/* thus, a bio is born!! */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+          className="w-full mb-32 text-center space-y-8"
+        >
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="h-px w-12 bg-[var(--primary)] opacity-30" />
+            <span className="text-2xl font-black tracking-[0.4em] text-[var(--primary)]">Bio</span>
+            <div className="-ml-2 h-px w-12 bg-[var(--primary)] opacity-30" />
+          </div>
+          <h2 className="text-4xl md:text-7xl font-sans font-bold tracking-tighter leading-[1.05] max-w-4xl mx-auto ">
+            <br></br> semi <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">CEH student</span> building things at virex.lol. <br></br> <br></br> obsessed with minimal software architecture, digital preservation, and clean aesthetics.
+          </h2>
+          <p className="text-xl md:text-3xl opacity-60 font-medium max-w-3xl mx-auto leading-relaxed">
+            running on arch, lightweight WMs, and way too much caffeine!! <span className="text-[var(--primary)] font-bold">breaking things locally, to fix them in production :3</span>
+          </p>
+        </motion.section>
+
+        {/* bento or some bullshit grid new styling thing */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full mb-32">
+          {/* lore */}
+          <DynCard
+            delay={1.1}
+            whileHover={{ y: -12, scale: 1.01 }}
+            className="md:col-span-8 p-10 md:p-14 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200"
+          >
+            <h3 className="text-4xl font-sans font-bold mb-10 tracking-tight transition-colors group-hover:text-[var(--primary)]">Virex.lol Lore...</h3>
+            <div className="space-y-6 text-xl md:text-2xl opacity-80 leading-relaxed font-medium">
+              <p>
+                I had started my <span className="text-[var(--primary)] font-black">software researching</span> around 2021, focusing on simple scripting and tools.
+              </p>
+              <p>
+                what started as a curiosity for how software worked, quickly turned into a pretty huge interest for <span className="text-[var(--primary)] font-black">programming</span> and hardware.
+              </p>
+              <p>
+                since then, I became a developer with a maintained interest in cybersec and programming. by the end of 2023, my focus shifted toward linux and programming languages.
+              </p>
+            </div>
+            <div className="absolute -right-8 -bottom-8 opacity-[0.03] group-hover:scale-110 group-hover:opacity-[0.05] transition-all duration-700">
+              <Activity size={240} />
+            </div>
+          </DynCard>
+
+          {/* mission */}
+          <DynCard
+            delay={1.2}
+            whileHover={{ y: -12, scale: 1.02 }}
+            className="md:col-span-4 p-10 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/20 flex flex-col justify-between group hover:border-[var(--primary)] transition-colors duration-200"
+          >
+            <div className="space-y-6">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[var(--primary)]" />
+                <span className="text-[14px] font-black tracking-widest opacity-60">A Mission...</span>
               </div>
-              <div className="text-[9px] md:text-[11px] font-mono leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity select-all border-l-2 border-[var(--primary)] pl-3">
+              <p className="text-3xl font-sans font-bold leading-tight tracking-tight italic">
+                "good code can be used as a form of protest."
+              </p>
+            </div>
+            <p className="text-lg opacity-80 font-medium leading-snug">
+              the internet is proprietary, and we can fight back! using code as a form of expression and resistance, to create a more open and free digital world.
+            </p>
+          </DynCard>
+
+          {/* terminal specs card idk */}
+          <DynCard
+            delay={1.3}
+            whileHover={{ y: -12, scale: 1.01 }}
+            className="md:col-span-12 lg:col-span-6 bg-[#0a0a0a] text-white/90 p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden hover:border-[var(--primary)] transition-colors duration-200"
+          >
+            <div className="flex items-center gap-3 mb-8 opacity-40 transition-opacity group-hover:opacity-100">
+              <SquareTerminal size={20} className="text-[var(--primary)]" />
+              <span className="text-md font-bold tracking-widest">virex@virex</span>
+            </div>
+            <div className="space-y-3">
+              {[
+                { k: "OS", v: "Arch Linux x86_64" },
+                { k: "Shell", v: "fish 4.7.1" },
+                { k: "Kernel", v: "Linux 7.0.9-zen1-1-zen" },
+                { k: "CPU", v: "i5-14600K (20) @ 5.3GHz" },
+                { k: "GPU", v: "AMD Radeon RX 6800 XT" }, // lol
+              ].map(s => (
+                <div key={s.k} className="flex gap-6 text-sm">
+                  <span className="text-[var(--primary)] font-bold min-w-[80px]">{s.k}</span>
+                  <span className="opacity-60 group-hover:opacity-100 transition-opacity">{s.v}</span>
+                </div> // yeah this is pretty much just flex spam and stuff but it looks cool
+              ))}
+            </div>
+            { /*// vscode laggy ew */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.03] group-hover:opacity-[0.06] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%] transition-opacity" />
+          </DynCard>
+
+          {/* tech stack */}
+          <DynCard
+            delay={1.4}
+            whileHover={{ y: -12, scale: 1.01 }}
+            className="md:col-span-12 lg:col-span-6 p-10 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors duration-200 group"
+          >
+            <div className="flex items-center justify-between mb-8">
+              <h4 className="text-2xl font-sans font-bold transition-colors group-hover:text-[var(--primary)]">The techstack..</h4>
+            </div>
+            <div className="flex flex-wrap gap-2.5">
+              {[...TECH_STACK.web, ...TECH_STACK.technical].sort().map(t => (
+                <TechChip key={t} label={t} />
+              ))}
+            </div>
+          </DynCard>
+
+          {/* archive shit. */}
+          <DynCard
+            delay={1.5}
+            whileHover={{ y: -12, scale: 1.01 }}
+            className="md:col-span-12 p-10 bg-[var(--surface-variant)]/20 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/30 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200"
+          >
+            <div className="space-y-4 text-center md:text-left">
+              <h4 className="text-3xl font-sans font-bold tracking-tight flex items-center justify-center md:justify-start gap-3 transition-colors group-hover:text-[var(--primary)]">
+                <Pipette className="text-[var(--primary)]" /> Archival
+              </h4>
+              <p className="text-xl opacity-70 font-medium max-w-2xl group-hover:opacity-100 transition-opacity">
+                just my instinct. I love collecting legacy software, old documentation, and keeping backups of everything of interest that I find.
+              </p>
+            </div>
+            <div className="flex flex-col items-center md:items-end gap-2 shrink-0">
+              <div className="text-[13px] font-black tracking-[0.2em] opacity-40 mb-2">Fingerprint!</div>
+              <div className="text-[11px] md:text-sm font-mono opacity-100 select-all p-4 bg-[var(--surface-variant)] rounded-2xl border-2 border-[var(--outline-variant)]/50 leading-relaxed text-center md:text-right group-hover:border-[var(--primary)]/30 transition-all">
                 1D4D 0BDB 03DA F87B 2151 <br />
                 6AE8 A109 C97B 2AD5 C2E6
               </div>
             </div>
-          </div>
-          <div className="flex flex-wrap gap-2 md:gap-3">
-            <span className="px-3 py-3 md:px-4 md:py-4 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-[20px] text-[10px] md:text-[12px] font-black uppercase tracking-widest flex items-center gap-2 border-6 border-[var(--primary)] hover:scale-105 transition-all">
-              <Activity className="w-3.5 h-3.5 md:w-[17px] md:h-[17px]" />{" "}
-              Researching
-            </span>
-            <span className="px-3 py-3 md:px-4 md:py-4 bg-[var(--surface-variant)] border-6 border-[var(--outline-variant)] text-[var(--on-surface-variant)] rounded-[20px] text-[10px] md:text-[12px] font-black uppercase tracking-widest flex items-center gap-2 hover:border-[var(--primary)] hover:scale-105 transition-all">
-              <MapPin className="w-3.5 h-3.5 md:w-[17px] md:h-[17px]" />{" "}
-              Nederland
-            </span>
-            <span className="px-3 py-3 md:px-4 md:py-4 bg-[var(--surface-variant)] border-6 border-[var(--outline-variant)] text-[var(--on-surface-variant)] rounded-[20px] text-[10px] md:text-[12px] font-black uppercase tracking-widest flex items-center gap-2 hover:border-[var(--primary)] hover:scale-105 transition-all">
-              <CheckCircle2 className="w-3.5 h-3.5 md:w-[17px] md:h-[17px]" />{" "}
-              4+ Years XP
-            </span>
-            <span className="px-3 py-3 md:px-3 md:py-4 bg-[var(--surface-variant)] border-6 border-[var(--outline-variant)] text-[var(--on-surface-variant)] rounded-[20px] text-[10px] md:text-[13px] font-black tracking-widest flex items-center gap-2 hover:border-[var(--primary)] hover:scale-105 transition-all">
-              He/They
-            </span>
-          </div>
-        </div>
-      </header>
-
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-        <div className="md:col-span-12 lg:col-span-8">
-          <div className="relative group/terminal h-full">
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              className="bg-[#0d0d0d] rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 overflow-hidden shadow-2xl h-full min-h-[300px] md:min-h-[400px] flex flex-col font-mono relative hover:border-[var(--primary)]/40 transition-all group"
-            >
-              {/* term head */}
-              <div className="px-8 py-5 bg-white/[0.04] border-b border-white/5 flex items-center relative">
-                <div className="flex gap-2.5">
-                  <div className="w-3.5 h-3.5 rounded-full shadow-inner" />
-                </div>
-
-                {/* >_< */}
-
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <span className="font-sans font-black text-[15px] md:text-[17px] text-white/20 tracking-[0.2em] flex items-center whitespace-nowrap">
-                    <SquareTerminal size={22} className="mr-3 opacity-40" />
-                    root@marx
-                  </span>
-                </div>
-              </div>
-
-              {/* term body */}
-              <div className="p-8 md:p-12 text-[12px] md:text-[15px] leading-relaxed space-y-8 flex-1 overflow-y-auto custom-scrollbar">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 md:gap-3">
-                    <span className="text-[var(--primary)] font-black">❯</span>
-                    <span className="text-white/90">
-                      ./info_util.sh --verbose
-                    </span>
-                  </div>
-
-                  <div className="pl-4 md:pl-6 space-y-2 md:space-y-1">
-                    <div className="flex justify-between sm:justify-start gap-4">
-                      <span className="text-[var(--primary)] font-bold opacity-80 uppercase text-[10px] md:text-[13px] min-w-[65px] md:min-w-[80px]">
-                        OS
-                      </span>
-                      <span className="text-white/60 text-right sm:text-left">
-                        Arch Linux x86_64
-                      </span>
-                    </div>
-                    <div className="flex justify-between sm:justify-start gap-4">
-                      <span className="text-[var(--primary)] font-bold opacity-80 uppercase text-[10px] md:text-[13px] min-w-[65px] md:min-w-[80px]">
-                        Shell
-                      </span>
-                      <span className="text-white/60 text-right sm:text-left">
-                        fish 4.5.0
-                      </span>
-                    </div>
-                    <div className="flex justify-between sm:justify-start gap-4">
-                      <span className="text-[var(--primary)] font-bold opacity-80 uppercase text-[10px] md:text-[13px] min-w-[65px] md:min-w-[80px]">
-                        Kernel
-                      </span>
-                      <span className="text-white/60 text-right sm:text-left">
-                        Linux 6.19.10-zen1-1-zen
-                      </span>
-                    </div>
-                    <div className="flex justify-between sm:justify-start gap-4">
-                      <span className="text-[var(--primary)] font-bold opacity-80 uppercase text-[10px] md:text-[13px] min-w-[65px] md:min-w-[80px]">
-                        CPU
-                      </span>
-                      <span className="text-white/60 text-right sm:text-left">
-                        i5-14600K (20) @ 5.3GHz
-                      </span>
-                    </div>
-                    <div className="flex justify-between sm:justify-start gap-4">
-                      <span className="text-[var(--primary)] font-bold opacity-80 uppercase text-[10px] md:text-[13px] min-w-[65px] md:min-w-[80px]">
-                        GPU
-                      </span>
-                      <span className="text-white/60 text-right sm:text-left">
-                        AMD Radeon RX 6800 XT
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute inset-0 pointer-events-none opacity-[0.02] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%]" />
-            </motion.div>
-          </div>
+          </DynCard>
         </div>
 
-        <Card className="md:col-span-12 lg:col-span-4 p-10 flex flex-col justify-between bg-[var(--primary-container)] text-[var(--on-primary-container)] border-6 border-[var(--outline-variant)] relative overflow-hidden group hover:border-[var(--primary)] transition-all">
-          <div className="flex flex-col gap-3 relative z-10">
-            {/* cute ahh eyebrow label instead of old giant faded text!! :) */}
-            <div className="flex items-center gap-2.5">
-              <div className="w-2 h-2 rounded-full bg-[var(--primary)]" />
-              <span className="text-[18px] tracking-[0.2em] font-black text-[var(--primary)] opacity-80">
-                threat model
-              </span>
-            </div>
-
-            {/* making the quote the actual hero element */}
-            <p className="text-3xl md:text-4xl font-display font-black leading-[1.1] tracking-tight">
-              {`"security isnt a feature you just jump on. the only honest way to defend something is to know exactly how it falls apart."`}
-            </p>
+        {/* foooootters */}
+        <div className="flex flex-col items-center gap-12 w-full max-w-2xl">
+          <div className="h-1 w-20 bg-[var(--primary)] rounded-full opacity-20" />
+          <div className="flex flex-wrap justify-center gap-10">
+            <BounceButton
+              icon={Github}
+              label="GitHub"
+              url="https://github.com/hnpf"
+              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 px-10 h-16 rounded-3xl font-black uppercase tracking-widest text-xs transition-colors active:scale-95"
+            />
+            <BounceButton
+              icon={MessageSquare}
+              label="Discord"
+              url="https://conspiracy.rip/discord"
+              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 px-10 h-16 rounded-3xl font-black uppercase tracking-widest text-xs transition-colors active:scale-95"
+            />
           </div>
 
-          <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
-            <Fingerprint size={160} />
-          </div>
-        </Card>
-
-        <div className="md:col-span-12 grid grid-cols-2 gap-4 md:gap-6">
-          <Card className="p-6 md:p-10 space-y-4 md:space-y-8 h-full bg-[var(--surface-variant)]/40 border-6 border-[var(--outline-variant)] shadow-sm flex flex-col justify-between hover:border-[var(--primary)] transition-all">
-            <h3 className="text-xl md:text-3xl font-display font-black tracking-tight">
-              Web
-            </h3>
-            <div className="flex flex-wrap gap-1.5 md:gap-2.5">
-              {TECH_STACK.web.map((tech) => (
-                <TechChip key={tech} label={tech} />
-              ))}
-            </div>
-          </Card>
-          <Card className="p-6 md:p-10 space-y-4 md:space-y-8 h-full bg-[var(--surface-variant)]/40 border-6 border-[var(--outline-variant)] shadow-sm flex flex-col justify-between hover:border-[var(--primary)] transition-all">
-            <h3 className="text-xl md:text-3xl font-display font-black tracking-tight">
-              Tech
-            </h3>
-            <div className="flex flex-wrap gap-1.5 md:gap-2.5">
-              {TECH_STACK.technical.map((tech) => (
-                <TechChip key={tech} label={tech} />
-              ))}
-            </div>
-          </Card>
-        </div>
-        <div className="md:col-span-12">
-          <motion.div
-            initial={{
-              opacity: 0,
-              scale: 0.97,
+          <motion.button
+            whileHover={{
+              scale: 1.08,
+              y: -5,
+              borderRadius: "48px",
             }}
-            whileInView={{
-              opacity: 1,
-              scale: 1,
+            whileTap={{ scale: 0.95 }}
+            transition={{
+              type: "spring",
+              stiffness: 400,
+              damping: 15,
+              mass: 1
             }}
-            viewport={{ once: true }}
-            className="relative rounded-[3.5rem] overflow-hidden bg-[var(--primary-container)] text-[var(--on-primary-container)] border-6 border-[var(--outline-variant)] shadow-2xl group p-10 md:p-16 space-y-10 hover:border-[var(--primary)] transition-all"
+            onClick={onBack}
+            className="m3-button-filled ring-12 ring-[var(--primary)]/10 !bg-[var(--on-surface)] !text-[var(--surface)] h-20 px-16 rounded-[32px] text-2xl font-black flex items-center gap-4 transition-colors"
           >
-            <div className="flex justify-between items-start relative z-10">
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <span className="text-md font-bold opacity-60 flex items-center gap-2">
-                    <Activity size={14} /> 2021 — present
-                  </span>
-                </div>
-                <h3 className="text-5xl md:text-7xl font-display font-black tracking-tighter leading-[0.95] group-hover:translate-x-2 transition-transform duration-500">
-                  virex lore
-                </h3>
-              </div>
-              <button
-                onClick={() =>
-                  setExpanded({
-                    category: "evolution",
-                    title: "virex lore",
-                    icon: <Activity size={320} />,
-                    content: (
-                      <div className="space-y-6">
-                        <p>
-                          I started my{" "}
-                          <span className="font-bold text-[var(--primary)]">
-                            junior software researching
-                          </span>{" "}
-                          around 2021, focusing on security and scripting.
-                        </p>
-                        <p>
-                          what started as a curiosity for how software worked
-                          quickly turned into a huge interest for{" "}
-                          <span className="font-bold text-[var(--primary)]">
-                            programming
-                          </span>{" "}
-                          and hardware interest.
-                        </p>
-                        <p>
-                          since then, I became a{" "}
-                          <span className="font-bold text-[var(--primary)]">
-                            semi-fullstack developer
-                          </span>{" "}
-                          with a big interest in cybersecurity and programming.
-                        </p>
-                      </div>
-                    ),
-                  })
-                }
-                className="md:hidden w-10 h-10 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition-all group/btn shrink-0"
-              >
-                <Maximize2
-                  size={20}
-                  className="group-hover/btn:scale-110 transition-transform"
-                />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10 border-t border-[var(--on-primary-container)]/10 pt-10">
-              {/* copy and paste */}
-              <div className="space-y-6 text-xl opacity-80 leading-relaxed font-medium text-pretty">
-                <p>
-                  I started my{" "}
-                  <span className="font-bold text-[var(--primary)]">
-                    junior software researching
-                  </span>{" "}
-                  around 2021, focusing on security and scripting.
-                </p>
-                <p className="hidden md:block">
-                  what started as a curiosity for how software worked quickly
-                  turned into a huge interest for{" "}
-                  <span className="font-bold text-[var(--primary)]">
-                    programming
-                  </span>{" "}
-                  and hardware interest.
-                </p>
-              </div>
-              <div className="hidden md:block space-y-6 text-xl opacity-80 leading-relaxed font-medium text-pretty">
-                <p>
-                  since then, I became a{" "}
-                  <span className="font-bold text-[var(--primary)]">
-                    semi-fullstack developer
-                  </span>{" "}
-                  with a big interest in cybersecurity and programming.
-                </p>
-                <p>
-                  by the end of 2023, my focus shifted toward{" "}
-                  <span className="font-bold text-[var(--primary)]">linux</span>{" "}
-                  and{" "}
-                  <span className="font-bold text-[var(--primary)]">
-                    programming languages
-                  </span>
-                  .
-                </p>
-              </div>
-            </div>
-            <div className="absolute -right-12 -bottom-12 opacity-[0.03] group-hover:scale-110 transition-transform duration-700 pointer-events-none">
-              <Activity size={320} />
-            </div>
-          </motion.div>
-        </div>
-
-        <div className="md:col-span-12 grid grid-cols-2 gap-4 md:gap-8">
-          <Card className="p-5 md:p-10 space-y-4 md:space-y-8 bg-[var(--surface-variant)]/30 border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] hover:bg-[var(--primary-container)]/10 transition-all">
-            <div className="space-y-3 md:space-y-6">
-              <div className="flex justify-between items-start">
-                <div className="flex items-center gap-2 md:gap-3"></div>
-                <button
-                  onClick={() =>
-                    setExpanded({
-                      category: "mission",
-                      title: "my opinion",
-                      tags: [
-                        "research",
-                        "privacy",
-                        "performance",
-                        "aesthetics",
-                      ],
-                      content: (
-                        <div className="space-y-6">
-                          <p>
-                            the internet is modernized, and we can fight back!
-                          </p>
-                          <p>
-                            using minimal libraries, durable design, even
-                            software that just does what it says and nothing
-                            else. good code can be used as a form of protest.
-                          </p>
-                        </div>
-                      ),
-                    })
-                  }
-                  className="md:hidden w-8 h-8 rounded-xl bg-[var(--surface)] border-2 border-[var(--outline-variant)] flex items-center justify-center text-[var(--primary)] hover:bg-[var(--primary-container)]/20 transition-all group/btn"
-                >
-                  <Maximize2 size={16} className="group-hover/btn:scale-110" />
-                </button>
-              </div>
-              <div className="space-y-2 md:space-y-4">
-                <h4 className="text-lg md:text-3xl font-display font-black leading-tight">
-                  my opinion
-                </h4>
-                <p className="text-xs md:text-lg opacity-60 leading-tight md:leading-relaxed text-pretty font-medium line-clamp-4 md:line-clamp-none">
-                  the internet is modernized, and we can fight back! using
-                  minimal libraries, durable design, even software that just
-                  does what it says and nothing else.
-                </p>
-              </div>
-              <div className="pt-4 hidden md:flex flex-wrap gap-2 border-t border-[var(--outline-variant)]/30">
-                {["research", "privacy", "performance", "aesthetics"].map(
-                  (tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 bg-[var(--surface-variant)]/50 rounded-full text-[10px] font-black uppercase tracking-widest opacity-60"
-                    >
-                      {tag}
-                    </span>
-                  ),
-                )}
-              </div>
-            </div>
-          </Card>
-          <Card className="p-5 md:p-10 space-y-4 md:space-y-8 bg-[var(--surface-variant)]/30 border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] hover:bg-[var(--primary-container)]/10 transition-all">
-            <div className="space-y-3 md:space-y-6">
-              <div className="flex justify-between items-start">
-                <button
-                  onClick={() =>
-                    setExpanded({
-                      category: "library",
-                      title: "..and archival!",
-                      tags: ["archival", "privacy", "aesthetics"],
-                      content: (
-                        <div className="space-y-6">
-                          <p>preservation by nature.</p>
-                          <p>
-                            I collect legacy software, old documentation, and I
-                            keep backups of everything I find.
-                          </p>
-                        </div>
-                      ),
-                    })
-                  }
-                  className="md:hidden w-8 h-8 rounded-xl bg-[var(--surface)] border-2 border-[var(--outline-variant)] flex items-center justify-center text-[var(--primary)] hover:bg-[var(--primary-container)]/20 transition-all group/btn"
-                >
-                  <Maximize2 size={16} className="group-hover/btn:scale-110" />
-                </button>
-              </div>
-              <div className="space-y-2 md:space-y-4">
-                <h4 className="text-lg md:text-3xl font-display font-black leading-tight">
-                  .. and archival!
-                </h4>
-                <p className="text-xs md:text-lg opacity-60 leading-tight md:leading-relaxed text-pretty font-medium line-clamp-4 md:line-clamp-none">
-                  preservation by nature. I collect legacy software, old
-                  documentation, and I keep backups of everything I find.
-                </p>
-              </div>
-              <div className="pt-4 hidden md:flex flex-wrap gap-2 border-t border-[var(--outline-variant)]/30">
-                {["archival", "privacy", "aesthetics"].map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1 bg-[var(--surface-variant)]/50 rounded-full text-[10px] font-black uppercase tracking-widest opacity-60"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </Card>
+            <Home size={32} />
+            Go home
+          </motion.button>
         </div>
       </div>
+    </motion.div>
+  );
+};
 
-      <footer className="pt-24 pb-12 border-t border-[var(--outline-variant)] flex flex-col items-center gap-8">
-        <div className="text-center space-y-2">
-          <h2 className="text-4xl font-display font-black tracking-tight">
-            you can find me here!
-          </h2>
-        </div>
-        <div className="flex flex-wrap justify-center gap-4">
-          <BounceButton
-            icon={Github}
-            label="GitHub"
-            url="https://github.com/hnpf"
-            className="m3-button-tonal ring-6 ring-[var(--outline-variant)]/40 px-8 h-14 rounded-[20px] font-black uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-black hover:text-white transition-all shadow-lg"
-          />
-          <BounceButton
-            icon={MessageSquare}
-            label="vixen"
-            url="https://conspiracy.rip/discord"
-            className="m3-button-tonal ring-6 ring-[var(--outline-variant)]/40 px-8 h-14 rounded-[20px] font-black tracking-widest text-md flex items-center gap-3 hover:bg-[#5865F2] hover:text-white transition-all shadow-lg"
-          />
-          <a
-            href="mailto:deprecated@virex.lol"
-            className="m3-button-tonal ring-6 ring-[var(--outline-variant)]/40 px-8 h-14 rounded-[20px] font-black uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all shadow-lg"
-          >
-            <Mail size={20} />
-            Email
-          </a>
-        </div>
-      </footer>
-    </div>
+const ReadmePage = memo(({ setPage }: { setPage: (page: string) => void }) => {
+  return (
+    <BullshitMatrix
+      onBack={() => setPage("home")}
+      setPage={setPage}
+    />
   );
 });
 
@@ -2707,6 +2561,8 @@ export default function App() {
 
   useEffect(() => {
     if (!IS_APR) return;
+    // i actually think i hate april fools now.. 
+    // this traumatized me into doing way too much work and tons of checks resulting in tons of unknown ass bugs and issues i hate it!
 
     // phase 4: the gamble
     const msgs = [
@@ -3139,9 +2995,8 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v.1.9.2-stable (v2026.05.18)</span>
-            </div>
-          </div>
+              <span>v2.0.0-stable (v2026.05.21)</span>
+            </div>          </div>
         </div>
       )}
 
@@ -3210,7 +3065,7 @@ export default function App() {
       </AnimatePresence>
       {/*desktop sidebar*/}
       <AnimatePresence>
-        {!settings.focusMode && page !== "no" && !is_mobile && (
+        {!settings.focusMode && page !== "no" && page !== "readme" && !is_mobile && (
           <motion.aside
             initial={{
               x: settings.sidebarFlipped ? 60 : -60,
@@ -3265,8 +3120,13 @@ export default function App() {
                 : "var(--outline-variant)",
             }}
             exit={{
-              x: settings.sidebarFlipped ? 60 : -60,
+              x: settings.sidebarFlipped ? 400 : -400, // Slide off screen
               opacity: 0,
+              transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 30
+              }
             }}
             transition={{
               type: "spring",
@@ -3644,18 +3504,18 @@ export default function App() {
                   />
 
                   {!settings.sidebarCollapsed && (
-                    <div className="grid grid-cols-2 gap-2 w-full">
+                    <div className="grid grid-cols-2 gap-4 w-full">
                       <BounceButton
                         icon={Github}
                         label="GitHub"
                         url="https://github.com/hnpf"
-                        className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-all text-sm font-black"
+                        className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-colors text-sm font-black"
                       />
                       <BounceButton
                         icon={MessageSquare}
                         label="Discord"
                         url="https://conspiracy.rip/discord"
-                        className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-all text-sm font-black"
+                        className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-colors text-sm font-black"
                       />
                     </div>
                   )}
@@ -3798,7 +3658,7 @@ export default function App() {
         </AnimatePresence>
       </motion.main>
       <AnimatePresence>
-        {!settings.focusMode && page !== "no" && is_mobile && (
+        {!settings.focusMode && page !== "no" && page !== "readme" && is_mobile && (
           <motion.nav
             initial={{
               y: 100,
@@ -3953,8 +3813,8 @@ export default function App() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ 
-                opacity: 0, 
+              exit={{
+                opacity: 0,
                 scale: 0.9,
                 y: 20,
                 transition: {
@@ -3991,375 +3851,374 @@ export default function App() {
                 <div
                   className="p-6 md:p-10 space-y-10 overflow-y-auto scrollbar-hide"
                 >
-                {/*making things look pretty pretty */}
-                <section className="space-y-6">
-                  <div className="flex items-center gap-3">
-                    <Palette size={20} className="text-[var(--primary)]" />
-                    <h3 className="text-sm font-black uppercase tracking-[0.2em] text-[var(--on-surface-variant)]">
-                      appearance
-                    </h3>
-                  </div>
-                  <div className="relative grid grid-cols-3 gap-2 p-1.5 bg-[var(--surface-variant)] rounded-full overflow-hidden">
-                    {/* sliding capsule - now using animate to stay locked to modal physics */}
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        left:
-                          settings.mode === "light"
-                            ? "6px"
-                            : settings.mode === "dark"
-                              ? "33.33%"
-                              : "66.66%",
-                        marginLeft:
-                          settings.mode === "dark"
-                            ? "4px"
-                            : settings.mode === "system"
-                              ? "2px"
-                              : "0px",
-                      }}
-                      transition={settingsSpring}
-                      className="absolute inset-y-1.5 bg-[var(--primary)] rounded-full shadow-lg z-0"
-                      style={{
-                        width: "calc(33.33% - 8px)",
-                      }}
-                    />
-                    {(["light", "dark", "system"] as const).map((m) => (
-                      <button
-                        key={m}
-                        onClick={() => updateSettings({ mode: m })}
-                        className={cn(
-                          "relative z-10 flex items-center justify-center gap-2 py-2.5 rounded-full transition-colors capitalize text-sm font-bold",
-                          settings.mode === m
-                            ? "text-[var(--on-primary)]"
-                            : "text-[var(--on-surface-variant)] hover:bg-black/5",
-                        )}
-                      >
-                        {m === "light" && <Sun size={16} />}
-                        {m === "dark" && <Moon size={16} />}
-                        {m === "system" && <Monitor size={16} />}
-                        <span className="hidden sm:inline">{m}</span>
-                      </button>
-                    ))}
-                  </div>
-
-                  <motion.div
-                    initial={false}
-                    animate={{
-                      opacity: (settings.mode === "dark" || settings.mode === "system") ? 1 : 0,
-                      height: (settings.mode === "dark" || settings.mode === "system") ? "auto" : 0,
-                      marginBottom: (settings.mode === "dark" || settings.mode === "system") ? 24 : 0,
-                    }}
-                    transition={settingsSpring}
-                    className="overflow-hidden"
-                  >
-                    <label
-                      className={cn(
-                        "flex items-center border-6 border-[var(--outline-variant)] justify-between p-5 transition-all text-left cursor-pointer rounded-[2rem]",
-                        settings.amoledMode
-                          ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
-                          : "bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/30",
-                      )}
-                    >
-                      <div>
-                        <div className="font-bold">AMOLED Mode</div>
-                        <div className="text-xs opacity-60 font-medium">
-                          pure black backgrounds for OLED screens
-                        </div>
-                      </div>
-                      <Switch
-                        checked={settings.amoledMode}
-                        onChange={(checked) =>
-                          updateSettings({ amoledMode: checked })
-                        }
-                      />
-                    </label>
-                  </motion.div>
-
-                  <div className="space-y-4">
-                    <div className="text-sm font-bold text-[var(--on-surface)]">
-                      Accent Color
+                  {/*making things look pretty pretty */}
+                  <section className="space-y-6">
+                    <div className="flex items-center gap-3">
+                      <Palette size={20} className="text-[var(--primary)]" />
+                      <h3 className="text-sm font-black uppercase tracking-[0.2em] text-[var(--on-surface-variant)]">
+                        appearance
+                      </h3>
                     </div>
-                    <div className="flex flex-wrap gap-4">
-                      {(
-                        [
-                          "orange",
-                          "blue",
-                          "green",
-                          "red",
-                          "purple",
-                          "custom",
-                        ] as const
-                      ).map((c) => (
-                        <button
-                          key={c}
-                          onClick={() => updateSettings({ accent: c })}
-                          className={cn(
-                            "group relative w-12 h-12 rounded-[1rem] overflow-hidden transition-all duration-300 shadow-sm",
-                            settings.accent === c
-                              ? "ring-2 ring-[var(--on-surface)] ring-offset-4 ring-offset-[var(--surface)] scale-110"
-                              : "hover:scale-105",
-                          )}
-                        >
-                          {c === "custom" ? (
-                            <div className="absolute inset-0 bg-[var(--surface-variant)] flex items-center justify-center">
-                              <Pipette
-                                size={20}
-                                className="text-[var(--on-surface-variant)]"
-                              />
-                            </div>
-                          ) : (
-                            <div className="absolute inset-0 flex">
-                              <div
-                                className={cn(
-                                  "w-1/2 h-full",
-                                  c === "orange" && "bg-orange-500",
-                                  c === "blue" && "bg-blue-500",
-                                  c === "green" && "bg-emerald-500",
-                                  c === "red" && "bg-rose-500",
-                                  c === "purple" && "bg-purple-500",
-                                )}
-                              />
-                              <div className="w-1/2 h-full flex flex-col">
-                                <div
-                                  className={cn(
-                                    "h-1/2 w-full",
-                                    c === "orange" && "bg-orange-300",
-                                    c === "blue" && "bg-blue-300",
-                                    c === "green" && "bg-emerald-300",
-                                    c === "red" && "bg-rose-300",
-                                    c === "purple" && "bg-purple-300",
-                                  )}
-                                />
-                                <div
-                                  className={cn(
-                                    "h-1/2 w-full",
-                                    c === "orange" && "bg-orange-700",
-                                    c === "blue" && "bg-blue-700",
-                                    c === "green" && "bg-emerald-700",
-                                    c === "red" && "bg-rose-700",
-                                    c === "purple" && "bg-purple-700",
-                                  )}
-                                />
-                              </div>
-                            </div>
-                          )}
-                          {settings.accent === c && (
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px]">
-                              <div className="bg-white rounded-full p-0.5 shadow-md">
-                                <Check
-                                  size={14}
-                                  className="text-black"
-                                  strokeWidth={3}
-                                />
-                              </div>
-                            </div>
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                    {settings.accent === "custom" && (
+                    <div className="relative grid grid-cols-3 gap-2 p-1.5 bg-[var(--surface-variant)] rounded-full overflow-hidden">
+                      {/* sliding capsule - now using animate to stay locked to modal physics */}
                       <motion.div
                         initial={false}
                         animate={{
-                          opacity: 1,
-                          height: "auto",
+                          left:
+                            settings.mode === "light"
+                              ? "6px"
+                              : settings.mode === "dark"
+                                ? "33.33%"
+                                : "66.66%",
+                          marginLeft:
+                            settings.mode === "dark"
+                              ? "4px"
+                              : settings.mode === "system"
+                                ? "2px"
+                                : "0px",
                         }}
-                        exit={{
-                          opacity: 0,
-                          height: 0,
+                        transition={settingsSpring}
+                        className="absolute inset-y-1.5 bg-[var(--primary)] rounded-full shadow-lg z-0"
+                        style={{
+                          width: "calc(33.33% - 8px)",
                         }}
-                        className="pt-2 space-y-3"
-                      >
-                        <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] opacity-50 px-1">
-                          <span>Hue Shift</span>
-                        </div>
-                        <Slider
-                          value={settings.hue}
-                          onChange={(v) => updateSettings({ hue: v })}
-                          min={0}
-                          max={360}
-                          step={1}
-                          size="s"
-                          leadingIcon={<Pipette size={16} />}
-                          format={(v) => `${v.toFixed(0)}°`}
-                        />
-
-                        <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] opacity-50 px-1 pt-2">
-                          <span>Saturation</span>
-                        </div>
-                        <Slider
-                          value={settings.saturation}
-                          onChange={(v) => updateSettings({ saturation: v })}
-                          min={0}
-                          max={100}
-                          step={1}
-                          size="s"
-                          leadingIcon={<Layers size={16} />}
-                          format={(v) => `${v.toFixed(0)}%`}
-                        />
-                      </motion.div>
-                    )}
-                  </div>
-                </section>
-                {/* little toggles to change stuff */}
-                {[
-                  {
-                    title: "Customization",
-                    icon: (
-                      <Palette size={20} className="text-[var(--primary)]" />
-                    ),
-                    items: [
-                      {
-                        key: "helloAnimation",
-                        label: "Hello Animation",
-                        desc: "fluent language-cycling virex header",
-                      },
-                      {
-                        key: "brutalistMode",
-                        label: "Brutalist Mode",
-                        desc: "sharp edges only",
-                      },
-                      {
-                        key: "developerFont",
-                        label: "Developer Font",
-                        desc: "use JetBrains Mono!",
-                      },
-                      {
-                        key: "focusMode",
-                        label: "Focus Mode",
-                        desc: "a minimal zen layout",
-                      },
-                      {
-                        key: "highHz",
-                        label: "120Hz Animations",
-                        desc: "high-refresh snappiness",
-                      },
-                    ],
-                  },
-                  {
-                    title: "Sidebar",
-                    icon: (
-                      <Layers size={20} className="text-[var(--primary)]" />
-                    ),
-                    items: [
-                      {
-                        key: "sidebarFlipped",
-                        label: "Flip Sidebar",
-                        desc: "changes desktop sidebar orientation to the right",
-                      },
-                      {
-                        key: "floatingSidebar",
-                        label: "Floating Sidebar",
-                        desc: "undock the sidebar with rounded corners",
-                      },
-                      {
-                        key: "profileContainer",
-                        label: "Profile Container",
-                        desc: "show the ring and background around your profile",
-                      },
-                      {
-                        key: "forceDesktop",
-                        label: "Force Desktop",
-                        desc: "prevent switching to mobile layout on small screens",
-                      },
-                    ],
-                  },
-                  {
-                    title: "Debug",
-                    icon: <Cpu size={20} className="text-[var(--primary)]" />,
-                    items: [
-                      {
-                        key: "debugMode",
-                        label: "Debug Mode",
-                        desc: "show layout grid and build info",
-                      },
-                    ],
-                  },
-                ].map((section) => (
-                  <section key={section.title} className="space-y-6">
-                    <div className="flex items-center gap-3">
-                      {section.icon}
-                      <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)]">
-                        {section.title}
-                      </h3>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      {section.items.map((tweak, index, array) => (
-                        <label
-                          key={tweak.key}
+                      />
+                      {(["light", "dark", "system"] as const).map((m) => (
+                        <button
+                          key={m}
+                          onClick={() => updateSettings({ mode: m })}
                           className={cn(
-                            "flex items-center border-6 border-[var(--outline-variant)] justify-between p-5 transition-all text-left cursor-pointer",
-                            array.length === 1
-                              ? "rounded-[2rem]"
-                              : index === 0
-                                ? "rounded-t-[2rem] rounded-b-[0.9rem]"
-                                : index === array.length - 1
-                                  ? "rounded-b-[2rem] rounded-t-[0.9rem]"
-                                  : "rounded-[0.9rem]",
-                            settings[tweak.key as keyof typeof settings]
-                              ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
-                              : "bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/30",
+                            "relative z-10 flex items-center justify-center gap-2 py-2.5 rounded-full transition-colors capitalize text-sm font-bold",
+                            settings.mode === m
+                              ? "text-[var(--on-primary)]"
+                              : "text-[var(--on-surface-variant)] hover:bg-black/5",
                           )}
                         >
-                          <div>
-                            <div className="font-bold">{tweak.label}</div>
-                            <div className="text-xs opacity-60 font-medium">
-                              {tweak.desc}
-                            </div>
-                          </div>
-                          <Switch
-                            checked={
-                              settings[
-                              tweak.key as keyof typeof settings
-                              ] as boolean
-                            }
-                            onChange={(checked) => {
-                              if (tweak.key === "debugMode" && checked) {
-                                setShowDebugConfirm(true);
-                              } else {
-                                updateSettings({ [tweak.key]: checked });
-                              }
-                            }}
-                          />
-                        </label>
+                          {m === "light" && <Sun size={16} />}
+                          {m === "dark" && <Moon size={16} />}
+                          {m === "system" && <Monitor size={16} />}
+                          <span className="hidden sm:inline">{m}</span>
+                        </button>
                       ))}
                     </div>
-                  </section>
-                ))}
 
-                {/* boring ver info stuff */}
-                <section className="space-y-6">
-                  <div className="flex items-center gap-3">
-                    <Terminal size={20} className="text-[var(--primary)]" />
-                    <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)]">
-                      Other Info
-                    </h3>
-                  </div>
-                  <button
-                    onClick={() => {
-                      setSettingsOpen(false);
-                      goto("changelog");
-                    }}
-                    className="w-full flex items-center justify-between border-6 border-[var(--outline-variant)]  p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group"
-                  >
-                    <div>
-                      <div className="font-bold">View changelog</div>
-                      <div className="text-xs opacity-60 font-medium">
-                        See what's new in v2026.05.18
+                    <motion.div
+                      initial={false}
+                      animate={{
+                        opacity: (settings.mode === "dark" || settings.mode === "system") ? 1 : 0,
+                        height: (settings.mode === "dark" || settings.mode === "system") ? "auto" : 0,
+                        marginBottom: (settings.mode === "dark" || settings.mode === "system") ? 24 : 0,
+                      }}
+                      transition={settingsSpring}
+                      className="overflow-hidden"
+                    >
+                      <label
+                        className={cn(
+                          "flex items-center border-6 border-[var(--outline-variant)] justify-between p-5 transition-all text-left cursor-pointer rounded-[2rem]",
+                          settings.amoledMode
+                            ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                            : "bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/30",
+                        )}
+                      >
+                        <div>
+                          <div className="font-bold">AMOLED Mode</div>
+                          <div className="text-xs opacity-60 font-medium">
+                            pure black backgrounds for OLED screens
+                          </div>
+                        </div>
+                        <Switch
+                          checked={settings.amoledMode}
+                          onChange={(checked) =>
+                            updateSettings({ amoledMode: checked })
+                          }
+                        />
+                      </label>
+                    </motion.div>
+
+                    <div className="space-y-4">
+                      <div className="text-sm font-bold text-[var(--on-surface)]">
+                        Accent Color
                       </div>
+                      <div className="flex flex-wrap gap-4">
+                        {(
+                          [
+                            "orange",
+                            "blue",
+                            "green",
+                            "red",
+                            "purple",
+                            "custom",
+                          ] as const
+                        ).map((c) => (
+                          <button
+                            key={c}
+                            onClick={() => updateSettings({ accent: c })}
+                            className={cn(
+                              "group relative w-12 h-12 rounded-[1rem] overflow-hidden transition-all duration-300 shadow-sm",
+                              settings.accent === c
+                                ? "ring-2 ring-[var(--on-surface)] ring-offset-4 ring-offset-[var(--surface)] scale-110"
+                                : "hover:scale-105",
+                            )}
+                          >
+                            {c === "custom" ? (
+                              <div className="absolute inset-0 bg-[var(--surface-variant)] flex items-center justify-center">
+                                <Pipette
+                                  size={20}
+                                  className="text-[var(--on-surface-variant)]"
+                                />
+                              </div>
+                            ) : (
+                              <div className="absolute inset-0 flex">
+                                <div
+                                  className={cn(
+                                    "w-1/2 h-full",
+                                    c === "orange" && "bg-orange-500",
+                                    c === "blue" && "bg-blue-500",
+                                    c === "green" && "bg-emerald-500",
+                                    c === "red" && "bg-rose-500",
+                                    c === "purple" && "bg-purple-500",
+                                  )}
+                                />
+                                <div className="w-1/2 h-full flex flex-col">
+                                  <div
+                                    className={cn(
+                                      "h-1/2 w-full",
+                                      c === "orange" && "bg-orange-300",
+                                      c === "blue" && "bg-blue-300",
+                                      c === "green" && "bg-emerald-300",
+                                      c === "red" && "bg-rose-300",
+                                      c === "purple" && "bg-purple-300",
+                                    )}
+                                  />
+                                  <div
+                                    className={cn(
+                                      "h-1/2 w-full",
+                                      c === "orange" && "bg-orange-700",
+                                      c === "blue" && "bg-blue-700",
+                                      c === "green" && "bg-emerald-700",
+                                      c === "red" && "bg-rose-700",
+                                      c === "purple" && "bg-purple-700",
+                                    )}
+                                  />
+                                </div>
+                              </div>
+                            )}
+                            {settings.accent === c && (
+                              <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px]">
+                                <div className="bg-white rounded-full p-0.5 shadow-md">
+                                  <Check
+                                    size={14}
+                                    className="text-black"
+                                    strokeWidth={3}
+                                  />
+                                </div>
+                              </div>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                      {settings.accent === "custom" && (
+                        <motion.div
+                          initial={false}
+                          animate={{
+                            opacity: 1,
+                            height: "auto",
+                          }}
+                          exit={{
+                            opacity: 0,
+                            height: 0,
+                          }}
+                          className="pt-2 space-y-3"
+                        >
+                          <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] opacity-50 px-1">
+                            <span>Hue Shift</span>
+                          </div>
+                          <Slider
+                            value={settings.hue}
+                            onChange={(v) => updateSettings({ hue: v })}
+                            min={0}
+                            max={360}
+                            step={1}
+                            size="s"
+                            leadingIcon={<Pipette size={16} />}
+                            format={(v) => `${v.toFixed(0)}°`}
+                          />
+
+                          <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] opacity-50 px-1 pt-2">
+                            <span>Saturation</span>
+                          </div>
+                          <Slider
+                            value={settings.saturation}
+                            onChange={(v) => updateSettings({ saturation: v })}
+                            min={0}
+                            max={100}
+                            step={1}
+                            size="s"
+                            leadingIcon={<Layers size={16} />}
+                            format={(v) => `${v.toFixed(0)}%`}
+                          />
+                        </motion.div>
+                      )}
                     </div>
-                    <ChevronRight
-                      size={20}
-                      className="group-hover:translate-x-1 transition-transform"
-                    />
-                  </button>
-                </section>
+                  </section>
+                  {/* little toggles to change stuff */}
+                  {[
+                    {
+                      title: "Customization",
+                      icon: (
+                        <Palette size={20} className="text-[var(--primary)]" />
+                      ),
+                      items: [
+                        {
+                          key: "helloAnimation",
+                          label: "Hello Animation",
+                          desc: "fluent language-cycling virex header",
+                        },
+                        {
+                          key: "brutalistMode",
+                          label: "Brutalist Mode",
+                          desc: "sharp edges only",
+                        },
+                        {
+                          key: "developerFont",
+                          label: "Developer Font",
+                          desc: "use JetBrains Mono!",
+                        },
+                        {
+                          key: "focusMode",
+                          label: "Focus Mode",
+                          desc: "a minimal zen layout",
+                        },
+                        {
+                          key: "highHz",
+                          label: "120Hz Animations",
+                          desc: "high-refresh snappiness",
+                        },
+                      ],
+                    },
+                    {
+                      title: "Sidebar",
+                      icon: (
+                        <Layers size={20} className="text-[var(--primary)]" />
+                      ),
+                      items: [
+                        {
+                          key: "sidebarFlipped",
+                          label: "Flip Sidebar",
+                          desc: "changes desktop sidebar orientation to the right",
+                        },
+                        {
+                          key: "floatingSidebar",
+                          label: "Floating Sidebar",
+                          desc: "undock the sidebar with rounded corners",
+                        },
+                        {
+                          key: "profileContainer",
+                          label: "Profile Container",
+                          desc: "show the ring and background around your profile",
+                        },
+                        {
+                          key: "forceDesktop",
+                          label: "Force Desktop",
+                          desc: "prevent switching to mobile layout on small screens",
+                        },
+                      ],
+                    },
+                    {
+                      title: "Debug",
+                      icon: <Cpu size={20} className="text-[var(--primary)]" />,
+                      items: [
+                        {
+                          key: "debugMode",
+                          label: "Debug Mode",
+                          desc: "show layout grid and build info",
+                        },
+                      ],
+                    },
+                  ].map((section) => (
+                    <section key={section.title} className="space-y-6">
+                      <div className="flex items-center gap-3">
+                        {section.icon}
+                        <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)]">
+                          {section.title}
+                        </h3>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        {section.items.map((tweak, index, array) => (
+                          <label
+                            key={tweak.key}
+                            className={cn(
+                              "flex items-center border-6 border-[var(--outline-variant)] justify-between p-5 transition-all text-left cursor-pointer",
+                              array.length === 1
+                                ? "rounded-[2rem]"
+                                : index === 0
+                                  ? "rounded-t-[2rem] rounded-b-[0.9rem]"
+                                  : index === array.length - 1
+                                    ? "rounded-b-[2rem] rounded-t-[0.9rem]"
+                                    : "rounded-[0.9rem]",
+                              settings[tweak.key as keyof typeof settings]
+                                ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                                : "bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/30",
+                            )}
+                          >
+                            <div>
+                              <div className="font-bold">{tweak.label}</div>
+                              <div className="text-xs opacity-60 font-medium">
+                                {tweak.desc}
+                              </div>
+                            </div>
+                            <Switch
+                              checked={
+                                settings[
+                                tweak.key as keyof typeof settings
+                                ] as boolean
+                              }
+                              onChange={(checked) => {
+                                if (tweak.key === "debugMode" && checked) {
+                                  setShowDebugConfirm(true);
+                                } else {
+                                  updateSettings({ [tweak.key]: checked });
+                                }
+                              }}
+                            />
+                          </label>
+                        ))}
+                      </div>
+                    </section>
+                  ))}
+
+                  {/* boring ver info stuff */}
+                  <section className="space-y-6">
+                    <div className="flex items-center gap-3">
+                      <Terminal size={20} className="text-[var(--primary)]" />
+                      <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)]">
+                        Other Info
+                      </h3>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setSettingsOpen(false);
+                        goto("changelog");
+                      }}
+                      className="w-full flex items-center justify-between border-6 border-[var(--outline-variant)]  p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group"
+                    >
+                      <div>
+                        <div className="font-bold">View changelog</div>
+                        <div className="text-xs opacity-60 font-medium">
+                          See what's new in v2026.05.21
+                        </div>                    </div>
+                      <ChevronRight
+                        size={20}
+                        className="group-hover:translate-x-1 transition-transform"
+                      />
+                    </button>
+                  </section>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {showDebugConfirm && (
