@@ -2353,10 +2353,10 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
             <div className="-ml-2 h-px w-12 bg-[var(--primary)] opacity-30" />
           </div>
           <h2 className="text-4xl md:text-7xl font-sans font-bold tracking-tighter leading-[1.05] max-w-4xl mx-auto ">
-            <br></br> semi <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">CEH student</span> building things at virex.lol. <br></br> <br></br> obsessed with minimal software architecture, digital preservation, and clean aesthetics.
+            <br /> Semi <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">Cybersecurity nerd</span> building things at virex.lol. <br /> <br /> Obsessed with minimal software bases, archival, clean user experiences, and aesthetics.
           </h2>
           <p className="text-xl md:text-3xl opacity-60 font-medium max-w-3xl mx-auto leading-relaxed">
-            running on arch, lightweight WMs, and way too much caffeine!! <span className="text-[var(--primary)] font-bold">breaking things locally, to fix them in production :3</span>
+            Running on arch, lightweight WMs, and way too much caffeine!! <span className="text-[var(--primary)] font-bold"> + breaking things locally, to fix them in production :3</span>
           </p>
         </motion.section>
 
