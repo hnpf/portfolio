@@ -1325,8 +1325,7 @@ const HomePage = memo(({ setPage, settings }: any) => (
 ));
 
 const BlogPage = memo(({ targetId, navigateTo }: any) => {
-  // const [active_cat, setActiveCat] = useState<string | null>(null)
-  // later: category filter, never got around to it rip
+  const [active_cat, setActiveCat] = useState<string | null>(null);
   const [read, setRead] = useState<string[]>(() => {
     const saved = localStorage.getItem("virex-read-posts");
     return saved ? JSON.parse(saved) : [];
@@ -1498,128 +1497,197 @@ const BlogPage = memo(({ targetId, navigateTo }: any) => {
   }
 
   const featured = BLOG_POSTS[0];
-  const rest = BLOG_POSTS.slice(1);
+  const cats = ["All", ...Array.from(new Set(BLOG_POSTS.map((p) => p.category)))];
+  const filtered_posts = BLOG_POSTS.filter(
+    (p) => !active_cat || p.category === active_cat,
+  );
+
+  const show_featured = !active_cat || featured.category === active_cat;
+  const filtered_rest = filtered_posts.filter((p) => p.id !== featured.id);
+
   return (
-    <div className="max-w-6xl mx-auto space-y-20 px-4 md:px-0 pb-32">
+    <div className="max-w-6xl mx-auto space-y-12 px-4 md:px-0 pb-32">
       <header className="page-header space-y-8">
         <h2 className="page-title">Blog</h2>
       </header>
 
-      <section>
-        <motion.div
-          initial={{
-            opacity: 0,
-            scale: 0.98,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
-          className="relative rounded-[3.5rem] overflow-hidden bg-[var(--primary-container)] text-[var(--on-primary-container)] border-6 border-[var(--outline-variant)] shadow-2xl group cursor-pointer hover:border-[var(--primary)] transition-colors"
-          onClick={() => navigateTo("blog", featured.link)}
-        >
-          <div className="p-8 md:p-16 space-y-8 relative z-10">
-            <div className="flex items-center gap-4">
-              <span className="px-4 py-1.5 bg-[var(--primary)] text-[var(--on-primary)] rounded-full text-[12px] font-black tracking-widest shadow-lg">
-                Featured post!
-              </span>
-              <span className="text-sm font-bold opacity-60 flex items-center gap-2">
-                <Calendar size={14} /> {featured.date}
-              </span>
-              {read.includes(featured.id) && (
-                <CheckCircle2 size={20} className="text-green-500 shadow-xl" />
+      <div className="flex flex-wrap gap-4 mb-12">
+        {cats.map((cat) => {
+          const is_active = cat === "All" ? !active_cat : active_cat === cat;
+          return (
+            <motion.button
+              key={cat}
+              whileHover={{ scale: 1.05, y: -2, rotate: 1 }}
+              whileTap={{ scale: 0.95, rotate: -1 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 25,
+                mass: 0.5,
+              }}
+              onClick={() => setActiveCat(cat === "All" ? null : cat)}
+              className={cn(
+                "px-8 py-3 text-[11px] font-black uppercase tracking-[0.2em] border-4 shadow-sm",
+                is_active
+                  ? "bg-[var(--primary)] text-[var(--on-primary)] border-[var(--primary)]/30 rounded-full shadow-lg"
+                  : "bg-[var(--surface-variant)] text-[var(--on-surface-variant)] border-[var(--outline-variant)]/40 rounded-[1.5rem] opacity-60 hover:opacity-100",
               )}
-            </div>
-            <div className="space-y-4 max-w-4xl">
-              <h3 className="text-5xl md:text-7xl font-display font-black tracking-tighter leading-[0.95] group-hover:translate-x-2 transition-transform duration-500">
-                {featured.title}
-              </h3>
-              <p className="text-xl md:text-2xl opacity-80 leading-relaxed font-medium text-pretty">
-                {featured.snippet}
-              </p>
-            </div>
-            <div className="flex items-center gap-6 pt-4">
-              <motion.div
-                whileHover={{
-                  scale: 1.02,
-                  x: 4,
-                  backgroundColor: "var(--primary)",
-                  color: "var(--on-primary)",
-                  borderRadius: "40px",
-                  boxShadow: "0 20px  -10px var(--primary)",
-                }}
-                whileTap={{
-                  scale: 0.98,
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 800,
-                  damping: 20,
-                  mass: 0.5,
-                }}
-                className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[20px] font-display font-black tracking-tight h-18 px-12 rounded-[24px] flex items-center gap-3 group/btn"
-              >
-                read entry
-                <motion.span
-                  variants={{
-                    hover: { x: 5 },
-                  }}
-                  transition={{ type: "spring", stiffness: 1000, damping: 15 }}
-                >
-                  <ArrowUpRight
-                    size={28}
-                    className="group-hover/btn:translate-x-1 transition-transform"
-                  />
-                </motion.span>
-              </motion.div>
-              <span className="text-sm font-black uppercase tracking-widest opacity-40 italic">
-                {featured.readTime}
-              </span>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {rest.map((p, i) => (
-          <Card
-            key={p.id}
-            delay={i * 0.1}
-            className="cursor-pointer group relative overflow-hidden bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)]/20 border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors"
-            onClick={() => navigateTo("blog", p.link)}
+            >
+              {cat}
+            </motion.button>
+          );
+        })}
+      </div>
+
+      <AnimatePresence mode="wait">
+        {show_featured && (
+          <motion.section
+            key="featured"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
           >
-            <div className="space-y-6">
-              <div className="flex justify-between items-start">
-                <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[var(--primary)] px-2 py-1 bg-[var(--primary-container)]/30 rounded-md">
-                    {p.category}
+            <motion.div
+              initial={{
+                opacity: 0,
+                scale: 0.98,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+              }}
+              className="relative rounded-[3.5rem] overflow-hidden bg-[var(--primary-container)] text-[var(--on-primary-container)] border-6 border-[var(--outline-variant)] shadow-2xl group cursor-pointer hover:border-[var(--primary)] transition-colors"
+              onClick={() => navigateTo("blog", featured.link)}
+            >
+              <div className="p-8 md:p-16 space-y-8 relative z-10">
+                <div className="flex items-center gap-4">
+                  <span className="px-4 py-1.5 bg-[var(--primary)] text-[var(--on-primary)] rounded-full text-[12px] font-black tracking-widest shadow-lg">
+                    Featured post!
                   </span>
-                  <span className="text-[10px] font-bold opacity-40 uppercase tracking-widest">
-                    {p.date}
+                  <span className="text-sm font-bold opacity-60 flex items-center gap-2">
+                    <Calendar size={14} /> {featured.date}
                   </span>
-                  {read.includes(p.id) && (
-                    <CheckCircle2 size={16} className="text-green-500" />
+                  {read.includes(featured.id) && (
+                    <CheckCircle2
+                      size={20}
+                      className="text-green-500 shadow-xl"
+                    />
                   )}
                 </div>
-                <div className="w-10 h-10 rounded-2xl bg-[var(--surface)] border border-[var(--outline-variant)] flex items-center justify-center group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-500">
-                  <ChevronRight size={20} />
+                <div className="space-y-4 max-w-4xl">
+                  <h3 className="text-4xl md:text-7xl font-display font-black tracking-tighter leading-[0.95] group-hover:translate-x-2 transition-transform duration-500">
+                    {featured.title}
+                  </h3>
+                  <p className="text-lg md:text-2xl opacity-80 leading-relaxed font-medium text-pretty">
+                    {featured.snippet}
+                  </p>
+                </div>
+                <div className="flex items-center gap-6 pt-4">
+                  <motion.div
+                    whileHover={{
+                      scale: 1.02,
+                      x: 4,
+                      backgroundColor: "var(--primary)",
+                      color: "var(--on-primary)",
+                      borderRadius: "40px",
+                      boxShadow: "0 20px  -10px var(--primary)",
+                    }}
+                    whileTap={{
+                      scale: 0.98,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 800,
+                      damping: 20,
+                      mass: 0.5,
+                    }}
+                    className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-md md:text-2xl h-14 md:h-18 px-8 md:px-14 rounded-[24px] flex items-center gap-3 group/btn whitespace-nowrap"
+                  >
+                    read entry
+                    <motion.span
+                      variants={{
+                        hover: { x: 5 },
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 1000,
+                        damping: 15,
+                      }}
+                    >
+                      <ArrowUpRight
+                        size={28}
+                        className="w-6 h-6 md:w-8 md:h-8 group-hover/btn:translate-x-1 transition-transform"
+                      />
+                    </motion.span>
+                  </motion.div>
+                  <span className="text-xs md:text-sm font-black uppercase tracking-widest opacity-40 italic">
+                    {featured.readTime}
+                  </span>
                 </div>
               </div>
-              <div className="space-y-2">
-                <h4 className="text-3xl font-display font-black leading-tight group-hover:translate-x-1 transition-transform">
-                  {p.title}
-                </h4>
-                <p className="text-lg opacity-60 leading-relaxed line-clamp-2 text-pretty">
-                  {p.snippet}
-                </p>
-              </div>
-              <div className="pt-4 flex items-center justify-between border-t border-[var(--outline-variant)] opacity-40 text-[10px] font-black uppercase tracking-widest">
-                <span>Post No. {BLOG_POSTS.length - i - 1}</span>
-                <span>{p.readTime}</span>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
+            </motion.div>
+          </motion.section>
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        layout
+        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+      >
+        <AnimatePresence>
+          {filtered_rest.map((p, i) => (
+            <motion.div
+              key={p.id}
+              layout
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Card
+                delay={i * 0.05}
+                className="cursor-pointer group h-full relative overflow-hidden bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)]/20 border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors"
+                onClick={() => navigateTo("blog", p.link)}
+              >
+                <div className="space-y-6 h-full flex flex-col justify-between">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-3">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-[var(--primary)] px-2 py-1 bg-[var(--primary-container)]/30 rounded-md border border-[var(--primary)]/20">
+                          {p.category}
+                        </span>
+                        <span className="text-[10px] font-bold opacity-40 uppercase tracking-widest">
+                          {p.date}
+                        </span>
+                        {read.includes(p.id) && (
+                          <CheckCircle2 size={16} className="text-green-500" />
+                        )}
+                      </div>
+                      <div className="w-10 h-10 rounded-2xl bg-[var(--surface)] border border-[var(--outline-variant)] flex items-center justify-center group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-500">
+                        <ChevronRight size={20} />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-2xl md:text-3xl font-display font-black leading-tight group-hover:translate-x-1 transition-transform">
+                        {p.title}
+                      </h4>
+                      <p className="text-lg opacity-60 leading-relaxed line-clamp-2 text-pretty">
+                        {p.snippet}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="pt-4 flex items-center justify-between border-t border-[var(--outline-variant)] opacity-40 text-[10px] font-black uppercase tracking-widest">
+                    <span>
+                      Post No. {BLOG_POSTS.length - BLOG_POSTS.indexOf(p)}
+                    </span>
+                    <span>{p.readTime}</span>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 });
@@ -2408,7 +2476,7 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <DynCard
             delay={1.2}
             whileHover={{ y: -12, scale: 1.02 }}
-            className="col-span-1 md:col-span-4 px-5 py-8 md:p-10 bg-[var(--primary-container)]/80 backdrop-blur-xl text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/20 flex flex-col justify-between gap-6 group hover:border-[var(--primary)] transition-colors duration-200"
+            className="col-span-2 md:col-span-4 px-5 py-8 md:p-10 bg-[var(--primary-container)]/80 backdrop-blur-xl text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/20 flex flex-col justify-between gap-6 group hover:border-[var(--primary)] transition-colors duration-200"
           >
             <div className="space-y-6">
               <div className="flex items-center gap-3">
@@ -2428,11 +2496,11 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <DynCard
             delay={1.3}
             whileHover={{ y: -12, scale: 1.01 }}
-            className="col-span-1 md:col-span-12 lg:col-span-6 bg-[#0a0a0a] text-white/90 px-5 py-8 md:p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden hover:border-[var(--primary)] transition-colors duration-200 flex flex-col gap-6"
+            className="col-span-2 md:col-span-12 lg:col-span-6 bg-[#0a0a0a] text-white/90 px-5 py-8 md:p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden hover:border-[var(--primary)] transition-colors duration-200 flex flex-col gap-6"
           >
             <div className="flex items-center gap-3 transition-opacity group-hover:opacity-100">
               <SquareTerminal className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
-              <span className="text-xl md:text-2xl font-sans font-bold transition-colors group-hover:text-[var(--primary)]">virex@virex</span>
+              <span className="text-sm md:text-md font-bold tracking-widest">virex@virex</span>
             </div>
             <div className="space-y-3">
               {[
@@ -3027,7 +3095,7 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v2.0.0-stable (v2026.05.21)</span>
+              <span>v2.2.1-stable (v2026.05.21_hotfix)</span>
             </div>          </div>
         </div>
       )}
@@ -4237,7 +4305,7 @@ export default function App() {
                       <div>
                         <div className="font-bold">View changelog</div>
                         <div className="text-xs opacity-60 font-medium">
-                          See what's new in v2026.05.21
+                          See what's new in v2026.05.21_hotfix
                         </div>                    </div>
                       <ChevronRight
                         size={20}
