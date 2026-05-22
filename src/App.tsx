@@ -39,6 +39,10 @@ import {
   CheckCircle2,
   FileText,
   Link as LinkIcon,
+  History,
+  Target,
+  Archive,
+  Code2,
 } from "lucide-react";
 import NotFound from "./NotFound";
 import DashPage from "./Dash";
@@ -2355,20 +2359,35 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <h2 className="text-4xl md:text-7xl font-sans font-bold tracking-tighter leading-[1.05] max-w-4xl mx-auto ">
             <br /> Semi <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">Cybersecurity nerd</span> building things at virex.lol. <br /> <br /> Obsessed with minimal software bases, archival, clean user experiences, and aesthetics.
           </h2>
-          <p className="text-xl md:text-3xl opacity-60 font-medium max-w-3xl mx-auto leading-relaxed">
-            Running on arch, lightweight WMs, and way too much caffeine!! <span className="text-[var(--primary)] font-bold"> + breaking things locally, to fix them in production :3</span>
+          <p className="text-xl md:text-3xl opacity-60 font-medium max-w-4xl mx-auto leading-relaxed">
+            Running on arch, lightweight WMs, and way too much caffeine!! <br className="hidden md:block" />
+            <span className="relative inline-block mt-4 md:mt-0">
+              <span className="text-[var(--primary)] font-bold relative z-10">
+                breaking things locally,
+              </span>
+              <span className="absolute bottom-1 left-0 w-full h-1.5 bg-[var(--primary)]/20 -rotate-1" />
+            </span>{" "}
+            <span className="relative inline-block">
+              <span className="text-[var(--primary)] font-bold relative z-10">
+                to fix them in production
+              </span>
+              <span className="absolute bottom-1 left-0 w-full h-1.5 bg-[var(--primary)]/20 rotate-1" />
+            </span>{" "}
+            :3
           </p>
         </motion.section>
 
         {/* bento or some bullshit grid new styling thing */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full mb-32">
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-6 w-full mb-32">
           {/* lore */}
           <DynCard
             delay={1.1}
             whileHover={{ y: -12, scale: 1.01 }}
-            className="md:col-span-8 p-10 md:p-14 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200"
+            className="col-span-2 md:col-span-8 px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200"
           >
-            <h3 className="text-4xl font-sans font-bold mb-10 tracking-tight transition-colors group-hover:text-[var(--primary)]">Virex.lol Lore...</h3>
+            <h3 className="text-2xl md:text-4xl font-sans font-bold mb-8 md:mb-10 tracking-tight transition-colors group-hover:text-[var(--primary)] flex items-center gap-3">
+              <History className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" /> Virex.lol Lore...
+            </h3>
             <div className="space-y-6 text-xl md:text-2xl opacity-80 leading-relaxed font-medium">
               <p>
                 I had started my <span className="text-[var(--primary)] font-black">software researching</span> around 2021, focusing on simple scripting and tools.
@@ -2389,18 +2408,18 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <DynCard
             delay={1.2}
             whileHover={{ y: -12, scale: 1.02 }}
-            className="md:col-span-4 p-10 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/20 flex flex-col justify-between group hover:border-[var(--primary)] transition-colors duration-200"
+            className="col-span-1 md:col-span-4 px-5 py-8 md:p-10 bg-[var(--primary-container)]/80 backdrop-blur-xl text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/20 flex flex-col justify-between gap-6 group hover:border-[var(--primary)] transition-colors duration-200"
           >
             <div className="space-y-6">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[var(--primary)]" />
-                <span className="text-[14px] font-black tracking-widest opacity-60">A Mission...</span>
+              <div className="flex items-center gap-3">
+                <Target className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" />
+                <span className="text-xl font-black tracking-widest opacity-60">A Mission...</span>
               </div>
-              <p className="text-3xl font-sans font-bold leading-tight tracking-tight italic">
+              <p className="text-lg md:text-3xl font-sans font-bold leading-tight tracking-tight italic">
                 "good code can be used as a form of protest."
               </p>
             </div>
-            <p className="text-lg opacity-80 font-medium leading-snug">
+            <p className="text-xs md:text-lg opacity-80 font-medium leading-snug">
               the internet is proprietary, and we can fight back! using code as a form of expression and resistance, to create a more open and free digital world.
             </p>
           </DynCard>
@@ -2409,27 +2428,26 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <DynCard
             delay={1.3}
             whileHover={{ y: -12, scale: 1.01 }}
-            className="md:col-span-12 lg:col-span-6 bg-[#0a0a0a] text-white/90 p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden hover:border-[var(--primary)] transition-colors duration-200"
+            className="col-span-1 md:col-span-12 lg:col-span-6 bg-[#0a0a0a] text-white/90 px-5 py-8 md:p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden hover:border-[var(--primary)] transition-colors duration-200 flex flex-col gap-6"
           >
-            <div className="flex items-center gap-3 mb-8 opacity-40 transition-opacity group-hover:opacity-100">
-              <SquareTerminal size={20} className="text-[var(--primary)]" />
-              <span className="text-md font-bold tracking-widest">virex@virex</span>
+            <div className="flex items-center gap-3 transition-opacity group-hover:opacity-100">
+              <SquareTerminal className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
+              <span className="text-xl md:text-2xl font-sans font-bold transition-colors group-hover:text-[var(--primary)]">virex@virex</span>
             </div>
             <div className="space-y-3">
               {[
-                { k: "OS", v: "Arch Linux x86_64" },
+                { k: "OS", v: "Arch Linux" },
                 { k: "Shell", v: "fish 4.7.1" },
-                { k: "Kernel", v: "Linux 7.0.9-zen1-1-zen" },
-                { k: "CPU", v: "i5-14600K (20) @ 5.3GHz" },
-                { k: "GPU", v: "AMD Radeon RX 6800 XT" }, // lol
+                { k: "Kernel", v: "Linux 7.0.9" },
+                { k: "CPU", v: "i5-14600K" },
+                { k: "GPU", v: "RX 6800 XT" },
               ].map(s => (
-                <div key={s.k} className="flex gap-6 text-sm">
-                  <span className="text-[var(--primary)] font-bold min-w-[80px]">{s.k}</span>
-                  <span className="opacity-60 group-hover:opacity-100 transition-opacity">{s.v}</span>
-                </div> // yeah this is pretty much just flex spam and stuff but it looks cool
+                <div key={s.k} className="flex gap-4 text-xs md:text-sm">
+                  <span className="text-[var(--primary)] font-bold min-w-[60px] md:min-w-[80px]">{s.k}</span>
+                  <span className="opacity-60 group-hover:opacity-100 transition-opacity truncate">{s.v}</span>
+                </div>
               ))}
             </div>
-            { /*// vscode laggy ew */}
             <div className="absolute inset-0 pointer-events-none opacity-[0.03] group-hover:opacity-[0.06] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%] transition-opacity" />
           </DynCard>
 
@@ -2437,15 +2455,29 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <DynCard
             delay={1.4}
             whileHover={{ y: -12, scale: 1.01 }}
-            className="md:col-span-12 lg:col-span-6 p-10 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors duration-200 group"
+            className="col-span-2 md:col-span-12 lg:col-span-6 px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors duration-200 group flex flex-col gap-8"
           >
-            <div className="flex items-center justify-between mb-8">
-              <h4 className="text-2xl font-sans font-bold transition-colors group-hover:text-[var(--primary)]">The techstack..</h4>
+            <div className="flex items-center gap-3">
+              <Code2 className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
+              <h4 className="text-xl md:text-2xl font-sans font-bold transition-colors group-hover:text-[var(--primary)]">The stack..</h4>
             </div>
-            <div className="flex flex-wrap gap-2.5">
-              {[...TECH_STACK.web, ...TECH_STACK.technical].sort().map(t => (
-                <TechChip key={t} label={t} />
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+              <div className="space-y-4">
+                <div className="text-[13px] font-black tracking-[0.2em] opacity-40">Web Stack</div>
+                <div className="flex flex-wrap gap-2.5">
+                  {TECH_STACK.web.sort().map(t => (
+                    <TechChip key={t} label={t} />
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="text-[13px] font-black tracking-[0.2em] opacity-40">Technical Stack</div>
+                <div className="flex flex-wrap gap-2.5">
+                  {TECH_STACK.technical.sort().map(t => (
+                    <TechChip key={t} label={t} />
+                  ))}
+                </div>
+              </div>
             </div>
           </DynCard>
 
@@ -2453,11 +2485,11 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <DynCard
             delay={1.5}
             whileHover={{ y: -12, scale: 1.01 }}
-            className="md:col-span-12 p-10 bg-[var(--surface-variant)]/20 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/30 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200"
+            className="col-span-2 md:col-span-12 px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200"
           >
             <div className="space-y-4 text-center md:text-left">
-              <h4 className="text-3xl font-sans font-bold tracking-tight flex items-center justify-center md:justify-start gap-3 transition-colors group-hover:text-[var(--primary)]">
-                <Pipette className="text-[var(--primary)]" /> Archival
+              <h4 className="text-2xl md:text-3xl font-sans font-bold tracking-tight flex items-center justify-center md:justify-start gap-3 transition-colors group-hover:text-[var(--primary)]">
+                <Archive className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" /> Archival
               </h4>
               <p className="text-xl opacity-70 font-medium max-w-2xl group-hover:opacity-100 transition-opacity">
                 just my instinct. I love collecting legacy software, old documentation, and keeping backups of everything of interest that I find.
@@ -2481,13 +2513,13 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
               icon={Github}
               label="GitHub"
               url="https://github.com/hnpf"
-              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 px-10 h-16 rounded-3xl font-black uppercase tracking-widest text-xs transition-colors active:scale-95"
+              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 w-64 h-16 rounded-3xl font-black tracking-widest text-sm transition-colors active:scale-95"
             />
             <BounceButton
               icon={MessageSquare}
               label="Discord"
               url="https://conspiracy.rip/discord"
-              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 px-10 h-16 rounded-3xl font-black uppercase tracking-widest text-xs transition-colors active:scale-95"
+              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 w-64 h-16 rounded-3xl font-black tracking-widest text-sm transition-colors active:scale-95"
             />
           </div>
 
@@ -3120,7 +3152,7 @@ export default function App() {
                 : "var(--outline-variant)",
             }}
             exit={{
-              x: settings.sidebarFlipped ? 400 : -400, // Slide off screen
+              x: settings.sidebarFlipped ? 400 : -400, // get off screen
               opacity: 0,
               transition: {
                 type: "spring",
