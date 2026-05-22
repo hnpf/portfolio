@@ -375,6 +375,38 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "blog-filters-and-readme-polish",
+    version: "v2026.05.21_hotfix",
+    title: "blog filters & readme consistency polish",
+    date: "May 21, 2026",
+    changes: [
+      {
+        category: "blog immersive UI",
+        items: [
+          "FILTERS ARE HERE! added a bounce filter system for the blog page with unique capsule state styling.",
+          "better scaling: fixed 'read entry' button text stacking on mobile by adding dynamic padding and font-size scaling.",
+          "tech: redesigned blog category tags to match the chip styling of the readme page.",
+          "better motion: removed more CSS transition conflicts to enable zero latency spring physics on all blog interactions.",
+        ],
+      },
+      {
+        category: "readme refinement",
+        items: [
+          "better bento: added a 2-1-1-2-2 mobile grid pattern for the bio page.",
+          "marker highlights: replaced generic bio highlighted text with a custom-styled, rotated 'marker' highlight effect.",
+          "header scaling: added better icon and typography scaling to stop card headers from crowding borders on mobile.",
+        ],
+      },
+      {
+        category: "footer & global polish",
+        items: [
+          "footer stability: fixed footer buttons to keep consistent widths on mobile, preventing awkward line stacking layouts.",
+          "spring tuning: refined global spring solvers for a smoother, less jittery interaction feel across all bento components. trust me, you'll feel the difference :)",
+        ],
+      },
+    ],
+  },
+  {
     id: "readme-overhaul-and-motion",
     version: "v2026.05.21",
     title: "the readme makeover & more motion",
