@@ -82,15 +82,14 @@ src/
 ```
 
 ## current todo (bug fixes, features, etc. this list changes!)
-- [x] fix hover secondary flicker bug
-- [x] fix desktop window height making profile container "squished" when being too low. (honestly would just enforce the noprofilecontainer setting) 
-- [x] amoled capability
-- [x] mobile navbar pill text + icon centered in capsule like state for collapsed sidebar instead of just shortening the buttons themselves
-- [x] maybe some sick bounce/squish animation for slider when you try to drag past the borders
-- [x] or a small stretch-squish physics-based animation when switch toggles 
-- [x] blog: tags + filter ui
-- [x] center sidebar icons
-- [ ] settings: export/import config as json - future work. 
+- [ ] settings: import/export config as json
+- [ ] honey-pot router (unsure)
+- [ ] rss/atom feed deep-linking & webmention skeleton
+- [ ] quick settings? drag-down toggle for a android-like notification shade thing
+- [ ] dynamic material 3 source color extraction?
+- [ ] some weird snapping & workspace tiling mode that instantly tiles or aligns open custom panels or whatever
+- [ ] lazy-loading blurred placeholder matrix for lens?
+
 
 ---
 
