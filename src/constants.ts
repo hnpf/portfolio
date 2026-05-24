@@ -123,6 +123,36 @@ export const PROJECTS: Project[] = [
 ];
 
 export const BLOG_POSTS: BlogPost[] = [
+
+   {
+       id: 'data-sovereignty',
+       title: 'Why i refuse to trust the majority of the cloud..',
+       snippet: 'Hoarding data is a radical act of self-preservation in a world of corporate greed tech giants.',
+       content: `
+   
+   I'll just get straight to it.. EVERYTHING is a subscription now. You don't own your games, you don't own your music, and you definitely don't own your OS environment if you're stuck on Windows or such. They want you to rent your life until you die.
+   
+   ### Again, this is why i hoard!
+   
+   * **Survival of the fittest:** If the internet cuts out or a company decides to "pivot" (or just goes bankrupt), my data is still there, as it should be!!! 
+   * When you rely on music streaming, you are letting some faceless AI algorithm decide your taste and your history. Typically I prefer my own curated music, so no thank you.
+   * **Local > Remote:** Life is better when your data is actually in your computer/close to you, not sitting in a server farm halfway across the world. 😭
+   
+   ## Even the political angle matters!
+   
+   Every time I copy a file to my local drive, I am (probably) committing a minor act of rebellion against the "rent/subscribe-everything" economy
+   
+   > "If I cant own it, I DONT WANT IT. If I cant control it, I will at least archive it."
+   
+   ## Build your bunker :)
+   
+   Anyone can start small. Get a cheap drive, back up your configs! You don't have to trust the backup options on your proprietary apps. Your data shouldn't constantly be scanned by AI. Why not protect it?
+       `,
+       date: 'May 24, 2026',
+       category: 'Research',
+       readTime: '3 min read',
+       link: 'data-sovereignty'
+   },
   {
     id: "bladeandbath-shitpost",
     title: "brutal fantasies is literally the peak of human existence",
@@ -189,7 +219,7 @@ stop settling for defaults. start spending time actually configuring your colors
     date: "Apr 26, 2026",
     category: "tech",
     readTime: "2 min read",
-    link: "gruvbox-supremacy",
+    link: "ewaste-supremacy",
   },
 
   {
