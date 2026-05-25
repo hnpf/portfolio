@@ -128,7 +128,7 @@ src/
 
 ## todo
 
-- [ ] settings: import/export config as json
+- [x] settings: import/export config as json [Added!! has way more than just json (includes link sharing and more!)]
 - [ ] honey-pot router (unsure)
 - [ ] rss/atom deep-linking & webmention skeleton
 - [ ] quick settings android-like drag-down notification shade
