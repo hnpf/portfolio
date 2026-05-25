@@ -69,7 +69,8 @@ import "./navigation/navigation-rail.css";
 // --- building blocks ---
 
 const TiltContainer = memo(({ children, className, innerClassName, onClick, settings, ...props }: any) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   
   // use springs for much smoother tracking than manual animate calls
   const springConfig = { stiffness: 150, damping: 25, mass: 0.5 };
@@ -85,50 +86,52 @@ const TiltContainer = memo(({ children, className, innerClassName, onClick, sett
   
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (settings?.disableAnimations || !settings?.bentoTilt || window.innerWidth < 768) return;
-    const card = ref.current;
-    if (!card) return;
+    const rect = wrapperRef.current?.getBoundingClientRect();
+    if (!rect) return;
     
-    const rect = card.getBoundingClientRect();
     const px = e.clientX - rect.left;
     const py = e.clientY - rect.top;
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
     
-    // sink: tilt away from the cursor, idk
-    // also slightly reduced intensity
-    const targetX = -((py - centerY) / centerY) * 8;
-    const targetY = ((px - centerX) / centerX) * 8;
+    // sink: tilt away from the cursor
+    const targetX = -((py - centerY) / centerY) * 15;
+    const targetY = ((px - centerX) / centerX) * 15;
     
     rx.set(targetX);
     ry.set(targetY);
     
     const glareX = (px / rect.width) * 100;
     const glareY = (py / rect.height) * 100;
-    card.style.setProperty("--glare-x", `${glareX}%`);
-    card.style.setProperty("--glare-y", `${glareY}%`);
-    card.style.setProperty("--glare-opacity", "0.15");
+    const card = cardRef.current;
+    if (card) {
+      card.style.setProperty("--glare-x", `${glareX}%`);
+      card.style.setProperty("--glare-y", `${glareY}%`);
+      card.style.setProperty("--glare-opacity", "0.15");
+    }
   };
   
   const handleMouseLeave = () => {
     rx.set(0);
     ry.set(0);
-    const card = ref.current;
+    const card = cardRef.current;
     if (card) card.style.setProperty("--glare-opacity", "0");
   };
   
   return (
     <div 
-      className={className} 
+      ref={wrapperRef}
+      className={cn("h-full", className)} // wrapper fills grid/flex area
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       style={{ 
-        perspective: "1500px", 
-        transformStyle: "preserve-3d" 
+        perspective: settings?.bentoTilt ? "1000px" : "none", 
+        transformStyle: settings?.bentoTilt ? "preserve-3d" : "flat" 
       }}
     >
       <motion.div
-        ref={ref}
+        ref={cardRef}
         onClick={onClick}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
         whileHover={settings?.disableAnimations ? undefined : props.whileHover}
         whileTap={settings?.disableAnimations ? undefined : props.whileTap}
         {...props}
@@ -136,25 +139,31 @@ const TiltContainer = memo(({ children, className, innerClassName, onClick, sett
         style={{
           ...props.style,
           position: "relative",
-          transformStyle: "preserve-3d",
-          rotateX: rx,
-          rotateY: ry,
+          transformStyle: settings?.bentoTilt ? "preserve-3d" : "flat",
+          rotateX: settings?.bentoTilt ? rx : 0,
+          rotateY: settings?.bentoTilt ? ry : 0,
           willChange: "transform",
-          // fix for 3d aliasing/black lines in some browsers
           backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
         }}
       >
+        {/* glare layer, only pulled forward slightly */}
         {settings?.bentoTilt && (
           <div
-            className="pointer-events-none absolute inset-[-1px] z-30 transition-opacity duration-300 rounded-[inherit]"
+            className="pointer-events-none absolute inset-[-1px] transition-opacity duration-300 rounded-[inherit]"
             style={{
               background: `radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.2) 0%, transparent 60%)`,
               opacity: "var(--glare-opacity, 0)",
               mixBlendMode: "overlay",
+              transform: "translateZ(1px)", 
+              zIndex: 1,
             }}
           />
         )}
-        {children}
+        {/* simplified content layer so native hit detection works */}
+        <div className="relative w-full h-full rounded-[inherit] z-10">
+          {children}
+        </div>
       </motion.div>
     </div>
   );
@@ -324,7 +333,7 @@ const AdCard = () => {
   if (!IS_APR) return null;
 
   return (
-    <Card className="fsh-ad flex flex-col items-center justify-center p-4 !bg-yellow-400">
+    <Card className="" innerClassName="fsh-ad flex flex-col items-center justify-center p-4 !bg-yellow-400">
       <div className="text-[10px] font-black uppercase tracking-widest bg-red-600 text-white px-2 mb-2">
         PROMOTED
       </div>
@@ -878,6 +887,7 @@ const Card = memo(({ children, className, innerClassName, delay = 0, onClick, wh
       whileHover={whileHover || {
         y: settings.bentoTilt ? -6 : -12,
         scale: settings.bentoTilt ? 1.02 : 1.01,
+        rotate: settings.bentoTilt ? 0 : 0.01, // tiny rotation hack to try and force clean antialiased edges
         transition: { type: "spring", stiffness: 400, damping: 15 }
       }}
       whileTap={whileTap || { scale: 0.98 }}
@@ -1118,7 +1128,7 @@ const LoomPage = () => {
         </p>
       </header>
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8 pt-8 border-t border-[var(--outline-variant)]">
-        <Card delay={0.4} className="md:col-span-2 lg:col-span-1 xl:col-span-2 bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[400px]">
+        <Card delay={0.4} className="md:col-span-2 lg:col-span-1 xl:col-span-2" innerClassName="bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[400px]">
           <h2 className="text-4xl md:text-7xl font-display font-black leading-[0.9] tracking-tight">"latency is a bug."</h2>
           <div>
             <br></br>
@@ -1143,7 +1153,7 @@ const LoomPage = () => {
             </div>
           </div>
         </Card>
-        <Card delay={0.5} className="p-10 space-y-6">
+        <Card delay={0.5} className="" innerClassName="p-10 space-y-6">
           <h3 className="text-3xl font-display font-bold flex items-center gap-3">
             <Download className="text-[var(--primary)]" /> get loom!
           </h3>
@@ -1154,7 +1164,7 @@ const LoomPage = () => {
             {install_cmd}
           </Code>
         </Card>
-        <Card delay={0.6} className="p-10 space-y-6 bg-[var(--primary-container)] text-[var(--on-primary-container)]">
+        <Card delay={0.6} className="" innerClassName="p-10 space-y-6 bg-[var(--primary-container)] text-[var(--on-primary-container)]">
           <h3 className="text-3xl font-display font-bold flex items-center gap-3">
             <Terminal /> hello, to you too!
           </h3>
@@ -1279,7 +1289,8 @@ const HomePage = memo(({ setPage, settings }: any) => (
     <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8">
       <Card
         delay={0.4}
-        className="md:col-span-2 lg:col-span-1 xl:col-span-2 bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[400px]"
+        className="md:col-span-2 lg:col-span-1 xl:col-span-2"
+        innerClassName="bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[400px]"
       >
         <h2 className="text-4xl md:text-7xl font-display font-black leading-[0.9] tracking-tight">
           "software should be readable, and reliable!
@@ -1329,7 +1340,8 @@ const HomePage = memo(({ setPage, settings }: any) => (
       </Card>
       <Card
         delay={0.0}
-        className="flex flex-col border-6 border-[var(--outline-variant)] justify-between hover:border-[var(--primary)] transition-colors"
+        className=""
+        innerClassName="flex flex-col border-6 border-[var(--outline-variant)] justify-between hover:border-[var(--primary)] transition-colors p-10 space-y-6"
       >
         <div className="space-y-6">
           <div className="w-16 h-16 bg-[var(--primary-container)] rounded-3xl flex items-center justify-center">
@@ -1345,7 +1357,8 @@ const HomePage = memo(({ setPage, settings }: any) => (
       </Card>
       <Card
         delay={0.6}
-        className="bg-[var(--primary-container)] text-[var(--on-primary-container)] flex flex-col justify-center p-10"
+        className=""
+        innerClassName="bg-[var(--primary-container)] text-[var(--on-primary-container)] flex flex-col justify-center p-10 min-h-[300px]"
       >
         <YearProg />
       </Card>
@@ -1367,7 +1380,8 @@ const HomePage = memo(({ setPage, settings }: any) => (
           <Card
             key={project.id}
             delay={0.7 + i * 0.1}
-            className="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-10 min-h-[350px] hover:border-[var(--primary)] transition-colors"
+            className=""
+            innerClassName="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-10 min-h-[350px] hover:border-[var(--primary)] transition-colors"
           >
             <div>
               <div className="flex justify-between items-start mb-6">
@@ -1749,7 +1763,8 @@ const BlogPage = memo(({ targetId, navigateTo }: any) => {
             >
               <Card
                 delay={i * 0.05}
-                className="cursor-pointer group h-full relative overflow-hidden bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)]/20 border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors"
+                className="h-full"
+                innerClassName="cursor-pointer group h-full relative overflow-hidden bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)]/20 border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors p-10"
                 onClick={() => navigateTo("blog", p.link)}
               >
                 <div className="space-y-6 h-full flex flex-col justify-between">
@@ -2009,7 +2024,6 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
       whileTap={{ scale: 0.98 }}
       transition={{ type: "spring", stiffness: 400, damping: 15 }}
       className={cn(
-        "rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden",
         large
           ? "md:col-span-2 md:row-span-2"
           : wide
@@ -2018,6 +2032,7 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
               ? "md:row-span-2"
               : "",
       )}
+      innerClassName="rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -2307,7 +2322,8 @@ const TrackerPage = memo(() => {
           <Card
             key={item.id}
             delay={i * 0.1}
-            className="relative overflow-hidden group border-6 border-[var(--outline-variant)] bg-[var(--surface)] hover:border-[var(--primary)] transition-colors"
+            className=""
+            innerClassName="relative overflow-hidden group border-6 border-[var(--outline-variant)] bg-[var(--surface)] hover:border-[var(--primary)] transition-colors p-10"
           >
             <div className="relative z-10 space-y-6 p-2">
               <div className="flex justify-between items-start">
@@ -4373,7 +4389,7 @@ export default function App() {
                         {
                           key: "bentoTilt",
                           label: "3D Bento Tilt",
-                          desc: "cursor tracking parallax tilt, just some fun bullshit setting imo",
+                          desc: "cursor tracking parallax tilt, WILL NOT WORK AS EXPECTED with certain cards.",
                         },
                       ],
                     },
