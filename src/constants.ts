@@ -447,7 +447,7 @@ it's literally just people helping people for learning (and overall better code 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
     id: "bento-hit-detection-and-aa",
-    version: "v2026.05.25",
+    version: "2026.05.25",
     title: "3D Bento hit detection & anti-aliasing",
     date: "May 25, 2026",
     changes: [
@@ -476,7 +476,7 @@ export const CHANGELOGS: ChangelogEntry[] = [
   },
   {
     id: "lens-overhaul-and-telemetry",
-    version: "v2026.05.24",
+    version: "2026.05.24",
     title: "lens lightbox fix & debug telemetry",
     date: "May 24, 2026",
     changes: [
@@ -506,7 +506,7 @@ export const CHANGELOGS: ChangelogEntry[] = [
   },
   {
     id: "blog-filters-and-readme-polish",
-    version: "v2026.05.21_hotfix",
+    version: "2026.05.21_hotfix",
     title: "blog filters & readme consistency polish",
     date: "May 21, 2026",
     changes: [
@@ -538,7 +538,7 @@ export const CHANGELOGS: ChangelogEntry[] = [
   },
   {
     id: "readme-overhaul-and-motion",
-    version: "v2026.05.21",
+    version: "2026.05.21",
     title: "the readme makeover & more motion",
     date: "May 21, 2026",
     changes: [
