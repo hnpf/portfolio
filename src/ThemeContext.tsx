@@ -20,6 +20,7 @@ interface ThemeSettings {
   disableAnimations: boolean;
   highHz: boolean;
   amoledMode: boolean;
+  bentoTilt: boolean;
 }
 
 interface ThemeContextType {
@@ -46,6 +47,7 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   disableAnimations: false,
   highHz: true,
   amoledMode: false,
+  bentoTilt: true,
 };
 
 // lookup is cleaner than a ternary chain here
@@ -131,6 +133,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     root.classList.toggle('focus-mode', settings.focusMode);
     root.classList.toggle('debug-mode', settings.debugMode);
     root.classList.toggle('amoled-mode', settings.amoledMode);
+    root.classList.toggle('bento-tilt', settings.bentoTilt);
 
     localStorage.setItem('virex-settings', JSON.stringify(settings));
 
