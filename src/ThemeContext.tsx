@@ -47,7 +47,7 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   disableAnimations: false,
   highHz: true,
   amoledMode: false,
-  bentoTilt: true,
+  bentoTilt: false,
 };
 
 // lookup is cleaner than a ternary chain here
