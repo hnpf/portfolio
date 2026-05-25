@@ -16,7 +16,7 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 
 ---
 
-## what's new
+## what's new?
 
 - moved to cloudflare - bye vercel!
 
