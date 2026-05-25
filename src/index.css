@@ -61,6 +61,12 @@
     }
 
     /* optimization */
+    .motion-gpu {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+    }
+
     .m3-card,
     .m3-chip,
     .m3-button-filled,
@@ -72,7 +78,6 @@
     .m3-slider {
         backface-visibility: hidden;
         transform: translateZ(0);
-        will-change: transform;
     }
 
     .brutalist-mode * {
@@ -304,16 +309,21 @@
     }
 
     .lens-item {
-        @apply relative transition-colors;
+        @apply relative transition-colors isolate;
+        transform: translateZ(0);
+        -webkit-mask-image: -webkit-radial-gradient(white, black);
     }
 
     .lens-item::after {
         content: "";
         @apply absolute inset-0 border-6 border-[var(--outline-variant)] transition-colors pointer-events-none rounded-[inherit] z-10;
+        /* prevent bleeding */
+        box-shadow: 0 0 0 1px var(--outline-variant);
     }
 
     .lens-item:hover::after {
         @apply border-[var(--primary)];
+        box-shadow: 0 0 0 1px var(--primary);
     }
 
     /* grain effect - simplified for performance */
