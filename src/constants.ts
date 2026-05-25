@@ -123,7 +123,48 @@ export const PROJECTS: Project[] = [
 ];
 
 export const BLOG_POSTS: BlogPost[] = [
+    {
+  id: 'leaving-vercel',
+  title: 'leaving vercel; migrating my project to cloudflare!',
+  snippet: 'here is why i finally dropped vercel\'s proprietary ecosystem, swapped to cloudflare pages, and built my own localized deployment helper.',
+  content: `
+# leaving vercel; migrating my project to cloudflare
 
+hi! after dealing with constant config headaches and growing distrust over vercel's hosting infrastructure, i finally did it. **virex.lol is officially 100% free from vercel.** i migrated the entire site infrastructure over to **cloudflare pages**, and i'll be honest, it is a flex!.
+
+## why did i dump vercel?
+vercel is great for getting a basic site up in two clicks, but they love vendor lock-in. their serverless wrappers are entirely proprietary, configuring non-standard routes is a nightmare, and quite frankly, the bandwidth billing traps are terrifying. i don't want dumb corpo constraints on my own stuff. 
+
+## entering cloudflare pages
+cloudflare **is** the network layer of the internet. by moving here, here's what the site now benefits from:
+* **unmetered bandwidth:** literally no threat of surprise bills if a malicious actor decides to layer-7 ddos my endpoints LMAO
+* **no cold starts:** running on raw v8 javascript isolates at the closest edge nodes instead of heavy serverless containers
+* **total sovereignty:** zero hidden infrastructure layers masking what is actually happening to my traffic!
+
+## about that localized deployment helper : dhelper
+instead of using some bloated wrapper cli that tracks metrics in the background, i wrote a simple custom script called \`dhelper\` that ties right into wrangler and pnpm, with zero fucking headache.
+
+now, when i want to compile and push code directly to cloudflare\'s global edge network, i just run:
+
+\`\`\`bash
+./dhelper -p
+\`\`\`
+... that simple!
+it compiles via vite, verifies the build outputs, maps the custom apex domain records, and promotes the assets to the live main branch in under half a second if things are already cached. 
+
+## simple migration stats
+| platform | lock-in | bandwidth | billing risk | runtime |
+| :--- | :--- | :--- | :--- | :--- |
+| **vercel** | high | metered | terrifying | lambda containers |
+| **cloudflare** | near zero | unlimited | zero | v8 edge isolates |
+
+and the setup is incredibly fast, completely non-proprietary, and managed entirely within my terminal. look at it load.. oh wait, its too fast! :3
+  `,
+  date: 'May 25, 2026',
+  category: 'cybersecurity & dev',
+  readTime: '3 min read',
+  link: 'leaving-vercel'
+},
    {
        id: 'data-sovereignty',
        title: 'Why i refuse to trust the majority of the cloud..',
