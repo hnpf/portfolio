@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, useLayoutEffect } from 'react';
 
 type ThemeMode = 'light' | 'dark' | 'system';
-type AccentColor = 'orange' | 'green' | 'red' | 'purple' | 'blue' | 'custom';
+type AccentColor = 'orange' | 'green' | 'red' | 'purple' | 'blue' | 'virex' | 'custom';
 
 interface ThemeSettings {
   mode: ThemeMode;
@@ -31,12 +31,12 @@ interface ThemeContextType {
 
 const DEFAULT_SETTINGS: ThemeSettings = {
   mode: 'system',
-  accent: 'purple',
-  hue: 220,
-  saturation: 100,
+  accent: 'virex',
+  hue: 360,
+  saturation: 84,
   sidebarFlipped: false,
   sidebarCollapsed: false,
-  profileContainer: true,
+  profileContainer: false,
   brutalistMode: false,
   developerFont: false,
   focusMode: false,
@@ -44,7 +44,7 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   debugMode: false,
   helloAnimation: true,
   disableAnimations: false,
-  highHz: false,
+  highHz: true,
   amoledMode: false,
 };
 
@@ -55,6 +55,7 @@ const ACCENT_HUES: Record<AccentColor, number> = {
   red: 0,
   purple: 300,
   orange: 30,
+  virex: 360,
   custom: 220, // overridden below when custom is active
 };
 
@@ -109,16 +110,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return () => { style.remove(); };
   }, []);
 
-  // quick toggle, ignores system pref intentionally
   const cycleTheme = () => {
     if (IS_APR) return; // no escape lol
-    setSettings(prev => ({ ...prev, mode: actualTheme === 'light' ? 'dark' : 'light' }));
+    const nextTheme = actualTheme === 'light' ? 'dark' : 'light';
+    console.log("cycling theme to", nextTheme, "lmao");
+    setSettings(prev => ({ ...prev, mode: nextTheme }));
   };
 
   useLayoutEffect(() => {
+    console.log("applying theme settings... mode:", settings.mode, "accent:", settings.accent);
     const root = document.documentElement;
     const h = settings.accent === 'custom' ? settings.hue : ACCENT_HUES[settings.accent];
-    const s = settings.accent === 'custom' ? settings.saturation : 100;
+    const s = settings.accent === 'custom' ? settings.saturation : settings.accent === 'virex' ? 84 : 100;
     
     root.style.setProperty('--primary-hue', h.toString());
     root.style.setProperty('--primary-chroma', (s / 100 * 0.3).toFixed(3));
@@ -152,6 +155,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [settings, actualTheme]);
 
   const updateSettings = (newSettings: Partial<ThemeSettings>) => {
+    console.log("updating settings with:", newSettings);
     setSettings(prev => ({ ...prev, ...newSettings }));
   };
 
