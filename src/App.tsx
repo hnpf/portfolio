@@ -70,8 +70,18 @@ import "./navigation/navigation-rail.css";
 
 const TiltContainer = memo(({ children, className, onClick, settings, ...props }: any) => {
   const ref = useRef<HTMLDivElement>(null);
-  const rx = useMotionValue(0);
-  const ry = useMotionValue(0);
+  
+  // use springs for much smoother tracking than manual animate calls
+  const springConfig = { stiffness: 150, damping: 20, mass: 0.5 };
+  const rx = useSpring(0, springConfig);
+  const ry = useSpring(0, springConfig);
+
+  useEffect(() => {
+    if (!settings?.bentoTilt) {
+      rx.set(0);
+      ry.set(0);
+    }
+  }, [settings?.bentoTilt, rx, ry]);
   
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (settings?.disableAnimations || !settings?.bentoTilt || window.innerWidth < 768) return;
@@ -83,10 +93,13 @@ const TiltContainer = memo(({ children, className, onClick, settings, ...props }
     const py = e.clientY - rect.top;
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const targetX = ((py - centerY) / centerY) * 15;
-    const targetY = -((px - centerX) / centerX) * 15;    
-    animate(rx, targetX, { type: "spring", stiffness: 250, damping: 25 });
-    animate(ry, targetY, { type: "spring", stiffness: 250, damping: 25});
+    
+    // slightly reduced tilt for a more premium/expensive feel
+    const targetX = ((py - centerY) / centerY) * 10;
+    const targetY = -((px - centerX) / centerX) * 10;
+    
+    rx.set(targetX);
+    ry.set(targetY);
     
     const glareX = (px / rect.width) * 100;
     const glareY = (py / rect.height) * 100;
@@ -96,8 +109,8 @@ const TiltContainer = memo(({ children, className, onClick, settings, ...props }
   };
   
   const handleMouseLeave = () => {
-    animate(rx, 0, { type: "spring", stiffness: 200, damping: 20 });
-    animate(ry, 0, { type: "spring", stiffness: 200, damping: 20 });
+    rx.set(0);
+    ry.set(0);
     const card = ref.current;
     if (card) card.style.setProperty("--glare-opacity", "0");
   };
@@ -118,12 +131,12 @@ const TiltContainer = memo(({ children, className, onClick, settings, ...props }
         transformStyle: "preserve-3d",
         rotateX: rx,
         rotateY: ry,
-        perspective: "1000px",
+        perspective: "1200px", // slightly higher perspective for better depth
       }}
     >
       {settings?.bentoTilt && (
         <div
-          className="pointer-events-none absolute inset-0 z-30 transition-opacity duration-200 rounded-[inherit]"
+          className="pointer-events-none absolute inset-0 z-30 transition-opacity duration-300 rounded-[inherit]"
           style={{
             background: `radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.2) 0%, transparent 60%)`,
             opacity: "var(--glare-opacity, 0)",
@@ -851,8 +864,8 @@ const Card = memo(({ children, className, delay = 0, onClick, whileHover, whileT
         className,
       )}
       whileHover={whileHover || {
-        y: -12,
-        scale: 1.01,
+        y: settings.bentoTilt ? -6 : -12,
+        scale: settings.bentoTilt ? 1.02 : 1.01,
         transition: { type: "spring", stiffness: 400, damping: 15 }
       }}
       whileTap={whileTap || { scale: 0.98 }}
