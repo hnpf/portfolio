@@ -44,6 +44,17 @@ export default function Slider({
   const inlineSize = vertical ? offsetHeight : offsetWidth;
   const [isDragging, setIsDragging] = useState(false);
 
+  const prevIntValRef = useRef(Math.round(value));
+
+  const handleInput = (val: number) => {
+    const rounded = Math.round(val);
+    if (rounded !== prevIntValRef.current) {
+      playNotch();
+      prevIntValRef.current = rounded;
+    }
+    onChange(val);
+  };
+
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -153,7 +164,7 @@ export default function Slider({
     >
       <input
         type="range"
-        onInput={(e) => onChange(Number(e.currentTarget.value))}
+        onInput={(e) => handleInput(Number(e.currentTarget.value))}
         value={value}
         min={min}
         max={max}
