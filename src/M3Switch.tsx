@@ -20,6 +20,12 @@ export default function Switch({
   const startX = useRef<number | undefined>(undefined);
   const _isActive = useRef(false);
 
+  const handleChange = (val: boolean) => {
+    if (val !== checked) {
+      onChange(val);
+    }
+  };
+
   // M3 Spec: Track is 52x32px.
   // Handle is 16px base, scales to 24px (1.4x) or 28px (1.75x).
   // Scaling happens from center, so we offset x to keep gaps even.
@@ -63,8 +69,8 @@ export default function Switch({
 
       if (startX.current !== undefined) {
         const dist = e.clientX - startX.current;
-        if (dist > 16 && !checked) onChange(true);
-        else if (dist < -16 && checked) onChange(false);
+        if (dist > 16 && !checked) handleChange(true);
+        else if (dist < -16 && checked) handleChange(false);
         startX.current = undefined;
       }
 
@@ -92,12 +98,12 @@ export default function Switch({
         role="switch"
         checked={checked}
         disabled={disabled}
-        onChange={(e) => onChange(e.currentTarget.checked)}
+        onChange={(e) => handleChange(e.currentTarget.checked)}
         onKeyDown={(e) => {
-          if (e.code === "Enter") onChange(!checked);
-          if (e.code === "ArrowLeft") onChange(false);
+          if (e.code === "Enter") handleChange(!checked);
+          if (e.code === "ArrowLeft") handleChange(false);
           2;
-          if (e.code === "ArrowRight") onChange(true);
+          if (e.code === "ArrowRight") handleChange(true);
         }}
       />
 
