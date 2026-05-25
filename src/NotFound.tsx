@@ -92,7 +92,7 @@ const NotFound = ({ go }: { go?: (page: string) => void }) => {
             whileHover={{ scale: 1.05, y: -4 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => missing ? go?.('dash') : window.history.back()}
-            className="w-full sm:w-64 py-5 md:py-8 rounded-3xl font-display font-bold text-lg md:text-2xl bg-[var(--surface-variant)] text-[var(--on-surface-variant)] border-2 border-[var(--outline-variant)] flex items-center justify-center gap-3 transition-colors hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] group"
+            className="w-full sm:w-64 py-5 md:py-8 rounded-4xl font-display font-bold text-lg md:text-2xl bg-[var(--surface-variant)] text-[var(--on-surface-variant)] border-2 border-[var(--outline-variant)] flex items-center justify-center gap-3 transition-colors hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] group"
           >
             {missing
               ? <Terminal className="w-5 h-5 md:w-7 md:h-7" />
@@ -104,7 +104,7 @@ const NotFound = ({ go }: { go?: (page: string) => void }) => {
             whileHover={{ scale: 1.05, y: -4 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => go?.('home')}
-            className="w-full sm:w-64 py-5 md:py-8 rounded-3xl font-display font-bold text-lg md:text-2xl bg-[var(--primary)] text-[var(--on-primary)] shadow-2xl flex items-center justify-center gap-3 group"
+            className="w-full sm:w-64 py-5 md:py-8 rounded-4xl font-display font-bold text-lg md:text-2xl bg-[var(--primary)] text-[var(--on-primary)] shadow-2xl flex items-center justify-center gap-3 group"
           >
             go home
             <Home className="w-5 h-5 md:w-7 md:h-7 group-hover:scale-110 transition-transform duration-300" />
