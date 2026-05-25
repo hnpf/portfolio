@@ -13,7 +13,9 @@
 personal hub and experimental site. material 3 ui, custom android-like shell, built on react 19. research, photography, rants.
 
 </div>
+
 ---
+
 ## what's new
 
 - moved to cloudflare - bye vercel!
