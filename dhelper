@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# requires pnpm + wrangler obv
+
+BUILD_DIR="./dist"
+PROJ="virex-lol"
+PROD=false
+
+for arg in "$@"; do
+    case $arg in
+        -p|--prod) PROD=true ;;
+        -h|--help)
+            echo "usage: ./dhelper.sh [-p|--prod] [-h|--help]"
+            exit 0
+            ;;
+        *) echo "unknown arg: $arg"; exit 1 ;;
+    esac
+done
+
+echo ":: building..."
+pnpm build || { echo "build failed."; exit 1; }
+
+[[ -d "$BUILD_DIR" ]] || { echo "no dist? did the build actually run?"; exit 1; }
+
+if $PROD; then
+    echo ":: pushing to prod!"
+    pnpm wrangler pages deploy "$BUILD_DIR" --project-name="$PROJ" --branch=main
+else
+    echo ":: preview deploy"
+    pnpm wrangler pages deploy "$BUILD_DIR" --project-name="$PROJ" --branch=preview
+fi
