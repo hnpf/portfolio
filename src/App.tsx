@@ -74,7 +74,7 @@ const TiltContainer = memo(({ children, className, onClick, settings, ...props }
   const ry = useMotionValue(0);
   
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!settings?.bentoTilt || window.innerWidth < 768) return;
+    if (settings?.disableAnimations || !settings?.bentoTilt || window.innerWidth < 768) return;
     const card = ref.current;
     if (!card) return;
     
@@ -109,6 +109,8 @@ const TiltContainer = memo(({ children, className, onClick, settings, ...props }
       onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      whileHover={settings?.disableAnimations ? undefined : props.whileHover}
+      whileTap={settings?.disableAnimations ? undefined : props.whileTap}
       {...props}
       style={{
         ...props.style,
@@ -392,7 +394,8 @@ const HelloVirex = () => {
             scale: 0.8,
           }}
           transition={{
-            type: "spring",
+            type: settings.disableAnimations ? "tween" : "spring",
+            duration: settings.disableAnimations ? 0 : undefined,
             stiffness: settings.highHz ? 600 : 400,
             damping: settings.highHz ? 22 : 20,
             mass: 0.8,
@@ -855,7 +858,7 @@ const Card = memo(({ children, className, delay = 0, onClick, whileHover, whileT
       whileTap={whileTap || { scale: 0.98 }}
     >
       <motion.div
-        initial={{
+        initial={settings.disableAnimations ? false : {
           opacity: 0,
           y: 20,
           scale: 0.95,
@@ -865,15 +868,16 @@ const Card = memo(({ children, className, delay = 0, onClick, whileHover, whileT
           y: 0,
           scale: 1,
           transition: {
-            delay: hasEntered ? 0 : delay,
-            type: "spring",
+            delay: hasEntered || settings.disableAnimations ? 0 : delay,
+            type: settings.disableAnimations ? "tween" : "spring",
+            duration: settings.disableAnimations ? 0 : undefined,
             stiffness: settings.highHz ? 800 : 700,
             damping: settings.highHz ? 30 : 28,
             mass: 0.8,
           }
         }}
         onAnimationComplete={() => setHasEntered(true)}
-        transition={{
+        transition={settings.disableAnimations ? { duration: 0 } : {
           type: "spring",
           stiffness: settings.highHz ? 800 : 700,
           damping: settings.highHz ? 30 : 28,
@@ -1208,7 +1212,7 @@ const HomePage = memo(({ setPage, settings }: any) => (
         <HelloVirex />
       ) : (
         <motion.h1
-          initial={{
+          initial={settings.disableAnimations ? false : {
             opacity: 0,
             y: 30,
           }}
@@ -1216,7 +1220,7 @@ const HomePage = memo(({ setPage, settings }: any) => (
             opacity: 1,
             y: 0,
           }}
-          transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
+          transition={{ duration: settings.disableAnimations ? 0 : 0.6, ease: [0.33, 1, 0.68, 1] }}
           className="page-title !text-8xl !md:text-[10rem] leading-[0.8] text-balance flex items-baseline"
         >
           virex
@@ -1226,7 +1230,7 @@ const HomePage = memo(({ setPage, settings }: any) => (
         </motion.h1>
       )}
       <motion.p
-        initial={{
+        initial={settings.disableAnimations ? false : {
           opacity: 0,
           y: 20,
         }}
@@ -1235,8 +1239,8 @@ const HomePage = memo(({ setPage, settings }: any) => (
           y: 0,
         }}
         transition={{
-          delay: 0.2,
-          duration: 0.6,
+          delay: settings.disableAnimations ? 0 : 0.2,
+          duration: settings.disableAnimations ? 0 : 0.6,
           ease: [0.33, 1, 0.68, 1],
         }}
         className="text-2xl md:text-4xl font-display font-black text-[var(--on-surface-variant)] leading-tight max-w-4xl"
@@ -3806,7 +3810,7 @@ export default function App() {
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={page + (blogPostId || "")}
-            initial={{
+            initial={settings.disableAnimations ? false : {
               opacity: 0,
               y: 15,
               scale: 0.98,
@@ -4329,12 +4333,13 @@ export default function App() {
                           key: "highHz",
                           label: "120Hz Animations",
                           desc: "high-refresh snappiness",
-                        },
+                        },/*
                         {
                           key: "disableAnimations",
                           label: "Disable Animations",
-                          desc: "freeze all movement and effects",
-                        },
+                          desc: "attempts to disable (most) animations.",
+                        },*/
+                        // this is disabled for now because its indev!
                         {
                           key: "bentoTilt",
                           label: "3D Bento Tilt",
