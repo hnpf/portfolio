@@ -446,6 +446,35 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "bento-hit-detection-and-aa",
+    version: "v2026.05.25",
+    title: "3D Bento hit detection & anti-aliasing",
+    date: "May 25, 2026",
+    changes: [
+      {
+        category: "performance & stability",
+        items: [
+          "latency kill: removed the performance-intensive blur filters from hero animations to resolve FPS drops during initial load.",
+          "svg optimization: reduced path segment density in wavy progress elements by 4x for smooth native-refresh rendering.",
+        ],
+      },
+      {
+        category: "3D bento & interactivity",
+        items: [
+          "unified logic: refactored all cards across Home, Blog, and Readme to share a single high-fidelity 3D tilt and glare system.",
+          "sink effect: switched to a natural sink tilt behavior (tilting away from cursor) for a more premium, responsive bento feel.",
+        ],
+      },
+      {
+        category: "rendering & anti-aliasing",
+        items: [
+          "edge polish: removed black lines and stupid aliasing artifacts using GPU isolation and hardware backface-visibility stuff.",
+          "dynamic context: made sure 3D perspective only activates when needed, keeping standard 2D hovers perfectly perfect.",
+        ],
+      },
+    ],
+  },
+  {
     id: "lens-overhaul-and-telemetry",
     version: "v2026.05.24",
     title: "lens lightbox fix & debug telemetry",
