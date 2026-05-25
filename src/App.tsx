@@ -68,11 +68,11 @@ import "./navigation/navigation-rail.css";
 
 // --- building blocks ---
 
-const TiltContainer = memo(({ children, className, onClick, settings, ...props }: any) => {
+const TiltContainer = memo(({ children, className, innerClassName, onClick, settings, ...props }: any) => {
   const ref = useRef<HTMLDivElement>(null);
   
   // use springs for much smoother tracking than manual animate calls
-  const springConfig = { stiffness: 150, damping: 20, mass: 0.5 };
+  const springConfig = { stiffness: 150, damping: 25, mass: 0.5 };
   const rx = useSpring(0, springConfig);
   const ry = useSpring(0, springConfig);
 
@@ -94,9 +94,10 @@ const TiltContainer = memo(({ children, className, onClick, settings, ...props }
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
     
-    // slightly reduced tilt for a more premium/expensive feel
-    const targetX = ((py - centerY) / centerY) * 10;
-    const targetY = -((px - centerX) / centerX) * 10;
+    // sink: tilt away from the cursor, idk
+    // also slightly reduced intensity
+    const targetX = -((py - centerY) / centerY) * 8;
+    const targetY = ((px - centerX) / centerX) * 8;
     
     rx.set(targetX);
     ry.set(targetY);
@@ -116,36 +117,46 @@ const TiltContainer = memo(({ children, className, onClick, settings, ...props }
   };
   
   return (
-    <motion.div
-      ref={ref}
-      className={className}
-      onClick={onClick}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      whileHover={settings?.disableAnimations ? undefined : props.whileHover}
-      whileTap={settings?.disableAnimations ? undefined : props.whileTap}
-      {...props}
-      style={{
-        ...props.style,
-        position: "relative",
-        transformStyle: "preserve-3d",
-        rotateX: rx,
-        rotateY: ry,
-        perspective: "1200px", // slightly higher perspective for better depth
+    <div 
+      className={className} 
+      style={{ 
+        perspective: "1500px", 
+        transformStyle: "preserve-3d" 
       }}
     >
-      {settings?.bentoTilt && (
-        <div
-          className="pointer-events-none absolute inset-0 z-30 transition-opacity duration-300 rounded-[inherit]"
-          style={{
-            background: `radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.2) 0%, transparent 60%)`,
-            opacity: "var(--glare-opacity, 0)",
-            mixBlendMode: "overlay",
-          }}
-        />
-      )}
-      {children}
-    </motion.div>
+      <motion.div
+        ref={ref}
+        onClick={onClick}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        whileHover={settings?.disableAnimations ? undefined : props.whileHover}
+        whileTap={settings?.disableAnimations ? undefined : props.whileTap}
+        {...props}
+        className={cn("w-full h-full outline-none", innerClassName)}
+        style={{
+          ...props.style,
+          position: "relative",
+          transformStyle: "preserve-3d",
+          rotateX: rx,
+          rotateY: ry,
+          willChange: "transform",
+          // fix for 3d aliasing/black lines in some browsers
+          backfaceVisibility: "hidden",
+        }}
+      >
+        {settings?.bentoTilt && (
+          <div
+            className="pointer-events-none absolute inset-[-1px] z-30 transition-opacity duration-300 rounded-[inherit]"
+            style={{
+              background: `radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.2) 0%, transparent 60%)`,
+              opacity: "var(--glare-opacity, 0)",
+              mixBlendMode: "overlay",
+            }}
+          />
+        )}
+        {children}
+      </motion.div>
+    </div>
   );
 });
 
@@ -850,7 +861,7 @@ const BotNav = memo(({
   );
 });
 
-const Card = memo(({ children, className, delay = 0, onClick, whileHover, whileTap, noDefaultStyles = false }: any) => {
+const Card = memo(({ children, className, innerClassName, delay = 0, onClick, whileHover, whileTap, noDefaultStyles = false }: any) => {
   const { settings } = useTheme();
   const [hasEntered, setHasEntered] = useState(false);
 
@@ -858,10 +869,11 @@ const Card = memo(({ children, className, delay = 0, onClick, whileHover, whileT
     <TiltContainer
       settings={settings}
       onClick={onClick}
-      className={cn(
+      className={className}
+      innerClassName={cn(
         !noDefaultStyles && "m3-card readme-card overflow-hidden cursor-default relative border border-[var(--outline-variant)]",
         onClick && "cursor-pointer",
-        className,
+        innerClassName,
       )}
       whileHover={whileHover || {
         y: settings.bentoTilt ? -6 : -12,
@@ -2539,7 +2551,8 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <Card noDefaultStyles
             delay={1.1}
             whileHover={{ y: -12, scale: 1.01 }}
-            className="col-span-2 md:col-span-8 px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200"
+            className="col-span-2 md:col-span-8"
+            innerClassName="px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200"
           >
             <h3 className="text-2xl md:text-4xl font-sans font-bold mb-8 md:mb-10 tracking-tight transition-colors group-hover:text-[var(--primary)] flex items-center gap-3">
               <History className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" /> Virex.lol Lore...
@@ -2564,7 +2577,8 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <Card noDefaultStyles
             delay={1.2}
             whileHover={{ y: -12, scale: 1.02 }}
-            className="col-span-2 md:col-span-4 px-5 py-8 md:p-10 bg-[var(--primary-container)]/80 backdrop-blur-xl text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/20 flex flex-col justify-between gap-6 group hover:border-[var(--primary)] transition-colors duration-200"
+            className="col-span-2 md:col-span-4"
+            innerClassName="px-5 py-8 md:p-10 bg-[var(--primary-container)]/80 backdrop-blur-xl text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/20 flex flex-col justify-between gap-6 group hover:border-[var(--primary)] transition-colors duration-200"
           >
             <div className="space-y-6">
               <div className="flex items-center gap-3">
@@ -2584,7 +2598,8 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <Card noDefaultStyles
             delay={1.3}
             whileHover={{ y: -12, scale: 1.01 }}
-            className="col-span-2 md:col-span-12 lg:col-span-6 bg-[#0a0a0a] text-white/90 px-5 py-8 md:p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden hover:border-[var(--primary)] transition-colors duration-200 flex flex-col gap-6"
+            className="col-span-2 md:col-span-12 lg:col-span-6"
+            innerClassName="bg-[#0a0a0a] text-white/90 px-5 py-8 md:p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden hover:border-[var(--primary)] transition-colors duration-200 flex flex-col gap-6"
           >
             <div className="flex items-center gap-3 transition-opacity group-hover:opacity-100">
               <SquareTerminal className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
@@ -2611,7 +2626,8 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <Card noDefaultStyles
             delay={1.4}
             whileHover={{ y: -12, scale: 1.01 }}
-            className="col-span-2 md:col-span-12 lg:col-span-6 px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors duration-200 group flex flex-col gap-8"
+            className="col-span-2 md:col-span-12 lg:col-span-6"
+            innerClassName="px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors duration-200 group flex flex-col gap-8"
           >
             <div className="flex items-center gap-3">
               <Code2 className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
@@ -2641,7 +2657,8 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           <Card noDefaultStyles
             delay={1.5}
             whileHover={{ y: -12, scale: 1.01 }}
-            className="col-span-2 md:col-span-12 px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200"
+            className="col-span-2 md:col-span-12"
+            innerClassName="px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200"
           >
             <div className="space-y-4 text-center md:text-left">
               <h4 className="text-2xl md:text-3xl font-sans font-bold tracking-tight flex items-center justify-center md:justify-start gap-3 transition-colors group-hover:text-[var(--primary)]">
