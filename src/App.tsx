@@ -3300,8 +3300,7 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v2.3.0-stable (v2026.05.24)</span>
-            </div>          </div>
+              <span>v2.3.6-stable (v2026.05.25)</span>            </div>          </div>
         </div>
       )}
 
@@ -4654,7 +4653,7 @@ export default function App() {
                       <div>
                         <div className="font-bold">View changelog</div>
                         <div className="text-xs opacity-60 font-medium">
-                          See what's new in v2026.05.24
+                          See what's new in v2026.05.25
                         </div>                    </div>
                       <ChevronRight
                         size={20}
