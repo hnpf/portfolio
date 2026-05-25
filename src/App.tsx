@@ -390,7 +390,6 @@ const HelloVirex = () => {
             opacity: 0,
             y: -20,
             scale: 0.8,
-            filter: "blur(10px)",
           }}
           transition={{
             type: "spring",
@@ -835,7 +834,7 @@ const BotNav = memo(({
   );
 });
 
-const Card = memo(({ children, className, delay = 0, onClick }: any) => {
+const Card = memo(({ children, className, delay = 0, onClick, whileHover, whileTap, noDefaultStyles = false }: any) => {
   const { settings } = useTheme();
   const [hasEntered, setHasEntered] = useState(false);
 
@@ -844,16 +843,16 @@ const Card = memo(({ children, className, delay = 0, onClick }: any) => {
       settings={settings}
       onClick={onClick}
       className={cn(
-        "m3-card readme-card overflow-hidden cursor-default relative border border-[var(--outline-variant)]",
+        !noDefaultStyles && "m3-card readme-card overflow-hidden cursor-default relative border border-[var(--outline-variant)]",
         onClick && "cursor-pointer",
         className,
       )}
-      whileHover={{
+      whileHover={whileHover || {
         y: -12,
         scale: 1.01,
         transition: { type: "spring", stiffness: 400, damping: 15 }
       }}
-      whileTap={{ scale: 0.98 }}
+      whileTap={whileTap || { scale: 0.98 }}
     >
       <motion.div
         initial={{
@@ -2335,34 +2334,7 @@ const TrackerPage = memo(() => {
   );
 });
 
-const DynCard = ({ children, className, delay = 0, whileHover }: any) => {
-  const [hasEntered, setHasEntered] = useState(false);
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        transition: {
-          delay: hasEntered ? 0 : delay,
-          type: "spring",
-          stiffness: 400,
-          damping: 30
-        }
-      }}
-      onAnimationComplete={() => setHasEntered(true)}
-      whileHover={whileHover}
-      transition={{
-        type: "spring",
-        stiffness: 400,
-        damping: 30
-      }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-};
+
 
 const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: string) => void }) => {
   const letters = "virex".split("");
@@ -2547,7 +2519,7 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
         {/* bento or some bullshit grid new styling thing */}
         <div className="grid grid-cols-2 md:grid-cols-12 gap-6 w-full mb-32">
           {/* lore */}
-          <DynCard
+          <Card noDefaultStyles
             delay={1.1}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-8 px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200"
@@ -2569,10 +2541,10 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
             <div className="absolute -right-8 -bottom-8 opacity-[0.03] group-hover:scale-110 group-hover:opacity-[0.05] transition-all duration-700">
               <Activity size={240} />
             </div>
-          </DynCard>
+          </Card>
 
           {/* mission */}
-          <DynCard
+          <Card noDefaultStyles
             delay={1.2}
             whileHover={{ y: -12, scale: 1.02 }}
             className="col-span-2 md:col-span-4 px-5 py-8 md:p-10 bg-[var(--primary-container)]/80 backdrop-blur-xl text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/20 flex flex-col justify-between gap-6 group hover:border-[var(--primary)] transition-colors duration-200"
@@ -2589,10 +2561,10 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
             <p className="text-xs md:text-lg opacity-80 font-medium leading-snug">
               the internet is proprietary, and we can fight back! using code as a form of expression and resistance, to create a more open and free digital world.
             </p>
-          </DynCard>
+          </Card>
 
           {/* terminal specs card idk */}
-          <DynCard
+          <Card noDefaultStyles
             delay={1.3}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-12 lg:col-span-6 bg-[#0a0a0a] text-white/90 px-5 py-8 md:p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden hover:border-[var(--primary)] transition-colors duration-200 flex flex-col gap-6"
@@ -2616,10 +2588,10 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
               ))}
             </div>
             <div className="absolute inset-0 pointer-events-none opacity-[0.03] group-hover:opacity-[0.06] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%] transition-opacity" />
-          </DynCard>
+          </Card>
 
           {/* tech stack */}
-          <DynCard
+          <Card noDefaultStyles
             delay={1.4}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-12 lg:col-span-6 px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors duration-200 group flex flex-col gap-8"
@@ -2646,10 +2618,10 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
                 </div>
               </div>
             </div>
-          </DynCard>
+          </Card>
 
           {/* archive shit. */}
-          <DynCard
+          <Card noDefaultStyles
             delay={1.5}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-12 px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200"
@@ -2669,7 +2641,7 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
                 6AE8 A109 C97B 2AD5 C2E6
               </div>
             </div>
-          </DynCard>
+          </Card>
         </div>
 
         {/* foooootters */}
@@ -2753,7 +2725,7 @@ export default function App() {
           "sidebarCollapsed", "profileContainer", "brutalistMode",
           "developerFont", "focusMode", "floatingSidebar", "debugMode",
           "helloAnimation", "disableAnimations", "highHz", "amoledMode",
-          "bentoTilt", "hapticSounds"
+          "bentoTilt"
         ];
         
         for (const k of keys) {
@@ -4359,6 +4331,11 @@ export default function App() {
                           desc: "high-refresh snappiness",
                         },
                         {
+                          key: "disableAnimations",
+                          label: "Disable Animations",
+                          desc: "freeze all movement and effects",
+                        },
+                        {
                           key: "bentoTilt",
                           label: "3D Bento Tilt",
                           desc: "cursor tracking parallax tilt, just some fun bullshit setting imo",
@@ -4549,7 +4526,7 @@ export default function App() {
                                   "sidebarCollapsed", "profileContainer", "brutalistMode",
                                   "developerFont", "focusMode", "floatingSidebar", "debugMode",
                                   "helloAnimation", "disableAnimations", "highHz", "amoledMode",
-                                  "bentoTilt", "hapticSounds"
+                                  "bentoTilt"
                                 ];
                                 for (const k of keys) {
                                   if (decoded[k] !== undefined) {
@@ -4584,7 +4561,7 @@ export default function App() {
                                     "sidebarCollapsed", "profileContainer", "brutalistMode",
                                     "developerFont", "focusMode", "floatingSidebar", "debugMode",
                                     "helloAnimation", "disableAnimations", "highHz", "amoledMode",
-                                    "bentoTilt", "hapticSounds"
+                                    "bentoTilt"
                                   ];
                                   for (const k of keys) {
                                     if (decoded[k] !== undefined) {
