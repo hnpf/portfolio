@@ -10,10 +10,11 @@ export default function CopyLinkCapsule() {
   const handle_copy = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href)
+      console.log("link copied lol:", window.location.href)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
-    } catch {
-      // clip unavailable, rip
+    } catch (err) {
+      console.error("oh shit, clipboard write failed:", err)
     }
   }
 
