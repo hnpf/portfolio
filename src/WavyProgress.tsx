@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { linear, trackOpacity } from "./_wavy";
+import { useTheme } from "./ThemeContext";
 
 interface WavyProgressProps {
   width?: number;
@@ -16,6 +17,7 @@ export default function WavyProgress({
   percent,
   className,
 }: WavyProgressProps) {
+  const { settings } = useTheme();
   const left = thickness * 0.5;
   const right = width - thickness * 0.5;
   const percentX = (percent / 100) * (right - left) + left;
@@ -49,13 +51,16 @@ export default function WavyProgress({
         strokeWidth={thickness}
         strokeLinecap="round"
         strokeLinejoin="round"
+        d={settings.disableAnimations ? smil_data.split(";")[0] : undefined}
       >
-        <animate
-          attributeName="d"
-          dur="1s"
-          repeatCount="indefinite"
-          values={smil_data}
-        />
+        {!settings.disableAnimations && (
+          <animate
+            attributeName="d"
+            dur="1s"
+            repeatCount="indefinite"
+            values={smil_data}
+          />
+        )}
       </path>
       <line
         fill="none"
