@@ -328,9 +328,9 @@ const HelloVirex = () => {
           }}
           transition={{
             type: "spring",
-            stiffness: settings.highHz ? 500 : 300,
-            damping: settings.highHz ? 25 : 20,
-            duration: settings.highHz ? 0.3 : 0.5,
+            stiffness: settings.highHz ? 600 : 400,
+            damping: settings.highHz ? 22 : 20,
+            mass: 0.8,
           }}
           className="text-8xl md:text-[10rem] font-display font-black tracking-tighter leading-[0.8] text-balance flex items-baseline"
         >
@@ -363,22 +363,22 @@ const SideItem = memo(
     const squishySpring = {
       type: "spring" as const,
       stiffness: highHz ? 400 : 350,
-      damping: 30,
-      mass: 0.6,
+      damping: highHz ? 28 : 25,
+      mass: 0.8,
     };
 
     const sideItemSpring = {
       type: "spring" as const,
-      stiffness: highHz ? 1100 : 1000,
-      damping: 45,
-      mass: 0.25,
+      stiffness: highHz ? 800 : 700,
+      damping: highHz ? 40 : 35,
+      mass: 0.2,
     };
 
     const settingsSpring = {
       type: "spring" as const,
-      stiffness: highHz ? 450 : 350,
+      stiffness: highHz ? 400 : 300,
       damping: highHz ? 35 : 30,
-      mass: 1,
+      mass: 1.2,
       restDelta: 0.001,
     };
 
@@ -404,9 +404,11 @@ const SideItem = memo(
             opacity: { duration: 0.2 },
             layout: settingsSpring,
             default: squishySpring,
+            scale: { type: "spring", stiffness: 400, damping: 28 },
+            rotate: { type: "spring", stiffness: 400, damping: 24 },
           }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.9, rotate: -4 }}
+          whileHover={{ scale: 1.08, rotate: 2 }}
+          whileTap={{ scale: 0.92, rotate: -4 }}
           onClick={onSelect}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -495,9 +497,11 @@ const SideItem = memo(
           opacity: { duration: 0.2 },
           layout: settingsSpring,
           default: squishySpring,
+          scale: { type: "spring", stiffness: 400, damping: 30 },
+          x: { type: "spring", stiffness: 400, damping: 30 },
         }}
-        whileHover={{ scale: 1.02, x: 4 }}
-        whileTap={{ scale: 0.96, x: -2 }}
+        whileHover={{ scale: 1.02, x: 6 }}
+        whileTap={{ scale: 0.97, x: -2 }}
         onClick={onSelect}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -523,7 +527,6 @@ const SideItem = memo(
           <motion.div
             layoutId="sidebar-expanded-bg"
             className={cn("absolute inset-0 bg-[var(--primary-container)]", rd)}
-            initial={false}
             animate={{
               borderRadius:
                 isFirst && isLast
@@ -774,32 +777,32 @@ const Card = memo(({ children, className, delay = 0, onClick }: any) => {
     <motion.div
       initial={{
         opacity: 0,
-        y: 15,
+        y: 20,
+        scale: 0.95,
       }}
       animate={{
         opacity: 1,
         y: 0,
+        scale: 1,
         transition: {
           delay: hasEntered ? 0 : delay,
-          duration: settings.disableAnimations ? 0 : settings.highHz ? 0.15 : 0.2,
-          ease: [0.33, 1, 0.68, 1],
           type: "spring",
-          stiffness: settings.highHz ? 800 : 500,
-          damping: settings.highHz ? 40 : 30,
+          stiffness: settings.highHz ? 600 : 400,
+          damping: settings.highHz ? 28 : 25,
+          mass: 0.8,
         }
       }}
       onAnimationComplete={() => setHasEntered(true)}
       whileHover={{
-        y: -5,
-        scale: 1.008,
+        y: -8,
+        scale: 1.02,
+        transition: { type: "spring", stiffness: 400, damping: 15 }
       }}
-      whileTap={{ scale: 0.99 }}
+      whileTap={{ scale: 0.98 }}
       transition={{
-        duration: settings.disableAnimations ? 0 : settings.highHz ? 0.15 : 0.2,
-        ease: [0.33, 1, 0.68, 1],
         type: "spring",
-        stiffness: settings.highHz ? 800 : 500,
-        damping: settings.highHz ? 40 : 30,
+        stiffness: settings.highHz ? 600 : 400,
+        damping: settings.highHz ? 28 : 25,
       }}
       onClick={onClick}
       className={cn(
@@ -879,7 +882,7 @@ const Code = ({ children, className }: any) => {
       fetch(`/loom/docs/markdown/${doc.id}`)
         .then(res => res.text())
         .then(t => setCache(prev => ({ ...prev, [doc.id]: t })))
-        .catch(console.error);
+        .catch(err => console.error("failed to fetch doc:", doc.id, err));
     });
   }, []);
 
@@ -903,6 +906,7 @@ const Code = ({ children, className }: any) => {
           setLoading(false);
         })
         .catch(err => {
+          console.error("oh shit, failed to load doc:", article, err);
           setText('# Error\nCould not load the requested documentation.');
           setLoading(false);
         });
@@ -1927,7 +1931,7 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
         loading={i < 4 ? "eager" : "lazy"}
         decoding="async"
         className={cn(
-          "w-full h-full object-cover transition-transform group-hover:scale-105",
+          "w-full h-full object-cover transition-transform group-hover:scale-105 rounded-[inherit]",
           settings.highHz ? "duration-500" : "duration-700",
         )}
         referrerPolicy="no-referrer"
@@ -1956,11 +1960,26 @@ const LensPage = memo(({ viewport }: { viewport: any }) => {
   };
 
   useEffect(() => {
+    if (idx !== null) {
+      console.log("opened photo", idx, "-", LENS_PHOTOS[idx].description);
+    } else {
+      console.log("closed expanded photo back to grid, finally");
+    }
+
     const on_key = (e: KeyboardEvent) => {
       if (idx === null) return;
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "Escape") setIdx(null);
+      if (e.key === "ArrowRight") {
+        console.log("arrow right, cycling next");
+        next();
+      }
+      if (e.key === "ArrowLeft") {
+        console.log("arrow left, cycling prev");
+        prev();
+      }
+      if (e.key === "Escape") {
+        console.log("esc key, closing expanded view");
+        setIdx(null);
+      }
     };
     window.addEventListener("keydown", on_key);
 
@@ -1972,6 +1991,7 @@ const LensPage = memo(({ viewport }: { viewport: any }) => {
       [next_idx, prev_idx].forEach(i => {
         const img = new window.Image();
         img.src = LENS_PHOTOS[i].url;
+        console.log("preloading adjacent photo:", i, "-", LENS_PHOTOS[i].description);
       });
     } else {
       document.body.style.overflow = "";
@@ -2633,9 +2653,31 @@ export default function App() {
   // transition settings for sidebar and components
   const springConfig = {
     type: "spring" as const,
-    stiffness: settings.highHz ? 1100 : 1000,
-    damping: settings.highHz ? 45 : 40,
-    mass: 0.25,
+    stiffness: settings.highHz ? 600 : 500,
+    damping: settings.highHz ? 30 : 28,
+    mass: 0.8,
+  };
+
+  const squishySpring = {
+    type: "spring" as const,
+    stiffness: settings.highHz ? 400 : 350,
+    damping: settings.highHz ? 28 : 25,
+    mass: 0.8,
+  };
+
+  const sideItemSpring = {
+    type: "spring" as const,
+    stiffness: settings.highHz ? 800 : 700,
+    damping: settings.highHz ? 40 : 35,
+    mass: 0.2,
+  };
+
+  const settingsSpring = {
+    type: "spring" as const,
+    stiffness: settings.highHz ? 400 : 300,
+    damping: settings.highHz ? 35 : 30,
+    mass: 1.2,
+    restDelta: 0.001,
   };
 
   const [page, setPage] = useState(() => {
@@ -2814,15 +2856,6 @@ export default function App() {
     null,
   );
 
-  // locked in spring for the settings expansion
-  const settingsSpring = {
-    type: "spring" as const,
-    stiffness: settings.highHz ? 450 : 350,
-    damping: settings.highHz ? 35 : 30,
-    mass: 1,
-    restDelta: 0.001,
-  };
-
   useEffect(() => {
     const nav = document.getElementById("sidebar-nav");
     if (!nav) return;
@@ -2835,9 +2868,16 @@ export default function App() {
     };
 
     check();
+    
+    // browser layout/paint ticks delay to capture final scrollHeight on refresh
+    const tick = requestAnimationFrame(check);
+    const timeout = setTimeout(check, 100);
+
     nav.addEventListener("scroll", check);
     window.addEventListener("resize", check);
     return () => {
+      cancelAnimationFrame(tick);
+      clearTimeout(timeout);
       nav.removeEventListener("scroll", check);
       window.removeEventListener("resize", check);
     };
@@ -2990,6 +3030,7 @@ export default function App() {
   }, [page, blogPostId, settings.accent, settings.mode]);
 
   const goto = React.useCallback((newPage: string, postId: string | null = null) => {
+    console.log("heading to page:", newPage, postId ? `with post ${postId}` : "lmao");
     setSettingsOpen(false);
     const url =
       newPage === "home" ? "/" : postId ? `/blog/${postId}` : `/${newPage}`;
@@ -3095,7 +3136,7 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v2.2.1-stable (v2026.05.21_hotfix)</span>
+              <span>v2.3.0-stable (v2026.05.24)</span>
             </div>          </div>
         </div>
       )}
@@ -3228,13 +3269,7 @@ export default function App() {
                 damping: 30
               }
             }}
-            transition={{
-              type: "spring",
-              stiffness: settings.highHz ? 450 : 400,
-              damping: settings.highHz ? 40 : 35,
-              mass: 0.8,
-              restDelta: 0.001,
-            }}
+            transition={springConfig}
             layout
             className="flex-col sticky top-0 h-screen z-40 motion-gpu transition-colors duration-300"
           >
@@ -3282,11 +3317,9 @@ export default function App() {
                 backgroundColor: "var(--surface)",
               }}
               transition={{
-                type: "spring",
-                stiffness: settings.highHz ? 350 : 300,
-                damping: settings.highHz ? 35 : 30,
-                mass: 0.8,
-                restDelta: 0.001,
+                ...springConfig,
+                stiffness: settings.highHz ? 500 : 400,
+                damping: settings.highHz ? 28 : 25,
               }}
               className={cn(
                 "flex flex-col h-full w-full motion-gpu border-[var(--outline-variant)] transition-colors duration-300",
@@ -3374,9 +3407,11 @@ export default function App() {
                   </div>
                 )}
               </div>
-              {!settings.sidebarCollapsed && !is_tiny && (
+              {!settings.sidebarCollapsed && !is_tiny && !is_short && (
                 <div className="flex items-center gap-3 mb-6 px-4">
-                  <div className="h-6 w-1 bg-[var(--primary)] rounded-full" />
+                  <div className="w-8 h-8 bg-[var(--surface-variant)]/60 text-[var(--on-surface-variant)]/80 rounded-[32%] flex items-center justify-center shadow-sm">
+                    <Layers size={18} strokeWidth={2.5} />
+                  </div>
                   <h3 className="text-xl font-display font-black tracking-tighter text-[var(--on-surface-variant)]">
                     Pages
                   </h3>
@@ -3402,10 +3437,11 @@ export default function App() {
                         : canScrollDown
                           ? "mask-bottom"
                           : "",
-                    is_short ? "gap-2" : "gap-6",
+                    is_short ? "gap-6" : "gap-6",
                     settings.sidebarCollapsed
                       ? "items-center px-2"
                       : "items-stretch px-4",
+                      // oh my god there's too much unused code im gonna lose my mind in this unreadable hellhole
                   )}
                   data-rail-state={
                     settings.sidebarCollapsed ? "default" : "open"
@@ -3510,17 +3546,10 @@ export default function App() {
                 <AnimatePresence>
                   {canScrollUp && navHoverSide === "top" && (
                     <motion.div
-                      initial={{ opacity: 0, y: -20, scale: 0.5, rotate: 10 }}
-                      animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-                      exit={{ opacity: 0, y: -20, scale: 0.5, rotate: -10 }}
-                      whileHover={{ scale: 1.15, y: 2 }}
-                      whileTap={{ scale: 0.85, y: -5 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 600,
-                        damping: 20,
-                        mass: 0.8,
-                      }}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={squishySpring}
                       className="absolute top-2 left-0 right-0 pointer-events-none flex flex-col items-center z-[50]"
                     >
                       <button
@@ -3529,10 +3558,10 @@ export default function App() {
                             .getElementById("sidebar-nav")
                             ?.scrollBy({ top: -150, behavior: "smooth" })
                         }
-                        className="w-14 h-9 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-[0_12px_24px_rgba(0,0,0,0.3)] pointer-events-auto border-4 border-white/20 transition-transform"
+                        className="w-10 h-10 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-lg pointer-events-auto border-2 border-white/10 transition-transform active:scale-90"
                       >
                         <ChevronLeft
-                          size={20}
+                          size={18}
                           className="rotate-90 stroke-[3]"
                         />
                       </button>
@@ -3543,17 +3572,10 @@ export default function App() {
                 <AnimatePresence>
                   {canScrollDown && navHoverSide === "bottom" && (
                     <motion.div
-                      initial={{ opacity: 0, y: 20, scale: 0.5, rotate: -10 }}
-                      animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-                      exit={{ opacity: 0, y: 20, scale: 0.5, rotate: 10 }}
-                      whileHover={{ scale: 1.15, y: -2 }}
-                      whileTap={{ scale: 0.85, y: 5 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 600,
-                        damping: 20,
-                        mass: 0.8,
-                      }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={squishySpring}
                       className="absolute bottom-2 left-0 right-0 pointer-events-none flex flex-col items-center z-[50]"
                     >
                       <button
@@ -3562,10 +3584,10 @@ export default function App() {
                             .getElementById("sidebar-nav")
                             ?.scrollBy({ top: 150, behavior: "smooth" })
                         }
-                        className="w-14 h-9 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-[0_-12px_24px_rgba(0,0,0,0.3)] pointer-events-auto border-4 border-white/20 transition-transform"
+                        className="w-10 h-10 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-lg pointer-events-auto border-2 border-white/10 transition-transform active:scale-90"
                       >
                         <ChevronLeft
-                          size={20}
+                          size={18}
                           className="-rotate-90 stroke-[3]"
                         />
                       </button>
@@ -3698,7 +3720,7 @@ export default function App() {
                 damping: settings.highHz ? 35 : 25,
               },
             }}
-            className="motion-gpu"
+            className=""
           >
             {page === "home" && <HomePage setPage={goto} settings={settings} />}
             {page === "blog" && (
@@ -4305,7 +4327,7 @@ export default function App() {
                       <div>
                         <div className="font-bold">View changelog</div>
                         <div className="text-xs opacity-60 font-medium">
-                          See what's new in v2026.05.21_hotfix
+                          See what's new in v2026.05.24
                         </div>                    </div>
                       <ChevronRight
                         size={20}
