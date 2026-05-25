@@ -390,7 +390,6 @@ const HelloVirex = () => {
             opacity: 0,
             y: -20,
             scale: 0.8,
-            filter: "blur(10px)",
           }}
           transition={{
             type: "spring",
@@ -2753,7 +2752,7 @@ export default function App() {
           "sidebarCollapsed", "profileContainer", "brutalistMode",
           "developerFont", "focusMode", "floatingSidebar", "debugMode",
           "helloAnimation", "disableAnimations", "highHz", "amoledMode",
-          "bentoTilt", "hapticSounds"
+          "bentoTilt"
         ];
         
         for (const k of keys) {
@@ -4359,6 +4358,11 @@ export default function App() {
                           desc: "high-refresh snappiness",
                         },
                         {
+                          key: "disableAnimations",
+                          label: "Disable Animations",
+                          desc: "freeze all movement and effects",
+                        },
+                        {
                           key: "bentoTilt",
                           label: "3D Bento Tilt",
                           desc: "cursor tracking parallax tilt, just some fun bullshit setting imo",
@@ -4549,7 +4553,7 @@ export default function App() {
                                   "sidebarCollapsed", "profileContainer", "brutalistMode",
                                   "developerFont", "focusMode", "floatingSidebar", "debugMode",
                                   "helloAnimation", "disableAnimations", "highHz", "amoledMode",
-                                  "bentoTilt", "hapticSounds"
+                                  "bentoTilt"
                                 ];
                                 for (const k of keys) {
                                   if (decoded[k] !== undefined) {
@@ -4584,7 +4588,7 @@ export default function App() {
                                     "sidebarCollapsed", "profileContainer", "brutalistMode",
                                     "developerFont", "focusMode", "floatingSidebar", "debugMode",
                                     "helloAnimation", "disableAnimations", "highHz", "amoledMode",
-                                    "bentoTilt", "hapticSounds"
+                                    "bentoTilt"
                                   ];
                                   for (const k of keys) {
                                     if (decoded[k] !== undefined) {
