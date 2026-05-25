@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, memo } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useMotionValue, useSpring, animate } from "motion/react";
 import {
   Home,
   Info,
@@ -67,6 +67,72 @@ import WavyProgress from "./WavyProgress";
 import "./navigation/navigation-rail.css";
 
 // --- building blocks ---
+
+const TiltContainer = memo(({ children, className, onClick, settings, ...props }: any) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!settings?.bentoTilt || window.innerWidth < 768) return;
+    const card = ref.current;
+    if (!card) return;
+    
+    const rect = card.getBoundingClientRect();
+    const px = e.clientX - rect.left;
+    const py = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const targetX = ((py - centerY) / centerY) * 15;
+    const targetY = -((px - centerX) / centerX) * 15;    
+    animate(rx, targetX, { type: "spring", stiffness: 250, damping: 25 });
+    animate(ry, targetY, { type: "spring", stiffness: 250, damping: 25});
+    
+    const glareX = (px / rect.width) * 100;
+    const glareY = (py / rect.height) * 100;
+    card.style.setProperty("--glare-x", `${glareX}%`);
+    card.style.setProperty("--glare-y", `${glareY}%`);
+    card.style.setProperty("--glare-opacity", "0.15");
+  };
+  
+  const handleMouseLeave = () => {
+    animate(rx, 0, { type: "spring", stiffness: 200, damping: 20 });
+    animate(ry, 0, { type: "spring", stiffness: 200, damping: 20 });
+    const card = ref.current;
+    if (card) card.style.setProperty("--glare-opacity", "0");
+  };
+  
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      onClick={onClick}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      {...props}
+      style={{
+        ...props.style,
+        position: "relative",
+        transformStyle: "preserve-3d",
+        rotateX: rx,
+        rotateY: ry,
+        perspective: "1000px",
+      }}
+    >
+      {settings?.bentoTilt && (
+        <div
+          className="pointer-events-none absolute inset-0 z-30 transition-opacity duration-200 rounded-[inherit]"
+          style={{
+            background: `radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.2) 0%, transparent 60%)`,
+            opacity: "var(--glare-opacity, 0)",
+            mixBlendMode: "overlay",
+          }}
+        />
+      )}
+      {children}
+    </motion.div>
+  );
+});
 
 const BounceButton = ({
   icon: Icon,
@@ -774,45 +840,50 @@ const Card = memo(({ children, className, delay = 0, onClick }: any) => {
   const [hasEntered, setHasEntered] = useState(false);
 
   return (
-    <motion.div
-      initial={{
-        opacity: 0,
-        y: 20,
-        scale: 0.95,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: {
-          delay: hasEntered ? 0 : delay,
-          type: "spring",
-          stiffness: settings.highHz ? 600 : 400,
-          damping: settings.highHz ? 28 : 25,
-          mass: 0.8,
-        }
-      }}
-      onAnimationComplete={() => setHasEntered(true)}
-      whileHover={{
-        y: -8,
-        scale: 1.02,
-        transition: { type: "spring", stiffness: 400, damping: 15 }
-      }}
-      whileTap={{ scale: 0.98 }}
-      transition={{
-        type: "spring",
-        stiffness: settings.highHz ? 600 : 400,
-        damping: settings.highHz ? 28 : 25,
-      }}
+    <TiltContainer
+      settings={settings}
       onClick={onClick}
       className={cn(
-        "m3-card readme-card motion-gpu cursor-default transition-none",
+        "m3-card readme-card overflow-hidden cursor-default relative border border-[var(--outline-variant)]",
         onClick && "cursor-pointer",
         className,
       )}
+      whileHover={{
+        y: -12,
+        scale: 1.01,
+        transition: { type: "spring", stiffness: 400, damping: 15 }
+      }}
+      whileTap={{ scale: 0.98 }}
     >
-      {children}
-    </motion.div>
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 20,
+          scale: 0.95,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          transition: {
+            delay: hasEntered ? 0 : delay,
+            type: "spring",
+            stiffness: settings.highHz ? 800 : 700,
+            damping: settings.highHz ? 30 : 28,
+            mass: 0.8,
+          }
+        }}
+        onAnimationComplete={() => setHasEntered(true)}
+        transition={{
+          type: "spring",
+          stiffness: settings.highHz ? 800 : 700,
+          damping: settings.highHz ? 30 : 28,
+        }}
+        className="w-full h-full rounded-[inherit]"
+      >
+        {children}
+      </motion.div>
+    </TiltContainer>
   );
 });
 
@@ -1903,18 +1974,14 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
   const wide = i % 5 === 2 && !portrait && !large;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9, y: 20 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ margin: "100px", once: true }}
-      transition={{
-        duration: 0.5,
-        delay: i < 6 ? i * 0.05 : 0,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      style={{ willChange: "transform, opacity" }}
+    <TiltContainer
+      settings={settings}
+      onClick={onClick}
+      whileHover={{ y: -12, scale: 1.01 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 400, damping: 15 }}
       className={cn(
-        "rounded-[2.5rem] overflow-hidden cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20",
+        "rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden",
         large
           ? "md:col-span-2 md:row-span-2"
           : wide
@@ -1923,25 +1990,37 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
               ? "md:row-span-2"
               : "",
       )}
-      onClick={onClick}
     >
-      <img
-        src={photo.url}
-        alt={photo.description}
-        loading={i < 4 ? "eager" : "lazy"}
-        decoding="async"
-        className={cn(
-          "w-full h-full object-cover transition-transform group-hover:scale-105 rounded-[inherit]",
-          settings.highHz ? "duration-500" : "duration-700",
-        )}
-        referrerPolicy="no-referrer"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8 z-20">
-        <p className="text-white text-lg font-bold leading-tight drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-          {photo.description}
-        </p>
-      </div>
-    </motion.div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        viewport={{ margin: "100px", once: true }}
+        transition={{
+          duration: 0.5,
+          delay: i < 6 ? i * 0.05 : 0,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        style={{ willChange: "transform, opacity" }}
+        className="w-full h-full rounded-[inherit] relative overflow-hidden"
+      >
+        <img
+          src={photo.url}
+          alt={photo.description}
+          loading={i < 4 ? "eager" : "lazy"}
+          decoding="async"
+          className={cn(
+            "w-full h-full object-cover transition-transform group-hover:scale-105 rounded-[inherit]",
+            settings.highHz ? "duration-500" : "duration-700",
+          )}
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8 z-20">
+          <p className="text-white text-lg font-bold leading-tight drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+            {photo.description}
+          </p>
+        </div>
+      </motion.div>
+    </TiltContainer>
   );
 });
 
@@ -2649,6 +2728,51 @@ const ReadmePage = memo(({ setPage }: { setPage: (page: string) => void }) => {
 
 export default function App() {
   const { settings, updateSettings, actualTheme, cycleTheme } = useTheme();
+  
+  const [toast, setToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (toast) {
+      const t = setTimeout(() => setToast(null), 3000);
+      return () => clearTimeout(t);
+    }
+  }, [toast]);
+
+  // parse sharing capsule from URL search params on startup!
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const capsule = params.get("theme") || params.get("capsule");
+    if (capsule) {
+      try {
+        const decoded = JSON.parse(atob(capsule));
+        const validatedSettings: Partial<typeof settings> = {};
+        
+        // validate settings structure to make sure we don't inject any random shit
+        const keys: (keyof typeof settings)[] = [
+          "mode", "accent", "hue", "saturation", "sidebarFlipped",
+          "sidebarCollapsed", "profileContainer", "brutalistMode",
+          "developerFont", "focusMode", "floatingSidebar", "debugMode",
+          "helloAnimation", "disableAnimations", "highHz", "amoledMode",
+          "bentoTilt", "hapticSounds"
+        ];
+        
+        for (const k of keys) {
+          if (decoded[k] !== undefined) {
+            (validatedSettings as any)[k] = decoded[k];
+          }
+        }
+        
+        updateSettings(validatedSettings);
+        setToast("Theme loaded from Sharing Capsule! ✨");
+        
+        // clean up search params in browser URL bar immediately
+        const cleanUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+      } catch (e) {
+        console.error("oh shit, capsule decoding failed! probably corrupted.", e);
+      }
+    }
+  }, [updateSettings]);
 
   // transition settings for sidebar and components
   const springConfig = {
@@ -3077,6 +3201,24 @@ export default function App() {
       {popup && (
         <CursedPopup content={popup} onResolve={() => setPopup(null)} />
       )}
+
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9, x: "-50%" }}
+            animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+            exit={{ opacity: 0, y: 20, scale: 0.9, x: "-50%" }}
+            transition={{
+              type: "spring",
+              stiffness: 500,
+              damping: 25,
+            }}
+            className="fixed bottom-6 left-1/2 z-[10000] bg-[var(--primary-container)] text-[var(--on-primary-container)] px-6 py-3 rounded-full font-black text-sm tracking-wider shadow-2xl border border-[var(--primary)]/20 flex items-center gap-3 backdrop-blur-md"
+          >
+            <span>{toast}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {settings.debugMode && (
         <div className="fixed bottom-4 right-4 z-[9999] bg-white/10 dark:bg-black/20 text-[var(--on-surface)] font-mono text-[10px] p-6 rounded-[2.5rem] border-6 border-[var(--outline-variant)] ring-6 ring-[var(--outline-variant)]/30 backdrop-blur-2xl shadow-2xl flex flex-col gap-4 min-w-[240px]">
@@ -4216,6 +4358,11 @@ export default function App() {
                           label: "120Hz Animations",
                           desc: "high-refresh snappiness",
                         },
+                        {
+                          key: "bentoTilt",
+                          label: "3D Bento Tilt",
+                          desc: "cursor tracking parallax tilt, just some fun bullshit setting imo",
+                        },
                       ],
                     },
                     {
@@ -4308,6 +4455,158 @@ export default function App() {
                       </div>
                     </section>
                   ))}
+
+                  {/* sharing & backup config */}
+                  <section className="space-y-6">
+                    <div className="flex items-center gap-3">
+                      <Fingerprint size={20} className="text-[var(--primary)]" />
+                      <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)]">
+                        Share & Backup Config
+                      </h3>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* export sharing */}
+                      <button
+                        onClick={() => {
+                          try {
+                            const str = btoa(JSON.stringify(settings));
+                            const shareUrl = `${window.location.origin}/?theme=${str}`;
+                            navigator.clipboard.writeText(shareUrl);
+                            setToast("sharing link copied to clipboard!");
+                          } catch (e) {
+                            setToast("Failed to generate sharing link! :(");
+                          }
+                        }}
+                        className="flex items-center justify-between border-6 border-[var(--outline-variant)] p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group cursor-pointer"
+                      >
+                        <div>
+                          <div className="font-bold">Copy theme link</div>
+                          <div className="text-xs opacity-60 font-medium">
+                            share your config as a link
+                          </div>
+                        </div>
+                        <ExternalLink
+                          size={20}
+                          className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                        />
+                      </button>
+
+                      {/* export json file */}
+                      <button
+                        onClick={() => {
+                          try {
+                            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings, null, 2));
+                            const downloadAnchor = document.createElement('a');
+                            downloadAnchor.setAttribute("href", dataStr);
+                            downloadAnchor.setAttribute("download", "virex-settings.json");
+                            document.body.appendChild(downloadAnchor);
+                            downloadAnchor.click();
+                            downloadAnchor.remove();
+                            setToast("backup downloaded!");
+                          } catch (e) {
+                            setToast("failed to download backup. :(");
+                          }
+                        }}
+                        className="flex items-center justify-between border-6 border-[var(--outline-variant)] p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group cursor-pointer"
+                      >
+                        <div>
+                          <div className="font-bold">Export config file</div>
+                          <div className="text-xs opacity-60 font-medium">
+                            download backup as JSON
+                          </div>
+                        </div>
+                        <Download
+                          size={20}
+                          className="group-hover:translate-y-0.5 transition-transform"
+                        />
+                      </button>
+                    </div>
+
+                    {/* import config */}
+                    <div className="border-6 border-[var(--outline-variant)] bg-[var(--surface-variant)] p-5 rounded-[1.5rem] space-y-4">
+                      <div className="font-bold text-sm">Importing Your Config</div>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Paste your sharing link or code here..."
+                          className="flex-1 bg-[var(--surface)] text-[var(--on-surface)] border border-[var(--outline-variant)] rounded-xl px-4 py-2 text-[13px] font-display-bold focus:outline-none focus:border-[var(--primary)]"
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              const val = e.currentTarget.value.trim();
+                              if (!val) return;
+                              try {
+                                let capsule = val;
+                                // handle full URL if link is pastedd
+                                if (val.includes("theme=")) {
+                                  const urlParams = new URLSearchParams(val.substring(val.indexOf("?")));
+                                  capsule = urlParams.get("theme") || val;
+                                }
+                                const decoded = JSON.parse(atob(capsule));
+                                const validatedSettings: Partial<typeof settings> = {};
+                                const keys: (keyof typeof settings)[] = [
+                                  "mode", "accent", "hue", "saturation", "sidebarFlipped",
+                                  "sidebarCollapsed", "profileContainer", "brutalistMode",
+                                  "developerFont", "focusMode", "floatingSidebar", "debugMode",
+                                  "helloAnimation", "disableAnimations", "highHz", "amoledMode",
+                                  "bentoTilt", "hapticSounds"
+                                ];
+                                for (const k of keys) {
+                                  if (decoded[k] !== undefined) {
+                                    (validatedSettings as any)[k] = decoded[k];
+                                  }
+                                }
+                                updateSettings(validatedSettings);
+                                setToast("config has been loaded!");
+                                e.currentTarget.value = "";
+                              } catch (err) {
+                                setToast("non valid capsule code or link :(");
+                              }
+                            }
+                          }}
+                        />
+                        <label className="bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer">
+                          Upload File
+                          <input
+                            type="file"
+                            accept=".json"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (!file) return;
+                              const reader = new FileReader();
+                              reader.onload = (event) => {
+                                try {
+                                  const decoded = JSON.parse(event.target?.result as string);
+                                  const validatedSettings: Partial<typeof settings> = {};
+                                  const keys: (keyof typeof settings)[] = [
+                                    "mode", "accent", "hue", "saturation", "sidebarFlipped",
+                                    "sidebarCollapsed", "profileContainer", "brutalistMode",
+                                    "developerFont", "focusMode", "floatingSidebar", "debugMode",
+                                    "helloAnimation", "disableAnimations", "highHz", "amoledMode",
+                                    "bentoTilt", "hapticSounds"
+                                  ];
+                                  for (const k of keys) {
+                                    if (decoded[k] !== undefined) {
+                                      (validatedSettings as any)[k] = decoded[k];
+                                    }
+                                  }
+                                  updateSettings(validatedSettings);
+                                  setToast("settings have been restored from backup!");
+                                } catch (err) {
+                                  setToast("non valid backup JSON file :(");
+                                }
+                              };
+                              reader.readAsText(file);
+                            }}
+                          />
+                        </label>
+                      </div>
+                      <div className="text-[13px] opacity-50 font-medium">
+                        Press Enter to apply pasted sharing link. Restoring settings updates your theme *immediately*.
+                      </div>
+                    </div>
+                  </section>
 
                   {/* boring ver info stuff */}
                   <section className="space-y-6">
