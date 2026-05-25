@@ -19,7 +19,8 @@ export function linear(
 
   let path = `M ${x_start} ${y_mid}`;
   // 4x fewer segments for better SVG SMIL animation/rendering performance
-  const segments = Math.ceil((x_target - x_start) / 4);
+  // nvm /4 looks bad 
+  const segments = Math.ceil((x_target - x_start));
   
   for (let i = 0; i <= segments; i++) {
     const x = x_start + (i / segments) * (x_target - x_start);
