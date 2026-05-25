@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback, ReactNode } from "react";
 import { motion, useSpring, useTransform, animate, useMotionValue } from "motion/react";
-
+// no playnotch >_<
 type SliderSize = "xs" | "s" | "m" | "l" | "xl";
 
 interface SliderProps {
