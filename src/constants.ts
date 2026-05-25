@@ -405,6 +405,36 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "lens-overhaul-and-telemetry",
+    version: "v2026.05.24",
+    title: "lens lightbox fix & debug telemetry",
+    date: "May 24, 2026",
+    changes: [
+      {
+        category: "lens photography",
+        items: [
+          "lightbox recovery: fixed the expanded image lightbox layout, allowing borders and shadows to hug the photo aspect ratio.",
+          "clipping correction: correctly routed anti-bleeding fixes (rounded-inherit and webkit-masking) to the grid preview items instead of the lightbox container.",
+        ],
+      },
+      {
+        category: "ui & styling",
+        items: [
+          "sidebar spacing: hid the 'Pages' label header on short windows and expanded navigation item gaps to stop outline rings from overlapping.",
+          "pages icon: updated the sidebar 'Pages' icon to use a soft, muted surface background and a smooth 32% squircle border-radius.",
+          "spring tuning: refined navigation spring solvers to settle with a smooth, premium feel and no excessive wiggling.",
+          "scroll shadows: fixed scroll shadows/masks to load instantly on page refresh without needing a manual scroll trigger.",
+        ],
+      },
+      {
+        category: "developer telemetry",
+        items: [
+          "debug logging: integrated dry, lowercase console telemetry across page routing, image preloads, copy actions, and error catch events.",
+        ],
+      },
+    ],
+  },
+  {
     id: "blog-filters-and-readme-polish",
     version: "v2026.05.21_hotfix",
     title: "blog filters & readme consistency polish",
