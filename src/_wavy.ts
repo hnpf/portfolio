@@ -18,7 +18,8 @@ export function linear(
   const phase = (time / 1000) * 2 * Math.PI;
 
   let path = `M ${x_start} ${y_mid}`;
-  // double the segments for smoother anti-aliasing
+  // 4x fewer segments for better SVG SMIL animation/rendering performance
+  // nvm /4 looks bad 
   const segments = Math.ceil((x_target - x_start));
   
   for (let i = 0; i <= segments; i++) {
