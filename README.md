@@ -18,9 +18,13 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 
 ## what's new?
 
+**important changes**
 - moved to cloudflare - bye vercel!
 
-> last updated: may 25, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
+**recent changes**
+- fix blur on mobile /readme, fix blog text on light mode, and much more.
+
+> last updated: may 26, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
 ---
 
 ## screenshots
