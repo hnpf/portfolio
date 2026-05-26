@@ -5,12 +5,14 @@ focused on systems programming, UI/UX, and vulnerability research.
 
 ## projects
 
+- **Beetrap**: Go honeypot with real-time TUI logging.
+- **SniffCLI**: Lightweight Go packet sniffer and network sentry.
 - **Lens**: photography — nature, cats, spiders, misc
 - **Tracker**: personal progress tracker for CEH prep, Material 3, and Rust/systems work
 
 ## stack
 
-React 19, Vite, Tailwind CSS 4, TypeScript, Rust, Python, Node.js, Express, better-sqlite3
+React 19, Vite, Tailwind CSS 4, TypeScript, Rust, Python, GoLang, Node.js, Express, better-sqlite3
 
 ## contact
 
