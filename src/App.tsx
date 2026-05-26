@@ -124,9 +124,9 @@ const TiltContainer = memo(({ children, className, innerClassName, onClick, sett
       className={cn("h-full", className)} // wrapper fills grid/flex area
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ 
-        perspective: settings?.bentoTilt ? "1000px" : "none", 
-        transformStyle: settings?.bentoTilt ? "preserve-3d" : "flat" 
+      style={{
+        perspective: (settings?.bentoTilt && window.innerWidth >= 768) ? "1000px" : "none",
+        transformStyle: (settings?.bentoTilt && window.innerWidth >= 768) ? "preserve-3d" : "flat"
       }}
     >
       <motion.div
@@ -138,10 +138,9 @@ const TiltContainer = memo(({ children, className, innerClassName, onClick, sett
         className={cn("w-full h-full outline-none", innerClassName)}
         style={{
           ...props.style,
-          position: "relative",
-          transformStyle: settings?.bentoTilt ? "preserve-3d" : "flat",
-          rotateX: settings?.bentoTilt ? rx : 0,
-          rotateY: settings?.bentoTilt ? ry : 0,
+          transformStyle: (settings?.bentoTilt && window.innerWidth >= 768) ? "preserve-3d" : "flat",
+          rotateX: (settings?.bentoTilt && window.innerWidth >= 768) ? rx : 0,
+          rotateY: (settings?.bentoTilt && window.innerWidth >= 768) ? ry : 0,
           willChange: "transform",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden",
@@ -1718,7 +1717,7 @@ const BlogPage = memo(({ targetId, navigateTo }: any) => {
                       damping: 20,
                       mass: 0.5,
                     }}
-                    className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-md md:text-2xl h-14 md:h-18 px-8 md:px-14 rounded-[24px] flex items-center gap-3 group/btn whitespace-nowrap"
+                    className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-md md:text-2xl h-14 md:h-18 px-8 md:px-14 rounded-[24px] flex items-center gap-3 group/btn whitespace-nowrap"
                   >
                     read entry
                     <motion.span
@@ -2381,7 +2380,7 @@ const TrackerPage = memo(() => {
 
 
 
-const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: string) => void }) => {
+const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; setPage: (p: string) => void, is_mobile: boolean }) => {
   const letters = "virex".split("");
   const [flickering, setFlick] = useState<number[]>([]);
   const [swoopDone, setSwoopDone] = useState(false);
@@ -2400,8 +2399,10 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
     mass: 0.5
   };
 
+  const glass_class = is_mobile ? "" : "backdrop-blur-xl";
+
   useEffect(() => {
-    if (!swoopDone) return;
+    if (!swoopDone || is_mobile) return;
     const itv = setInterval(() => {
       if (Math.random() > 0.7) return;
       const count = Math.floor(Math.random() * 2) + 1;
@@ -2432,13 +2433,13 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           </defs>
         </svg>
 
-        <div className="vx-frosted absolute inset-0">
+        <div className={cn("absolute inset-0", !is_mobile && !settings.disableAnimations && "vx-frosted")}>
           {/* bigg star */}
           <motion.div
-            animate={{
+            animate={(!is_mobile && !settings.disableAnimations) ? {
               scale: [1, 1.05, 1],
               opacity: [0.15, 0.2, 0.15]
-            }}
+            } : {}}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             className="absolute w-[600px] h-[600px] bg-[var(--primary)] rounded-full blur-[85px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           />
@@ -2452,10 +2453,10 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
           ].map((p, i) => (
             <motion.div
               key={i}
-              animate={{
+              animate={(!is_mobile && !settings.disableAnimations) ? {
                 scale: [1, 1.1, 1],
                 opacity: [0.1, 0.15, 0.1]
-              }}
+              } : {}}
               transition={{
                 duration: 8 + i * 2,
                 repeat: Infinity,
@@ -2568,7 +2569,7 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
             delay={1.1}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-8"
-            innerClassName="px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200"
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200", glass_class)}
           >
             <h3 className="text-2xl md:text-4xl font-sans font-bold mb-8 md:mb-10 tracking-tight transition-colors group-hover:text-[var(--primary)] flex items-center gap-3">
               <History className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" /> Virex.lol Lore...
@@ -2594,7 +2595,7 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
             delay={1.2}
             whileHover={{ y: -12, scale: 1.02 }}
             className="col-span-2 md:col-span-4"
-            innerClassName="px-5 py-8 md:p-10 bg-[var(--primary-container)]/80 backdrop-blur-xl text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/20 flex flex-col justify-between gap-6 group hover:border-[var(--primary)] transition-colors duration-200"
+            innerClassName={cn("px-5 py-8 md:p-10 bg-[var(--primary-container)]/80 text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/20 flex flex-col justify-between gap-6 group hover:border-[var(--primary)] transition-colors duration-200", glass_class)}
           >
             <div className="space-y-6">
               <div className="flex items-center gap-3">
@@ -2643,7 +2644,7 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
             delay={1.4}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-12 lg:col-span-6"
-            innerClassName="px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors duration-200 group flex flex-col gap-8"
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors duration-200 group flex flex-col gap-8", glass_class)}
           >
             <div className="flex items-center gap-3">
               <Code2 className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
@@ -2674,7 +2675,7 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
             delay={1.5}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-12"
-            innerClassName="px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 backdrop-blur-xl rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200"
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200", glass_class)}
           >
             <div className="space-y-4 text-center md:text-left">
               <h4 className="text-2xl md:text-3xl font-sans font-bold tracking-tight flex items-center justify-center md:justify-start gap-3 transition-colors group-hover:text-[var(--primary)]">
@@ -2737,11 +2738,12 @@ const BullshitMatrix = ({ onBack, setPage }: { onBack: () => void; setPage: (p: 
   );
 };
 
-const ReadmePage = memo(({ setPage }: { setPage: (page: string) => void }) => {
+const ReadmePage = memo(({ setPage, is_mobile }: { setPage: (page: string) => void, is_mobile: boolean }) => {
   return (
     <BullshitMatrix
       onBack={() => setPage("home")}
       setPage={setPage}
+      is_mobile={is_mobile}
     />
   );
 });
@@ -3891,7 +3893,7 @@ export default function App() {
             )}
             {page === "lens" && <LensPage viewport={viewport} />}
             {page === "tracker" && <TrackerPage />}
-            {page === "readme" && <ReadmePage setPage={goto} />}
+            {page === "readme" && <ReadmePage setPage={goto} is_mobile={is_mobile} />}
             {/*{page === 'loom' && <LoomPage />}*/}
             {page === "changelog" && <ChangelogPage />}
             {page === "dash" && <DashPage />}
