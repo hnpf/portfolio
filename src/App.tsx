@@ -2436,6 +2436,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
         <div className={cn("absolute inset-0", !is_mobile && !settings.disableAnimations && "vx-frosted")}>
           {/* bigg star */}
           <motion.div
+            initial={{ opacity: 0.1 }}
             animate={(!is_mobile && !settings.disableAnimations) ? {
               scale: [1, 1.05, 1],
               opacity: [0.15, 0.2, 0.15]
@@ -2453,6 +2454,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           ].map((p, i) => (
             <motion.div
               key={i}
+              initial={{ opacity: 0.08 }}
               animate={(!is_mobile && !settings.disableAnimations) ? {
                 scale: [1, 1.1, 1],
                 opacity: [0.1, 0.15, 0.1]
@@ -2569,7 +2571,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             delay={1.1}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-8"
-            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200", glass_class)}
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200", glass_class)}
           >
             <h3 className="text-2xl md:text-4xl font-sans font-bold mb-8 md:mb-10 tracking-tight transition-colors group-hover:text-[var(--primary)] flex items-center gap-3">
               <History className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" /> Virex.lol Lore...
@@ -2618,7 +2620,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             className="col-span-2 md:col-span-12 lg:col-span-6"
             innerClassName="bg-[#0a0a0a] text-white/90 px-5 py-8 md:p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden hover:border-[var(--primary)] transition-colors duration-200 flex flex-col gap-6"
           >
-            <div className="flex items-center gap-3 transition-opacity group-hover:opacity-100">
+            <div className="flex items-center gap-3 transition-opacity group-hover:opacity-100 mb-4">
               <SquareTerminal className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
               <span className="text-sm md:text-md font-bold tracking-widest">virex@virex</span>
             </div>
@@ -2644,7 +2646,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             delay={1.4}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-12 lg:col-span-6"
-            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/40 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors duration-200 group flex flex-col gap-8", glass_class)}
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors duration-200 group flex flex-col gap-8", glass_class)}
           >
             <div className="flex items-center gap-3">
               <Code2 className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
@@ -2697,7 +2699,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
 
         {/* foooootters */}
         <div className="flex flex-col items-center gap-12 w-full max-w-2xl">
-          <div className="h-1 w-20 bg-[var(--primary)] rounded-full opacity-20" />
+          <div className="h-1 w-20 bg-[var(--primary)] rounded-full opacity-40" />
           <div className="flex flex-wrap justify-center gap-10">
             <BounceButton
               icon={Github}
