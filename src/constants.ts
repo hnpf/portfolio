@@ -446,6 +446,30 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "mobile-performance-and-ui-visibility",
+    version: "2026.05.26",
+    title: "mobile performance & UI visibility",
+    date: "May 26, 2026",
+    changes: [
+      {
+        category: "mobile optimization",
+        items: [
+          "performance: disabled expensive SVG filters and backdrop blurs on mobile for actually smooth 60fps scrolling!",
+          "battery saver: throttled background star, dots, and hero flickering animations on mobile devices.",
+          "3D bento: disabled high-overhead 3D perspective and transforms for mobile screens.",
+        ],
+      },
+      {
+        category: "UI refinement",
+        items: [
+          "contrast: increased bento card background opacity to 60% for better readability against animated backgrounds.",
+          "visibility: fixed invisible read entry text in blog on light theme by adding proper color overrides",
+          "polish: increased footer separator opacity and fixed missing gap in terminal specs card title.",
+        ],
+      },
+    ],
+  },
+  {
     id: "bento-hit-detection-and-aa",
     version: "2026.05.25",
     title: "3D Bento hit detection & anti-aliasing",
