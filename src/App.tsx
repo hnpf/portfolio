@@ -2402,6 +2402,12 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
   const glass_class = is_mobile ? "" : "backdrop-blur-xl";
 
   useEffect(() => {
+    if (is_mobile) {
+      console.log("you're on mobile, now cutting non-useful blurs, filters and anims to save battery");
+    }
+  }, [is_mobile]);
+
+  useEffect(() => {
     if (!swoopDone || is_mobile) return;
     const itv = setInterval(() => {
       if (Math.random() > 0.7) return;
@@ -3304,7 +3310,7 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v2.3.6-stable (v2026.05.25)</span>            </div>          </div>
+              <span>v2.3.6-stable (v2026.05.26)</span>            </div>          </div>
         </div>
       )}
 
@@ -4657,7 +4663,7 @@ export default function App() {
                       <div>
                         <div className="font-bold">View changelog</div>
                         <div className="text-xs opacity-60 font-medium">
-                          See what's new in v2026.05.25
+                          See what's new in v2026.05.26
                         </div>                    </div>
                       <ChevronRight
                         size={20}
