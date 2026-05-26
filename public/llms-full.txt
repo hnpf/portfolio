@@ -7,13 +7,18 @@ areas: hardware/systems programming, UI/UX architecture (Material Design 3, LibA
 
 ## projects
 
-### lens
-photography archive; cat, spiders (p. audax, a. seemanni), nature, misc
+### featured
+- **beetrap**: a honeypot written in Go, it mimics common network services (SSH, FTP, HTTP) and logs connection attempts in a real-time TUI.
+- **sniffcli**: a lightweight TUI packet sniffer and network sentry built in Go. features live protocol visualization, SSH brute-force detection, and outbound device monitoring.
+- **mixtapes**: a modern Linux LibAdwaita-themed YT Music player.
 
-### other
+### utilities & linux
 - **google pixel plymouth theme**: pixel-accurate gemini boot animation for linux
 - **sysdupd**: linux update manager (python, gtk4, libadwaita)
-- **automate**: wayland autoclicker for linux
+- **automate**: wayland autoclicker for linux (python, gtk4)
+
+### archive
+- **lens**: photography archive; cat, spiders (p. audax, a. seemanni), nature, misc
 
 ## hardware
 
@@ -21,7 +26,7 @@ photography archive; cat, spiders (p. audax, a. seemanni), nature, misc
 - **CPU**: i5-14600K (20 cores) @ 5.3GHz
 - **GPU**: AMD Radeon RX 6800 XT (16GB)
 - **RAM**: 40GB DDR4 @ 3700 MT/s
-- **OS**: Linux (Hyprland / Debian 13, kernel 6.19.6-zen)
+- **OS**: Linux (Hyprland / Arch, Linux 7.0.10-zen1-1-zen)
 
 ## links
 
