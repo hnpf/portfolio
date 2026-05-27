@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useSpring } from "motion/react";
 import { Check, X } from "lucide-react";
 
@@ -22,6 +22,10 @@ export default function Switch({
   const startX = useRef<number | undefined>(undefined);
   const _isActive = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const [showHover, setShowHover] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
 
   const playNotch = () => {
     try {
@@ -70,7 +74,8 @@ export default function Switch({
     if (disabled) return;
     startX.current = e.clientX;
     _isActive.current = true;
-    springScale.set(1.75); // touches borders perfectly at 28px
+    springScale.set(1.75);
+    setShowHover(true); // show on press now ? :P
   };
 
   useEffect(() => {
@@ -88,6 +93,7 @@ export default function Switch({
       springScale.set(restingScale);
       containerRef.current?.blur();
       (document.activeElement as HTMLElement)?.blur();
+      setShowHover(false); // kill on release please
     };
     window.addEventListener("pointerup", _onPointerUp);
     return () => window.removeEventListener("pointerup", _onPointerUp);
@@ -104,6 +110,8 @@ export default function Switch({
         .filter(Boolean)
         .join(" ")}
       onPointerDown={_handlePointerDown}
+      onPointerEnter={() => setIsHovered(true)}
+      onPointerLeave={() => setIsHovered(false)}
       onDragStart={(e) => e.preventDefault()}
     >
       <input
@@ -145,7 +153,7 @@ export default function Switch({
         )}
       </motion.div>
 
-      <div className="m3-switch__hover" />
+      {(showHover || isHovered) && <div className="m3-switch__hover" />}
     </div>
   );
 }
