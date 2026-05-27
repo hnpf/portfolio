@@ -1,6 +1,14 @@
 import { useRef, useState, useEffect, useCallback, ReactNode } from "react";
 import { motion, useSpring, useTransform, animate, useMotionValue } from "motion/react";
-// no playnotch >_<
+
+const playNotch = () => {
+  try {
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      navigator.vibrate(1);
+    }
+  } catch (e) {}
+};
+
 type SliderSize = "xs" | "s" | "m" | "l" | "xl";
 
 interface SliderProps {
