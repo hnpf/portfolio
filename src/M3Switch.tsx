@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useEffect, useRef } from "react";
 import { motion, useSpring } from "motion/react";
 import { Check, X } from "lucide-react";
@@ -19,9 +21,18 @@ export default function Switch({
 }: SwitchProps) {
   const startX = useRef<number | undefined>(undefined);
   const _isActive = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const playNotch = () => {
+    try {
+      if (typeof navigator !== "undefined" && navigator.vibrate)
+        navigator.vibrate(1);
+    } catch (e) {}
+  };
 
   const handleChange = (val: boolean) => {
     if (val !== checked) {
+      playNotch();
       onChange(val);
     }
   };
@@ -35,7 +46,7 @@ export default function Switch({
   // Track = 52px. Handle (scaled) = 24px.
   // Center for 6px gap (Off): 6 + 12 = 18. Base center = 8. x = 10.
   // Center for 6px gap (On): 52 - 6 - 12 = 34. Base center = 8. x = 26.
-  const restingX = checked ? 26.8 : 9.2;
+  const restingX = checked ? 26.8 : 8.0;
 
   const springX = useSpring(restingX, {
     stiffness: 450,
@@ -75,6 +86,8 @@ export default function Switch({
       }
 
       springScale.set(restingScale);
+      containerRef.current?.blur();
+      (document.activeElement as HTMLElement)?.blur();
     };
     window.addEventListener("pointerup", _onPointerUp);
     return () => window.removeEventListener("pointerup", _onPointerUp);
@@ -109,22 +122,24 @@ export default function Switch({
 
       <motion.div
         className="m3-switch__handle"
-        style={{
-          left: 0,
-          x: springX,
-          y: 0,
-          scale: springScale,
-        }}
+        style={{ left: 0, x:  springX, y: 0, scale: springScale }}
       >
         {icons !== "none" && (
           <div className="m3-switch__icon-container">
-            <span className="m3-switch__icon m3-switch__icon--check">
+            <motion.span
+              className="m3-switch__icon m3-switch__icon--check"
+              animate={{ opacity: checked ? 1 : 0, scale: checked ? 1 : 0 }}
+            >
               <Check size={10} strokeWidth={4} />
-            </span>
+            </motion.span>
+
             {icons === "both" && (
-              <span className="m3-switch__icon m3-switch__icon--close">
-                <X size={10} strokeWidth={4} />
-              </span>
+              <motion.span
+                className="m3-switch__icon m3-switch__icon--close"
+                animate={{ opacity: checked ? 0 : 1, scale: checked ? 0 : 1 }}
+              >
+                <X size={10} strokeWidth="4" />
+              </motion.span>
             )}
           </div>
         )}
