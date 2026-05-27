@@ -68,7 +68,7 @@ import "./navigation/navigation-rail.css";
 
 // --- building blocks ---
 
-const TiltContainer = memo(({ children, className, innerClassName, onClick, settings, ...props }: any) => {
+const TiltContainer = memo(({ children, className, innerClassName, onClick, settings, whileHover, whileTap, ...props }: any) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   
@@ -132,8 +132,8 @@ const TiltContainer = memo(({ children, className, innerClassName, onClick, sett
       <motion.div
         ref={cardRef}
         onClick={onClick}
-        whileHover={settings?.disableAnimations ? undefined : props.whileHover}
-        whileTap={settings?.disableAnimations ? undefined : props.whileTap}
+        whileHover={settings?.disableAnimations ? undefined : whileHover}
+        whileTap={settings?.disableAnimations ? undefined : whileTap}
         {...props}
         className={cn("w-full h-full outline-none", innerClassName)}
         style={{
@@ -159,10 +159,7 @@ const TiltContainer = memo(({ children, className, innerClassName, onClick, sett
             }}
           />
         )}
-        {/* simplified content layer so native hit detection works */}
-        <div className="relative w-full h-full rounded-[inherit] z-10">
-          {children}
-        </div>
+        {children}
       </motion.div>
     </div>
   );
@@ -883,6 +880,30 @@ const Card = memo(({ children, className, innerClassName, delay = 0, onClick, wh
         onClick && "cursor-pointer",
         innerClassName,
       )}
+      initial={settings.disableAnimations ? false : {
+        opacity: 0,
+        y: 20,
+        scale: 0.95,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+          delay: hasEntered || settings.disableAnimations ? 0 : delay,
+          type: settings.disableAnimations ? "tween" : "spring",
+          duration: settings.disableAnimations ? 0 : undefined,
+          stiffness: settings.highHz ? 800 : 700,
+          damping: settings.highHz ? 30 : 28,
+          mass: 0.8,
+        }
+      }}
+      onAnimationComplete={() => setHasEntered(true)}
+      transition={settings.disableAnimations ? { duration: 0 } : {
+        type: "spring",
+        stiffness: settings.highHz ? 800 : 700,
+        damping: settings.highHz ? 30 : 28,
+      }}
       whileHover={whileHover || {
         y: settings.bentoTilt ? -6 : -12,
         scale: settings.bentoTilt ? 1.02 : 1.01,
@@ -891,35 +912,7 @@ const Card = memo(({ children, className, innerClassName, delay = 0, onClick, wh
       }}
       whileTap={whileTap || { scale: 0.98 }}
     >
-      <motion.div
-        initial={settings.disableAnimations ? false : {
-          opacity: 0,
-          y: 20,
-          scale: 0.95,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          transition: {
-            delay: hasEntered || settings.disableAnimations ? 0 : delay,
-            type: settings.disableAnimations ? "tween" : "spring",
-            duration: settings.disableAnimations ? 0 : undefined,
-            stiffness: settings.highHz ? 800 : 700,
-            damping: settings.highHz ? 30 : 28,
-            mass: 0.8,
-          }
-        }}
-        onAnimationComplete={() => setHasEntered(true)}
-        transition={settings.disableAnimations ? { duration: 0 } : {
-          type: "spring",
-          stiffness: settings.highHz ? 800 : 700,
-          damping: settings.highHz ? 30 : 28,
-        }}
-        className="w-full h-full rounded-[inherit]"
-      >
-        {children}
-      </motion.div>
+      {children}
     </TiltContainer>
   );
 });
