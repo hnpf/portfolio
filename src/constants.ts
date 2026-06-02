@@ -446,6 +446,29 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "pride-month-update",
+    version: "2026.06.01",
+    title: "pride month update",
+    date: "June 01, 2026",
+    changes: [
+      {
+        category: "pride month special",
+        items: [
+          "rainbow wavy progress: implemented a liquid rainbow effect for all wavy progress bars.",
+          "cycling pride flags: progress bars now dynamically cycle through Rainbow, Trans, Bi, Pan, Non-binary, and Lesbian flags every few seconds.",
+          "saturation-proof: pride colors are rendered with raw hex palettes, ensuring they stay vibrant even when the rest of the site is desaturated.",
+        ],
+      },
+      {
+        category: "site integrity",
+        items: [
+          "maintenance: beefed up the .gitignore to keep the repo clean of build artifacts and environment secrets.",
+          "gpush: another simple helper script i wrote for pushing quickly"
+        ],
+      },
+    ],
+  },
+  {
     id: "mobile-performance-and-ui-visibility",
     version: "2026.05.26",
     title: "mobile performance & UI visibility",

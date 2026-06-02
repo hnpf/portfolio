@@ -394,6 +394,7 @@ const HelloVirex = () => {
   ];
   const [widx, setWidx] = useState(0);
   const { settings } = useTheme();
+  const IS_JUNE = new Date().getMonth() === 5;
 
   useEffect(() => {
     const ticker = setTimeout(() => {
@@ -1232,30 +1233,38 @@ const YearProg = () => {
   );
 };
 
-const HomePage = memo(({ setPage, settings }: any) => (
-  <div className="space-y-16 max-w-6xl mx-auto px-4 md:px-0 relative">
-    <header className="page-header space-y-8">
-      {settings.helloAnimation ? (
-        <HelloVirex />
-      ) : (
-        <motion.h1
-          initial={settings.disableAnimations ? false : {
-            opacity: 0,
-            y: 30,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{ duration: settings.disableAnimations ? 0 : 0.6, ease: [0.33, 1, 0.68, 1] }}
-          className="page-title !text-8xl !md:text-[10rem] leading-[0.8] text-balance flex items-baseline"
-        >
-          virex
-          <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block">
-            .
-          </motion.span>
-        </motion.h1>
-      )}
+const HomePage = memo(({ setPage, settings }: any) => {
+  const IS_JUNE = new Date().getMonth() === 5;
+  return (
+    <div className="space-y-16 max-w-6xl mx-auto px-4 md:px-0 relative">
+      <header className="page-header space-y-8">
+        {settings.helloAnimation ? (
+          <HelloVirex />
+        ) : (
+          <motion.h1
+            initial={settings.disableAnimations ? false : {
+              opacity: 0,
+              y: 30,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{ duration: settings.disableAnimations ? 0 : 0.6, ease: [0.33, 1, 0.68, 1] }}
+            className="page-title !text-8xl !md:text-[10rem] leading-[0.8] text-balance flex items-baseline"
+          >
+            virex
+            <motion.span 
+              animate={IS_JUNE ? { 
+                color: ["#E40303", "#FF8C00", "#FFED00", "#008026", "#24408E", "#732982", "#E40303"] 
+              } : {}}
+              transition={IS_JUNE ? { duration: 10, repeat: Infinity, ease: "linear" } : {}}
+              className="text-[var(--primary)] select-none relative z-[60] inline-block"
+            >
+              .
+            </motion.span>
+          </motion.h1>
+        )}
       <motion.p
         initial={settings.disableAnimations ? false : {
           opacity: 0,
@@ -1431,7 +1440,8 @@ const HomePage = memo(({ setPage, settings }: any) => (
       </div>
     </section>
   </div>
-));
+  );
+});
 
 const BlogPage = memo(({ targetId, navigateTo }: any) => {
   const [active_cat, setActiveCat] = useState<string | null>(null);
@@ -3303,7 +3313,7 @@ export default function App() {
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
               <Cpu size={10} />
-              <span>v2.3.6-stable (v2026.05.26)</span>            </div>          </div>
+              <span>v2.4.0-stable (v2026.06.01)</span>            </div>          </div>
         </div>
       )}
 
@@ -4656,7 +4666,7 @@ export default function App() {
                       <div>
                         <div className="font-bold">View changelog</div>
                         <div className="text-xs opacity-60 font-medium">
-                          See what's new in v2026.05.26
+                          See what's new in v2026.06.01
                         </div>                    </div>
                       <ChevronRight
                         size={20}

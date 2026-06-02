@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "adding all files..."
+git add .
+read -p "short commit title: " title
+read -p "long description: " desc
+git commit -m "$title" -m "$(printf "$desc")"
+echo "pushing to main..."
+git push -u origin main
