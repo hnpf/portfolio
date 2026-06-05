@@ -6,4 +6,4 @@ read -p "short commit title: " title
 read -p "long description: " desc
 git commit -m "$title" -m "$(printf "$desc")"
 echo "pushing to main..."
-git push -u origin main
+git push origin main
