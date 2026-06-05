@@ -2424,6 +2424,8 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
 
   return (
     <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[500] flex flex-col bg-[var(--surface)] overflow-y-auto custom-scrollbar overflow-x-hidden selection:bg-[var(--primary)] selection:text-[var(--on-primary)]"
     >
@@ -2839,9 +2841,15 @@ export default function App() {
 
   const [page, setPage] = useState(() => {
     const loc = window.location.pathname;
+    const path = loc.replace("/", "").toLowerCase();
+
+    // immersion hack... if we're on the readme page, start at home
+    // to trigger the immersive transition once the app mounts.
+    // this helps all sidebar/nav exit logic runs correctly??
+    if (path === "readme") return "home";
+
     if (loc === "/" || loc === "") return "home";
     if (loc.startsWith("/blog/")) return "blog";
-    const path = loc.replace("/", "").toLowerCase();
     const ALLOWED_SECTIONS = [
       "home",
       "blog",
