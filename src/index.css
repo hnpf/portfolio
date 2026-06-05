@@ -310,7 +310,8 @@
 
     .lens-item {
         @apply relative transition-colors isolate;
-        transform: translateZ(0);
+        content-visibility: auto;
+        contain-intrinsic-size: auto 380px;
         -webkit-mask-image: -webkit-radial-gradient(white, black);
     }
 

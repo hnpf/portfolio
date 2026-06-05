@@ -141,7 +141,6 @@ const TiltContainer = memo(({ children, className, innerClassName, onClick, sett
           transformStyle: (settings?.bentoTilt && window.innerWidth >= 768) ? "preserve-3d" : "flat",
           rotateX: (settings?.bentoTilt && window.innerWidth >= 768) ? rx : 0,
           rotateY: (settings?.bentoTilt && window.innerWidth >= 768) ? ry : 0,
-          willChange: "transform",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden",
         }}
@@ -2045,7 +2044,6 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
           delay: i < 6 ? i * 0.05 : 0,
           ease: [0.22, 1, 0.36, 1],
         }}
-        style={{ willChange: "transform, opacity" }}
         className="w-full h-full rounded-[inherit] relative overflow-hidden"
       >
         <img
