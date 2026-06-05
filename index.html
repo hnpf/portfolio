@@ -26,8 +26,8 @@
       (function() {
         try {
           const saved = localStorage.getItem('virex-settings');
-          const settings = saved ? JSON.parse(saved) : { mode: 'system', accent: 'purple', hue: 220, saturation: 100 };
-          const ACCENT_HUES = { blue: 240, green: 150, red: 0, purple: 300, orange: 30, custom: 220 };
+          const settings = saved ? JSON.parse(saved) : { mode: 'system', accent: 'virex', hue: 360, saturation: 84 };
+          const ACCENT_HUES = { blue: 240, green: 150, red: 0, purple: 300, orange: 30, virex: 360, custom: 220 };
           const root = document.documentElement;
           
           let mode = settings.mode;
@@ -37,7 +37,7 @@
           root.classList.toggle('dark', mode === 'dark');
           
           const h = settings.accent === 'custom' ? settings.hue : ACCENT_HUES[settings.accent];
-          const s = settings.accent === 'custom' ? settings.saturation : 100;
+          const s = settings.accent === 'custom' ? settings.saturation : settings.accent === 'virex' ? 84 : 100;
           root.style.setProperty('--primary-hue', h);
           root.style.setProperty('--primary-chroma', (s / 100 * 0.3).toFixed(3));
           

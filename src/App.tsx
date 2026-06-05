@@ -2424,8 +2424,6 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[500] flex flex-col bg-[var(--surface)] overflow-y-auto custom-scrollbar overflow-x-hidden selection:bg-[var(--primary)] selection:text-[var(--on-primary)]"
     >
@@ -2448,7 +2446,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             initial={{ opacity: 0.1 }}
             animate={(!is_mobile && !settings.disableAnimations) ? {
               scale: [1, 1.05, 1],
-              opacity: [0.15, 0.2, 0.15]
+              opacity: [0.12, 0.16, 0.12]
             } : {}}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             className="absolute w-[600px] h-[600px] bg-[var(--primary)] rounded-full blur-[85px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -2466,7 +2464,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
               initial={{ opacity: 0.08 }}
               animate={(!is_mobile && !settings.disableAnimations) ? {
                 scale: [1, 1.1, 1],
-                opacity: [0.1, 0.15, 0.1]
+                opacity: [0.08, 0.12, 0.08]
               } : {}}
               transition={{
                 duration: 8 + i * 2,
@@ -3861,7 +3859,8 @@ export default function App() {
       {/*main*/}
       <motion.main
         className={cn(
-          "flex-1 p-6 md:p-12 lg:p-16 overflow-x-hidden page-container",
+          "flex-1 overflow-x-hidden page-container",
+          page === "readme" ? "p-0" : "p-6 md:p-12 lg:p-16",
           settings.forceDesktop || viewport.w >= 768 ? "pb-16" : "pb-40",
         )}
       >
