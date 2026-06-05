@@ -2402,7 +2402,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
     mass: 0.5
   };
 
-  const glass_class = is_mobile ? "" : "backdrop-blur-xl";
+  const glass_class = is_mobile ? "" : "backdrop-blur-md";
 
   useEffect(() => {
     if (is_mobile) {
