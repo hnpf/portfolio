@@ -1,16 +1,28 @@
 #!/bin/bash
 
-# show what changed before doing anything
-echo "--- current changes ---"
-git diff --stat
-echo ""
+# handle -f flag
+force=false
+if [ "$1" == "-f" ]; then
+    force=true
+fi
 
-if [ -z "$(git status --porcelain)" ]; then
+# check for changes (including staged ones)
+if [ -z "$(git status --porcelain)" ] && [ "$force" = false ]; then
     echo "nothing to commit lol"
     exit 0
 fi
 
 curr=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$force" = true ]; then
+    echo "forcing push to $curr..."
+    git push origin "$curr" --force
+    exit 0
+fi
+
+# standard flow
+echo "--- current changes ---"
+git diff --stat
 git add .
 
 read -p "title: " title
@@ -24,9 +36,8 @@ fi
 
 echo -e "\n--- ready to push to $curr? ---"
 git log -1 --stat
-echo ""
-
 read -p "confirm push? [y/N]: " confirm
+
 if [[ "$confirm" =~ ^[Yy]$ ]]; then
     git push origin "$curr"
     echo "pushed."

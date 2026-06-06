@@ -1,6 +1,7 @@
 import React, { useState, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../constants";
+import { useTheme } from "../ThemeContext";
 
 export const SideItem = memo(
   ({
