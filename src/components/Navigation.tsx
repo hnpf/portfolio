@@ -126,7 +126,7 @@ export const SideItem = memo(
             </motion.div>
           </div>
 
-          <span className="text-[10px] font-black uppercase tracking-widest mt-1 opacity-60 group-hover:opacity-100 transition-opacity relative z-10">
+          <span className="text-[11px] font-expressive font-black uppercase tracking-widest mt-1 opacity-60 group-hover:opacity-100 transition-opacity relative z-10 italic">
             {text}
           </span>
 
@@ -237,7 +237,7 @@ export const SideItem = memo(
             color: isSelected ? "var(--on-primary-container)" : "inherit",
           }}
           transition={{ type: "spring" as const, stiffness: 400, damping: 25 }}
-          className="font-display font-black tracking-tighter text-lg relative z-10 transition-colors duration-200"
+          className="font-expressive italic tracking-[0.1em] text-lg relative z-10 transition-colors duration-200 italic"
         >
           {text}
         </motion.span>
@@ -421,7 +421,7 @@ export const BotNav = memo(({
       </div>
       <motion.span
         className={cn(
-          "text-[11px] font-bold tracking-tight transition-all duration-200",
+          "text-[11px] italic font-expressive font-black tracking-[0.1em] transition-all duration-200 uppercase",
           isSelected ? "opacity-100" : "opacity-70",
         )}
       >
