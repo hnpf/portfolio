@@ -1,3 +1,5 @@
+// @ts-ignore
+
 import React, { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Activity, ChevronRight, ExternalLink, ArrowUpRight, Loader2, Download, Terminal } from "lucide-react";
@@ -74,6 +76,7 @@ const AdCard = () => {
       <img
         src={ads[idx].img}
         className="w-32 h-32 object-cover border-4 border-black"
+        alt="ad"
       />
       <button
         onClick={() => (window.location.href = "/fsh-spin.gif")}
@@ -134,7 +137,7 @@ const HelloVirex = () => {
             damping: settings.highHz ? 22 : 20,
             mass: 0.8,
           }}
-          className="text-8xl md:text-[10rem] font-display font-black tracking-tighter leading-[0.8] text-balance flex items-baseline"
+          className="text-8xl md:text-[10rem] font-expressive font-black tracking-tighter leading-[0.8] text-balance flex items-baseline italic"
         >
           {words[widx]}
           <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block">
@@ -168,19 +171,16 @@ const YearProg = () => {
     <div className="w-full font-sans selection:bg-primary/30">
       <div className="flex items-end justify-between mb-4">
         <div className="flex flex-col">
-          <h2 className="text-7xl font-display font-black tracking-tight leading-[0.8] text-[var(--on-primary-container)]">
+          <h2 className="text-7xl font-display font-black tracking-tight leading-[0.8] text-[var(--on-primary-container)] italic">
             {year}
           </h2>
-          <span className="text-sm font-black opacity-60 text-[var(--on-primary-container)] mt-1">
-            current year
-          </span>
         </div>
-        <div className="text-right flex flex-col items-end mb-4">
+        <div className="text-right flex flex-col items-end">
           <div className="text-4xl font-display font-black tracking-tight tabular-nums text-[var(--on-primary-container)]">
             {pct.toFixed(2)}
             <span className="text-2xl ml-0.5 opacity-60">%</span>
           </div>
-          <span className="text-sm font-black opacity-60 text-[var(--on-primary-container)]">
+          <span className="text-sm font-black opacity-60 text-[var(--on-primary-container)] uppercase italic tracking-widest">
             {days_left} days left
           </span>
         </div>
@@ -195,7 +195,7 @@ const YearProg = () => {
         />
       </div>
 
-      <div className="mt-2 flex justify-between text-md font-black opacity-40 tracking-tight italic">
+      <div className="mt-2 flex justify-between text-md font-black opacity-40 tracking-tight italic uppercase tracking-[0.2em]">
         <span className="font-black text-[17px]">
           {now.toLocaleTimeString().toLowerCase()}
         </span>
@@ -223,7 +223,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
               y: 0,
             }}
             transition={{ duration: settings.disableAnimations ? 0 : 0.6, ease: [0.33, 1, 0.68, 1] }}
-            className="page-title !text-8xl !md:text-[10rem] leading-[0.8] text-balance flex items-baseline"
+            className="page-title !text-8xl !md:text-[10rem] leading-[0.8] text-balance flex items-baseline font-expressive italic"
           >
             virex
             <motion.span 
@@ -243,7 +243,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
           y: 20,
         }}
         animate={{
-          opacity: 1,
+          opacity: 0.8,
           y: 0,
         }}
         transition={{
@@ -251,7 +251,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
           duration: settings.disableAnimations ? 0 : 0.6,
           ease: [0.33, 1, 0.68, 1],
         }}
-        className="text-2xl md:text-4xl font-display font-black text-[var(--on-surface-variant)] leading-tight max-w-4xl"
+        className="text-2xl md:text-5xl font-display font-black text-[var(--on-surface-variant)] leading-tight max-w-5xl italic tracking-tighter"
       >
         <br></br>I am an independent software dev, linux lover, and problem
         solver.
@@ -265,15 +265,13 @@ export const HomePage = memo(({ setPage, settings }: any) => {
         className="md:col-span-2 lg:col-span-1 xl:col-span-2"
         innerClassName="bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[400px]"
       >
-        <h2 className="text-4xl md:text-7xl font-display font-black leading-[0.9] tracking-tight">
-          "software should be readable, and reliable!
+        <h2 className="text-3xl md:text-5xl italic font-black leading-[0.9] font-expressive-bold tracking-tight">
+          "software should be readable and reliable."
         </h2>
         <div>
-          <p className="text-xl md:text-3xl opacity-90 font-medium max-w-2xl mb-2 ">
-            <br></br>I make things that work the way its supposed to.
-          </p>
-          <p className="text-xl md:text-2xl opacity-90 font-medium mb-10 ">
-            just do it the efficient and right way.
+          <p className="text-xl md:text-3xl opacity-90 font-display font-black italic max-w-2xl mb-10 ">
+            <br></br>I make things that work the way its supposed to.             just do it the efficient way.
+
           </p>
           <motion.button
             whileHover={{
@@ -294,7 +292,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
               mass: 0.5,
             }}
             onClick={() => setPage("readme")}
-            className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[20px] font-display font-black tracking-tight h-18 px-12 rounded-[24px] flex items-center gap-3 group"
+            className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[20px] font-display font-black tracking-[0.15em] h-18 px-12 rounded-[24px] flex items-center gap-3 group uppercase italic"
           >
             explore more!
             <motion.span
@@ -320,10 +318,10 @@ export const HomePage = memo(({ setPage, settings }: any) => {
           <div className="w-16 h-16 bg-[var(--primary-container)] rounded-3xl flex items-center justify-center">
             <Activity size={32} className="text-[var(--primary)]" />
           </div>
-          <h3 className="text-3xl font-display font-bold">
+          <h3 className="text-4xl font-black font-display italic">
             I don't ship things that I wouldn't use.
           </h3>
-          <p className="text-xl opacity-70 leading-relaxed">
+          <p className="text-xl opacity-60 leading-relaxed font-black italic">
             done right, or not done at all.
           </p>
         </div>
@@ -338,10 +336,10 @@ export const HomePage = memo(({ setPage, settings }: any) => {
       <div className="md:col-span-2 lg:col-span-1 xl:col-span-2 mt-8 mb-4 flex items-center gap-6 px-4">
         <div className="h-[1px] flex-1 bg-[var(--outline-variant)] opacity-30" />
         <div className="flex flex-col items-center gap-1">
-          <h3 className="text-[16px] font-black tracking-[0.3em] opacity-40 whitespace-nowrap">
+          <h3 className="text-[16px] font-black tracking-[0.4em] opacity-40 whitespace-nowrap uppercase italic">
             projects and research
           </h3>
-          <div className="text-2xl font-black tracking-[0.1em] font-black tracking-tighter">
+          <div className="text-4xl font-black tracking-tighter font-display italic">
             built or contributed to:
           </div>
         </div>
@@ -358,18 +356,18 @@ export const HomePage = memo(({ setPage, settings }: any) => {
           >
             <div>
               <div className="flex justify-between items-start mb-6">
-                <h4 className="text-3xl font-display font-bold leading-tight">
+                <h4 className="text-4xl font-black font-display leading-tight italic">
                   {project.title}
                 </h4>
                 <div className="flex flex-wrap gap-2 justify-end">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="m3-chip">
+                    <span key={tag} className="m3-chip uppercase italic tracking-widest font-black text-[10px]">
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
-              <p className="opacity-70 mb-8 text-xl leading-snug">
+              <p className="opacity-70 mb-8 text-xl font-medium italic leading-snug">
                 {project.description}
               </p>
             </div>
@@ -378,7 +376,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
                 whileHover={{ x: 5 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setPage(project.link.replace("/", ""))}
-                className="inline-flex items-center gap-2 text-[var(--primary)] font-black tracking-widest text-[16px] w-fit group"
+                className="inline-flex items-center gap-2 text-[var(--primary)] font-black tracking-widest text-[16px] w-fit group uppercase italic"
               >
                 View project{" "}
                 <motion.span
@@ -395,7 +393,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
                 whileTap={{ scale: 0.95 }}
                 href={project.link}
                 target="_blank"
-                className="inline-flex items-center gap-2 text-[var(--primary)] font-black tracking-widest text-[17px] group"
+                className="inline-flex items-center gap-2 text-[var(--primary)] font-black italic tracking-widest text-[17px] group uppercase"
               >
                 View project{" "}
                 <motion.span

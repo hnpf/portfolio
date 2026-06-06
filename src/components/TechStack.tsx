@@ -42,7 +42,7 @@ export const BounceButton = ({
       onClick={_on_click}
       disabled={loading}
       className={cn(
-        "relative overflow-hidden transition-colors duration-300",
+        "relative overflow-hidden",
         loading && "cursor-wait opacity-80",
         className,
       )}

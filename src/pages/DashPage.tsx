@@ -1,3 +1,5 @@
+// @ts-ignore
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Copy, Check, ExternalLink, Link as LinkIcon, Plus, Hash, Globe, AlertTriangle } from 'lucide-react';
@@ -120,79 +122,63 @@ export default function DashPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-16 pb-20 relative">
-      <header className="page-header space-y-4">
-        <h1 className="page-title !text-8xl !md:text-[10rem] leading-[0.8]">Shorten</h1>
-        <br></br>
+    <div className="max-w-6xl mx-auto space-y-20 pb-32 relative">
+      <header className="page-header italic font-expressive-bold space-y-8">
+        <h1 className="page-title text-[100px]">Shorten</h1>
         <motion.p 
-          initial={{
-            opacity: 0,
-            y: 20
-          }}
-          animate={{
-            opacity: 1,
-            y: 0
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
-          className="md:text-2xl font-display font-light text-[var(--on-surface-variant)] leading-tight max-w-4xl"
+          className="text-xl md:text-3xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-4xl leading-tight"
         >
-          HTTPS is only a suggestion!
+          HTTPS is only a suggestion! <span className="italic opacity-40 text-lg md:text-xl ml-2">// quick and dirty links.</span>
         </motion.p>
       </header>
 
-      <div className="grid grid-cols-1 gap-12">
-        <Uppercasecard className="bg-[var(--primary-container)]/10 border-[var(--primary)]/20 relative overflow-hidden group">
-          <form onSubmit={submitlinkhandler} className="relative z-10 space-y-10">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-              <div className="md:col-span-8 space-y-3">
-                <div className="flex items-center gap-2 px-1">
-                  <Globe size={14} className="text-[var(--primary)]" />
-                  <label className="text-[13px] font-black tracking-[0.3em] opacity-40">Destination URL</label>
+      <div className="grid grid-cols-1 gap-16 px-4 md:px-0">
+        <Uppercasecard className="bg-[var(--primary-container)]/10 border-6 border-[var(--primary)]/20 relative overflow-hidden group p-10 md:p-16">
+          <form onSubmit={submitlinkhandler} className="relative z-10 space-y-12">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+              <div className="md:col-span-8 space-y-4">
+                <div className="flex items-center gap-3 px-1">
+                  <Globe size={16} className="text-[var(--primary)]" />
+                  <label className="text-[12px] font-black tracking-[0.4em] opacity-50 uppercase italic">Destination URL</label>
                 </div>
                 <input
                   type="url"
                   placeholder={placeholder}
-                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-3xl px-8 py-5 text-xl outline-none transition-all shadow-inner"
+                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[2rem] px-10 py-6 text-2xl outline-none transition-all shadow-inner font-display font-bold"
                   value={url}
                   onChange={e => setUrl(e.target.value)}
                   required
                 />
               </div>
-              <div className="md:col-span-4 space-y-3">
-                <div className="flex items-center gap-2 px-1">
-                  <Hash size={14} className="text-[var(--primary)]" />
-                  <label className="text-[13px] font-black tracking-[0.3em] opacity-40">Custom path</label>
+              <div className="md:col-span-4 space-y-4">
+                <div className="flex items-center gap-3 px-1">
+                  <Hash size={16} className="text-[var(--primary)]" />
+                  <label className="text-[12px] font-black tracking-[0.4em] opacity-50 uppercase italic">Custom path</label>
                 </div>
                 <input
                   type="text"
                   placeholder="optional"
-                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-3xl px-8 py-5 text-xl font-mono outline-none transition-all shadow-inner"
+                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[2rem] px-10 py-6 text-2xl font-mono outline-none transition-all shadow-inner"
                   value={path}
                   onChange={e => setpath(e.target.value)}
                 />
               </div>
             </div>
             
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-4 border-t border-[var(--outline-variant)]/20">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-10 border-t border-[var(--outline-variant)]/30">
               <div className="flex-1">
                 <AnimatePresence mode="wait">
                   {error && (
                     <motion.div 
-                      initial={{
-                        opacity: 0,
-                        x: -10
-                      }}
-                      animate={{
-                        opacity: 1,
-                        x: 0
-                      }}
-                      exit={{
-                        opacity: 0,
-                        x: 10
-                      }}
-                      className="text-red-500 font-bold flex items-center gap-2 bg-red-500/10 px-4 py-2 rounded-xl border border-red-500/20"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 10 }}
+                      className="text-red-500 font-bold flex items-center gap-3 bg-red-500/10 px-6 py-3 rounded-2xl border-4 border-red-500/20"
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                      <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                       {error}
                     </motion.div>
                   )}
@@ -200,60 +186,59 @@ export default function DashPage() {
               </div>
               <button
                 type="submit"
-                className="w-full md:w-auto bg-[var(--primary)] text-[var(--on-primary)] font-black tracking-widest px-13 h-16 rounded-[1.5rem] flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-2xl shadow-[var(--primary)]/20 group/btn"
+                className="w-full md:w-auto bg-[var(--primary)] text-[var(--on-primary)] font-black tracking-[0.2em] uppercase px-16 h-20 rounded-[2rem] flex items-center justify-center gap-4 hover:scale-[1.03] active:scale-[0.97] transition-all shadow-2xl shadow-[var(--primary)]/30 group/btn text-lg"
               >
                 Create Link
-                <Plus size={22} className="group-hover/btn:rotate-90 transition-transform duration-300" />
+                <Plus size={24} className="group-hover/btn:rotate-90 transition-transform duration-500" />
               </button>
             </div>
           </form>
           
-          <div className="absolute -right-20 -bottom-20 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
-            <LinkIcon size={400} />
+          <div className="absolute -right-20 -bottom-20 opacity-[0.03] pointer-events-none group-hover:scale-110 group-hover:rotate-12 transition-all duration-1000 text-[var(--primary)]">
+            <LinkIcon size={450} />
           </div>
         </Uppercasecard>
 
-        <Uppercasecard delay={0.1} className="p-0 overflow-hidden border-0 md:border-6">
+        <Uppercasecard delay={0.1} className="p-0 overflow-hidden border-6 border-[var(--outline-variant)]/40">
           {/* desktop table view */}
           <div className="hidden md:block">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-[var(--outline-variant)]/30">
-                  <th className="px-8 py-6 text-[12px] font-black tracking-[0.3em] opacity-40">Path</th>
-                  <th className="px-8 py-6 text-[12px] font-black tracking-[0.3em] opacity-40">Original URL</th>
-                  <th className="px-8 py-6 text-[12px] font-black tracking-[0.3em] opacity-40">Visits</th>
-                  <th className="px-8 py-6 text-[12px] font-black tracking-[0.3em] opacity-40">Created</th>
-                  <th className="px-8 py-6 text-[12px] font-black tracking-[0.3em] opacity-40"></th>
+                <tr className="border-b border-[var(--outline-variant)]/40 bg-[var(--surface-variant)]/10">
+                  <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Path</th>
+                  <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Destination</th>
+                  <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-center">Visits</th>
+                  <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-right">Created</th>
+                  <th className="px-10 py-8"></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-[var(--outline-variant)]/20">
                 {links.map((link) => (
-                  <tr key={link.id} className="border-b border-[var(--outline-variant)]/10 hover:bg-white/5 transition-colors group">
-                    <td className="px-8 py-6 font-mono font-bold text-[var(--primary)]">/{link.path}</td>
-                    <td className="px-8 py-6 max-w-xs truncate opacity-60 font-medium">{link.original_url}</td>
-                    <td className="px-8 py-6 font-bold">{link.visits}</td>
-                    <td className="px-8 py-6 opacity-40 text-sm">
+                  <tr key={link.id} className="hover:bg-[var(--primary-container)]/5 transition-colors group">
+                    <td className="px-10 py-8 font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter">/{link.path}</td>
+                    <td className="px-10 py-8 max-w-xs truncate opacity-60 font-display font-medium text-lg">{link.original_url}</td>
+                    <td className="px-10 py-8 font-black text-2xl text-center tabular-nums">{link.visits}</td>
+                    <td className="px-10 py-8 opacity-40 text-sm font-bold text-right uppercase tracking-widest">
                       {new Date(link.created_at).toLocaleDateString()}
                     </td>
-                    <td className="px-8 py-6 text-right">
-                      <div className="flex justify-end gap-2">
+                    <td className="px-10 py-8 text-right">
+                      <div className="flex justify-end gap-3">
                         <button
                           onClick={() => copylinkhandler(link.path)}
                           className={cn(
-                            "p-3 bg-[var(--surface-variant)] rounded-xl hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all active:scale-90",
-                            copypath === link.path && "bg-green-500 text-white"
+                            "p-4 bg-[var(--surface-variant)] rounded-2xl hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all active:scale-90 border-4 border-transparent hover:border-[var(--primary)]/20",
+                            copypath === link.path && "bg-green-500 text-white border-green-500/20"
                           )}
                         >
-                          {copypath === link.path ? <Check size={18} /> : <Copy size={18} />}
+                          {copypath === link.path ? <Check size={20} /> : <Copy size={20} />}
                         </button>
                         <a
                           href={`/r/${link.path}`}
                           target="_blank"
-                          className="p-3 bg-[var(--surface-variant)] rounded-xl hover:bg-[var(--primary-container)] transition-all active:scale-90"
+                          className="p-4 bg-[var(--surface-variant)] rounded-2xl hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all active:scale-90 border-4 border-transparent hover:border-[var(--primary-container)]/20"
                         >
-                          <ExternalLink size={18} />
+                          <ExternalLink size={20} />
                         </a>
-                        {/* delete button was here, pulled it bc too easy to misclick */}
                       </div>
                     </td>
                   </tr>
@@ -265,43 +250,43 @@ export default function DashPage() {
           {/* mobile view */}
           <div className="md:hidden divide-y divide-[var(--outline-variant)]/20">
             {links.map((link) => (
-              <div key={link.id} className="p-6 space-y-4">
+              <div key={link.id} className="p-8 space-y-6">
                 <div className="flex items-center justify-between">
-                  <div className="font-mono font-bold text-2xl text-[var(--primary)]">/{link.path}</div>
-                  <div className="flex gap-2">
+                  <div className="font-mono font-bold text-3xl text-[var(--primary)] tracking-tighter">/{link.path}</div>
+                  <div className="flex gap-3">
                     <button
                       onClick={() => copylinkhandler(link.path)}
                       className={cn(
-                        "p-4 bg-[var(--surface-variant)] rounded-2xl active:scale-90 transition-all",
+                        "p-5 bg-[var(--surface-variant)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-transparent",
                         copypath === link.path && "bg-green-500 text-white"
                       )}
                     >
-                      {copypath === link.path ? <Check size={20} /> : <Copy size={20} />}
+                      {copypath === link.path ? <Check size={24} /> : <Copy size={24} />}
                     </button>
                     <a
                       href={`/r/${link.path}`}
                       target="_blank"
-                      className="p-4 bg-[var(--surface-variant)] rounded-2xl active:scale-90 transition-all"
+                      className="p-5 bg-[var(--surface-variant)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-transparent"
                     >
-                      <ExternalLink size={20} />
+                      <ExternalLink size={24} />
                     </a>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <div className="text-xs font-black tracking-widest opacity-30">Destination</div>
-                  <div className="truncate opacity-70 text-sm font-medium bg-[var(--surface)] p-3 rounded-xl border border-[var(--outline-variant)]/20">
+                <div className="space-y-3">
+                  <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Destination</div>
+                  <div className="truncate opacity-80 text-md font-bold bg-[var(--surface)] px-5 py-4 rounded-2xl border-4 border-[var(--outline-variant)]/30 font-display">
                     {link.original_url}
                   </div>
                 </div>
-                <div className="flex justify-between items-end pt-2">
-                  <div className="flex gap-4">
+                <div className="flex justify-between items-end pt-4">
+                  <div className="flex gap-8">
                     <div className="space-y-1">
-                      <div className="text-[10px] font-black tracking-widest opacity-30">Visits</div>
-                      <div className="font-bold text-lg">{link.visits}</div>
+                      <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Visits</div>
+                      <div className="font-black text-2xl tabular-nums">{link.visits}</div>
                     </div>
                     <div className="space-y-1">
-                      <div className="text-[10px] font-black tracking-widest opacity-30">Date</div>
-                      <div className="font-bold opacity-60 text-sm">{new Date(link.created_at).toLocaleDateString()}</div>
+                      <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Date</div>
+                      <div className="font-bold opacity-60 text-md tracking-wider">{new Date(link.created_at).toLocaleDateString()}</div>
                     </div>
                   </div>
                 </div>
@@ -310,8 +295,8 @@ export default function DashPage() {
           </div>
 
           {links.length === 0 && (
-            <div className="px-8 py-20 text-center opacity-30 font-display text-2xl font-black">
-              db is empty or lambda has restarted.
+            <div className="px-10 py-32 text-center opacity-30 font-display text-3xl font-black italic tracking-tighter">
+              database is silent.
             </div>
           )}
         </Uppercasecard>

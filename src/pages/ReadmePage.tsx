@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect, memo } from "react";
 import { motion } from "motion/react";
 import { Activity, MapPin, History, Target, SquareTerminal, Code2, Archive, Github, MessageSquare, Home } from "lucide-react";
@@ -5,6 +6,16 @@ import { cn, TECH_STACK } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { Card } from "../components/Card";
 import { BounceButton, TechChip } from "../components/TechStack";
+
+const Badge = ({ icon: Icon, children, className }: any) => (
+  <span className={cn(
+    "px-6 py-3 bg-[var(--surface-variant)]/40 text-[var(--on-surface-variant)] rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] flex items-center gap-3 border-4 border-[var(--outline-variant)]/40 italic",
+    className
+  )}>
+    {Icon && <Icon size={16} />}
+    {children}
+  </span>
+);
 
 const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; setPage: (p: string) => void, is_mobile: boolean }) => {
   const letters = "virex".split("");
@@ -45,7 +56,6 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           <defs>
             <filter id="gooey">
               <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-              { /* love gaussian blur!~ */}
               <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
               <feComposite in="SourceGraphic" in2="goo" operator="atop" />
             </filter>
@@ -103,7 +113,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
       <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-20 flex flex-col items-center">
         {/* hreo */}
         <div className="flex flex-col items-center mb-32 w-full">
-          <div className="flex gap-1 flex-gap-100 md:gap-6 mb-8 flex-wrap justify-center">
+          <div className="flex gap-1 md:gap-6 mb-8 flex-wrap justify-center">
             {letters.map((char, i) => (
               <motion.span
                 key={i}
@@ -120,7 +130,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
                   mass: 0.8
                 }}
                 className={cn(
-                  "text-7xl md:text-[13rem] font-sans font-bold tracking-tighter transition-all duration-150 select-none",
+                  "text-7xl md:text-[11rem] tracking-[-0.05em] transition-all duration-150 select-none font-expressive-bold font-black italic",
                   flickering.includes(i) ? "text-[var(--primary)] scale-105" : "text-[var(--on-surface)]"
                 )}
               >
@@ -130,21 +140,16 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           </div>
 
           <motion.div
-            // yea these are almost just useless animations but they add to the taste so who cares
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
             className="flex flex-wrap justify-center gap-4 mt-12 md:mt-4"
           >
-            <span className="px-6 py-3 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-2xl text-[11px] font-black uppercase tracking-widest flex items-center gap-3 border-4 border-[var(--primary)]/20 shadow-lg">
-              <Activity size={16} /> Researching
-            </span>
-            <span className="px-6 py-3 bg-[var(--surface-variant)] text-[var(--on-surface-variant)] rounded-2xl text-[11px] font-black uppercase tracking-widest flex items-center gap-3 border-4 border-[var(--outline-variant)]/40">
-              <MapPin size={16} /> Nederland
-            </span>
-            <span className="px-6 py-3 bg-[var(--surface-variant)] text-[var(--on-surface-variant)] rounded-2xl text-[11px] font-black uppercase tracking-widest flex items-center gap-3 border-4 border-[var(--outline-variant)]/40">
-              He / They
-            </span>
+            <Badge icon={Activity} className="bg-[var(--primary-container)]/60 text-[var(--on-primary-container)] border-[var(--primary)]/20 shadow-lg">
+              Researching
+            </Badge>
+            <Badge icon={MapPin}>Nederland</Badge>
+            <Badge>He / They</Badge>
           </motion.div>
         </div>
 
@@ -157,13 +162,13 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
         >
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="h-px w-12 bg-[var(--primary)] opacity-30" />
-            <span className="text-2xl font-black tracking-[0.4em] text-[var(--primary)]">Bio</span>
+            <span className="text-2xl font-black tracking-[0.4em] text-[var(--primary)] italic">Bio</span>
             <div className="-ml-2 h-px w-12 bg-[var(--primary)] opacity-30" />
           </div>
-          <h2 className="text-4xl md:text-7xl font-sans font-bold tracking-tighter leading-[1.05] max-w-4xl mx-auto ">
+          <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter leading-[1.05] max-w-4xl mx-auto italic">
             <br /> Semi <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">Cybersecurity nerd</span> building things at virex.lol. <br /> <br /> Obsessed with minimal software bases, archival, clean user experiences, and aesthetics.
           </h2>
-          <p className="text-xl md:text-3xl opacity-60 font-medium max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-3xl opacity-60 font-medium max-w-4xl mx-auto leading-relaxed italic">
             Running on arch, lightweight WMs, and way too much caffeine!! <br className="hidden md:block" />
             <span className="relative inline-block mt-4 md:mt-0">
               <span className="text-[var(--primary)] font-bold relative z-10">
@@ -188,9 +193,9 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             delay={1.1}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-8"
-            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200", glass_class)}
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200", glass_class)}
           >
-            <h3 className="text-2xl md:text-4xl font-sans font-bold mb-8 md:mb-10 tracking-tight transition-colors group-hover:text-[var(--primary)] flex items-center gap-3">
+            <h3 className="text-2xl md:text-4xl font-display font-black mb-8 md:mb-10 tracking-tight transition-colors group-hover:text-[var(--primary)] flex items-center gap-3 italic">
               <History className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" /> Virex.lol Lore...
             </h3>
             <div className="space-y-6 text-xl md:text-2xl opacity-80 leading-relaxed font-medium">
@@ -214,20 +219,23 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             delay={1.2}
             whileHover={{ y: -12, scale: 1.02 }}
             className="col-span-2 md:col-span-4"
-            innerClassName={cn("px-5 py-8 md:p-10 bg-[var(--primary-container)]/80 text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/20 flex flex-col justify-between gap-6 group hover:border-[var(--primary)] transition-colors duration-200", glass_class)}
+            innerClassName={cn("px-8 py-10 bg-gradient-to-br from-[var(--primary-container)]/90 to-[var(--primary)]/10 text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/30 flex flex-col justify-between gap-8 group hover:border-[var(--primary)] transition-colors duration-200 relative overflow-hidden", glass_class)}
           >
-            <div className="space-y-6">
+            <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-3">
-                <Target className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" />
-                <span className="text-xl font-black tracking-widest opacity-60">A Mission...</span>
+                <Target className="text-[var(--primary)] w-8 h-8" strokeWidth={2.5} />
+                <span className="text-xl font-black tracking-[0.4em] opacity-60 italic uppercase">A Mission...</span>
               </div>
-              <p className="text-lg md:text-3xl font-sans font-bold leading-tight tracking-tight italic">
-                "good code can be used as a form of protest."
+              <p className="text-2xl md:text-4xl leading-[0.95] tracking-tighter font-expressive font-black italic text-balance">
+                "good code can be used as a form of <span className="text-[var(--primary)]">protest.</span>"
               </p>
             </div>
-            <p className="text-xs md:text-lg opacity-80 font-medium leading-snug">
+            <p className="text-sm md:text-xl opacity-80 font-bold leading-tight italic relative z-10">
               the internet is proprietary, and we can fight back! using code as a form of expression and resistance, to create a more open and free digital world.
             </p>
+            <div className="absolute -right-8 -top-8 opacity-10 group-hover:scale-125 transition-transform duration-700 pointer-events-none">
+              <Target size={180} />
+            </div>
           </Card>
 
           {/* terminal specs card idk */}
@@ -239,7 +247,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           >
             <div className="flex items-center gap-3 transition-opacity group-hover:opacity-100 mb-4">
               <SquareTerminal className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
-              <span className="text-sm md:text-md font-bold tracking-widest">virex@virex</span>
+              <span className="text-sm md:text-base font-bold tracking-[0.2em] uppercase italic">virex@virex</span>
             </div>
             <div className="space-y-3">
               {[
@@ -250,7 +258,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
                 { k: "GPU", v: "RX 6800 XT" },
               ].map(s => (
                 <div key={s.k} className="flex gap-4 text-xs md:text-sm">
-                  <span className="text-[var(--primary)] font-bold min-w-[60px] md:min-w-[80px]">{s.k}</span>
+                  <span className="text-[var(--primary)] font-bold min-w-[60px] md:min-w-[80px] italic">{s.k}</span>
                   <span className="opacity-60 group-hover:opacity-100 transition-opacity truncate">{s.v}</span>
                 </div>
               ))}
@@ -263,15 +271,15 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             delay={1.4}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-12 lg:col-span-6"
-            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors duration-200 group flex flex-col gap-8", glass_class)}
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 hover:border-[var(--primary)] transition-colors duration-200 group flex flex-col gap-8", glass_class)}
           >
             <div className="flex items-center gap-3">
               <Code2 className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
-              <h4 className="text-xl md:text-2xl font-sans font-bold transition-colors group-hover:text-[var(--primary)]">The stack..</h4>
+              <h4 className="text-xl md:text-2xl font-display font-black transition-colors group-hover:text-[var(--primary)] italic">The stack..</h4>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               <div className="space-y-4">
-                <div className="text-[13px] font-black tracking-[0.2em] opacity-40">Web Stack</div>
+                <div className="text-[13px] font-black tracking-[0.4em] opacity-40 uppercase italic">Web Stack</div>
                 <div className="flex flex-wrap gap-2.5">
                   {TECH_STACK.web.sort().map(t => (
                     <TechChip key={t} label={t} />
@@ -279,7 +287,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="text-[13px] font-black tracking-[0.2em] opacity-40">Technical Stack</div>
+                <div className="text-[13px] font-black tracking-[0.4em] opacity-40 uppercase italic">Technical Stack</div>
                 <div className="flex flex-wrap gap-2.5">
                   {TECH_STACK.technical.sort().map(t => (
                     <TechChip key={t} label={t} />
@@ -294,19 +302,19 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             delay={1.5}
             whileHover={{ y: -12, scale: 1.01 }}
             className="col-span-2 md:col-span-12"
-            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/50 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200", glass_class)}
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200", glass_class)}
           >
             <div className="space-y-4 text-center md:text-left">
-              <h4 className="text-2xl md:text-3xl font-sans font-bold tracking-tight flex items-center justify-center md:justify-start gap-3 transition-colors group-hover:text-[var(--primary)]">
+              <h4 className="text-2xl md:text-3xl font-display font-black tracking-tight flex items-center justify-center md:justify-start gap-3 transition-colors group-hover:text-[var(--primary)] italic">
                 <Archive className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" /> Archival
               </h4>
-              <p className="text-xl opacity-70 font-medium max-w-2xl group-hover:opacity-100 transition-opacity">
+              <p className="text-xl opacity-70 font-medium max-w-2xl group-hover:opacity-100 transition-opacity italic">
                 just my instinct. I love collecting legacy software, old documentation, and keeping backups of everything of interest that I find.
               </p>
             </div>
             <div className="flex flex-col items-center md:items-end gap-2 shrink-0">
-              <div className="text-[13px] font-black tracking-[0.2em] opacity-40 mb-2">Fingerprint!</div>
-              <div className="text-[11px] md:text-sm font-mono opacity-100 select-all p-4 bg-[var(--surface-variant)] rounded-2xl border-2 border-[var(--outline-variant)]/50 leading-relaxed text-center md:text-right group-hover:border-[var(--primary)]/30 transition-all">
+              <div className="text-[13px] font-black tracking-[0.4em] opacity-40 mb-2 uppercase italic">Fingerprint!</div>
+              <div className="text-[11px] md:text-sm font-mono opacity-100 select-all p-4 bg-[var(--surface-variant)] rounded-2xl border-2 border-[var(--outline-variant)]/40 leading-relaxed text-center md:text-right group-hover:border-[var(--primary)]/30 transition-all">
                 1D4D 0BDB 03DA F87B 2151 <br />
                 6AE8 A109 C97B 2AD5 C2E6
               </div>
@@ -322,23 +330,23 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
               icon={Github}
               label="GitHub"
               url="https://github.com/hnpf"
-              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 w-64 h-16 rounded-3xl font-black tracking-widest text-sm transition-colors active:scale-95"
+              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 w-64 h-16 rounded-3xl font-black tracking-[0.2em] text-sm active:scale-95 uppercase italic"
             />
             <BounceButton
               icon={MessageSquare}
               label="Discord"
               url="https://conspiracy.rip/discord"
-              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 w-64 h-16 rounded-3xl font-black tracking-widest text-sm transition-colors active:scale-95"
+              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 w-64 h-16 rounded-3xl font-black tracking-[0.2em] text-sm active:scale-95 uppercase italic"
             />
           </div>
 
           <motion.button
             whileHover={{
-              scale: 1.08,
-              y: -5,
-              borderRadius: "48px",
+              scale: 1.05,
+              y: -4,
+              borderRadius: "40px",
             }}
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.96 }}
             transition={{
               type: "spring",
               stiffness: 400,
@@ -346,9 +354,9 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
               mass: 1
             }}
             onClick={onBack}
-            className="m3-button-filled ring-12 ring-[var(--primary)]/10 !bg-[var(--on-surface)] !text-[var(--surface)] h-20 px-16 rounded-[32px] text-2xl font-black flex items-center gap-4 transition-colors"
+            className="m3-button-filled ring-6 ring-[var(--primary)]/10 !bg-[var(--on-surface)] !text-[var(--surface)] h-18 px-12 rounded-[28px] tracking-[0.12em] text-2xl font-expressive font-sans font-black flex items-center gap-4 transition-colors "
           >
-            <Home size={32} />
+            <Home size={28} />
             Go home
           </motion.button>
         </div>

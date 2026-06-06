@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@700&family=Noto+Sans+KR:wght@700&family=Noto+Sans+SC:wght@700&family=Noto+Sans+Arabic:wght@700&family=Noto+Sans+Hebrew:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&family=Bricolage+Grotesque:wght@700;800&family=Unbounded:wght@700;900&family=Noto+Sans+JP:wght@700&family=Noto+Sans+KR:wght@700&family=Noto+Sans+SC:wght@700&family=Noto+Sans+Arabic:wght@700&family=Noto+Sans+Hebrew:wght@700&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -9,6 +9,12 @@
     --font-display:
         "Space Grotesk", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC",
         "Noto Sans Arabic", "Noto Sans Hebrew", sans-serif;
+    --font-expressive:
+        "Bricolage Grotesque", "Unbounded", "Syne", sans-serif;
+    --font-expressive-bold:
+        "Syne", "Space Grotesk", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC",
+        "Noto Sans Arabic", "Noto Sans Hebrew", sans-serif;
+
     --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
     --border-6: 6px;
@@ -257,7 +263,7 @@
     }
 
     .page-title {
-        @apply text-7xl md:text-9xl font-display font-black tracking-tighter leading-none;
+        @apply text-7xl md:text-9xl font-black tracking-tighter leading-none;
     }
 
     /* april fools lol */

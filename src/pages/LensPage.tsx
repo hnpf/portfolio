@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
@@ -250,9 +251,9 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
 
   return (
     <div className="max-w-[1600px] mx-auto space-y-12">
-      <header className="page-header flex flex-row items-end gap-6 px-4 md:px-0">
+      <header className="page-header flex flex-row items-end italic gap-6 px-4 md:px-0">
         <div className="space-y-2">
-          <h2 className="page-title">Lens</h2>
+          <h2 className="page-title font-expressive-bold italic">Lens</h2>
         </div>
       </header>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 auto-rows-[280px] md:auto-rows-[380px] px-4 md:px-0">

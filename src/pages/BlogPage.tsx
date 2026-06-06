@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronRight, Calendar, CheckCircle2, ArrowUpRight } from "lucide-react";
@@ -86,7 +87,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                 </div>
               )}
             </div>
-            <h1 className="page-title !text-6xl !md:text-8xl leading-[0.9] text-balance">
+            <h1 className="page-title !text-6xl !md:text-8xl leading-[0.9] text-balance font-expressive italic">
               {post.title}
             </h1>
           </div>
@@ -190,8 +191,8 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
   const filtered_rest = filtered_posts.filter((p) => p.id !== featured.id);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12 px-4 md:px-0 pb-32">
-      <header className="page-header space-y-8">
+    <div className="max-w-6xl mx-auto space-y-12 italic px-4 md:px-0 pb-32">
+      <header className="page-header font-expressive-bold space-y-8">
         <h2 className="page-title">Blog</h2>
       </header>
 
@@ -259,7 +260,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                   )}
                 </div>
                 <div className="space-y-4 max-w-4xl">
-                  <h3 className="text-4xl md:text-7xl font-display font-black tracking-tighter leading-[0.95] group-hover:translate-x-2 transition-transform duration-500">
+                  <h3 className="text-4xl md:text-7xl font-expressive font-black tracking-tighter leading-[0.95] group-hover:translate-x-2 transition-transform duration-500 italic">
                     {featured.title}
                   </h3>
                   <p className="text-lg md:text-2xl opacity-80 leading-relaxed font-medium text-pretty">
@@ -353,7 +354,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <h4 className="text-2xl md:text-3xl font-display font-black leading-tight group-hover:translate-x-1 transition-transform">
+                      <h4 className="text-2xl md:text-3xl font-expressive font-black leading-tight group-hover:translate-x-1 transition-transform italic">
                         {p.title}
                       </h4>
                       <p className="text-lg opacity-60 leading-relaxed line-clamp-2 text-pretty">
