@@ -292,7 +292,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
               mass: 0.5,
             }}
             onClick={() => setPage("readme")}
-            className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[20px] font-display font-black tracking-[0.15em] h-18 px-12 rounded-[24px] flex items-center gap-3 group uppercase italic"
+            className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[15px] font-expressive font-black tracking-[0.15em] h-18 px-12 rounded-[24px] flex items-center gap-3 group uppercase italic"
           >
             explore more!
             <motion.span
