@@ -1,9 +1,35 @@
 #!/bin/bash
 
-echo "adding all files..."
+# show what changed before doing anything
+echo "--- current changes ---"
+git diff --stat
+echo ""
+
+if [ -z "$(git status --porcelain)" ]; then
+    echo "nothing to commit lol"
+    exit 0
+fi
+
+curr=$(git rev-parse --abbrev-ref HEAD)
 git add .
-read -p "short commit title: " title
-read -p "long description: " desc
-git commit -m "$title" -m "$(printf "$desc")"
-echo "pushing to main..."
-git push origin main
+
+read -p "title: " title
+read -p "desc: " desc
+
+if [ -z "$desc" ]; then
+    git commit -m "$title"
+else
+    git commit -m "$title" -m "$desc"
+fi
+
+echo -e "\n--- ready to push to $curr? ---"
+git log -1 --stat
+echo ""
+
+read -p "confirm push? [y/N]: " confirm
+if [[ "$confirm" =~ ^[Yy]$ ]]; then
+    git push origin "$curr"
+    echo "pushed."
+else
+    echo "aborting push."
+fi

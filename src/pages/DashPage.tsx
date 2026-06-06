@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Copy, Check, ExternalLink, Link as LinkIcon, Plus, Hash, Globe, AlertTriangle } from 'lucide-react';
-import { cn } from './constants';
+import { cn } from '../constants';
 
 const Uppercasecard = ({ children, className, delay = 0 }: any) => {
   const [hasEntered, setHasEntered] = useState(false);

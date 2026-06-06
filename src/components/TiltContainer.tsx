@@ -1,0 +1,95 @@
+import React, { useRef, useEffect, memo } from "react";
+import { motion, useSpring } from "motion/react";
+import { cn } from "../constants";
+
+export const TiltContainer = memo(({ children, className, innerClassName, onClick, settings, whileHover, whileTap, ...props }: any) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const glareRef = useRef<HTMLDivElement>(null);
+  
+  // use springs for much smoother tracking than manual animate calls
+  const springConfig = { stiffness: 150, damping: 25, mass: 0.5 };
+  const rx = useSpring(0, springConfig);
+  const ry = useSpring(0, springConfig);
+
+  useEffect(() => {
+    if (!settings?.bentoTilt) {
+      rx.set(0);
+      ry.set(0);
+    }
+  }, [settings?.bentoTilt, rx, ry]);
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (settings?.disableAnimations || !settings?.bentoTilt || window.innerWidth < 768) return;
+    const rect = wrapperRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    
+    const px = e.clientX - rect.left;
+    const py = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    // sink: tilt away from the cursor
+    const targetX = -((py - centerY) / centerY) * 15;
+    const targetY = ((px - centerX) / centerX) * 15;
+    
+    rx.set(targetX);
+    ry.set(targetY);
+    
+    const glareX = (px / rect.width) * 100;
+    const glareY = (py / rect.height) * 100;
+    const card = cardRef.current;
+    if (card) {
+      card.style.setProperty("--glare-x", `${glareX}%`);
+      card.style.setProperty("--glare-y", `${glareY}%`);
+      card.style.setProperty("--glare-opacity", "1");
+    }
+  };
+  
+  const handleMouseLeave = () => {
+    rx.set(0);
+    ry.set(0);
+    const card = cardRef.current;
+    if (card) card.style.setProperty("--glare-opacity", "0");
+  };
+
+  const useTilt = settings?.bentoTilt && window.innerWidth >= 768;
+  
+  return (
+    <div 
+      ref={wrapperRef}
+      className={cn("h-full group/tilt", className, useTilt && "hover:tilt-active")} // wrapper fills grid/flex area
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      <motion.div
+        ref={cardRef}
+        onClick={onClick}
+        whileHover={settings?.disableAnimations ? undefined : whileHover}
+        whileTap={settings?.disableAnimations ? undefined : whileTap}
+        {...props}
+        className={cn("w-full h-full outline-none", innerClassName, useTilt && "group-hover/tilt:tilt-card")}
+        style={{
+          ...props.style,
+          rotateX: useTilt ? rx : 0,
+          rotateY: useTilt ? ry : 0,
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+        }}
+      >
+        {/* glare layer, only pulled forward slightly */}
+        {settings?.bentoTilt && (
+          <div
+            ref={glareRef}
+            className="pointer-events-none absolute inset-[-1px] transition-opacity duration-300 rounded-[inherit] glare-layer"
+            style={{
+              transform: "translateZ(1px)", 
+              zIndex: 1,
+            }}
+          />
+        )}
+        {children}
+      </motion.div>
+    </div>
+  );
+});

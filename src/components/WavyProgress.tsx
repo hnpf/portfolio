@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
-import { linear, trackOpacity } from "./_wavy";
-import { useTheme } from "./ThemeContext";
+import { linear, trackOpacity } from "../_wavy";
+import { useTheme } from "../ThemeContext";
 
 interface WavyProgressProps {
   width?: number;
