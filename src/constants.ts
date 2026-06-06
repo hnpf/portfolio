@@ -444,7 +444,40 @@ it's literally just people helping people for learning (and overall better code 
   },
 ];
 
-export const CHANGELOGS: ChangelogEntry[] = [
+export const CHANGELOGS: ChangelogEntry[] = [ // 2026.06.05
+  
+  {
+    id: "expressive-consistency-overhaul",
+    version: "2026.06.05",
+    title: "Expressive and Consistency Overhaul Update!",
+    date: "June 05, 2026",
+    changes: [
+      {
+        category: "fonts",
+        items: [
+          "font types: added new font types such as font-expressive, and font-expressive-bold",
+          "site revamp: revamped pages such as the readme, which uses new font types and other sizing changes. home also gets these new changes, and so does every header.",
+          "sidebar/navigation: used new font types on every navigation type.",
+        ],
+      },
+      {
+        category: "other changes",
+        items: [
+          "codebase: separated the codebase into many multiple files, finding and managing code is way cleaner.",
+          "lens: fixed some lag that occured when scrolling on lag. - note, this bug is still happening BUT i managed to trim it down.",
+          "redirects: fixed readme page from showing background hue saturation insanely bright when jumping stright to virex.lol/readme",
+          "favicon: added fallback for crawlers that don't like the dynamic favicon.",
+        ],
+      },
+      {
+        category: "other notes",
+        items: [
+          "one of my most complicated updates yet.",
+          "this was made with much love <3"
+        ],
+      },
+    ],
+  },
   {
     id: "pride-month-update",
     version: "2026.06.01",
