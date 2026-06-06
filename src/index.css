@@ -312,7 +312,26 @@
         @apply relative transition-colors isolate;
         content-visibility: auto;
         contain-intrinsic-size: auto 380px;
-        -webkit-mask-image: -webkit-radial-gradient(white, black);
+    }
+
+    .tilt-active {
+        perspective: 1000px;
+        transform-style: preserve-3d;
+    }
+
+    .tilt-card {
+        transform-style: preserve-3d;
+    }
+
+    .glare-layer {
+        background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+        opacity: var(--glare-opacity, 0);
+    }
+
+    .lens-item img {
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        transform: translateZ(0);
     }
 
     .lens-item::after {

@@ -71,6 +71,7 @@ import "./navigation/navigation-rail.css";
 const TiltContainer = memo(({ children, className, innerClassName, onClick, settings, whileHover, whileTap, ...props }: any) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const glareRef = useRef<HTMLDivElement>(null);
   
   // use springs for much smoother tracking than manual animate calls
   const springConfig = { stiffness: 150, damping: 25, mass: 0.5 };
@@ -107,7 +108,7 @@ const TiltContainer = memo(({ children, className, innerClassName, onClick, sett
     if (card) {
       card.style.setProperty("--glare-x", `${glareX}%`);
       card.style.setProperty("--glare-y", `${glareY}%`);
-      card.style.setProperty("--glare-opacity", "0.15");
+      card.style.setProperty("--glare-opacity", "1");
     }
   };
   
@@ -117,17 +118,15 @@ const TiltContainer = memo(({ children, className, innerClassName, onClick, sett
     const card = cardRef.current;
     if (card) card.style.setProperty("--glare-opacity", "0");
   };
+
+  const useTilt = settings?.bentoTilt && window.innerWidth >= 768;
   
   return (
     <div 
       ref={wrapperRef}
-      className={cn("h-full", className)} // wrapper fills grid/flex area
+      className={cn("h-full group/tilt", className, useTilt && "hover:tilt-active")} // wrapper fills grid/flex area
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{
-        perspective: (settings?.bentoTilt && window.innerWidth >= 768) ? "1000px" : "none",
-        transformStyle: (settings?.bentoTilt && window.innerWidth >= 768) ? "preserve-3d" : "flat"
-      }}
     >
       <motion.div
         ref={cardRef}
@@ -135,12 +134,11 @@ const TiltContainer = memo(({ children, className, innerClassName, onClick, sett
         whileHover={settings?.disableAnimations ? undefined : whileHover}
         whileTap={settings?.disableAnimations ? undefined : whileTap}
         {...props}
-        className={cn("w-full h-full outline-none", innerClassName)}
+        className={cn("w-full h-full outline-none", innerClassName, useTilt && "group-hover/tilt:tilt-card")}
         style={{
           ...props.style,
-          transformStyle: (settings?.bentoTilt && window.innerWidth >= 768) ? "preserve-3d" : "flat",
-          rotateX: (settings?.bentoTilt && window.innerWidth >= 768) ? rx : 0,
-          rotateY: (settings?.bentoTilt && window.innerWidth >= 768) ? ry : 0,
+          rotateX: useTilt ? rx : 0,
+          rotateY: useTilt ? ry : 0,
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden",
         }}
@@ -148,11 +146,9 @@ const TiltContainer = memo(({ children, className, innerClassName, onClick, sett
         {/* glare layer, only pulled forward slightly */}
         {settings?.bentoTilt && (
           <div
-            className="pointer-events-none absolute inset-[-1px] transition-opacity duration-300 rounded-[inherit]"
+            ref={glareRef}
+            className="pointer-events-none absolute inset-[-1px] transition-opacity duration-300 rounded-[inherit] glare-layer"
             style={{
-              background: `radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.2) 0%, transparent 60%)`,
-              opacity: "var(--glare-opacity, 0)",
-              mixBlendMode: "overlay",
               transform: "translateZ(1px)", 
               zIndex: 1,
             }}
@@ -2021,9 +2017,21 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
     <TiltContainer
       settings={settings}
       onClick={onClick}
-      whileHover={{ y: -12, scale: 1.01 }}
+      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
+      viewport={{ margin: "200px", once: true }}
+      whileHover={{
+        y: -12,
+        scale: 1.01,
+      }}
       whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+      transition={{
+        duration: 0.5,
+        delay: i < 6 ? i * 0.05 : 0,
+        ease: [0.22, 1, 0.36, 1],
+        y: { type: "spring", stiffness: 400, damping: 15 },
+        scale: { type: "spring", stiffness: 400, damping: 15 },
+      }}
       className={cn(
         large
           ? "md:col-span-2 md:row-span-2"
@@ -2035,34 +2043,22 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
       )}
       innerClassName="rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden"
     >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-        whileInView={{ opacity: 1, scale: 1, y: 0 }}
-        viewport={{ margin: "100px", once: true }}
-        transition={{
-          duration: 0.5,
-          delay: i < 6 ? i * 0.05 : 0,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="w-full h-full rounded-[inherit] relative overflow-hidden"
-      >
-        <img
-          src={photo.url}
-          alt={photo.description}
-          loading={i < 4 ? "eager" : "lazy"}
-          decoding="async"
-          className={cn(
-            "w-full h-full object-cover transition-transform group-hover:scale-105 rounded-[inherit]",
-            settings.highHz ? "duration-500" : "duration-700",
-          )}
-          referrerPolicy="no-referrer"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8 z-20">
-          <p className="text-white text-lg font-bold leading-tight drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-            {photo.description}
-          </p>
-        </div>
-      </motion.div>
+      <img
+        src={photo.url}
+        alt={photo.description}
+        loading={i < 4 ? "eager" : "lazy"}
+        decoding="async"
+        className={cn(
+          "w-full h-full object-cover transition-transform group-hover:scale-105 rounded-[inherit]",
+          settings.highHz ? "duration-500" : "duration-700",
+        )}
+        referrerPolicy="no-referrer"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8 z-20">
+        <p className="text-white text-lg font-bold leading-tight drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+          {photo.description}
+        </p>
+      </div>
     </TiltContainer>
   );
 });
@@ -2113,7 +2109,8 @@ const LensPage = memo(({ viewport }: { viewport: any }) => {
       [next_idx, prev_idx].forEach(i => {
         const img = new window.Image();
         img.src = LENS_PHOTOS[i].url;
-        console.log("preloading adjacent photo:", i, "-", LENS_PHOTOS[i].description);
+        // force decode to texture in background
+        img.decode().catch(() => {});
       });
     } else {
       document.body.style.overflow = "";
