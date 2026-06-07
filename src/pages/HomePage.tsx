@@ -165,7 +165,7 @@ const YearProg = () => {
     <div className="flex flex-col h-full justify-between relative isolate">
       <div>
         <div className="flex flex-col -space-y-2">
-          <span className="text-7xl md:text-8xl font-expressive-bold italic font-black tracking-[-0.08em] leading-none text-[var(--primary)]">
+          <span className="text-7xl md:text-8xl font-expressive-bold italic font-black tracking-[-0.08em] mb-3 leading-none text-[var(--primary)]">
             {year}
           </span>
           <div className="flex items-baseline gap-1">
@@ -243,13 +243,10 @@ const WeatherWidget = () => {
     <div className="flex flex-col h-full justify-between relative isolate overflow-hidden">
       <div className="absolute -bottom-10 -right-10 opacity-[0.03] pointer-events-none">
         <motion.div
-          animate={{
-            rotate: 360,
-          }}
           transition={{
             duration: 25,
             repeat: Infinity,
-            ease: "linear"
+            ease: "spring"
           }}
         >
           <Activity size={260} />
@@ -326,7 +323,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8">
         <Card
-          delay={0.4}
+          delay={0.7}
           className="md:col-span-2 lg:col-span-1 xl:col-span-2"
           innerClassName="bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[500px] overflow-hidden group"
         >
@@ -377,12 +374,12 @@ export const HomePage = memo(({ setPage, settings }: any) => {
         </Card>
 
         <Card
-          delay={0.5}
-          className=""
-          innerClassName="flex flex-col border-6 border-[var(--outline-variant)] justify-center p-8 md:p-12 min-h-[450px] hover:border-[var(--primary)] transition-all group overflow-hidden relative items-start"
+          delay={0.6}
+          className="flex-1"
+          innerClassName="flex flex-col border-6 border-[var(--outline-variant)] justify-center p-8 md:p-12 min-h-[450px] hover:border-[var(--primary)] group overflow-hidden relative items-start" /*no transitiopn-all cat*/
         >
           <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-            <Activity size={120} className="-rotate-12" />
+            <Activity size={120} className="-rotate-10" />
           </div>
           <div className="relative isolate flex flex-col -space-y-3 md:-space-y-4">
             <span className="text-2xl md:text-3xl font-display font-black italic uppercase tracking-tight opacity-40">I don't</span>
@@ -429,7 +426,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
             >
               <div>
                 <div className="flex justify-between items-start mb-6">
-                  <h4 className="text-4xl font-black font-display leading-tight italic">
+                  <h4 className="text-[40px] font-bold font-black tracking-[0.04em] leading-tight italic">
                     {project.title}
                   </h4>
                   <div className="flex flex-wrap gap-2 justify-end">
@@ -440,7 +437,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
                     ))}
                   </div>
                 </div>
-                <p className="opacity-70 mb-8 text-xl font-medium italic leading-snug">
+                <p className="opacity-70 mt-13 mb-8 text-xl font-medium italic leading-snug">
                   {project.description}
                 </p>
               </div>
