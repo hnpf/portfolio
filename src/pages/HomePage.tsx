@@ -133,10 +133,10 @@ const HelloVirex = () => {
             damping: settings.highHz ? 25 : 22,
             mass: 1,
           }}
-          className="text-9xl md:text-[14rem] font-expressive-bold italic tracking-[-0.08em] leading-[0.7] text-balance flex items-baseline"
+          className="text-9xl md:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.7] text-balance flex items-baseline"
         >
           {words[widx]}
-          <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block ml-[-0.05em]">
+          <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block ml-[0.05em]">
             .
           </motion.span>
         </motion.h1>
@@ -177,12 +177,22 @@ const YearProg = () => {
         </div>
       </div>
 
-      <div className="mt-8 flex items-center justify-between relative z-10 pt-6 border-t-4 border-[var(--outline-variant)]/20">
+      <div className="py-4 pt-7">
+        <WavyProgress
+          percent={pct}
+          className="text-[var(--primary)]"
+          thickness={6}
+          height={16}
+        />
+      </div>
+
+      <div className="mt-4 flex items-center justify-between relative z-10  border-[var(--outline-variant)]/20">
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-display font-black italic">{days_left}</span>
           <span className="text-[15px] ml-1 font-black font-sans italic font-display opacity-30 tracking-widest">days left</span>
         </div>
-        <div className="text-[13px] font-black font-display font-sans opacity-40 tracking-widest">
+        <div className="text-[13px] font-black font-display font-sans opacity-40
+          tracking-widest">
           {now.toLocaleTimeString().toLowerCase()}
         </div>
       </div>
