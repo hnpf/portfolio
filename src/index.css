@@ -338,6 +338,57 @@
         transform: translateZ(0);
     }
 
+    /* M3 Split Button */
+    .m3-split-button-container {
+        display: inline-grid;
+        grid-template-columns: 1fr auto;
+        gap: 2px;
+        --outer-shape: 1.5rem;
+        --inner-shape: 4px;
+        --half-shape: 12px;
+    }
+
+    .m3-split-button-main {
+        @apply flex items-center justify-center px-6 py-2 font-black uppercase tracking-[0.2em] text-[10px] transition-all duration-200 cursor-pointer border-none relative overflow-hidden;
+        height: 2.75rem;
+        border-top-left-radius: var(--outer-shape);
+        border-bottom-left-radius: var(--outer-shape);
+        border-top-right-radius: var(--inner-shape);
+        border-bottom-right-radius: var(--inner-shape);
+    }
+
+    .m3-split-button-main:hover {
+        border-top-right-radius: var(--half-shape);
+        border-bottom-right-radius: var(--half-shape);
+    }
+
+    .m3-split-button-main:active {
+        @apply scale-[0.98];
+    }
+
+    .m3-split-button-menu-toggle {
+        @apply flex items-center justify-center w-11 transition-all duration-200 cursor-pointer border-none relative overflow-hidden;
+        height: 2.75rem;
+        border-top-right-radius: var(--outer-shape);
+        border-bottom-right-radius: var(--outer-shape);
+        border-top-left-radius: var(--inner-shape);
+        border-bottom-left-radius: var(--inner-shape);
+    }
+
+    .m3-split-button-menu-toggle:hover {
+        border-top-left-radius: var(--half-shape);
+        border-bottom-left-radius: var(--half-shape);
+    }
+
+    .m3-split-button-menu-toggle.open {
+        border-top-left-radius: var(--outer-shape);
+        border-bottom-left-radius: var(--outer-shape);
+    }
+
+    .m3-split-button-menu-toggle:active {
+        @apply scale-[0.98];
+    }
+
     /* grain effect - simplified for performance */
     /* removed for performance, was causing massive lag on scroll due to blend mode */
 

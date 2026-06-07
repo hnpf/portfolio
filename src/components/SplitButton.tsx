@@ -1,0 +1,101 @@
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { ChevronDown } from "lucide-react";
+import { cn } from "../constants";
+
+interface SplitButtonProps {
+  variant?: "elevated" | "filled" | "tonal" | "outlined";
+  label: React.ReactNode;
+  onClick?: () => void;
+  menu: React.ReactNode;
+  className?: string;
+  icon?: React.ReactNode;
+}
+
+export const SplitButton: React.FC<SplitButtonProps> = ({
+  variant = "tonal",
+  label,
+  onClick,
+  menu,
+  className,
+  icon,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const variantStyles = {
+    elevated: "bg-[var(--surface-variant)] text-[var(--primary)] shadow-sm hover:shadow-md",
+    filled: "bg-[var(--primary)] text-[var(--on-primary)]",
+    tonal: "bg-[var(--primary-container)] text-[var(--on-primary-container)]",
+    outlined: "bg-transparent border-2 border-[var(--outline-variant)] text-[var(--on-surface-variant)] hover:bg-[var(--surface-variant)]/50",
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className={cn("m3-split-button-container", className)}
+    >
+      <button
+        type="button"
+        onClick={onClick}
+        className={cn("m3-split-button-main", variantStyles[variant])}
+      >
+        {icon && <span className="mr-2">{icon}</span>}
+        {label}
+      </button>
+      <div className="relative">
+        <button
+          type="button"
+          aria-haspopup="true"
+          aria-expanded={isOpen}
+          onClick={() => setIsOpen(!isOpen)}
+          className={cn(
+            "m3-split-button-menu-toggle",
+            variantStyles[variant],
+            isOpen && "open"
+          )}
+        >
+          <ChevronDown
+            size={18}
+            className={cn(
+              "transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+              isOpen && "rotate-180"
+            )}
+          />
+        </button>
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -10 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 25,
+              }}
+              className="absolute right-0 top-full mt-2 min-w-[14rem] bg-[var(--surface-variant)] rounded-[1.5rem] shadow-2xl border-4 border-[var(--outline-variant)] overflow-hidden z-50 p-2"
+            >
+              <div onClick={() => setIsOpen(false)} className="flex flex-col gap-1">
+                {menu}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+};
