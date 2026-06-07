@@ -312,17 +312,15 @@ export default function App() {
                 </motion.div>
                 {!settings.sidebarCollapsed && (
                   <div className="overflow-hidden whitespace-nowrap">
-                    <div className="font-display font-black text-xl md:text-2xl tracking-tighter">virex (美烈久)</div>
-                    <div className="text-[10px] uppercase tracking-[0.3em] opacity-50 font-black">dev/cybersec</div>
+                    <div className="font-display italic font-black text-2xl tracking-tighter uppercase leading-none">virex.</div>
+                    <div className="text-[10px] uppercase tracking-[0.2em] opacity-40 font-black mt-1">independent dev</div>
                   </div>
                 )}
               </div>
               {!settings.sidebarCollapsed && !is_tiny && !is_short && (
-                <div className="flex items-center gap-3 mb-6 px-4">
-                  <div className="w-8 h-8 bg-[var(--surface-variant)]/60 text-[var(--on-surface-variant)]/80 rounded-[32%] flex items-center justify-center shadow-sm">
-                    <Layers size={18} strokeWidth={2.5} />
-                  </div>
-                  <h3 className="text-2xl font-bold italic font-black tracking-[0.11em] text-[var(--on-surface-variant)]">Pages</h3>
+                <div className="flex flex-col mb-6 px-4">
+                  <div className="text-[11.8px] font-expressive uppercase tracking-[0.1em] opacity-30 mb-2">directory</div> 
+                  <h3 className="text-2xl font-display italic font-black tracking-tight text-[var(--on-surface-variant)] uppercase leading-none">Navigation</h3>
                 </div>
               )}
               <div className="flex-1 flex flex-col min-h-0 relative group/nav" onMouseMove={(e) => { const rect = e.currentTarget.getBoundingClientRect(); const y = e.clientY - rect.top; setNavHoverSide(y < rect.height / 2 ? "top" : "bottom"); }} onMouseLeave={() => setNavHoverSide(null)}>

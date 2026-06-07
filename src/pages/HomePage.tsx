@@ -90,14 +90,10 @@ const AdCard = () => {
 
 const HelloVirex = () => {
   const words = [
-    "virex",
     "вирекс",
-    "βίρεξ",
-    "վիրեքս",
-    "וירקס",
-    "ვირექს",
-    "비렉스",
+    "virex",
     "维雷克斯",
+    "비렉스",
     "ڤيركس",
   ];
   const [widx, setWidx] = useState(0);
@@ -111,36 +107,36 @@ const HelloVirex = () => {
   }, [widx, words.length]);
 
   return (
-    <div className="h-[8rem] md:h-[10rem] flex items-center">
+    <div className="h-[12rem] md:h-[14rem] flex items-center">
       <AnimatePresence mode="wait">
         <motion.h1
           key={words[widx]}
           initial={{
             opacity: 0,
-            y: 20,
-            scale: 0.8,
+            y: 40,
+            rotate: -2,
           }}
           animate={{
             opacity: 1,
             y: 0,
-            scale: 1,
+            rotate: 0,
           }}
           exit={{
             opacity: 0,
-            y: -20,
-            scale: 0.8,
+            y: -40,
+            rotate: 2,
           }}
           transition={{
             type: settings.disableAnimations ? "tween" : "spring",
             duration: settings.disableAnimations ? 0 : undefined,
             stiffness: settings.highHz ? 600 : 400,
-            damping: settings.highHz ? 22 : 20,
-            mass: 0.8,
+            damping: settings.highHz ? 25 : 22,
+            mass: 1,
           }}
-          className="text-8xl md:text-[10rem] font-expressive font-black tracking-tighter leading-[0.8] text-balance flex items-baseline italic"
+          className="text-9xl md:text-[14rem] font-expressive-bold italic tracking-[-0.08em] leading-[0.7] text-balance flex items-baseline"
         >
           {words[widx]}
-          <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block">
+          <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block ml-[-0.05em]">
             .
           </motion.span>
         </motion.h1>
@@ -165,41 +161,118 @@ const YearProg = () => {
   const ms_left = end - now.getTime();
   const days_left = Math.floor(ms_left / (1000 * 60 * 60 * 24));
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  return (
+    <div className="flex flex-col h-full justify-between relative isolate">
+      <div>
+        <div className="flex flex-col -space-y-2">
+          <span className="text-7xl md:text-8xl font-expressive-bold italic font-black tracking-[-0.08em] leading-none text-[var(--primary)]">
+            {year}
+          </span>
+          <div className="flex items-baseline gap-1">
+            <span className="text-3xl md:text-5xl font-display font-black italic tracking-tighter">
+              {pct.toFixed(2)}
+            </span>
+            <span className="text-xl font-expressive-bold italic opacity-40">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 flex items-center justify-between relative z-10 pt-6 border-t-4 border-[var(--outline-variant)]/20">
+        <div className="flex items-baseline gap-2">
+          <span className="text-2xl font-display font-black italic">{days_left}</span>
+          <span className="text-[15px] ml-1 font-black font-sans italic font-display opacity-30 tracking-widest">days left</span>
+        </div>
+        <div className="text-[13px] font-black font-display font-sans opacity-40 tracking-widest">
+          {now.toLocaleTimeString().toLowerCase()}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const RoleTicker = ({ settings }: { settings: any }) => {
+  const roles = [
+    "independent software developer",
+    "linux enthusiast",
+    "cybersecurity student"
+  ];
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    const ticker = setInterval(() => {
+      setIdx((prev) => (prev + 1) % roles.length);
+    }, 3000);
+    return () => clearInterval(ticker);
+  }, [roles.length]);
 
   return (
-    <div className="w-full font-sans selection:bg-primary/30">
-      <div className="flex items-end justify-between mb-4">
-        <div className="flex flex-col">
-          <h2 className="text-7xl font-display font-black tracking-tight leading-[0.8] text-[var(--on-primary-container)] italic">
-            {year}
-          </h2>
-        </div>
-        <div className="text-right flex flex-col items-end">
-          <div className="text-4xl font-display font-black tracking-tight tabular-nums text-[var(--on-primary-container)]">
-            {pct.toFixed(2)}
-            <span className="text-2xl ml-0.5 opacity-60">%</span>
-          </div>
-          <span className="text-sm font-black opacity-60 text-[var(--on-primary-container)] uppercase italic tracking-widest">
-            {days_left} days left
+    <div className="h-12 flex items-center overflow-hidden">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={roles[idx]}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 0.8, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 30,
+            mass: 0.8
+          }}
+          className="text-xl md:text-3xl font-display font-black text-[var(--on-surface-variant)] leading-none uppercase tracking-[0.1em]"
+        >
+          {roles[idx]}
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+};
+
+const WeatherWidget = () => {
+  return (
+    <div className="flex flex-col h-full justify-between relative isolate overflow-hidden">
+      <div className="absolute -bottom-10 -right-10 opacity-[0.03] pointer-events-none">
+        <motion.div
+          animate={{
+            rotate: 360,
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        >
+          <Activity size={260} />
+        </motion.div>
+      </div>
+
+      <div className="relative z-10">
+        <div className="flex items-baseline gap-1">
+          <span className="text-8xl md:text-9xl font-expressive-bold italic font-black tracking-[-0.08em] leading-[0.7]">
+            74
           </span>
+          <span className="text-4xl md:text-5xl font-expressive-bold italic opacity-30 ml-1">°</span>
         </div>
       </div>
 
-      <div className="py-6">
-        <WavyProgress
-          percent={pct}
-          className="text-[var(--on-primary-container)]"
-          thickness={isMobile ? 8 : 6}
-          height={isMobile ? 24 : 20}
-        />
+      <div className="mt-6 flex flex-col -space-y-1 relative z-10">
+        <span className="text-4xl md:text-6xl font-expressive-bold italic font-black tracking-[-0.05em] uppercase leading-none text-[var(--primary)]">
+          Partly
+        </span>
+        <span className="text-3xl md:text-5xl font-display font-black italic uppercase tracking-[-0.02em] leading-none opacity-60">
+          Cloudy
+        </span>
       </div>
 
-      <div className="mt-2 flex justify-between text-md font-black opacity-40 tracking-tight italic uppercase tracking-[0.2em]">
-        <span className="font-black text-[17px]">
-          {now.toLocaleTimeString().toLowerCase()}
-        </span>
-        <span>system time</span>
+      <div className="mt-8 flex items-center gap-6 relative z-10 pt-6 border-t-4 border-[var(--outline-variant)]/20">
+        <div className="flex items-baseline gap-1">
+          <span className="text-2xl font-display font-black italic">42</span>
+          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-30 tracking-widest">hum</span>
+        </div>
+        <div className="flex items-baseline gap-1">
+          <span className="text-2xl font-display font-black italic">12</span>
+          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-30 tracking-widest">mph</span>
+        </div>
       </div>
     </div>
   );
@@ -209,7 +282,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
   const IS_JUNE = new Date().getMonth() === 5;
   return (
     <div className="space-y-16 max-w-6xl mx-auto px-4 md:px-0 relative">
-      <header className="page-header space-y-8">
+      <header className="page-header space-y-12">
         {settings.helloAnimation ? (
           <HelloVirex />
         ) : (
@@ -223,192 +296,182 @@ export const HomePage = memo(({ setPage, settings }: any) => {
               y: 0,
             }}
             transition={{ duration: settings.disableAnimations ? 0 : 0.6, ease: [0.33, 1, 0.68, 1] }}
-            className="page-title !text-8xl !md:text-[10rem] leading-[0.8] text-balance flex items-baseline font-expressive italic"
+            className="page-title !text-9xl !md:text-[14rem] leading-[0.7] text-balance flex items-baseline font-expressive-bold italic tracking-[-0.08em]"
           >
-            virex
+            вирекс
             <motion.span 
               animate={IS_JUNE ? { 
                 color: ["#E40303", "#FF8C00", "#FFED00", "#008026", "#24408E", "#732982", "#E40303"] 
               } : {}}
               transition={IS_JUNE ? { duration: 10, repeat: Infinity, ease: "linear" } : {}}
-              className="text-[var(--primary)] select-none relative z-[60] inline-block"
+              className="text-[var(--primary)] select-none relative z-[60] inline-block ml-[-0.05em]"
             >
               .
             </motion.span>
           </motion.h1>
         )}
-      <motion.p
-        initial={settings.disableAnimations ? false : {
-          opacity: 0,
-          y: 20,
-        }}
-        animate={{
-          opacity: 0.8,
-          y: 0,
-        }}
-        transition={{
-          delay: settings.disableAnimations ? 0 : 0.2,
-          duration: settings.disableAnimations ? 0 : 0.6,
-          ease: [0.33, 1, 0.68, 1],
-        }}
-        className="text-2xl md:text-5xl font-display font-black text-[var(--on-surface-variant)] leading-tight max-w-5xl italic tracking-tighter"
-      >
-        <br></br>I am an independent software dev, linux lover, and problem
-        solver.
-      </motion.p>
-      {/* phase 2 button */}
-      <FshBtn />
-    </header>
-    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8">
-      <Card
-        delay={0.4}
-        className="md:col-span-2 lg:col-span-1 xl:col-span-2"
-        innerClassName="bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[400px]"
-      >
-        <h2 className="text-3xl md:text-5xl italic font-black leading-[0.9] font-expressive-bold tracking-tight">
-          "software should be readable and reliable."
-        </h2>
-        <div>
-          <p className="text-xl md:text-3xl opacity-90 font-display font-black italic max-w-2xl mb-10 ">
-            <br></br>I make things that work the way its supposed to.             just do it the efficient way.
+        <RoleTicker settings={settings} />
+        <FshBtn />
+      </header>
 
-          </p>
-          <motion.button
-            whileHover={{
-              scale: 1.02,
-              x: 4,
-              backgroundColor: "var(--primary-container)",
-              color: "var(--on-primary-container)",
-              borderRadius: "40px",
-              boxShadow: "0 20px 40px -10px var(--primary)",
-            }}
-            whileTap={{
-              scale: 0.98,
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 800,
-              damping: 20,
-              mass: 0.5,
-            }}
-            onClick={() => setPage("readme")}
-            className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[20px] font-expressive italic font-black tracking-tight h-18 px-12 rounded-[24px] flex items-center gap-3 group"
-          >
-            explore more!
-            <motion.span
-              variants={{
-                hover: { x: 5 },
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8">
+        <Card
+          delay={0.4}
+          className="md:col-span-2 lg:col-span-1 xl:col-span-2"
+          innerClassName="bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[500px] overflow-hidden group"
+        >
+          <div className="relative isolate">
+            <div className="absolute -top-20 -left-10 text-[20rem] font-expressive-bold italic opacity-10 pointer-events-none select-none tracking-tighter leading-none group-hover:scale-110 transition-transform duration-700">
+              "
+            </div>
+            <div className="flex flex-col gap-4 relative z-10">
+              <h2 className="text-6xl md:text-[7rem] opacity-90 italic font-expressive-bold leading-[0.75] tracking-[-0.08em]">
+                software should <br /> be readable.
+              </h2>
+              <h2 className="text-3xl md:text-6xl italic font-expressive-bold ml-15 leading-none tracking-[-0.05em] mt-8 opacity-40">
+                period.
+              </h2>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row items-end justify-between gap-8 mt-12 relative z-10">
+            <p className="text-xl md:text-2xl opacity-80 font-display font-black italic max-w-xl leading-snug">
+              I make stuff that works the way it's supposed to. simple, efficient, and intentional.
+            </p>
+            <motion.button
+              whileHover={{
+                scale: 1.02,
+                backgroundColor: "var(--primary-container)",
+                color: "var(--on-primary-container)",
+                borderRadius: "40px",
+                boxShadow: "0 20px 40px -10px var(--primary)",
               }}
-              transition={{ type: "spring", stiffness: 1000, damping: 15 }}
+              whileTap={{
+                scale: 0.98,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 800,
+                damping: 20,
+                mass: 0.5,
+              }}
+              onClick={() => setPage("readme")}
+              className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[20px] font-expressive-bold italic font-black tracking-tight h-18 px-12 rounded-[24px] flex items-center gap-3 group shrink-0"
             >
+              explore more!
               <ChevronRight
                 size={28}
                 className="group-hover:translate-x-1 transition-transform"
               />
-            </motion.span>
-          </motion.button>
-        </div>
-      </Card>
-      <Card
-        delay={0.0}
-        className=""
-        innerClassName="flex flex-col border-6 border-[var(--outline-variant)] justify-between hover:border-[var(--primary)] transition-colors p-10 space-y-6"
-      >
-        <div className="space-y-6">
-          <div className="w-16 h-16 bg-[var(--primary-container)] rounded-3xl flex items-center justify-center">
-            <Activity size={32} className="text-[var(--primary)]" />
+            </motion.button>
           </div>
-          <h3 className="text-4xl font-black font-display italic">
-            I don't ship things that I wouldn't use.
-          </h3>
-          <p className="text-xl opacity-60 leading-relaxed font-black italic">
-            done right, or not done at all.
-          </p>
-        </div>
-      </Card>
-      <Card
-        delay={0.6}
-        className=""
-        innerClassName="bg-[var(--primary-container)] text-[var(--on-primary-container)] flex flex-col justify-center p-10 min-h-[300px]"
-      >
-        <YearProg />
-      </Card>
-      <div className="md:col-span-2 lg:col-span-1 xl:col-span-2 mt-8 mb-4 flex items-center gap-6 px-4">
-        <div className="h-[1px] flex-1 bg-[var(--outline-variant)] opacity-30" />
-        <div className="flex flex-col items-center gap-1">
-          <h3 className="text-[16px] font-black tracking-[0.4em] opacity-40 whitespace-nowrap uppercase italic">
-            projects and research
-          </h3>
-          <div className="text-4xl font-black tracking-tighter font-display italic">
-            built or contributed to:
+        </Card>
+
+        <Card
+          delay={0.5}
+          className=""
+          innerClassName="flex flex-col border-6 border-[var(--outline-variant)] justify-center p-8 md:p-12 min-h-[450px] hover:border-[var(--primary)] transition-all group overflow-hidden relative items-start"
+        >
+          <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+            <Activity size={120} className="-rotate-12" />
           </div>
-        </div>
-        <div className="h-[1px] flex-1 bg-[var(--outline-variant)] opacity-30" />
-      </div>
-      <div className="md:col-span-2 lg:col-span-1 xl:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8">
-        <AdCard />
-        {PROJECTS.map((project, i) => (
+          <div className="relative isolate flex flex-col -space-y-3 md:-space-y-4">
+            <span className="text-2xl md:text-3xl font-display font-black italic uppercase tracking-tight opacity-40">I don't</span>
+            <span className="text-6xl md:text-[6.5rem] font-expressive-bold italic font-black tracking-[-0.08em] leading-none uppercase">Ship</span>
+            <span className="text-4xl md:text-5xl font-display font-black italic uppercase tracking-[-0.02em] mt-2">Things</span>
+            <span className="text-xl md:text-2xl font-display font-black italic uppercase tracking-[0.1em] opacity-40 mt-4">I wouldn't</span>
+            <span className="text-6xl md:text-[6.5rem] font-expressive-bold italic font-black tracking-[-0.08em] leading-none uppercase text-[var(--primary)]">Use.</span>
+          </div>
+        </Card>
+
+        <div className="flex flex-col gap-8">
           <Card
-            key={project.id}
-            delay={0.7 + i * 0.1}
-            className=""
-            innerClassName="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-10 min-h-[350px] hover:border-[var(--primary)] transition-colors"
+            delay={0.6}
+            className="flex-1"
+            innerClassName="border-6 border-[var(--outline-variant)]/40 flex flex-col justify-center p-10 min-h-[250px] hover:border-[var(--primary)] transition-colors"
           >
-            <div>
-              <div className="flex justify-between items-start mb-6">
-                <h4 className="text-4xl font-black font-display leading-tight italic">
-                  {project.title}
-                </h4>
-                <div className="flex flex-wrap gap-2 justify-end">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="m3-chip uppercase italic tracking-widest font-black text-[10px]">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <p className="opacity-70 mb-8 text-xl font-medium italic leading-snug">
-                {project.description}
-              </p>
-            </div>
-            {project.link.startsWith("/") ? (
-              <motion.button
-                whileHover={{ x: 5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setPage(project.link.replace("/", ""))}
-                className="inline-flex items-center gap-2 text-[var(--primary)] font-black tracking-widest text-[16px] w-fit group uppercase italic"
-              >
-                View project{" "}
-                <motion.span
-                  initial={{ x: 0 }}
-                  whileHover={{ x: 3 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                >
-                  <ChevronRight size={14} />
-                </motion.span>
-              </motion.button>
-            ) : (
-              <motion.a
-                whileHover={{ x: 5 }}
-                whileTap={{ scale: 0.95 }}
-                href={project.link}
-                target="_blank"
-                className="inline-flex items-center gap-2 text-[var(--primary)] font-black italic tracking-widest text-[17px] group uppercase"
-              >
-                View project{" "}
-                <motion.span
-                  initial={{ x: 0 }}
-                  whileHover={{ x: 3 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                >
-                  <ExternalLink size={17} />
-                </motion.span>
-              </motion.a>
-            )}
+            <YearProg />
           </Card>
-        ))}
-      </div>
-    </section>
-  </div>
+          <Card
+            delay={0.7}
+            className="flex-1"
+            innerClassName="border-6 border-[var(--outline-variant)]/40 p-10 min-h-[200px] hover:border-[var(--primary)] transition-colors"
+          >
+            <WeatherWidget />
+          </Card>
+        </div>
+
+        <div className="md:col-span-2 lg:col-span-1 xl:col-span-2 mt-16 mb-8 flex flex-col items-center gap-2">
+          <div className="text-[15px] font-black font-display font-sans italic tracking-[0.2em] opacity-30">index / select works</div>
+          <h3 className="text-6xl md:text-4xl font-expressive-bold italic font-black tracking-[-0.05em] uppercase text-center">
+            Projects & Research
+          </h3>
+          <div className="h-1 w-24 bg-[var(--primary)] mt-4" />
+        </div>
+
+        <div className="md:col-span-2 lg:col-span-1 xl:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8">
+          <AdCard />
+          {PROJECTS.map((project, i) => (
+            <Card
+              key={project.id}
+              delay={0.7 + i * 0.1}
+              className=""
+              innerClassName="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-10 min-h-[350px] hover:border-[var(--primary)] transition-colors"
+            >
+              <div>
+                <div className="flex justify-between items-start mb-6">
+                  <h4 className="text-4xl font-black font-display leading-tight italic">
+                    {project.title}
+                  </h4>
+                  <div className="flex flex-wrap gap-2 justify-end">
+                    {project.tags.map((tag) => (
+                      <span key={tag} className="m3-chip uppercase italic tracking-widest font-black text-[10px]">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <p className="opacity-70 mb-8 text-xl font-medium italic leading-snug">
+                  {project.description}
+                </p>
+              </div>
+              {project.link.startsWith("/") ? (
+                <motion.button
+                  whileHover={{ x: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setPage(project.link.replace("/", ""))}
+                  className="inline-flex items-center gap-2 text-[var(--primary)] font-black tracking-widest text-[16px] w-fit group uppercase italic"
+                >
+                  View project{" "}
+                  <motion.span
+                    initial={{ x: 0 }}
+                    whileHover={{ x: 3 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                  >
+                    <ChevronRight size={14} />
+                  </motion.span>
+                </motion.button>
+              ) : (
+                <motion.a
+                  whileHover={{ x: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={project.link}
+                  target="_blank"
+                  className="inline-flex items-center gap-2 text-[var(--primary)] font-black italic tracking-widest text-[17px] group uppercase"
+                >
+                  View project{" "}
+                  <motion.span
+                    initial={{ x: 0 }}
+                    whileHover={{ x: 3 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                  >
+                    <ExternalLink size={17} />
+                  </motion.span>
+                </motion.a>
+              )}
+            </Card>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 });

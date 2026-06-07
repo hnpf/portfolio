@@ -230,14 +230,14 @@ export const SideItem = memo(
 
         <motion.span
           animate={{
-            x: isSelected ? 2 : 0,
+            x: isSelected ? 4 : 0,
             opacity: 1,
           }}
           style={{
             color: isSelected ? "var(--on-primary-container)" : "inherit",
           }}
           transition={{ type: "spring" as const, stiffness: 400, damping: 25 }}
-          className="font-expressive italic tracking-[0.1em] text-lg relative z-10 transition-colors duration-200 italic"
+          className="font-display italic tracking-tight text-xl uppercase relative z-10 transition-colors duration-200"
         >
           {text}
         </motion.span>
