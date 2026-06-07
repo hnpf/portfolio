@@ -316,8 +316,6 @@
 
     .lens-item {
         @apply relative transition-colors isolate;
-        content-visibility: auto;
-        contain-intrinsic-size: auto 380px;
     }
 
     .tilt-active {
@@ -338,18 +336,6 @@
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
         transform: translateZ(0);
-    }
-
-    .lens-item::after {
-        content: "";
-        @apply absolute inset-0 border-6 border-[var(--outline-variant)] transition-colors pointer-events-none rounded-[inherit] z-10;
-        /* prevent bleeding */
-        box-shadow: 0 0 0 1px var(--outline-variant);
-    }
-
-    .lens-item:hover::after {
-        @apply border-[var(--primary)];
-        box-shadow: 0 0 0 1px var(--primary);
     }
 
     /* grain effect - simplified for performance */

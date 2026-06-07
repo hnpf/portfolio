@@ -5,7 +5,7 @@ import { cn } from "../constants";
 export const TiltContainer = memo(({ children, className, innerClassName, onClick, settings, whileHover, whileTap, ...props }: any) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const glareRef = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<DOMRect | null>(null);
   
   // use springs for much smoother tracking than manual animate calls
   const springConfig = { stiffness: 150, damping: 25, mass: 0.5 };
@@ -18,10 +18,23 @@ export const TiltContainer = memo(({ children, className, innerClassName, onClic
       ry.set(0);
     }
   }, [settings?.bentoTilt, rx, ry]);
+
+  const handleMouseEnter = () => {
+    if (settings?.disableAnimations || !settings?.bentoTilt || window.innerWidth < 768) return;
+    rectRef.current = wrapperRef.current?.getBoundingClientRect() || null;
+    const card = cardRef.current;
+    if (card) card.style.setProperty("--glare-opacity", "1");
+  };
   
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (settings?.disableAnimations || !settings?.bentoTilt || window.innerWidth < 768) return;
-    const rect = wrapperRef.current?.getBoundingClientRect();
+    
+    // Use cached rect if available, fallback only if necessary
+    let rect = rectRef.current;
+    if (!rect) {
+      rect = wrapperRef.current?.getBoundingClientRect() || null;
+      rectRef.current = rect;
+    }
     if (!rect) return;
     
     const px = e.clientX - rect.left;
@@ -30,8 +43,8 @@ export const TiltContainer = memo(({ children, className, innerClassName, onClic
     const centerY = rect.height / 2;
     
     // sink: tilt away from the cursor
-    const targetX = -((py - centerY) / centerY) * 15;
-    const targetY = ((px - centerX) / centerX) * 15;
+    const targetX = -((py - centerY) / centerY) * 12;
+    const targetY = ((px - centerX) / centerX) * 12;
     
     rx.set(targetX);
     ry.set(targetY);
@@ -42,11 +55,11 @@ export const TiltContainer = memo(({ children, className, innerClassName, onClic
     if (card) {
       card.style.setProperty("--glare-x", `${glareX}%`);
       card.style.setProperty("--glare-y", `${glareY}%`);
-      card.style.setProperty("--glare-opacity", "1");
     }
   };
   
   const handleMouseLeave = () => {
+    rectRef.current = null;
     rx.set(0);
     ry.set(0);
     const card = cardRef.current;
@@ -58,7 +71,8 @@ export const TiltContainer = memo(({ children, className, innerClassName, onClic
   return (
     <div 
       ref={wrapperRef}
-      className={cn("h-full group/tilt", className, useTilt && "hover:tilt-active")} // wrapper fills grid/flex area
+      className={cn("h-full group/tilt", className, useTilt && "hover:tilt-active")} 
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >

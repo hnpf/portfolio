@@ -137,50 +137,56 @@ const LENS_PHOTOS = [
 
 const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
   const portrait = photo.orientation === "portrait";
-  const large = i % 8 === 0 && !portrait;
-  const wide = i % 5 === 2 && !portrait && !large;
+  
+  // dynamic bento logic - more conservative to prevent gaps
+  const isHero = i === 0;
+  const isWorkstation = photo.description.includes("workstation");
+  
+  // Controlled variety for better packing
+  const isLarge = isHero && !portrait; // Only hero is 2x2
+  const isWide = !isLarge && !portrait && (i === 2 || i === 7 || i === 13 || i === 18);
+  const isTall = !isLarge && !isWide && (portrait || isWorkstation || i === 5 || i === 11);
 
   return (
     <TiltContainer
       settings={settings}
-      onClick={onClick}
-      initial={{ opacity: 0, scale: 0.9, y: 20 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ margin: "200px", once: true }}
-      whileHover={{
-        y: -12,
+      onClick={() => onClick(i)}
+      initial={settings.disableAnimations ? false : { opacity: 0, y: 10 }}
+      whileInView={settings.disableAnimations ? false : { opacity: 1, y: 0 }}
+      viewport={{ margin: "100px", once: true }}
+      whileHover={settings.disableAnimations ? undefined : {
+        y: -8,
         scale: 1.01,
       }}
-      whileTap={{ scale: 0.98 }}
+      whileTap={settings.disableAnimations ? undefined : { scale: 0.98 }}
       transition={{
-        duration: 0.5,
-        delay: i < 6 ? i * 0.05 : 0,
+        duration: 0.4,
         ease: [0.22, 1, 0.36, 1],
-        y: { type: "spring", stiffness: 400, damping: 15 },
-        scale: { type: "spring", stiffness: 400, damping: 15 },
       }}
       className={cn(
-        large
+        isLarge
           ? "md:col-span-2 md:row-span-2"
-          : wide
+          : isWide
             ? "md:col-span-2"
-            : portrait
+            : isTall
               ? "md:row-span-2"
               : "",
       )}
-      innerClassName="rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden"
+      innerClassName="rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden border-6 border-[var(--outline-variant)] hover:border-[var(--primary)] transition-colors duration-300"
     >
-      <img
-        src={photo.url}
-        alt={photo.description}
-        loading={i < 4 ? "eager" : "lazy"}
-        decoding="async"
-        className={cn(
-          "w-full h-full object-cover transition-transform group-hover:scale-105 rounded-[inherit]",
-          settings.highHz ? "duration-500" : "duration-700",
-        )}
-        referrerPolicy="no-referrer"
-      />
+      <div className="absolute inset-0 rounded-[1.8rem] overflow-hidden m-0.5">
+        <img
+          src={photo.url}
+          alt={photo.description}
+          loading={i < 2 ? "eager" : "lazy"}
+          decoding="async"
+          className={cn(
+            "w-full h-full object-cover transition-transform group-hover:scale-105",
+            settings.highHz ? "duration-500" : "duration-700",
+          )}
+          referrerPolicy="no-referrer"
+        />
+      </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8 z-20">
         <p className="text-white text-lg font-bold leading-tight drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
           {photo.description}
@@ -194,15 +200,19 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
   const [idx, setIdx] = useState<number | null>(null);
   const { settings } = useTheme();
 
-  const next = (e?: any) => {
+  const handlePhotoClick = React.useCallback((i: number) => {
+    setIdx(i);
+  }, []);
+
+  const next = React.useCallback((e?: any) => {
     e?.stopPropagation();
-    if (idx !== null) setIdx((idx + 1) % LENS_PHOTOS.length);
-  };
-  const prev = (e?: any) => {
+    setIdx((prev) => (prev !== null ? (prev + 1) % LENS_PHOTOS.length : null));
+  }, []);
+
+  const prev = React.useCallback((e?: any) => {
     e?.stopPropagation();
-    if (idx !== null)
-      setIdx((idx - 1 + LENS_PHOTOS.length) % LENS_PHOTOS.length);
-  };
+    setIdx((prev) => (prev !== null ? (prev - 1 + LENS_PHOTOS.length) % LENS_PHOTOS.length : null));
+  }, []);
 
   useEffect(() => {
     if (idx !== null) {
@@ -230,14 +240,12 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
 
     if (idx !== null) {
       document.body.style.overflow = "hidden"; // lol bye loser
-      // preload next and prev images
+      // preload next and prev images sparingly
       const next_idx = (idx + 1) % LENS_PHOTOS.length;
       const prev_idx = (idx - 1 + LENS_PHOTOS.length) % LENS_PHOTOS.length;
       [next_idx, prev_idx].forEach(i => {
         const img = new window.Image();
         img.src = LENS_PHOTOS[i].url;
-        // force decode to texture in background
-        img.decode().catch(() => {});
       });
     } else {
       document.body.style.overflow = "";
@@ -247,7 +255,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
       window.removeEventListener("keydown", on_key);
       document.body.style.overflow = "";
     };
-  }, [idx]);
+  }, [idx, next, prev]);
 
   return (
     <div className="max-w-[1600px] mx-auto space-y-12">
@@ -256,14 +264,14 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
           <h2 className="page-title font-expressive-bold italic">Lens</h2>
         </div>
       </header>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 auto-rows-[280px] md:auto-rows-[380px] px-4 md:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 auto-rows-[280px] md:auto-rows-[380px] px-4 md:px-0 grid-flow-dense">
         {LENS_PHOTOS.map((photo, i) => (
           <PhotoItem
             key={photo.id}
             photo={photo}
             i={i}
             settings={settings}
-            onClick={() => setIdx(i)}
+            onClick={handlePhotoClick}
           />
         ))}
       </div>
