@@ -22,6 +22,9 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 - [May 25, 2026]     moved to cloudflare - bye vercel!
 
 **recent changes**
+
+- [June 6, 2026]     expressive typography overhaul V2!
+- [June 5, 2026]     expressive typography overhaul!
 - [June 1, 2026]     pride month update
 
 - [May 27, 2026]     better haptics, fade switches icon, hide hover indicator on mobile.
@@ -29,7 +32,7 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 - [May 26, 2026]     fix blur on mobile /readme, fix blog text on light mode, and much more.
 - [May 26, 2026]     update rss, llm content, and sitemap.
 
-> last updated:June 1, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
+> last updated:June 6, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
 ---
 
 ## screenshots
