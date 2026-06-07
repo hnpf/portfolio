@@ -133,7 +133,7 @@ const HelloVirex = () => {
             damping: settings.highHz ? 25 : 22,
             mass: 1,
           }}
-          className="text-9xl md:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.7] text-balance flex items-baseline"
+          className="text-7xl md:text-9xl lg:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.7] text-balance flex items-baseline"
         >
           {words[widx]}
           <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block ml-[0.05em]">
@@ -409,7 +409,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
 
         <div className="md:col-span-2 lg:col-span-1 xl:col-span-2 mt-16 mb-8 flex flex-col items-center gap-2">
           <div className="text-[15px] font-black font-display font-sans italic tracking-[0.2em] opacity-30">index / select works</div>
-          <h3 className="text-6xl md:text-4xl font-expressive-bold italic font-black tracking-[-0.05em] uppercase text-center">
+          <h3 className="text-4xl md:text-6xl font-expressive-bold italic font-black tracking-[-0.05em] uppercase text-center">
             Projects & Research
           </h3>
           <div className="h-1 w-24 bg-[var(--primary)] mt-4" />
