@@ -197,32 +197,30 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
         <h2 className="page-title">Blog</h2>
       </header>
 
-      <div className="flex flex-wrap gap-4 mb-12">
-        {cats.map((cat) => {
-          const is_active = cat === "All" ? !active_cat : active_cat === cat;
-          return (
-            <motion.button
-              key={cat}
-              whileHover={{ scale: 1.05, y: -2, rotate: 1 }}
-              whileTap={{ scale: 0.95, rotate: -1 }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 25,
-                mass: 0.5,
-              }}
-              onClick={() => setActiveCat(cat === "All" ? null : cat)}
-              className={cn(
-                "px-8 py-3 text-[11px] font-black uppercase tracking-[0.2em] border-4 shadow-sm",
-                is_active
-                  ? "bg-[var(--primary)] text-[var(--on-primary)] border-[var(--primary)]/30 rounded-full shadow-lg"
-                  : "bg-[var(--surface-variant)] text-[var(--on-surface-variant)] border-[var(--outline-variant)]/40 rounded-[1.5rem] opacity-60 hover:opacity-100",
-              )}
-            >
-              {cat}
-            </motion.button>
-          );
-        })}
+      <div className="mb-12">
+        <SplitButton
+          variant="tonal"
+          icon={<Filter size={16} />}
+          label={active_cat ? `Topic: ${active_cat}` : "All Topics"}
+          onClick={() => setActiveCat(null)}
+          menu={cats.map((cat) => {
+            const is_active = cat === "All" ? !active_cat : active_cat === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCat(cat === "All" ? null : cat)}
+                className={cn(
+                  "w-full text-left px-5 py-3 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all duration-200",
+                  is_active
+                    ? "bg-[var(--primary)] text-[var(--on-primary)] shadow-md"
+                    : "hover:bg-[var(--primary-container)] text-[var(--on-surface-variant)]"
+                )}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        />
       </div>
 
       <AnimatePresence mode="wait">
