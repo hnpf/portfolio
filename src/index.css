@@ -349,7 +349,7 @@
     }
 
     .m3-split-button-main {
-        @apply flex items-center justify-center px-6 py-2 font-black uppercase tracking-[0.2em] text-[10px] transition-all duration-200 cursor-pointer border-none relative overflow-hidden;
+        @apply flex items-center justify-center px-6 py-2 font-expressive-bold font-display tracking-[0.1em] text-[13px] transition-all duration-200 cursor-pointer border-none relative overflow-hidden;
         height: 2.75rem;
         border-top-left-radius: var(--outer-shape);
         border-bottom-left-radius: var(--outer-shape);

@@ -183,7 +183,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
   }
 
   const featured = BLOG_POSTS[0];
-  const cats = ["All", ...Array.from(new Set(BLOG_POSTS.map((p) => p.category)))];
+  const categories = Array.from(new Set(BLOG_POSTS.map((p) => p.category)));
   const filtered_posts = BLOG_POSTS.filter(
     (p) => !active_cat || p.category === active_cat,
   );
@@ -192,34 +192,45 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
   const filtered_rest = filtered_posts.filter((p) => p.id !== featured.id);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12 italic px-4 md:px-0 pb-32">
+    <div className="max-w-6xl mx-auto space-y-12 px-4 md:px-0 pb-32">
       <header className="page-header font-expressive-bold space-y-8">
         <h2 className="page-title">Blog</h2>
       </header>
 
-      <div className="mb-12">
-        <SplitButton
-          variant="tonal"
-          icon={<Filter size={16} />}
-          label={active_cat ? `Topic: ${active_cat}` : "All Topics"}
+      <div className="flex flex-wrap items-center gap-4 mb-12">
+        <motion.button
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => setActiveCat(null)}
-          menu={cats.map((cat) => {
-            const is_active = cat === "All" ? !active_cat : active_cat === cat;
-            return (
-              <button
-                key={cat}
-                onClick={() => setActiveCat(cat === "All" ? null : cat)}
-                className={cn(
-                  "w-full text-left px-5 py-3 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all duration-200",
-                  is_active
-                    ? "bg-[var(--primary)] text-[var(--on-primary)] shadow-md"
-                    : "hover:bg-[var(--primary-container)] text-[var(--on-surface-variant)]"
-                )}
-              >
-                {cat}
-              </button>
-            );
-          })}
+          className={cn(
+            "h-11 px-8 text-[13px] font-expressive font-black tracking-[0.3em] border-4 shadow-sm transition-none duration-200 block pt-0.5",
+            !active_cat
+              ? "bg-[var(--primary)]  italic text-[var(--on-primary)] border-[var(--primary)]/30 rounded-full shadow-lg"
+              : "bg-[var(--surface-variant)] italic text-[var(--on-surface-variant)] border-[var(--outline-variant)]/40 rounded-[1.5rem] opacity-60 hover:opacity-100",
+          )}
+        >
+          All
+        </motion.button>
+
+        <SplitButton
+          variant={active_cat ? "filled" : "tonal"}
+          icon={<Filter size={16} />}
+          label={<span className="block pt-0.5">{active_cat ? `Topic: ${active_cat}` : "Browse Topics"}</span>}
+          onClick={() => {}}
+          menu={categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCat(cat)}
+              className={cn(
+                "w-full text-left px-5 py-3 text-[13px] font-black tracking-[0.03em] rounded-xl transition-all duration-200",
+                active_cat === cat
+                  ? "bg-[var(--primary)] text-[var(--on-primary)] shadow-md"
+                  : "hover:bg-[var(--primary-container)] text-[var(--on-surface-variant)]"
+              )}
+            >
+              {cat}
+            </button>
+          ))}
         />
       </div>
 
