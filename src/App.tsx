@@ -250,7 +250,7 @@ export default function App() {
           </div>
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
-              <Cpu size={10} /><span>v2.5.0-stable (v2026.06.05)</span>
+              <Cpu size={10} /><span>v2.5.6-stable (v2026.06.06)</span>
             </div>
           </div>
         </div>
@@ -305,7 +305,7 @@ export default function App() {
               <div className={cn("flex items-center isolate", settings.sidebarCollapsed ? cn("justify-center px-0", is_short ? "mb-4 py-4" : "mb-10 py-10") : show_pfp_container ? cn("bg-[var(--surface-variant)]/20 ring-6 ring-[var(--outline-variant)]/30 rounded-[2.5rem] px-4 mx-2 gap-4", is_short ? "mb-4 py-3" : "mb-10 py-6") : cn("px-4 mx-2 gap-4", is_short ? "mb-4 py-1" : "mb-8 py-2"))}>
                 <motion.div whileHover={{ scale: 1.1, rotate: -2, y: -2 }} whileTap={{ scale: 0.92, rotate: 5 }} animate={{ rotate: do_wiggle ? [0, -10, 10, -10, 10, 0] : 0 }} transition={{ type: "spring", stiffness: 400, damping: 22, mass: 0.6 }} onClick={() => goto("readme")} className={cn("flex items-center justify-center shrink-0 relative group/pfp cursor-pointer isolate", show_pfp_container ? "w-24 h-24 rounded-[40px] shadow-xl" : cn("w-24 h-24 rounded-[40px] shadow-none", !settings.sidebarCollapsed && "-ml-5"), settings.sidebarCollapsed && "w-16 h-16 rounded-[24px]")}>
                   <div className="absolute inset-0 rounded-[inherit] overflow-hidden">
-                    <div className={cn("absolute inset-0 z-20 rounded-[inherit] ring-inset overflow-hidden transition-colors duration-250 pointer-events-none", show_pfp_container ? "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]" : "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]", settings.sidebarCollapsed && "ring-")} />
+                    <div className={cn("absolute inset-0 z-20 rounded-[inherit] ring-inset overflow-hidden transition-colors duration-250 pointer-events-none", show_pfp_container ? "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]" : "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]", settings.sidebarCollapsed && "ring-6")} />
                     <div className="absolute inset-0 bg-[var(--surface-variant)]/50 -z-10" />
                     <img src="/photography/pfp/main.png" alt="virex" className="w-full h-full object-cover rounded-[inherit] group-hover/pfp:scale-105 backface-hidden transform-3d transition-transform duration-250 group-hover/pfp:scale-105" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; const svg = document.createElement("img"); svg.src = "/2.svg"; svg.className = "w-10 h-10 p-1 transition-transform group-hover/pfp:scale-110"; svg.style.color = "var(--on-primary)"; (e.target as HTMLImageElement).parentElement!.appendChild(svg); }} referrerPolicy="no-referrer" />
                   </div>
@@ -348,8 +348,11 @@ export default function App() {
                 </AnimatePresence>
               </div>
               <div className={cn("mt-auto flex flex-col pt-4", settings.sidebarCollapsed ? cn("items-center gap-6", is_short ? "pb-4" : "pb-10") : cn("px-2 gap-4", is_short ? "pb-2" : "pb-4"))} data-rail-state={settings.sidebarCollapsed ? "default" : "open"}>
-                <div className="mx-1 mb-2 h-px border-3 border-[var(--outline-variant)] rounded-md bg-[var(--outline-variant)]" />
+                {!settings.sidebarCollapsed && (
+                <div className="mx-1 mb-2 h-px border-3 border-[var(--outline-variant)] rounded-md bg-[var(--outline-variant)]" />)}
+                
                 <div className={cn("flex flex-col", settings.sidebarCollapsed ? "w-full items-center gap-6" : "gap-4")}>
+                  
                   <SideItem highHz={settings.highHz} glyph={SettingsIcon} text="Settings" onSelect={() => setSettingsOpen(true)} isMini={settings.sidebarCollapsed} isShort={is_short} isFirst isFloating={settings.floatingSidebar} layoutId="settings-expansion" />
                   {!settings.sidebarCollapsed && (
                     <div className="grid grid-cols-2 gap-4 w-full">
@@ -358,7 +361,7 @@ export default function App() {
                     </div>
                   )}
                   <div className={cn("w-full flex justify-center", settings.sidebarCollapsed && "px-0")}>
-                    <motion.button layout whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => updateSettings({ sidebarCollapsed: !settings.sidebarCollapsed })} className={cn("flex items-center justify-center ring-6 ring-[var(--outline-variant)]/30 outline-none cursor-pointer transition-all duration-300", settings.sidebarCollapsed ? "w-14 h-14 rounded-[18px] bg-[var(--surface-variant)] text-[var(--on-surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)]" : "w-full py-4 rounded-t-[15px] rounded-b-[28px] bg-[var(--surface-variant)]/30 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")} transition={springConfig}>
+                    <motion.button layout whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => updateSettings({ sidebarCollapsed: !settings.sidebarCollapsed })} className={cn("flex items-center justify-center ring-6 ring-[var(--outline-variant)]/80 outline-none cursor-pointer transition-all duration-300", settings.sidebarCollapsed ? "w-14 h-14 rounded-[18px] bg-[var(--surface-variant)] text-[var(--on-surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)]" : "w-full py-4 rounded-t-[15px] rounded-b-[28px] bg-[var(--surface-variant)]/30 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")} transition={springConfig}>
                       {settings.sidebarCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
                     </motion.button>
                   </div>
@@ -413,7 +416,7 @@ export default function App() {
           <div>PAGE: {page.toUpperCase()}</div>
           <div>THEME: {settings.mode.toUpperCase()}</div>
           <div>ANIM: {settings.disableAnimations ? "OFF" : "ON"}</div>
-          <div className="pt-2 opacity-40">v2026.06.05-stable</div>
+          <div className="pt-2 opacity-40">v2026.06.06-stable</div>
         </div>
       )}
     </div>

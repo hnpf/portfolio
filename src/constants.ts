@@ -445,7 +445,41 @@ it's literally just people helping people for learning (and overall better code 
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [ // 2026.06.05
-  
+  {
+    id: "qol-update",
+    version: "2026.06.06",
+    title: "Quality of Life and Consistency Update",
+    date: "June 06, 2026",
+    changes: [
+      {
+        category: "Lens Changes",
+        items: [
+          "Lag: Resolved some issues with hover lag, i'm still trying to pinpoint the issue.",
+          "Bento changes: Fixed gaps in bento, looks a LOT cleaner.",
+        ],
+      },
+      {
+        category: "Typography changes!",
+        items: [
+          "different sizes, types, defaults, too much to really mention",
+          "Commit 3cb65c1, for more info",
+        ],
+      },
+      {
+        category: "widgets",
+        items: [
+          "new widget: a new, minimal, material expressive weather widget!",
+          "overhauled widgets: completely recoded the \"software should be readable...\", \"yearprog\", and \"I don't ship things i wouldnt use...\" widgets to match the new weather widget!",
+        ],
+      },
+      {
+        category: "sidebar consistency v2",
+        items: [
+          "added a thicker bottom border, overhauled page typeface, profile card fonts, and redid the \"pages\" header.",
+        ],
+      },
+    ],
+  },
   {
     id: "expressive-consistency-overhaul",
     version: "2026.06.05",
