@@ -1,13 +1,14 @@
 // @ts-nocheck
 import React, { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronLeft, ChevronRight, Calendar, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Calendar, CheckCircle2, ArrowUpRight, Filter } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { cn, BLOG_POSTS } from "../constants";
 import CopyLinkCapsule from "../components/CopyLinkCapsule";
 import { Card } from "../components/Card";
 import { Code } from "../components/Code";
+import { SplitButton } from "../components/SplitButton";
 
 export const BlogPage = memo(({ targetId, navigateTo }: any) => {
   const [active_cat, setActiveCat] = useState<string | null>(null);
