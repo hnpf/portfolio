@@ -161,7 +161,7 @@ it compiles via vite, verifies the build outputs, maps the custom apex domain re
 and the setup is incredibly fast, completely non-proprietary, and managed entirely within my terminal. look at it load.. oh wait, its too fast! :3
   `,
   date: 'May 25, 2026',
-  category: 'cybersecurity & dev',
+  category: 'cybersec',
   readTime: '3 min read',
   link: 'leaving-vercel'
 },
@@ -190,7 +190,7 @@ and the setup is incredibly fast, completely non-proprietary, and managed entire
    Anyone can start small. Get a cheap drive, back up your configs! You don't have to trust the backup options on your proprietary apps. Your data shouldn't constantly be scanned by AI. Why not protect it?
        `,
        date: 'May 24, 2026',
-       category: 'Research',
+       category: 'research',
        readTime: '3 min read',
        link: 'data-sovereignty'
    },
@@ -312,7 +312,7 @@ check the source on my github (hnpf) or install it via aur!
 ( yay -S sysdupd / yay -S sysdupd-git )
     `,
     date: "Jan 16, 2026",
-    category: "Dev",
+    category: "dev",
     readTime: "3 min read",
     link: "sysdupd",
   },
@@ -360,7 +360,7 @@ people call me crazy until it actually comes useful and you lose stuff forever. 
 * i keep games, movies, music, tools, and old software because once they're gone from the main web, they're gone forever!
     `,
     date: "Jan 14, 2026",
-    category: "Research",
+    category: "research",
     readTime: "3 min read",
     link: "cloud-is-someone-elses-computer",
   },
@@ -379,7 +379,7 @@ honestly if i were to see one more person say "i use arch btw" as a joke i might
 * **the wiki:** literally the holy grail of 'perfect' documentation. if it’s not in the wiki, it probably doesnt even exist.
     `,
     date: "Jan 14, 2026",
-    category: "Research",
+    category: "research",
     readTime: "2 min read",
     link: "why-i-actually-use-arch",
   },
@@ -417,7 +417,7 @@ the DOJ literally just dropped a bunch of documents that are so redacted they lo
 apparently, they missed the deadline set by the transparency act and are now doing "rolling releases" or.. batches, which is just code for "we're still redacting."
     `,
     date: "Dec 21, 2025",
-    category: "Research",
+    category: "research",
     readTime: "3 min read",
     link: "epstein-files-is-a-joke",
   },
@@ -438,7 +438,7 @@ it's literally just people helping people for learning (and overall better code 
 * community feedback makes everything 10x more secure and efficient.
     `,
     date: "Nov 12, 2025",
-    category: "Dev",
+    category: "dev",
     readTime: "1 min read",
     link: "why-love-open-source",
   },
@@ -1103,7 +1103,7 @@ export const TRACKER_ITEMS: TrackerItem[] = [
   {
     id: "systems-automation",
     title: "automation",
-    category: "Dev",
+    category: "dev",
     tips: ["if you must do it twice, script it", "minimalism is a feature."],
     tools: ["Rust", "Vim", "Linux", "GNOME"],
   },
