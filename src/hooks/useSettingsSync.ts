@@ -4,7 +4,7 @@ import { useTheme } from '../ThemeContext';
 export const useSettingsSync = (setToast: (msg: string | null) => void) => {
   const { settings, updateSettings } = useTheme();
 
-  // Parse sharing capsule from URL search params on startup
+  // parse link from URL params on startup
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const capsule = params.get("theme") || params.get("capsule");
@@ -28,12 +28,12 @@ export const useSettingsSync = (setToast: (msg: string | null) => void) => {
         }
         
         updateSettings(validatedSettings);
-        setToast("Theme loaded from Sharing Capsule! ✨");
+        setToast("theme successfully loaded from link!");
         
         const cleanUrl = window.location.pathname;
         window.history.replaceState({}, document.title, cleanUrl);
       } catch (e) {
-        console.error("oh shit, capsule decoding failed! probably corrupted.", e);
+        console.error("capsule decoding failed, invalid link?", e);
       }
     }
   }, [updateSettings, setToast]);
