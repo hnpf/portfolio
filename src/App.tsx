@@ -46,6 +46,7 @@ import NotFound from "./pages/NotFound";
 import { SideItem, BotNav } from "./components/Navigation";
 import { SettingsDialog } from "./components/SettingsDialog";
 import { DebugConfirmDialog } from "./components/DebugConfirmDialog";
+import { CapsuleConfirmDialog } from "./components/CapsuleConfirmDialog";
 import { CursedPopup } from "./components/CursedPopup";
 import { BounceButton } from "./components/TechStack";
 
@@ -59,6 +60,7 @@ export default function App() {
   const [toast, setToast] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [showDebugConfirm, setShowDebugConfirm] = useState(false);
+  const [pendingCapsule, setPendingCapsule] = useState<any>(null);
   const [do_wiggle, setDoWiggle] = useState(false);
   const [show_top, setShowTop] = useState(false);
   const [scrolled, set_scrolled] = useState(false);
@@ -68,7 +70,7 @@ export default function App() {
   const [canScrollDown, setCanScrollDown] = useState(false);
 
   // modular logic hooks
-  useSettingsSync(setToast);
+  useSettingsSync(setPendingCapsule);
 
   const [page, setPage] = useState(() => {
     const loc = window.location.pathname;
@@ -127,9 +129,9 @@ export default function App() {
   }, [viewport.h, page, settings.sidebarCollapsed]);
 
   useEffect(() => {
-    document.body.style.overflow = (settingsOpen || showDebugConfirm) ? "hidden" : "";
+    document.body.style.overflow = (settingsOpen || showDebugConfirm || pendingCapsule) ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [settingsOpen, showDebugConfirm]);
+  }, [settingsOpen, showDebugConfirm, pendingCapsule]);
 
   useEffect(() => {
     const sync_url = () => {
@@ -409,6 +411,7 @@ export default function App() {
 
       <SettingsDialog settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} settings={settings} updateSettings={updateSettings} setShowDebugConfirm={setShowDebugConfirm} setToast={setToast} goto={goto} />
       <DebugConfirmDialog showDebugConfirm={showDebugConfirm} setShowDebugConfirm={setShowDebugConfirm} updateSettings={updateSettings} />
+      <CapsuleConfirmDialog pendingCapsule={pendingCapsule} setPendingCapsule={setPendingCapsule} updateSettings={updateSettings} setToast={setToast} />
       {settings.debugMode && (
         <div className="fixed top-4 right-4 z-[150] p-4 bg-black/80 text-white font-mono text-[10px] rounded-2xl backdrop-blur-xl border border-white/10 pointer-events-none space-y-1">
           <div className="text-[var(--primary)] font-bold mb-2 flex items-center gap-2"><Cpu size={12} />BUILD INFO</div>

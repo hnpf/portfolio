@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useTheme } from '../ThemeContext';
 
-export const useSettingsSync = (setToast: (msg: string | null) => void) => {
-  const { settings, updateSettings } = useTheme();
+export const useSettingsSync = (onCapsuleDetected: (settings: any) => void) => {
+  const { settings } = useTheme();
 
   // parse link from URL params on startup
   useEffect(() => {
@@ -27,8 +27,7 @@ export const useSettingsSync = (setToast: (msg: string | null) => void) => {
           }
         }
         
-        updateSettings(validatedSettings);
-        setToast("theme successfully loaded from link!");
+        onCapsuleDetected(validatedSettings);
         
         const cleanUrl = window.location.pathname;
         window.history.replaceState({}, document.title, cleanUrl);
@@ -36,5 +35,5 @@ export const useSettingsSync = (setToast: (msg: string | null) => void) => {
         console.error("capsule decoding failed, invalid link?", e);
       }
     }
-  }, [updateSettings, setToast]);
+  }, [onCapsuleDetected]);
 };
