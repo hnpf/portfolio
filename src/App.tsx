@@ -409,7 +409,16 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <SettingsDialog settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} settings={settings} updateSettings={updateSettings} setShowDebugConfirm={setShowDebugConfirm} setToast={setToast} goto={goto} />
+      <SettingsDialog 
+        settingsOpen={settingsOpen} 
+        setSettingsOpen={setSettingsOpen} 
+        settings={settings} 
+        updateSettings={updateSettings} 
+        setShowDebugConfirm={setShowDebugConfirm} 
+        setToast={setToast} 
+        goto={goto} 
+        is_mobile={is_mobile}
+      />
       <DebugConfirmDialog showDebugConfirm={showDebugConfirm} setShowDebugConfirm={setShowDebugConfirm} updateSettings={updateSettings} />
       <CapsuleConfirmDialog pendingCapsule={pendingCapsule} setPendingCapsule={setPendingCapsule} updateSettings={updateSettings} setToast={setToast} />
       {settings.debugMode && (

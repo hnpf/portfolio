@@ -1,7 +1,7 @@
 // @ts-ignore
 // @ts-nocheck
 import React, { memo } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useDragControls } from "motion/react";
 import {
   Settings as SettingsIcon,
   X,
@@ -18,6 +18,7 @@ import {
   Download,
   Terminal,
   ChevronRight,
+  ChevronLeft,
 } from "lucide-react";
 import { cn } from "../constants";
 import Switch from "./M3Switch";
@@ -30,8 +31,10 @@ export const SettingsDialog = memo(({
   updateSettings, 
   setShowDebugConfirm, 
   setToast, 
-  goto 
+  goto,
+  is_mobile
 }: any) => {
+  const dragControls = useDragControls();
   const settingsSpring = {
     type: "spring" as const,
     stiffness: 400,
@@ -42,19 +45,24 @@ export const SettingsDialog = memo(({
   return (
     <AnimatePresence>
       {settingsOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className={cn(
+          "fixed inset-0 z-[100] flex items-center justify-center",
+          is_mobile ? "p-0" : "p-4"
+        )}>
+          {!is_mobile && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSettingsOpen(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-md motion-gpu"
+              style={{ willChange: "opacity" }}
+            />
+          )}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSettingsOpen(false)}
-            className="absolute inset-0 bg-black/60 backdrop-blur-md motion-gpu"
-            style={{ willChange: "opacity" }}
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={is_mobile ? { y: "100%" } : { opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{
+            exit={is_mobile ? { y: "100%" } : {
               opacity: 0,
               scale: 0.9,
               y: 20,
@@ -63,24 +71,76 @@ export const SettingsDialog = memo(({
               }
             }}
             transition={settingsSpring}
+            drag={is_mobile ? "y" : false}
+            dragControls={dragControls}
+            dragListener={false}
+            dragConstraints={{ top: 0 }}
+            dragElastic={0.1}
+            onDragEnd={(_, info) => {
+              if (is_mobile && (info.offset.y > 150 || info.velocity.y > 500)) {
+                setSettingsOpen(false);
+              }
+            }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-xl bg-[var(--surface)] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-[var(--outline-variant)] motion-gpu settings-modal-content"
+            className={cn(
+              "relative bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col motion-gpu settings-modal-content",
+              is_mobile 
+                ? "w-full h-full max-w-none max-h-none rounded-none border-none" 
+                : "w-full max-w-xl rounded-[2rem] md:rounded-[2.5rem] max-h-[90vh] border border-[var(--outline-variant)]"
+            )}
             style={{ willChange: "transform, opacity" }}
           >
             <div className="flex flex-col h-full overflow-hidden">
-              <div className="flex justify-between items-center p-6 md:p-8 border-b border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10">
-                <h2 className="text-2xl font-bold flex items-center gap-3">
-                  <SettingsIcon size={24} className="text-[var(--primary)]" />
-                  <span>Settings</span>
-                </h2>
-                <button
-                  onClick={() => setSettingsOpen(false)}
-                  className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors"
+              {/* drag handle for mobile */}
+              {is_mobile && (
+                <div 
+                  onPointerDown={(e) => dragControls.start(e)}
+                  className="w-full flex justify-center pt-3 pb-1 shrink-0 bg-[var(--surface)] cursor-grab active:cursor-grabbing"
                 >
-                  <X size={24} />
-                </button>
+                  <div className="w-12 h-1.5 bg-[var(--outline-variant)] rounded-full opacity-40" />
+                </div>
+              )}
+
+              <div 
+                onPointerDown={is_mobile ? (e) => dragControls.start(e) : undefined}
+                className={cn(
+                  "flex justify-between items-center border-b border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10 shrink-0",
+                  is_mobile ? "p-4" : "p-6 md:p-8",
+                  is_mobile && "cursor-grab active:cursor-grabbing"
+                )}
+              >
+                <div className="flex items-center gap-4">
+                  {is_mobile ? (
+                    <button
+                      onClick={() => setSettingsOpen(false)}
+                      className="p-2 -ml-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors"
+                    >
+                      <ChevronLeft size={28} />
+                    </button>
+                  ) : (
+                    <SettingsIcon size={24} className="text-[var(--primary)]" />
+                  )}
+                  <h2 className={cn(
+                    "font-bold flex items-center gap-3",
+                    is_mobile ? "text-xl" : "text-2xl"
+                  )}>
+                    {!is_mobile && <span>Settings</span>}
+                    {is_mobile && <span className="text-2xl font-expressive italic font-black uppercase tracking-tight">Settings</span>}
+                  </h2>
+                </div>
+                {!is_mobile && (
+                  <button
+                    onClick={() => setSettingsOpen(false)}
+                    className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors"
+                  >
+                    <X size={24} />
+                  </button>
+                )}
               </div>
-              <div className="p-6 md:p-10 space-y-10 overflow-y-auto scrollbar-hide">
+              <div className={cn(
+                "space-y-10 overflow-y-auto scrollbar-hide flex-1",
+                is_mobile ? "p-6 pb-32" : "p-6 md:p-10"
+              )}>
                 <section className="space-y-6">
                   <div className="flex items-center gap-3">
                     <Palette size={20} className="text-[var(--primary)]" />
