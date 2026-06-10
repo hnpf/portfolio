@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useLayoutEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState, useLayoutEffect, useCallback } from 'react';
 
 type ThemeMode = 'light' | 'dark' | 'system';
 type AccentColor = 'orange' | 'green' | 'red' | 'purple' | 'blue' | 'virex' | 'custom';
@@ -112,12 +112,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return () => { style.remove(); };
   }, []);
 
-  const cycleTheme = () => {
+  const cycleTheme = useCallback(() => {
     if (IS_APR) return; // no escape lol
     const nextTheme = actualTheme === 'light' ? 'dark' : 'light';
     console.log("cycling theme to", nextTheme, "lmao");
     setSettings(prev => ({ ...prev, mode: nextTheme }));
-  };
+  }, [actualTheme]);
 
   useLayoutEffect(() => {
     console.log("applying theme settings... mode:", settings.mode, "accent:", settings.accent);
@@ -157,10 +157,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (favicon) favicon.href = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
   }, [settings, actualTheme]);
 
-  const updateSettings = (newSettings: Partial<ThemeSettings>) => {
+  const updateSettings = useCallback((newSettings: Partial<ThemeSettings>) => {
     console.log("updating settings with:", newSettings);
     setSettings(prev => ({ ...prev, ...newSettings }));
-  };
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ settings, updateSettings, actualTheme, cycleTheme }}>

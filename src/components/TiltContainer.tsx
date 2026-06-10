@@ -94,7 +94,6 @@ export const TiltContainer = memo(({ children, className, innerClassName, onClic
         {/* glare layer, only pulled forward slightly */}
         {settings?.bentoTilt && (
           <div
-            ref={glareRef}
             className="pointer-events-none absolute inset-[-1px] transition-opacity duration-300 rounded-[inherit] glare-layer"
             style={{
               transform: "translateZ(1px)", 
