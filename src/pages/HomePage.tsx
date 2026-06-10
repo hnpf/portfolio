@@ -246,7 +246,7 @@ const WeatherWidget = () => {
           transition={{
             duration: 25,
             repeat: Infinity,
-            ease: "spring"
+            ease: "linear"
           }}
         >
           <Activity size={260} />

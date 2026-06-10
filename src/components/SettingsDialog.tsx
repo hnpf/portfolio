@@ -31,7 +31,7 @@ export const SettingsDialog = memo(({
   goto 
 }: any) => {
   const settingsSpring = {
-    type: "spring",
+    type: "spring" as const,
     stiffness: 400,
     damping: 30,
     mass: 0.8
@@ -322,7 +322,7 @@ export const SettingsDialog = memo(({
                       {
                         key: "bentoTilt",
                         label: "3D Bento Tilt",
-                        desc: "cursor tracking parallax tilt, WILL NOT WORK AS EXPECTED with certain cards.",
+                        desc: "cursor tracking parallax tilt effect",
                       },
                     ],
                   },
@@ -581,7 +581,7 @@ export const SettingsDialog = memo(({
                     <div>
                       <div className="font-bold">View changelog</div>
                       <div className="text-xs opacity-60 font-medium">
-                        See what's new in v2026.06.06-stable
+                        See what's new in v2026.06.09-stable
                       </div>                    </div>
                     <ChevronRight
                       size={20}

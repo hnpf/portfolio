@@ -444,7 +444,37 @@ it's literally just people helping people for learning (and overall better code 
   },
 ];
 
-export const CHANGELOGS: ChangelogEntry[] = [ // 2026.06.05
+export const CHANGELOGS: ChangelogEntry[] = [ // 2026.06.09
+  {
+    id: "even-more-consistency",
+    version: "2026.06.09",
+    title: "Even More Consistency",
+    date: "2026.06.09",
+    changes: [
+      {
+        category: "Bug fixes (Bento crash)",
+        items: [
+          "fixed bento crash (updateSettings was being recreated on every render because it wasn't wrapped in useCallback, so any component using updateSettings in a useEffect dependency array would trigger the effect again whenever the theme changed, causing a chain reaction and resulting in a crash)",
+        ],
+      },
+      {
+        category: "Fixes added",
+        items: [
+          "removed unused/undeclared glareRef (+ the glare is already controlled via CSS variables anyway)",
+          "optimized updateSettings and cycleTheme with useCallback to stop the re-render loops",
+        ],
+      },
+      {
+        category: "Cleaned some lint errors",
+        items: [
+          "fixed invalid ease: \"spring\" changed to \"linear\" for background rotation)",
+          "fixed SettingsDialog transition types using as const",
+          "fixed missing type import in Example"
+        ],
+      },
+    ],
+
+  },
   {
     id: "qol-update",
     version: "2026.06.06",
@@ -1103,7 +1133,7 @@ export const TRACKER_ITEMS: TrackerItem[] = [
   {
     id: "systems-automation",
     title: "automation",
-    category: "dev",
+    category: "Dev",
     tips: ["if you must do it twice, script it", "minimalism is a feature."],
     tools: ["Rust", "Vim", "Linux", "GNOME"],
   },
