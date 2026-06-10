@@ -487,7 +487,8 @@ export const CHANGELOGS: ChangelogEntry[] = [ // 2026.06.09-2
       {
         category: "Other changes",
         items: [
-          "Fixed the /tracker header sizing on mobile"
+          "fixed the /tracker header sizing on mobile",
+          "made the read entry button in /blog actually look decent"
         ],
       },
     ],
