@@ -296,9 +296,9 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                       damping: 20,
                       mass: 0.5,
                     }}
-                    className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-md md:text-2xl h-14 md:h-18 px-8 md:px-14 rounded-[24px] flex items-center gap-3 group/btn whitespace-nowrap"
+                    className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white font-expressive-bold tracking-[0.05em] text-black text-md italic md:text-2xl h-14 md:h-18 px-8 md:px-14 rounded-[24px] flex items-center gap-3 group/btn whitespace-nowrap"
                   >
-                    read entry
+                    Read entry
                     <motion.span
                       variants={{
                         hover: { x: 5 },
