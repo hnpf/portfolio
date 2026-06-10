@@ -444,7 +444,54 @@ it's literally just people helping people for learning (and overall better code 
   },
 ];
 
-export const CHANGELOGS: ChangelogEntry[] = [ // 2026.06.09
+export const CHANGELOGS: ChangelogEntry[] = [ // 2026.06.09-2
+
+/* {
+    id: "",
+    version: "",
+    title: "",
+    date: "",
+    changes: [
+      {
+        category: "",
+        items: [
+          "",
+        ],
+      },
+    ],
+  }, 
+  */
+  {
+    id: "mobile-consistency-rework",
+    version: "2026.06.09_2",
+    title: "Mobile Consistency Rework",
+    date: "2026.06.09",
+    changes: [
+      {
+        category: "Settings changes",
+        items: [
+          "moved settings to a more immersive, true-to-design page that doesnt look like a copy-paste of desktop's settings modal.",
+          "introduced a gesture to close settings menu",
+          "added a better blur background behind the menu",
+        ],
+      },
+      {
+        category: "Dash page overhaul",
+        items: [
+          "reduced the massive 100px and 9xl headers to a clean 6xl on mobile, FUCK the cut-offs.",
+          "got rid of extra useless padding and font size of fields on mobile so they actually fit on your phone",
+          "adjusted the link creation button to a better height and padding on mobile",
+          "tightened up the padding in the bento cards and sections which also got rid of some extra whitespace"
+        ],
+      },
+      {
+        category: "Other changes",
+        items: [
+          "Fixed the /tracker header sizing on mobile"
+        ],
+      },
+    ],
+  }, 
   {
     id: "even-more-consistency",
     version: "2026.06.09",

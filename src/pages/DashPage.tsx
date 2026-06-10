@@ -122,32 +122,32 @@ export default function DashPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-20 pb-32 relative">
-      <header className="page-header italic font-expressive-bold space-y-8">
-        <h1 className="page-title text-[100px]">Shorten</h1>
+    <div className="max-w-6xl mx-auto space-y-12 md:space-y-20 pb-32 relative">
+      <header className="page-header italic font-expressive-bold space-y-6 md:space-y-8 px-4 md:px-0">
+        <h1 className="page-title text-6xl md:text-[100px]">Shorten</h1>
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
-          className="text-xl md:text-3xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-4xl leading-tight"
+          className="text-lg md:text-3xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-4xl leading-tight"
         >
-          HTTPS is only a suggestion! <span className="italic opacity-40 text-lg md:text-xl ml-2">// quick and dirty links.</span>
+          HTTPS is only a suggestion! <span className="italic opacity-40 text-sm md:text-xl ml-2">// quick and dirty links.</span>
         </motion.p>
       </header>
 
-      <div className="grid grid-cols-1 gap-16 px-4 md:px-0">
-        <Uppercasecard className="bg-[var(--primary-container)]/10 border-6 border-[var(--primary)]/20 relative overflow-hidden group p-10 md:p-16">
-          <form onSubmit={submitlinkhandler} className="relative z-10 space-y-12">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+      <div className="grid grid-cols-1 gap-8 md:gap-16 px-4 md:px-0">
+        <Uppercasecard className="bg-[var(--primary-container)]/10 border-6 border-[var(--primary)]/20 relative overflow-hidden group p-8 md:p-16">
+          <form onSubmit={submitlinkhandler} className="relative z-10 space-y-8 md:space-y-12">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10">
               <div className="md:col-span-8 space-y-4">
                 <div className="flex items-center gap-3 px-1">
                   <Globe size={16} className="text-[var(--primary)]" />
-                  <label className="text-[12px] font-black tracking-[0.4em] opacity-50 uppercase italic">Destination URL</label>
+                  <label className="text-[10px] md:text-[12px] font-black tracking-[0.4em] opacity-50 uppercase italic">Destination URL</label>
                 </div>
                 <input
                   type="url"
                   placeholder={placeholder}
-                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[2rem] px-10 py-6 text-2xl outline-none transition-all shadow-inner font-display font-bold"
+                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[1.5rem] md:rounded-[2rem] px-6 md:px-10 py-4 md:py-6 text-xl md:text-2xl outline-none transition-all shadow-inner font-display font-bold"
                   value={url}
                   onChange={e => setUrl(e.target.value)}
                   required
@@ -156,29 +156,29 @@ export default function DashPage() {
               <div className="md:col-span-4 space-y-4">
                 <div className="flex items-center gap-3 px-1">
                   <Hash size={16} className="text-[var(--primary)]" />
-                  <label className="text-[12px] font-black tracking-[0.4em] opacity-50 uppercase italic">Custom path</label>
+                  <label className="text-[10px] md:text-[12px] font-black tracking-[0.4em] opacity-50 uppercase italic">Custom path</label>
                 </div>
                 <input
                   type="text"
                   placeholder="optional"
-                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[2rem] px-10 py-6 text-2xl font-mono outline-none transition-all shadow-inner"
+                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[1.5rem] md:rounded-[2rem] px-6 md:px-10 py-4 md:py-6 text-xl md:text-2xl font-mono outline-none transition-all shadow-inner"
                   value={path}
                   onChange={e => setpath(e.target.value)}
                 />
               </div>
             </div>
             
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-10 border-t border-[var(--outline-variant)]/30">
-              <div className="flex-1">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8 md:pt-10 border-t border-[var(--outline-variant)]/30">
+              <div className="flex-1 w-full">
                 <AnimatePresence mode="wait">
                   {error && (
                     <motion.div 
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 10 }}
-                      className="text-red-500 font-bold flex items-center gap-3 bg-red-500/10 px-6 py-3 rounded-2xl border-4 border-red-500/20"
+                      className="text-red-500 font-bold flex items-center gap-3 bg-red-500/10 px-4 md:px-6 py-3 rounded-2xl border-4 border-red-500/20 text-sm md:text-base"
                     >
-                      <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                      <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0" />
                       {error}
                     </motion.div>
                   )}
@@ -186,7 +186,7 @@ export default function DashPage() {
               </div>
               <button
                 type="submit"
-                className="w-full md:w-auto bg-[var(--primary)] text-[var(--on-primary)] font-black tracking-[0.2em] uppercase px-16 h-20 rounded-[2rem] flex items-center justify-center gap-4 hover:scale-[1.03] active:scale-[0.97] transition-all shadow-2xl shadow-[var(--primary)]/30 group/btn text-lg"
+                className="w-full md:w-auto bg-[var(--primary)] text-[var(--on-primary)] font-black tracking-[0.2em] uppercase px-12 md:px-16 h-16 md:h-20 rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center gap-4 hover:scale-[1.03] active:scale-[0.97] transition-all shadow-2xl shadow-[var(--primary)]/30 group/btn text-md md:text-lg"
               >
                 Create Link
                 <Plus size={24} className="group-hover/btn:rotate-90 transition-transform duration-500" />

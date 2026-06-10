@@ -252,7 +252,7 @@ export default function App() {
           </div>
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
-              <Cpu size={10} /><span>v2.6.0-stable (v2026.06.09)</span>
+              <Cpu size={10} /><span>v2.6.3-stable (v2026.06.09_2)</span>
             </div>
           </div>
         </div>
@@ -428,7 +428,7 @@ export default function App() {
           <div>PAGE: {page.toUpperCase()}</div>
           <div>THEME: {settings.mode.toUpperCase()}</div>
           <div>ANIM: {settings.disableAnimations ? "OFF" : "ON"}</div>
-          <div className="pt-2 opacity-40">v2026.06.09-stable</div>
+          <div className="pt-2 opacity-40">v2026.06.09_2-stable</div>
         </div>
       )}
     </div>
