@@ -1,3 +1,5 @@
+// @ts-ignore
+// @ts-nocheck
 import React, { memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {

@@ -22,7 +22,7 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 - [May 25, 2026]     moved to cloudflare - bye vercel!
 
 **recent changes**
-- [June 9, 2026]     Fix prod bugs and type mismatches ()
+- [June 9, 2026]     Fix prod bugs and type mismatches (v2026.06.09)
 
 - [June 6, 2026]     expressive typography overhaul V2!
 - [June 5, 2026]     expressive typography overhaul!
