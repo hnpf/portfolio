@@ -46,19 +46,17 @@ export const SettingsDialog = memo(({
     <AnimatePresence>
       {settingsOpen && (
         <div className={cn(
-          "fixed inset-0 z-[100] flex items-center justify-center",
-          is_mobile ? "p-0" : "p-4"
+          "fixed inset-0 z-[100] flex items-center justify-center overflow-hidden",
+          is_mobile ? "p-0 bg-black/20" : "p-4"
         )}>
-          {!is_mobile && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSettingsOpen(false)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-md motion-gpu"
-              style={{ willChange: "opacity" }}
-            />
-          )}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSettingsOpen(false)}
+            className="absolute inset-0 bg-black/60 backdrop-blur-md motion-gpu"
+            style={{ willChange: "opacity" }}
+          />
           <motion.div
             initial={is_mobile ? { y: "100%" } : { opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -70,14 +68,14 @@ export const SettingsDialog = memo(({
                 duration: 0.2
               }
             }}
-            transition={settingsSpring}
+            transition={is_mobile ? { type: "spring", damping: 30, stiffness: 350, mass: 0.8 } : settingsSpring}
             drag={is_mobile ? "y" : false}
             dragControls={dragControls}
             dragListener={false}
             dragConstraints={{ top: 0 }}
-            dragElastic={0.1}
+            dragElastic={0.05}
             onDragEnd={(_, info) => {
-              if (is_mobile && (info.offset.y > 150 || info.velocity.y > 500)) {
+              if (is_mobile && (info.offset.y > 150 || info.velocity.y > 400)) {
                 setSettingsOpen(false);
               }
             }}
@@ -85,10 +83,13 @@ export const SettingsDialog = memo(({
             className={cn(
               "relative bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col motion-gpu settings-modal-content",
               is_mobile 
-                ? "w-full h-full max-w-none max-h-none rounded-none border-none" 
+                ? "w-full h-[100dvh] max-w-none max-h-none rounded-none border-none" 
                 : "w-full max-w-xl rounded-[2rem] md:rounded-[2.5rem] max-h-[90vh] border border-[var(--outline-variant)]"
             )}
-            style={{ willChange: "transform, opacity" }}
+            style={{ 
+              willChange: "transform, opacity",
+              touchAction: "none"
+            }}
           >
             <div className="flex flex-col h-full overflow-hidden">
               {/* drag handle for mobile */}
