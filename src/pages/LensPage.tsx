@@ -203,7 +203,7 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
           alt=""
           aria-hidden="true"
           className={cn(
-            "absolute inset-0 w-full h-full object-cover blur-2xl scale-110 transition-opacity duration-700",
+            "absolute inset-0 w-full h-full object-cover scale-110 transition-opacity duration-700",
             isLoaded ? "opacity-0" : "opacity-100"
           )}
         />
@@ -277,15 +277,18 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
     };
     window.addEventListener("keydown", on_key);
 
+    let timeout: any;
     if (idx !== null) {
       document.body.style.overflow = "hidden"; // lol bye loser
-      // preload next and prev images sparingly
-      const next_idx = (idx + 1) % LENS_PHOTOS.length;
-      const prev_idx = (idx - 1 + LENS_PHOTOS.length) % LENS_PHOTOS.length;
-      [next_idx, prev_idx].forEach(i => {
-        const img = new window.Image();
-        img.src = LENS_PHOTOS[i].url;
-      });
+      // preload next and prev images sparingly - delay slightly to avoid blocking entry animation
+      timeout = setTimeout(() => {
+        const next_idx = (idx + 1) % LENS_PHOTOS.length;
+        const prev_idx = (idx - 1 + LENS_PHOTOS.length) % LENS_PHOTOS.length;
+        [next_idx, prev_idx].forEach(i => {
+          const img = new window.Image();
+          img.src = LENS_PHOTOS[i].url;
+        });
+      }, 300);
     } else {
       document.body.style.overflow = "";
     }
@@ -293,6 +296,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
     return () => {
       window.removeEventListener("keydown", on_key);
       document.body.style.overflow = "";
+      if (timeout) clearTimeout(timeout);
     };
   }, [idx, next, prev]);
 
@@ -320,12 +324,12 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] flex flex-col bg-[var(--surface)]/95 backdrop-blur-3xl overflow-hidden"
+            className="fixed inset-0 z-[200] flex flex-col bg-[var(--surface)]/95 backdrop-blur-md overflow-hidden"
             onClick={() => setIdx(null)}
           >
             {/* top islands - ungrouped capsule + circle */}
             <div className="z-[230] p-6 md:p-8 flex justify-center items-center gap-3 md:gap-4 pointer-events-none">
-              <div className="bg-[var(--surface-variant)]/60 backdrop-blur-xl px-6 py-3 md:px-8 md:py-4 rounded-[2.5rem] md:rounded-[2.5rem] border-6 border-[var(--outline-variant)]/40 flex flex-col shadow-2xl pointer-events-auto min-w-0 max-w-[240px] md:max-w-lg">
+              <div className="bg-[var(--surface-variant)]/60 backdrop-blur-md px-6 py-3 md:px-8 md:py-4 rounded-[2.5rem] md:rounded-[2.5rem] border-6 border-[var(--outline-variant)]/40 flex flex-col shadow-2xl pointer-events-auto min-w-0 max-w-[240px] md:max-w-lg">
                 <div className="text-[9px] md:text-[18px] font-black tracking-[0.2em] text-[var(--primary)] mb-0.5 md:mb-1">
                   description
                 </div>
@@ -356,7 +360,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
               <div className="hidden md:flex absolute left-8 inset-y-0 items-center z-[220] pointer-events-none">
                 <button
                   onClick={prev}
-                  className="w-20 h-20 bg-[var(--surface-variant)]/40 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all border-6 border-[var(--outline-variant)]/40 backdrop-blur-xl pointer-events-auto active:scale-90 shadow-2xl"
+                  className="w-20 h-20 bg-[var(--surface-variant)]/40 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all border-6 border-[var(--outline-variant)]/40 backdrop-blur-md pointer-events-auto active:scale-90 shadow-2xl"
                 >
                   <ChevronLeft size={44} />
                 </button>
@@ -406,7 +410,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
                   src={LENS_PHOTOS[idx].blur}
                   aria-hidden="true"
                   className={cn(
-                    "absolute inset-0 w-full h-full object-contain blur-3xl scale-110 transition-opacity duration-500",
+                    "absolute inset-0 w-full h-full object-contain scale-110 transition-opacity duration-500",
                     isExpandedLoaded ? "opacity-0" : "opacity-100"
                   )}
                 />
@@ -426,7 +430,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
               <div className="hidden md:flex absolute right-8 inset-y-0 items-center z-[220] pointer-events-none">
                 <button
                   onClick={next}
-                  className="w-20 h-20 bg-[var(--surface-variant)]/40 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all border-6 border-[var(--outline-variant)]/40 backdrop-blur-xl pointer-events-auto active:scale-90 shadow-2xl"
+                  className="w-20 h-20 bg-[var(--surface-variant)]/40 hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all border-6 border-[var(--outline-variant)]/40 backdrop-blur-md pointer-events-auto active:scale-90 shadow-2xl"
                 >
                   <ChevronRight size={44} />
                 </button>
@@ -435,7 +439,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
 
             {/* bottom island - unified navigation, raw, and position */}
             <div className="z-[230] p-6 md:p-12 flex flex-col items-center gap-6 pointer-events-none">
-              <div className="flex items-center gap-1 md:gap-2 bg-[var(--surface-variant)]/60 backdrop-blur-xl p-2 md:p-3 rounded-full border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto">
+              <div className="flex items-center gap-1 md:gap-2 bg-[var(--surface-variant)]/60 backdrop-blur-md p-2 md:p-3 rounded-full border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto">
                 {/* mobile navigation buttons integrated into island */}
                 <div className="flex md:hidden items-center gap-1 pr-2 border-r-2 border-[var(--outline-variant)]/20">
                   <button
