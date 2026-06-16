@@ -198,8 +198,8 @@ export default function App() {
     <div
       className={cn(
         "min-h-screen flex font-sans relative",
-        settings.forceDesktop ? "flex-row" : "flex-col md:flex-row",
-        settings.sidebarFlipped && (settings.forceDesktop ? "flex-row-reverse" : "md:flex-row-reverse"),
+        (settings.forceDesktop || !is_mobile) ? "flex-row" : "flex-col",
+        settings.sidebarFlipped && (settings.forceDesktop || !is_mobile ? "flex-row-reverse" : "flex-col"),
         settings.debugMode && "debug-mode",
       )}
     >

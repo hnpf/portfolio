@@ -303,7 +303,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
               y: 0,
             }}
             transition={{ duration: settings.disableAnimations ? 0 : 0.6, ease: [0.33, 1, 0.68, 1] }}
-            className="page-title !text-9xl !md:text-[14rem] leading-[0.7] text-balance flex items-baseline font-expressive-bold italic tracking-[-0.08em]"
+            className="page-title !text-7xl sm:!text-8xl md:!text-9xl lg:!text-[12rem] xl:!text-[14rem] leading-[0.7] text-balance flex items-baseline font-expressive-bold italic tracking-[-0.08em]"
           >
             вирекс
             <motion.span 
