@@ -37,8 +37,7 @@ export default function DashPage() {
   const [error, setError] = useState('');
   const [copypath, setCopypath] = useState<string | null>(null);
   const [placeholder, setPlaceholder] = useState('https://keep.google.com/');
-  // const [loading, setLoading] = useState(false)  
-  // i was personally gonna add a spinner to the button, never did !
+  const [isLoading, setIsLoading] = useState(false);
   const [show_top, setShowTop] = useState(false);
 
   useEffect(() => {
@@ -59,17 +58,12 @@ export default function DashPage() {
   const loadlink = async () => {
     try {
       const res = await fetch('/api/urls');
-      const ct = res.headers.get('content-type');
-      if (ct && ct.includes('application/json')) {
+      if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data)) {
-          setLinks(data);
-        } else if (data.error) {
-          setError(data.error);
-        }
+        if (Array.isArray(data)) setLinks(data);
       }
     } catch (e: any) {
-      setError('failed to load links');
+      console.error('failed to load links');
     }
   };
 
@@ -81,6 +75,7 @@ export default function DashPage() {
   const submitlinkhandler = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
 
     try {
       const res = await fetch('/api/shorten', {
@@ -89,15 +84,10 @@ export default function DashPage() {
         body: JSON.stringify({ url, path })
       });
 
-      const ct = res.headers.get('content-type');
-      if (ct && ct.includes('application/json')) {
-        const data = await res.json();
-        if (!res.ok) {
-          setError(data.error || 'failed to shorten url');
-          return;
-        }
-      } else {
-        setError(`server error: ${res.status} ${res.statusText}`);
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'failed to shorten url');
+        setIsLoading(false);
         return;
       }
 
@@ -106,13 +96,10 @@ export default function DashPage() {
       loadlink();
     } catch (e: any) {
       setError('backend is unreachable');
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  // const _del = async (id: string) => {
-  //   await fetch(`/api/urls/${id}`, { method: 'DELETE' })
-  //   loadlink()
-  // }
 
   const copylinkhandler = (p: string) => {
     const full = `${window.location.protocol}//${window.location.host}/r/${p}`;
@@ -124,7 +111,9 @@ export default function DashPage() {
   return (
     <div className="max-w-6xl mx-auto space-y-12 md:space-y-20 pb-32 relative">
       <header className="page-header italic font-expressive-bold space-y-6 md:space-y-8 px-4 md:px-0">
-        <h1 className="page-title text-6xl md:text-[100px]">Shorten</h1>
+        <div className="flex items-center gap-6">
+          <h1 className="page-title text-6xl md:text-[100px] tracking-[-0.05em]">Shorten</h1>
+        </div>
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -147,7 +136,7 @@ export default function DashPage() {
                 <input
                   type="url"
                   placeholder={placeholder}
-                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[1.5rem] md:rounded-[2rem] px-6 md:px-10 py-4 md:py-6 text-xl md:text-2xl outline-none transition-all shadow-inner font-display font-bold"
+                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[1.5rem] md:rounded-[2rem] px-6 md:px-10 py-4 md:py-6 text-xl md:text-2xl outline-none transition-all shadow-inner font-display font-bold placeholder:opacity-20"
                   value={url}
                   onChange={e => setUrl(e.target.value)}
                   required
@@ -158,13 +147,16 @@ export default function DashPage() {
                   <Hash size={16} className="text-[var(--primary)]" />
                   <label className="text-[10px] md:text-[12px] font-black tracking-[0.4em] opacity-50 uppercase italic">Custom path</label>
                 </div>
-                <input
-                  type="text"
-                  placeholder="optional"
-                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[1.5rem] md:rounded-[2rem] px-6 md:px-10 py-4 md:py-6 text-xl md:text-2xl font-mono outline-none transition-all shadow-inner"
-                  value={path}
-                  onChange={e => setpath(e.target.value)}
-                />
+                <div className="relative">
+                  <span className="absolute left-6 md:left-10 top-1/2 -translate-y-1/2 text-2xl font-mono opacity-30">/</span>
+                  <input
+                    type="text"
+                    placeholder="optional"
+                    className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[1.5rem] md:rounded-[2rem] pl-12 md:pl-16 pr-6 md:pr-10 py-4 md:py-6 text-xl md:text-2xl font-mono outline-none transition-all shadow-inner"
+                    value={path}
+                    onChange={e => setpath(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
             
@@ -178,7 +170,7 @@ export default function DashPage() {
                       exit={{ opacity: 0, x: 10 }}
                       className="text-red-500 font-bold flex items-center gap-3 bg-red-500/10 px-4 md:px-6 py-3 rounded-2xl border-4 border-red-500/20 text-sm md:text-base"
                     >
-                      <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0" />
+                      <AlertTriangle size={18} />
                       {error}
                     </motion.div>
                   )}
@@ -186,10 +178,11 @@ export default function DashPage() {
               </div>
               <button
                 type="submit"
-                className="w-full md:w-auto bg-[var(--primary)] text-[var(--on-primary)] font-black tracking-[0.2em] uppercase px-12 md:px-16 h-16 md:h-20 rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center gap-4 hover:scale-[1.03] active:scale-[0.97] transition-all shadow-2xl shadow-[var(--primary)]/30 group/btn text-md md:text-lg"
+                disabled={isLoading}
+                className="w-full md:w-auto bg-[var(--primary)] text-[var(--on-primary)] font-black tracking-[0.2em] uppercase px-12 md:px-16 h-16 md:h-20 rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center gap-4 hover:scale-[1.03] active:scale-[0.97] disabled:opacity-50 disabled:scale-100 transition-all shadow-2xl shadow-[var(--primary)]/30 group/btn text-md md:text-lg"
               >
-                Create Link
-                <Plus size={24} className="group-hover/btn:rotate-90 transition-transform duration-500" />
+                {isLoading ? <Loader2 className="animate-spin" /> : 'Create Link'}
+                {!isLoading && <Plus size={24} className="group-hover/btn:rotate-90 transition-transform duration-500" />}
               </button>
             </div>
           </form>
@@ -199,108 +192,117 @@ export default function DashPage() {
           </div>
         </Uppercasecard>
 
-        <Uppercasecard delay={0.1} className="p-0 overflow-hidden border-6 border-[var(--outline-variant)]/40">
-          {/* desktop table view */}
-          <div className="hidden md:block">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-[var(--outline-variant)]/40 bg-[var(--surface-variant)]/10">
-                  <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Path</th>
-                  <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Destination</th>
-                  <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-center">Visits</th>
-                  <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-right">Created</th>
-                  <th className="px-10 py-8"></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[var(--outline-variant)]/20">
-                {links.map((link) => (
-                  <tr key={link.id} className="hover:bg-[var(--primary-container)]/5 transition-colors group">
-                    <td className="px-10 py-8 font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter">/{link.path}</td>
-                    <td className="px-10 py-8 max-w-xs truncate opacity-60 font-display font-medium text-lg">{link.original_url}</td>
-                    <td className="px-10 py-8 font-black text-2xl text-center tabular-nums">{link.visits}</td>
-                    <td className="px-10 py-8 opacity-40 text-sm font-bold text-right uppercase tracking-widest">
-                      {new Date(link.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="px-10 py-8 text-right">
-                      <div className="flex justify-end gap-3">
-                        <button
-                          onClick={() => copylinkhandler(link.path)}
-                          className={cn(
-                            "p-4 bg-[var(--surface-variant)] rounded-2xl hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all active:scale-90 border-4 border-transparent hover:border-[var(--primary)]/20",
-                            copypath === link.path && "bg-green-500 text-white border-green-500/20"
-                          )}
-                        >
-                          {copypath === link.path ? <Check size={20} /> : <Copy size={20} />}
-                        </button>
-                        <a
-                          href={`/r/${link.path}`}
-                          target="_blank"
-                          className="p-4 bg-[var(--surface-variant)] rounded-2xl hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all active:scale-90 border-4 border-transparent hover:border-[var(--primary-container)]/20"
-                        >
-                          <ExternalLink size={20} />
-                        </a>
-                      </div>
-                    </td>
+        <div className="space-y-8">
+          <div className="flex items-center justify-between px-4 md:px-8">
+            <h2 className="text-3xl md:text-4xl font-expressive-bold italic tracking-tight">Recent Links</h2>
+            <div className="h-px flex-1 mx-8 bg-[var(--outline-variant)]/30" />
+            <span className="text-xs font-black uppercase tracking-[0.3em] opacity-30">{links.length} total</span>
+          </div>
+
+          <Uppercasecard delay={0.1} className="p-0 overflow-hidden border-6 border-[var(--outline-variant)]/40">
+            {/* desktop table view */}
+            <div className="hidden md:block">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-[var(--outline-variant)]/40 bg-[var(--surface-variant)]/10">
+                    <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Path</th>
+                    <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Destination</th>
+                    <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-center">Visits</th>
+                    <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-right">Created</th>
+                    <th className="px-10 py-8"></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* mobile view */}
-          <div className="md:hidden divide-y divide-[var(--outline-variant)]/20">
-            {links.map((link) => (
-              <div key={link.id} className="p-8 space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="font-mono font-bold text-3xl text-[var(--primary)] tracking-tighter">/{link.path}</div>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => copylinkhandler(link.path)}
-                      className={cn(
-                        "p-5 bg-[var(--surface-variant)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-transparent",
-                        copypath === link.path && "bg-green-500 text-white"
-                      )}
-                    >
-                      {copypath === link.path ? <Check size={24} /> : <Copy size={24} />}
-                    </button>
-                    <a
-                      href={`/r/${link.path}`}
-                      target="_blank"
-                      className="p-5 bg-[var(--surface-variant)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-transparent"
-                    >
-                      <ExternalLink size={24} />
-                    </a>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Destination</div>
-                  <div className="truncate opacity-80 text-md font-bold bg-[var(--surface)] px-5 py-4 rounded-2xl border-4 border-[var(--outline-variant)]/30 font-display">
-                    {link.original_url}
-                  </div>
-                </div>
-                <div className="flex justify-between items-end pt-4">
-                  <div className="flex gap-8">
-                    <div className="space-y-1">
-                      <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Visits</div>
-                      <div className="font-black text-2xl tabular-nums">{link.visits}</div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Date</div>
-                      <div className="font-bold opacity-60 text-md tracking-wider">{new Date(link.created_at).toLocaleDateString()}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {links.length === 0 && (
-            <div className="px-10 py-32 text-center opacity-30 font-display text-3xl font-black italic tracking-tighter">
-              database is silent.
+                </thead>
+                <tbody className="divide-y divide-[var(--outline-variant)]/20">
+                  {links.map((link) => (
+                    <tr key={link.id} className="hover:bg-[var(--primary-container)]/5 transition-colors group">
+                      <td className="px-10 py-8 font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter">/{link.path}</td>
+                      <td className="px-10 py-8 max-w-xs truncate opacity-60 font-display font-medium text-lg">{link.original_url}</td>
+                      <td className="px-10 py-8 font-black text-2xl text-center tabular-nums">{link.visits}</td>
+                      <td className="px-10 py-8 opacity-40 text-sm font-bold text-right uppercase tracking-widest">
+                        {new Date(link.created_at).toLocaleDateString()}
+                      </td>
+                      <td className="px-10 py-8 text-right">
+                        <div className="flex justify-end gap-3">
+                          <button
+                            onClick={() => copylinkhandler(link.path)}
+                            className={cn(
+                              "p-4 bg-[var(--surface-variant)] rounded-2xl hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all active:scale-90 border-4 border-transparent hover:border-[var(--primary)]/20",
+                              copypath === link.path && "bg-green-500 text-white border-green-500/20"
+                            )}
+                          >
+                            {copypath === link.path ? <Check size={20} /> : <Copy size={20} />}
+                          </button>
+                          <a
+                            href={`/r/${link.path}`}
+                            target="_blank"
+                            className="p-4 bg-[var(--surface-variant)] rounded-2xl hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all active:scale-90 border-4 border-transparent hover:border-[var(--primary-container)]/20"
+                          >
+                            <ExternalLink size={20} />
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          )}
-        </Uppercasecard>
+
+            {/* mobile view */}
+            <div className="md:hidden divide-y divide-[var(--outline-variant)]/20">
+              {links.map((link) => (
+                <div key={link.id} className="p-8 space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div className="font-mono font-bold text-3xl text-[var(--primary)] tracking-tighter">/{link.path}</div>
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => copylinkhandler(link.path)}
+                        className={cn(
+                          "p-5 bg-[var(--surface-variant)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-transparent",
+                          copypath === link.path && "bg-green-500 text-white"
+                        )}
+                      >
+                        {copypath === link.path ? <Check size={24} /> : <Copy size={24} />}
+                      </button>
+                      <a
+                        href={`/r/${link.path}`}
+                        target="_blank"
+                        className="p-5 bg-[var(--surface-variant)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-transparent"
+                      >
+                        <ExternalLink size={24} />
+                      </a>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Destination</div>
+                    <div className="truncate opacity-80 text-md font-bold bg-[var(--surface)] px-5 py-4 rounded-2xl border-4 border-[var(--outline-variant)]/30 font-display">
+                      {link.original_url}
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-end pt-4">
+                    <div className="flex gap-8">
+                      <div className="space-y-1">
+                        <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Visits</div>
+                        <div className="font-black text-2xl tabular-nums">{link.visits}</div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Date</div>
+                        <div className="font-bold opacity-60 text-md tracking-wider">{new Date(link.created_at).toLocaleDateString()}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {links.length === 0 && (
+              <div className="px-10 py-32 text-center opacity-30 font-display text-3xl font-black italic tracking-tighter">
+                database is silent.
+              </div>
+            )}
+          </Uppercasecard>
+        </div>
       </div>
     </div>
   );
 }
+
