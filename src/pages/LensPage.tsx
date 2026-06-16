@@ -203,7 +203,7 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
           alt=""
           aria-hidden="true"
           className={cn(
-            "absolute inset-0 w-full h-full object-cover scale-110 transition-opacity duration-700",
+            "absolute inset-0 w-full h-full object-cover scale-110 blur-xl transition-opacity duration-700",
             isLoaded ? "opacity-0" : "opacity-100"
           )}
         />
@@ -410,7 +410,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
                   src={LENS_PHOTOS[idx].blur}
                   aria-hidden="true"
                   className={cn(
-                    "absolute inset-0 w-full h-full object-contain scale-110 transition-opacity duration-500",
+                    "absolute inset-0 w-full h-full object-contain scale-110 blur-xl transition-opacity duration-500 rounded-[40px] md:rounded-[60px]",
                     isExpandedLoaded ? "opacity-0" : "opacity-100"
                   )}
                 />
@@ -418,7 +418,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
                   src={LENS_PHOTOS[idx].url}
                   onLoad={() => setIsExpandedLoaded(true)}
                   className={cn(
-                    "max-w-full max-h-full object-contain rounded-[40px] md:rounded-[60px] shadow-[0_48px_96px_-24px_rgba(0,0,0,0.6)] border-[12px] border-white/10 pointer-events-none select-none transition-opacity duration-500",
+                    "max-w-full max-h-full object-contain rounded-[40px] md:rounded-[60px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] dark:shadow-[0_48px_96px_-24px_rgba(0,0,0,0.6)] border-[12px] border-[var(--outline-variant)]/20 dark:border-white/10 pointer-events-none select-none transition-opacity duration-500",
                     isExpandedLoaded ? "opacity-100" : "opacity-0"
                   )}
                   referrerPolicy="no-referrer"
