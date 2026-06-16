@@ -12,130 +12,152 @@ const LENS_PHOTOS = [
     url: "/photography/20250524_125754_optimized_optimized_optimized.webp",
     description: "light at the end of the brick tunnel",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoKAAYAAUAmJZwCdAELX9KGTAAA/vfhlJaIa8/+BI2i/xfz0mMokO0SJTFw7phOwAA="
   },
   {
     id: "2",
     url: "/photography/20250526_104032_optimized_optimized_optimized.webp",
     description: "aerial smoke trails in formation",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACQAQCdASoKAAUAAUAmJZwAAtz5SiwA/vU/YVbI62ukrk+AAAA="
   },
   {
     id: "3",
     url: "/photography/20250628_124853_optimized_optimized.webp",
     description: "solitary boat with shallow depth of field",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADQAQCdASoKAAYAAUAmJQBOgCHo69/XSAD+vGfdeNdk4HxVogXDW+pnjbdcnR/7yuMeBgAA"
   },
   {
     id: "4",
     url: "/photography/20250704_194559_optimized.webp",
     description: "sunset framed by summer leaves",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoKAAgAAUAmJQBOgCHf6jrwAAD+/tSYC3P4yoe7S1bnvvvp5pKR+OWwAAA="
   },
   {
     id: "5",
     url: "/photography/20250704_203117_optimized.webp",
     description: "fourth of july sparks",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAADQAQCdASoKAAgAAUAmJZwCdAEPAUHMgAD+/x+wlJMPl5iPiMzf4gkjIAA="
   },
   {
     id: "6",
     url: "/photography/20250705_091012_optimized.webp",
     description: "ducks drifting on the water",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAAAQAgCdASoKAAgAAUAmJYgCdLoAAwi4roQAAP7tsZhlLc85SG0d7djBqwv9CbJZReAAAA=="
   },
   {
     id: "7",
     url: "/photography/20251106_151437.webp",
     description: "random street sign in the lake",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAACwAQCdASoKAAUAAUAmJQBOgB6Q/22AAP6tgjOds+Xe1nCw8RdPnTh8Z1Lj1HJky0PuAAAA"
   },
   {
     id: "8",
     url: "/photography/20251221_035746.webp",
     description: "a. seemanni face-to-face",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoKAAcAAUAmJQBOgCHgSD2CYAD+/nFNvDDp4uXVgTBLtD0RD5kArHDpAAA="
   },
   {
     id: "9",
     url: "/photography/IMG_20251101_1654442.webp",
     description: "palm tree against the vibrant sun",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoKAAYAAUAmJQBOgB6RqHuwAAD+0kIa5Rovre4qzC6j+C7+fCBr7H6uIAA="
   },
   {
     id: "10",
     url: "/photography/PXL_20251225_142558068~2.webp",
     description: "dewy webs on the rocks",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADQAQCdASoKAA0AAUAmJZACdAD0eq6CgAD+6f0/2/keaZso+L2Q8dAeSurb+P98BfZftDHxdWzflX8AAAA="
   },
   {
     id: "11",
     url: "/photography/PXL_20251230_074304887.PORTRAIT.webp",
     description: "the workstation aesthetic",
     orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAADwAQCdASoKAAgAAUAmJZwC7AEPC80zZgAA/v4shjdN3hAA/66ZgAAA"
   },
   {
     id: "12",
     url: "/photography/PXL_20251231_013358426.PORTRAIT~2.webp",
     description: "feline toes",
     orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADwAQCdASoKAA0AAUAmJQBOgCHaSdkecmAA/v3q1N18FJpLbCm4lLtzSZJRUNV/2sax0tNyKCwsvYDVgAA="
   },
   {
     id: "13",
     url: "/photography/PXL_20251231_235312192.webp",
     description: "fiery red sky behind the treeline",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAACwAQCdASoKAAgAAUAmJQBOgCHXXDDgAP0rAkNfVA+1CPmcr6MZM5n9Xrb4+e47BxSQAAAA"
   },
   {
     id: "14",
     url: "/photography/PXL_20260108_040856251.webp",
     description: "p. audax carrying a droplet",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoKAAgAAUAmJYwC7ADdDSGAAAD+2HmZiv6NWI+iVP00jEpvNmK4wF8AAAA="
   },
   {
     id: "15",
     url: "/photography/PXL_20260108_042253119.webp",
     description: "tarantula being a menace",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADQAQCdASoKAA0AAUAmJYwCdAD0KkCjAAD2tfsBwgi6zffyYr+TZyGy/+qir515wasHAAAA"
   },
   {
     id: "16",
     url: "/photography/PXL_20260115_062158733.PORTRAIT.webp",
     description: "tarantula at the watering hole",
     orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAADwAQCdASoKAAgAAUAmJYgCdAEObiD8oAAA/uUcffQj6uPkHzRC//FNCLfcNBq1Y/uvuvA3wtSgAA=="
   },
   {
     id: "17",
     url: "/photography/PXL_20260129_045632703.PORTRAIT~2.webp",
     description: "silly silly / pure chaos..",
     orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAAAwAgCdASoKAAgAAUAmJaACdLoAAwj5sdxkAAD++gyXVUt//ft38XKp7+OdpsUu5HGn9w5fxjToeAAA"
   },
   {
     id: "18",
     url: "/photography/PXL_20260131_233605673.BURST-01.webp",
     description: "the moon in broad daylight",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAABwAQCdASoKAA0AAUAmJQBOgCHAgAD24InRNrLBp+RClDe2prOn9sfZfdi5SPuAAAA="
   },
   {
     id: "19",
     url: "/photography/SGCAM_20251127_134227019.webp",
     description: "cat on patrol",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADwAQCdASoKAAcAAUAmJZQCdAEQFSLLIgAA/mtiRXs6w0GcArxuOKgJhv0UkQAA"
   },
   {
     id: "20",
     url: "/photography/SGCAM_20251127_134233696.webp",
     description: "morning stretches on the hood",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADwAQCdASoKAAcAAUAmJZwCdAEPDGj2hwAA/uRrytlsUi9RyFwESfCz0yYAAA=="
   },
   {
     id: "21",
     url: "/photography/PXL_20260301_211813696.webp",
     description: "A cute wild Tan jumping spider!",
     orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADQAQCdASoKAA0AAUAmJZwAAueHty3OAAD+/jvso/q3pAc+oLpQf29h8wgAAA=="
   },
 ];
 
 const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const portrait = photo.orientation === "portrait";
   
   // dynamic bento logic - more conservative to prevent gaps
@@ -175,13 +197,26 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
       innerClassName="rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden border-6 border-[var(--outline-variant)] hover:border-[var(--primary)] transition-colors duration-300"
     >
       <div className="absolute inset-0 rounded-[1.8rem] overflow-hidden m-0.5">
+        {/* blur thing p */}
+        <img
+          src={photo.blur}
+          alt=""
+          aria-hidden="true"
+          className={cn(
+            "absolute inset-0 w-full h-full object-cover blur-2xl scale-110 transition-opacity duration-700",
+            isLoaded ? "opacity-0" : "opacity-100"
+          )}
+        />
+        {/* main image*/}
         <img
           src={photo.url}
           alt={photo.description}
+          onLoad={() => setIsLoaded(true)}
           loading={i < 2 ? "eager" : "lazy"}
           decoding="async"
           className={cn(
-            "w-full h-full object-cover transition-transform group-hover:scale-105",
+            "w-full h-full object-cover transition-all group-hover:scale-105",
+            isLoaded ? "opacity-100" : "opacity-0",
             settings.highHz ? "duration-500" : "duration-700",
           )}
           referrerPolicy="no-referrer"
@@ -198,20 +233,24 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
 
 export const LensPage = memo(({ viewport }: { viewport: any }) => {
   const [idx, setIdx] = useState<number | null>(null);
+  const [isExpandedLoaded, setIsExpandedLoaded] = useState(false);
   const { settings } = useTheme();
 
   const handlePhotoClick = React.useCallback((i: number) => {
     setIdx(i);
+    setIsExpandedLoaded(false);
   }, []);
 
   const next = React.useCallback((e?: any) => {
     e?.stopPropagation();
     setIdx((prev) => (prev !== null ? (prev + 1) % LENS_PHOTOS.length : null));
+    setIsExpandedLoaded(false);
   }, []);
 
   const prev = React.useCallback((e?: any) => {
     e?.stopPropagation();
     setIdx((prev) => (prev !== null ? (prev - 1 + LENS_PHOTOS.length) % LENS_PHOTOS.length : null));
+    setIsExpandedLoaded(false);
   }, []);
 
   useEffect(() => {
@@ -362,9 +401,22 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
                 className="relative w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing z-[205]"
                 onClick={(e) => e.stopPropagation()}
               >
+                {/* blur thing for expanded view */}
+                <img
+                  src={LENS_PHOTOS[idx].blur}
+                  aria-hidden="true"
+                  className={cn(
+                    "absolute inset-0 w-full h-full object-contain blur-3xl scale-110 transition-opacity duration-500",
+                    isExpandedLoaded ? "opacity-0" : "opacity-100"
+                  )}
+                />
                 <img
                   src={LENS_PHOTOS[idx].url}
-                  className="max-w-full max-h-full object-contain rounded-[40px] md:rounded-[60px] shadow-[0_48px_96px_-24px_rgba(0,0,0,0.6)] border-[12px] border-white/10 pointer-events-none select-none"
+                  onLoad={() => setIsExpandedLoaded(true)}
+                  className={cn(
+                    "max-w-full max-h-full object-contain rounded-[40px] md:rounded-[60px] shadow-[0_48px_96px_-24px_rgba(0,0,0,0.6)] border-[12px] border-white/10 pointer-events-none select-none transition-opacity duration-500",
+                    isExpandedLoaded ? "opacity-100" : "opacity-0"
+                  )}
                   referrerPolicy="no-referrer"
                   loading="eager"
                   decoding="async"
