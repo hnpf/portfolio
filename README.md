@@ -151,10 +151,7 @@ src/
 ## todo
 
 - [x] settings: import/export config as json [Added!! has way more than just json (includes link sharing and more!)]
-- [ ] honey-pot router (unsure)
 - [ ] rss/atom deep-linking & webmention skeleton
-- [ ] quick settings android-like drag-down notification shade
-- [ ] dynamic material 3 source color extraction
 - [ ] snapping & workspace tiling mode for custom panels
 - [ ] lazy-loading blurred placeholder matrix for lens
 
