@@ -130,7 +130,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
                   mass: 0.8
                 }}
                 className={cn(
-                  "text-7xl md:text-[11rem] tracking-[-0.05em] transition-all duration-150 select-none font-expressive-bold font-black italic",
+                  "text-7xl sm:text-8xl md:text-9xl lg:text-[11rem] tracking-[-0.05em] transition-all duration-150 select-none font-expressive-bold font-black italic",
                   flickering.includes(i) ? "text-[var(--primary)] scale-105" : "text-[var(--on-surface)]"
                 )}
               >

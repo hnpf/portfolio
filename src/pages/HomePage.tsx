@@ -133,7 +133,7 @@ const HelloVirex = () => {
             damping: settings.highHz ? 25 : 22,
             mass: 1,
           }}
-          className="text-7xl md:text-9xl lg:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.7] text-balance flex items-baseline"
+          className="text-7xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.7] text-balance flex items-baseline"
         >
           {words[widx]}
           <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block ml-[0.05em]">

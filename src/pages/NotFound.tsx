@@ -18,7 +18,7 @@ const NotFound = ({ go }: { go?: (page: string) => void }) => {
           initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
           animate={{ opacity: 0.05, scale: 1, rotate: -2 }}
           transition={{ duration: 2, ease: "easeOut" }}
-          className="text-[15rem] md:text-[35rem] font-expressive font-black tracking-tighter leading-none italic"
+          className="text-[10rem] sm:text-[15rem] md:text-[20rem] lg:text-[30rem] xl:text-[35rem] font-expressive font-black tracking-tighter leading-none italic"
         >
           404
         </motion.h1>
@@ -47,7 +47,7 @@ const NotFound = ({ go }: { go?: (page: string) => void }) => {
           transition={{ delay: 0.3, duration: 1, ease: [0.33, 1, 0.68, 1] }}
           className="py-6 md:py-0 space-y-8"
         >
-          <h2 className="text-6xl md:text-[11rem] font-expressive font-black tracking-tighter mb-8 text-balance leading-[0.8] italic">
+          <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[11rem] font-expressive font-black tracking-tighter mb-8 text-balance leading-[0.8] italic">
             {missing ? "link's gone cold." : "lost in space."}
           </h2>
           <p className="text-xl md:text-3xl text-[var(--on-surface-variant)] opacity-50 font-medium max-w-2xl mx-auto leading-tight px-6 text-pretty italic">
