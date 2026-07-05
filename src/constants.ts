@@ -123,7 +123,38 @@ export const PROJECTS: Project[] = [
 ];
 
 export const BLOG_POSTS: BlogPost[] = [
-    {
+  {
+    id: 'stop-moving-my-screen',
+    title: 'stop moving my screen! this is why modern web design is a motion sickness hazard...',
+    snippet: 'let\'s talk about how modern web designers went insane with motion, and why i finally finished my global toggle to turn off the damned thing!',
+    content: `
+# stop moving my screen! this is why modern web design is a motion sickness hazard...
+
+hi there! if you've browsed the modern web lately, you probably know what i'm talking about.. you open a site, and before you can even read a single thing, three different animations fade in, the background rotates on a 3d tilt axis, and the header does a double twist thing with weird animations! 
+
+i love pretty things, but at some point, we went completely off the deep end.
+
+## the physics obsession
+
+framer motion and other layout libraries made it incredibly easy to animate *everything*. and because we *can*, we *do*. and i'll admit; i do it too! 
+
+but here's my thing:
+* **it is very exhausting:** your eyes constantly have to track elements moving from off-screen just to focus on text.
+* **battery drain:** recalculating complex layouts and painting frame changes at full 120hz is a fast way to drain any battery.
+* **accessibility:** for a lot of people, intense motion is genuinely disorienting or triggers actual motion sickness. i've had friends that had motion sickness, so never again.
+
+## finally adding global animation controls
+
+i finally got around to finishing the \`disableAnimations\` option on this site, seen in the new changelog. if you open settings and turn it on, it now wraps the entire site in a global \`MotionConfig\` that overrides everything to instant transitions:
+
+one toggle, no latency, none of that. have fun, my motion sick people :)
+    `,
+    date: 'Jul 5, 2026',
+    category: 'dev',
+    readTime: '2 min read',
+    link: 'stop-moving-my-screen'
+  },
+  {
   id: 'leaving-vercel',
   title: 'leaving vercel; migrating my project to cloudflare!',
   snippet: 'here is why i finally dropped vercel\'s proprietary ecosystem, swapped to cloudflare pages, and built my own localized deployment helper.',
@@ -444,7 +475,7 @@ it's literally just people helping people for learning (and overall better code 
   },
 ];
 
-export const CHANGELOGS: ChangelogEntry[] = [ // 2026.06.09-2
+export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.05
 
 /* {
     id: "",
@@ -461,6 +492,27 @@ export const CHANGELOGS: ChangelogEntry[] = [ // 2026.06.09-2
     ],
   }, 
   */
+  {
+    id: "global-animation-controls",
+    version: "2026.07.05",
+    title: "Global Animation Controls",
+    date: "2026.07.05",
+    changes: [
+      {
+        category: "new settings",
+        items: [
+          "finally added the diable animations option to settings to turn off motion and transition effects.",
+          "added a custom confirmation dialog to prompt the user to reload the page to apply the settings cleanly.",
+        ],
+      },
+      {
+        category: "other",
+        items: [
+          "fix card hover globally (caused from conflict with disableAnimations, now fixed since full implementation)"
+        ]
+      },
+    ],
+  },
   {
     id: "mobile-consistency-rework",
     version: "2026.06.09_2",
