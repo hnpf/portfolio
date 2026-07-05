@@ -48,6 +48,8 @@ import { SettingsDialog } from "./components/SettingsDialog";
 import { DebugConfirmDialog } from "./components/DebugConfirmDialog";
 import { CapsuleConfirmDialog } from "./components/CapsuleConfirmDialog";
 import { RefreshConfirmDialog } from "./components/RefreshConfirmDialog";
+import { BugReportDialog } from "./components/BugReportDialog";
+import { KnownIssuesDialog } from "./components/KnownIssuesDialog";
 import { CursedPopup } from "./components/CursedPopup";
 import { BounceButton } from "./components/TechStack";
 
@@ -60,6 +62,8 @@ export default function App() {
   
   const [toast, setToast] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [bugReportOpen, setBugReportOpen] = useState(false);
+  const [KnownIssuessOpen, setKnownIssuessOpen] = useState(false);
   const [showDebugConfirm, setShowDebugConfirm] = useState(false);
   const [showRefreshConfirm, setShowRefreshConfirm] = useState(false);
   const [pendingCapsule, setPendingCapsule] = useState<any>(null);
@@ -131,9 +135,9 @@ export default function App() {
   }, [viewport.h, page, settings.sidebarCollapsed]);
 
   useEffect(() => {
-    document.body.style.overflow = (settingsOpen || showDebugConfirm || pendingCapsule) ? "hidden" : "";
+    document.body.style.overflow = (settingsOpen || bugReportOpen || KnownIssuessOpen || showDebugConfirm || pendingCapsule) ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [settingsOpen, showDebugConfirm, pendingCapsule]);
+  }, [settingsOpen, bugReportOpen, KnownIssuessOpen, showDebugConfirm, pendingCapsule]);
 
   useEffect(() => {
     const sync_url = () => {
@@ -256,7 +260,7 @@ export default function App() {
           </div>
           <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
             <div className="flex items-center gap-2 opacity-30 italic">
-              <Cpu size={10} /><span>v2.6.4-stable (v2026.07.05)</span>
+              <Cpu size={10} /><span>v2.6.5-stable (v2026.07.05_2)</span>
             </div>
           </div>
         </div>
@@ -423,6 +427,19 @@ export default function App() {
         setToast={setToast} 
         goto={goto} 
         is_mobile={is_mobile}
+        onReportBug={() => setBugReportOpen(true)}
+        onOpenKnownIssuess={() => setKnownIssuessOpen(true)}
+      />
+      <BugReportDialog
+        isOpen={bugReportOpen}
+        onClose={() => setBugReportOpen(false)}
+        setToast={setToast}
+        isMobile={is_mobile}
+      />
+      <KnownIssuesDialog
+        isOpen={KnownIssuessOpen}
+        onClose={() => setKnownIssuessOpen(false)}
+        isMobile={is_mobile}
       />
       <DebugConfirmDialog showDebugConfirm={showDebugConfirm} setShowDebugConfirm={setShowDebugConfirm} updateSettings={updateSettings} />
       <CapsuleConfirmDialog pendingCapsule={pendingCapsule} setPendingCapsule={setPendingCapsule} updateSettings={updateSettings} setToast={setToast} />
@@ -434,7 +451,7 @@ export default function App() {
           <div>PAGE: {page.toUpperCase()}</div>
           <div>THEME: {settings.mode.toUpperCase()}</div>
           <div>ANIM: {settings.disableAnimations ? "OFF" : "ON"}</div>
-          <div className="pt-2 opacity-40">v2026.07.05-stable</div>
+          <div className="pt-2 opacity-40">v2026.07.05_2-stable</div>
         </div>
       )}
       </MotionConfig>

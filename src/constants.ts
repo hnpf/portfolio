@@ -475,9 +475,9 @@ it's literally just people helping people for learning (and overall better code 
   },
 ];
 
-export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.05
-
-/* {
+export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.05_2
+/* 
+  {
     id: "",
     version: "",
     title: "",
@@ -491,7 +491,30 @@ export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.05
       },
     ],
   }, 
-  */
+*/
+
+  {
+    id: "bug-reporting-and-known-issues",
+    version: "2026.07.05_2",
+    title: "Bug Reporting & Known Issues",
+    date: "2026.07.05",
+    changes: [
+      {
+        category: "new features",
+        items: [
+          "added a server-secure bug reporting program with title, description, and screenshot capability.",
+          "added drag and drop, file upload, and clipboard paste (Ctrl+V) support for screenshots.",
+          "added a known issues viewer so users can check addressed bugs directly from the feedback panel.",
+        ],
+      },
+      {
+        category: "security",
+        items: [
+          "routed all bug reports through a server sided proxy endpoint, keeping the webhook url's safely hidden to stop spam.",
+        ]
+      },
+    ],
+  },
   {
     id: "global-animation-controls",
     version: "2026.07.05",
@@ -1253,3 +1276,24 @@ export const TECH_STACK = {
   web: ["React", "TypeScript", "TailwindCSS", "Next.js", "Node", "Javascript"],
   technical: ["Rust", "Golang", "Java", "Python", "C", "Docker", "bash"],
 };
+
+export interface KnownIssues {
+  id: string;
+  title: string;
+  description: string;
+  status: "investigating" | "identified" | "fixing" | "resolved" | "wontfix";
+  date: string;
+  severity: "low" | "medium" | "high";
+}
+
+export const KNOWN_ISSUES: KnownIssues[] = [
+  {
+    id: "sidebar-pages-flickering",
+    title: "Sidebar pages/items flickering again",
+    description: "whilst hovering over the sidebar pages, some items change colors slightly. this issue is highly prominent in AMOLED mode.",
+    status: "investigating",
+    date: "2026-07-05",
+    severity: "low",
+  }
+];
+

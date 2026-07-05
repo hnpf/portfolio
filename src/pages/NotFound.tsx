@@ -34,8 +34,8 @@ const NotFound = ({ go }: { go?: (page: string) => void }) => {
         >
           <div className="inline-flex items-center gap-6 px-8 py-4 rounded-full bg-[var(--surface-variant)]/60 backdrop-blur-xl text-[var(--primary)] shadow-2xl border-4 border-[var(--outline-variant)]/50 group cursor-default">
             <Ghost className="w-6 h-6 md:w-10 md:h-10 shrink-0 opacity-80 group-hover:scale-110 transition-transform duration-500" strokeWidth={1.5} />
-            <span className="text-[11px] md:text-xl font-expressive font-black tracking-[0.4em] uppercase opacity-80 border-l-4 border-[var(--outline-variant)] pl-6 italic">
-              dead end discovery
+            <span className="text-[11px] md:text-xl font-expressive font-black tracking-[0.2em] opacity-80 border-l-4 border-[var(--outline-variant)] pl-6 italic">
+              how did we get here?
             </span>
           </div>
         </motion.div>
@@ -48,12 +48,12 @@ const NotFound = ({ go }: { go?: (page: string) => void }) => {
           className="py-6 md:py-0 space-y-8"
         >
           <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[11rem] font-expressive font-black tracking-tighter mb-8 text-balance leading-[0.8] italic">
-            {missing ? "link's gone cold." : "lost in space."}
+            {missing ? "This link doesn't exist." : "This link doesn't exist."}
           </h2>
           <p className="text-xl md:text-3xl text-[var(--on-surface-variant)] opacity-50 font-medium max-w-2xl mx-auto leading-tight px-6 text-pretty italic">
             {missing 
-              ? `/${missing} has been purged from the archives.`
-              : "the requested endpoint does not exist in this reality."}
+              ? `/${missing} is missing to our knowledge.`
+              : `the link requested is missing up to our knowledge.`}
           </p>
         </motion.div>
 
@@ -74,13 +74,13 @@ const NotFound = ({ go }: { go?: (page: string) => void }) => {
               ? <Terminal className="w-6 h-6 md:w-10 md:h-10" />
               : <ArrowLeft className="w-6 h-6 md:w-10 md:h-10 group-hover:-translate-x-3 transition-transform duration-500" />
             }
-            <span className="italic tracking-tighter">{missing ? "Dashboard" : "Rewind"}</span>
+            <span className="italic tracking-tighter">{missing ? "Dashboard" : "Return"}</span>
           </motion.button>
           <motion.button 
             whileHover={{ scale: 1.03, y: -6 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => go?.('home')}
-            className="w-full sm:w-80 py-6 md:py-10 rounded-[2.5rem] font-expressive font-black text-xl md:text-3xl bg-[var(--primary)] text-[var(--on-primary)] shadow-[0_20px_50px_-10px_var(--primary)] flex items-center justify-center gap-4 group"
+            className="w-full sm:w-80 py-6 md:py-10 rounded-[2.5rem] font-expressive font-black text-xl md:text-3xl bg-[var(--primary)] text-[var(--on-primary)] flex items-center justify-center gap-4 group"
           >
             <span className="italic tracking-tighter">Go Home</span>
             <Home className="w-6 h-6 md:w-10 md:h-10 group-hover:scale-125 transition-transform duration-500" />

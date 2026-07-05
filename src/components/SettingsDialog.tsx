@@ -19,6 +19,7 @@ import {
   Terminal,
   ChevronRight,
   ChevronLeft,
+  Bug,
 } from "lucide-react";
 import { cn } from "../constants";
 import Switch from "./M3Switch";
@@ -33,7 +34,9 @@ export const SettingsDialog = memo(({
   setShowRefreshConfirm,
   setToast, 
   goto,
-  is_mobile
+  is_mobile,
+  onReportBug,
+  onOpenKnownIssuess,
 }: any) => {
   const dragControls = useDragControls();
   const settingsSpring = {
@@ -653,13 +656,60 @@ export const SettingsDialog = memo(({
                     <div>
                       <div className="font-bold">View changelog</div>
                       <div className="text-xs opacity-60 font-medium">
-                        See what's new in v2026.07.05-stable
+                        See what's new in v2026.07.05_2-stable
                       </div>                    </div>
                     <ChevronRight
                       size={20}
                       className="group-hover:translate-x-1 transition-transform"
                     />
                   </button>
+                </section>
+
+                <section className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <Bug size={20} className="text-[var(--primary)]" />
+                    <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)]">
+                      Feedback
+                    </h3>
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    <button
+                      onClick={() => {
+                        setSettingsOpen(false);
+                        onReportBug();
+                      }}
+                      className="w-full flex items-center justify-between border-6 border-[var(--outline-variant)] p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group cursor-pointer"
+                    >
+                      <div>
+                        <div className="font-bold">Report a bug</div>
+                        <div className="text-xs opacity-60 font-medium">
+                          Help us make virex.lol better by reporting issues
+                        </div>
+                      </div>
+                      <ChevronRight
+                        size={20}
+                        className="group-hover:translate-x-1 transition-transform"
+                      />
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSettingsOpen(false);
+                        onOpenKnownIssuess();
+                      }}
+                      className="w-full flex items-center justify-between border-6 border-[var(--outline-variant)] p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group cursor-pointer"
+                    >
+                      <div>
+                        <div className="font-bold">Known issues</div>
+                        <div className="text-xs opacity-60 font-medium">
+                          View bugs that have already been reported
+                        </div>
+                      </div>
+                      <ChevronRight
+                        size={20}
+                        className="group-hover:translate-x-1 transition-transform"
+                      />
+                    </button>
+                  </div>
                 </section>
               </div>
             </div>
