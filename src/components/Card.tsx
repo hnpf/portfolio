@@ -1,11 +1,28 @@
-import React, { useState, memo } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { cn } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { TiltContainer } from "./TiltContainer";
 
 export const Card = memo(({ children, className, innerClassName, delay = 0, onClick, whileHover, whileTap, noDefaultStyles = false }: any) => {
   const { settings } = useTheme();
-  const [hasEntered, setHasEntered] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  useEffect(() => {
+    if (settings.disableAnimations || delay === 0) {
+      setShouldAnimate(true);
+      return;
+    }
+    const timer = setTimeout(() => {
+      setShouldAnimate(true);
+    }, delay * 1000);
+    return () => clearTimeout(timer);
+  }, [delay, settings.disableAnimations]);
+
+  const initialValues = settings.disableAnimations ? false : {
+    opacity: 0,
+    y: 20,
+    scale: 0.95,
+  };
 
   return (
     <TiltContainer
@@ -17,29 +34,17 @@ export const Card = memo(({ children, className, innerClassName, delay = 0, onCl
         onClick && "cursor-pointer",
         innerClassName,
       )}
-      initial={settings.disableAnimations ? false : {
-        opacity: 0,
-        y: 20,
-        scale: 0.95,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: {
-          delay: hasEntered || settings.disableAnimations ? 0 : delay,
-          type: settings.disableAnimations ? "tween" : "spring",
-          duration: settings.disableAnimations ? 0 : undefined,
-          stiffness: settings.highHz ? 800 : 700,
-          damping: settings.highHz ? 30 : 28,
-          mass: 0.8,
-        }
-      }}
-      onAnimationComplete={() => setHasEntered(true)}
+      initial={initialValues}
+      animate={
+        shouldAnimate || settings.disableAnimations
+          ? { opacity: 1, y: 0, scale: 1 }
+          : initialValues
+      }
       transition={settings.disableAnimations ? { duration: 0 } : {
         type: "spring",
         stiffness: settings.highHz ? 800 : 700,
         damping: settings.highHz ? 30 : 28,
+        mass: 0.8,
       }}
       whileHover={whileHover || {
         y: settings.bentoTilt ? -6 : -12,
@@ -53,3 +58,4 @@ export const Card = memo(({ children, className, innerClassName, delay = 0, onCl
     </TiltContainer>
   );
 });
+

@@ -30,6 +30,7 @@ export const SettingsDialog = memo(({
   settings, 
   updateSettings, 
   setShowDebugConfirm, 
+  setShowRefreshConfirm,
   setToast, 
   goto,
   is_mobile
@@ -383,6 +384,11 @@ export const SettingsDialog = memo(({
                         desc: "high-refresh snappiness",
                       },
                       {
+                        key: "disableAnimations",
+                        label: "Disable Animations",
+                        desc: "turn off motion & transition effects",
+                      },
+                      {
                         key: "bentoTilt",
                         label: "3D Bento Tilt",
                         desc: "cursor tracking parallax tilt effect",
@@ -469,6 +475,9 @@ export const SettingsDialog = memo(({
                             onChange={(checked) => {
                               if (tweak.key === "debugMode" && checked) {
                                 setShowDebugConfirm(true);
+                              } else if (tweak.key === "disableAnimations") {
+                                updateSettings({ disableAnimations: checked });
+                                setShowRefreshConfirm(true);
                               } else {
                                 updateSettings({ [tweak.key]: checked });
                               }

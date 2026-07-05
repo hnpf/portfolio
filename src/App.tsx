@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect, memo } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import {
   Home,
   BookText,
@@ -47,6 +47,7 @@ import { SideItem, BotNav } from "./components/Navigation";
 import { SettingsDialog } from "./components/SettingsDialog";
 import { DebugConfirmDialog } from "./components/DebugConfirmDialog";
 import { CapsuleConfirmDialog } from "./components/CapsuleConfirmDialog";
+import { RefreshConfirmDialog } from "./components/RefreshConfirmDialog";
 import { CursedPopup } from "./components/CursedPopup";
 import { BounceButton } from "./components/TechStack";
 
@@ -60,6 +61,7 @@ export default function App() {
   const [toast, setToast] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [showDebugConfirm, setShowDebugConfirm] = useState(false);
+  const [showRefreshConfirm, setShowRefreshConfirm] = useState(false);
   const [pendingCapsule, setPendingCapsule] = useState<any>(null);
   const [do_wiggle, setDoWiggle] = useState(false);
   const [show_top, setShowTop] = useState(false);
@@ -204,10 +206,11 @@ export default function App() {
         settings.debugMode && "debug-mode",
       )}
     >
-      {IS_APR && <div className="fsh-tiled-bg" />}
-      {popup && (
-        <CursedPopup content={popup} onResolve={() => setPopup(null)} />
-      )}
+      <MotionConfig reducedMotion={settings.disableAnimations ? "always" : "user"} transition={settings.disableAnimations ? { duration: 0 } : undefined}>
+        {IS_APR && <div className="fsh-tiled-bg" />}
+        {popup && (
+          <CursedPopup content={popup} onResolve={() => setPopup(null)} />
+        )}
 
       <AnimatePresence>
         {toast && (
@@ -416,12 +419,14 @@ export default function App() {
         settings={settings} 
         updateSettings={updateSettings} 
         setShowDebugConfirm={setShowDebugConfirm} 
+        setShowRefreshConfirm={setShowRefreshConfirm}
         setToast={setToast} 
         goto={goto} 
         is_mobile={is_mobile}
       />
       <DebugConfirmDialog showDebugConfirm={showDebugConfirm} setShowDebugConfirm={setShowDebugConfirm} updateSettings={updateSettings} />
       <CapsuleConfirmDialog pendingCapsule={pendingCapsule} setPendingCapsule={setPendingCapsule} updateSettings={updateSettings} setToast={setToast} />
+      <RefreshConfirmDialog showRefreshConfirm={showRefreshConfirm} setShowRefreshConfirm={setShowRefreshConfirm} />
       {settings.debugMode && (
         <div className="fixed top-4 right-4 z-[150] p-4 bg-black/80 text-white font-mono text-[10px] rounded-2xl backdrop-blur-xl border border-white/10 pointer-events-none space-y-1">
           <div className="text-[var(--primary)] font-bold mb-2 flex items-center gap-2"><Cpu size={12} />BUILD INFO</div>
@@ -432,6 +437,7 @@ export default function App() {
           <div className="pt-2 opacity-40">v2026.06.09_2-stable</div>
         </div>
       )}
+      </MotionConfig>
     </div>
   );
 }

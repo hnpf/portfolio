@@ -1,15 +1,8 @@
 #!/bin/bash
 
-# handle -f flag
 force=false
 if [ "$1" == "-f" ]; then
     force=true
-fi
-
-# check for changes (including staged ones)
-if [ -z "$(git status --porcelain)" ] && [ "$force" = false ]; then
-    echo "nothing to commit lol"
-    exit 0
 fi
 
 curr=$(git rev-parse --abbrev-ref HEAD)
@@ -20,13 +13,24 @@ if [ "$force" = true ]; then
     exit 0
 fi
 
-# standard flow
+if [ -z "$(git status --porcelain)" ]; then
+    echo "nothing to commit lol"
+    exit 0
+fi
+
 echo "--- current changes ---"
 git diff --stat
 git add .
 
 read -p "title: " title
 read -p "desc: " desc
+
+# don't let it commit absolute void
+if [ -z "$title" ]; then
+    echo "need a title dude"
+    git restore --staged .
+    exit 1
+fi
 
 if [ -z "$desc" ]; then
     git commit -m "$title"
@@ -42,5 +46,6 @@ if [[ "$confirm" =~ ^[Yy]$ ]]; then
     git push origin "$curr"
     echo "pushed."
 else
-    echo "aborting push."
+    echo "aborting push. rolling back commit but keeping your changes..."
+    git reset --soft HEAD~1
 fi
