@@ -23,6 +23,8 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 
 **recent changes**
 
+
+- [July 5, 2026]	 Bug reporting & "known bugs" features.
 - [July 5, 2026]	 Finally add disableAnimations to settings.
 
 - [June 9, 2026]     Immersive settings, Dash page overhaul, new screenshots, and more!
