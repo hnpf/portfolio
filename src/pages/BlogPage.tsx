@@ -55,16 +55,31 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
         className="max-w-4xl mx-auto space-y-12 px-4 md:px-0 motion-gpu relative"
       >
         <div className="flex justify-between items-center sticky top-0 py-4 bg-[var(--surface)]/80 backdrop-blur-md z-40">
-          <button
-            onClick={() => window.history.back()}
+          <motion.button
+            onClick={() => navigateTo("blog")}
             className="m3-button-tonal w-fit group"
+            initial="rest"
+            whileHover="hover"
+            whileTap="tap"
+            variants={{
+              rest: { scale: 1, x: 0 },
+              hover: { scale: 1.06, x: -4 },
+              tap:  { scale: 0.92, x: -2 },
+            }}
+            transition={{ type: "spring", stiffness: 500, damping: 22, mass: 0.6 }}
           >
-            <ChevronLeft
-              size={20}
-              className="group-hover:-translate-x-1 transition-transform"
-            />
+            <motion.span
+              variants={{
+                rest: { x: 0 },
+                hover: { x: -5 },
+                tap:  { x: -2 },
+              }}
+              transition={{ type: "spring", stiffness: 700, damping: 18, mass: 0.5 }}
+            >
+              <ChevronLeft size={20} />
+            </motion.span>
             <span>Back to feed</span>
-          </button>
+          </motion.button>
           <div className="hidden md:flex items-center gap-3 opacity-50 text-xs font-black uppercase tracking-[0.2em]">
             {read.includes(post.id) && (
               <CheckCircle2 size={14} className="text-green-500" />

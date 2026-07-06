@@ -494,6 +494,30 @@ export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.05_4
 */
 
   {
+    id: "blog-ux-polish",
+    version: "2026.07.06",
+    title: "Blog UX Polish",
+    date: "2026.07.06",
+    changes: [
+      {
+        category: "bug fixes",
+        items: [
+          "back to feed: fixed a weird bug where the 'back to feed' button did nothing after reading a post, it was using window.history.back() which breaks on direct URL visits and refreshes. now, it uses the internal SPA router so it SHOULD always work.",
+        ],
+      },
+      {
+        category: "micro-animations",
+        items: [
+          "back to feed button: upgraded from plain CSS hover to a motion.button with spring variants. the whole button springs left and scales up on hover, and the icon independently bounces further left, now giving it a pulling feel.",
+          "copy link button: added a spring hover lift (y: -4) with a growing shadow, a 'press down' on tap, and a proper bouncy scale on click instead of the old flat pulse.",
+          "copy link icon swap: the link/check icons now spin in and out with spring physics instead of a plain opacity fade, link exits rotating -45* and check enters spinning from -90*.",
+          "copy link text swap: 'copy link' / 'link copied!' now slides up/out and down/in with Animate Presence instead of just a static text swap.",
+        ],
+      },
+    ],
+  },
+
+  {
     id: "settings-ux-theme-switcher-overhaul",
     version: "2026.07.05_4",
     title: "Settings UX & Theme Switcher Overhaul",
