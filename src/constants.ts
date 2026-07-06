@@ -1326,5 +1326,14 @@ export interface KnownIssues {
   severity: "low" | "medium" | "high";
 }
 
-export const KNOWN_ISSUES: KnownIssues[] = [];
+export const KNOWN_ISSUES: KnownIssues[] = [
+  {
+    id: "desktop-photo-bento-lag",
+    title: "desktop photo bento lag",
+    description: "scrolling down on the bento and hovering over other photos causes immense lag. not sure why, but it's been on my watch for about a month now.",
+    status: "investigating",
+    date: "2026-07-05",
+    severity: "medium",
+  }
+];
 
