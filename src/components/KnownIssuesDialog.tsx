@@ -140,9 +140,9 @@ export const KnownIssuesDialog = ({
               )}>
                 {KNOWN_ISSUES.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-12 text-center text-[var(--on-surface-variant)]/60">
-                    <CheckCircle size={48} className="mb-2 text-emerald-500/80" />
-                    <p className="font-bold">No known bugs reported!</p>
-                    <p className="text-xs mt-1">Everything seems to be running smoothly.</p>
+                    <CheckCircle size={70} className="mb-7 text-emerald-500/80" />
+                    <p className="font-bold">No known bugs or issues have been reported!</p>
+                    <p className="text-xs font-display mt-1">Everything seems to be running fine. If this is wrong, make a report!</p>
                   </div>
                 ) : (
                   KNOWN_ISSUES.map((bug) => {

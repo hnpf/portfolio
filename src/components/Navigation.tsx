@@ -84,10 +84,8 @@ export const SideItem = memo(
           <div className="relative z-10 shrink-0 flex items-center justify-center transition-all duration-300 h-8 w-14">
             {/* m3 active indicator pill (mini version) */}
             {isSelected && (
-              <motion.div
-                layoutId="sidebar-mini-pill"
-                className="absolute inset-0 bg-[var(--primary-container)] rounded-full z-0 sidebar-pill"
-                transition={sideItemSpring}
+              <div
+                className="absolute inset-0 bg-[var(--primary-container)] rounded-full z-0 sidebar-pill active-pill-animate"
               />
             )}
 
@@ -186,20 +184,8 @@ export const SideItem = memo(
 
         {/* expanded active indicator bg */}
         {isSelected && (
-          <motion.div
-            layoutId="sidebar-expanded-bg"
-            className={cn("absolute inset-0 bg-[var(--primary-container)]", rd)}
-            animate={{
-              borderRadius:
-                isFirst && isLast
-                  ? "28px"
-                  : isFirst
-                    ? "28px 28px 15px 15px"
-                    : isLast
-                      ? "15px 15px 28px 28px"
-                      : "15px",
-            }}
-            transition={sideItemSpring}
+          <div
+            className={cn("absolute inset-0 bg-[var(--primary-container)] active-pill-animate", rd)}
           />
         )}
 
@@ -352,21 +338,11 @@ export const BotNav = memo(({
       )}
     >
       <div className="relative flex items-center justify-center w-16 h-8 mb-1">
-        <AnimatePresence mode="popLayout">
-          {isSelected && (
-            <motion.div
-              layoutId="active-pill"
-              className="absolute inset-0 bg-[var(--primary-container)] rounded-full -z-10 motion-gpu"
-              transition={{
-                type: "spring",
-                stiffness: 350,
-                damping: 30,
-                mass: 1,
-                restDelta: 0.001,
-              }}
-            />
-          )}
-        </AnimatePresence>
+        {isSelected && (
+          <div
+            className="absolute inset-0 bg-[var(--primary-container)] rounded-full -z-10 motion-gpu active-pill-animate"
+          />
+        )}
         <motion.div
           layoutId={text === "More" ? layoutId : undefined}
           animate={

@@ -1286,14 +1286,5 @@ export interface KnownIssues {
   severity: "low" | "medium" | "high";
 }
 
-export const KNOWN_ISSUES: KnownIssues[] = [
-  {
-    id: "sidebar-pages-flickering",
-    title: "Sidebar pages/items flickering again",
-    description: "whilst hovering over the sidebar pages, some items change colors slightly. this issue is highly prominent in AMOLED mode.",
-    status: "investigating",
-    date: "2026-07-05",
-    severity: "low",
-  }
-];
+export const KNOWN_ISSUES: KnownIssues[] = [];
 
