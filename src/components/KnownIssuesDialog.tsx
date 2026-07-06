@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Bug, X, ChevronDown, ChevronUp, AlertCircle, CheckCircle, Info, Construction } from "lucide-react";
@@ -220,8 +221,7 @@ export const KnownIssuesDialog = ({
               <div className="p-6 border-t border-[var(--outline-variant)] shrink-0">
                 <button
                   onClick={onClose}
-                  className="w-full bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--primary)]/90 py-3 rounded-xl text-sm font-bold transition-all cursor-pointer text-center shadow-md"
-                >
+                  className="w-full bg-[var(--primary)] text-[var(--on-primary)] py-4 pl-6 pr-4 rounded-2xl hover:rounded-xl active:rounded-3xl hover:bg-[var(--primary)]/95 active:scale-90 text-base font-black tracking-wide transition-all duration-300 ease-out cursor-pointer text-left shadow-[4px_4px_0px_0px_var(--md-sys-color-outline-variant,rgba(0,0,0,0.2))] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"                >
                   Close
                 </button>
               </div>

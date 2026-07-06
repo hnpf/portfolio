@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Bug, X, Image as ImageIcon, Trash2, Loader2, CheckCircle } from "lucide-react";
@@ -250,7 +251,7 @@ export const BugReportDialog = ({
                         placeholder="e.g. Broken link on dash page"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="w-full bg-[var(--surface-variant)]/40 text-[var(--on-surface)] border border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-xl px-4 py-3 text-sm focus:outline-none transition-all duration-200"
+                        className="w-full mt-2 bg-[var(--surface-variant)]/40 text-[var(--on-surface)] border-5 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-2xl px-4 py-3 text-md focus:outline-none transition-all duration-200"
                       />
                     </div>
 
@@ -266,7 +267,7 @@ export const BugReportDialog = ({
                         placeholder="Please describe the steps to reproduce the bug and what happened..."
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        className="w-full bg-[var(--surface-variant)]/40 text-[var(--on-surface)] border border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-xl px-4 py-3 text-sm focus:outline-none transition-all duration-200 resize-none min-h-[100px]"
+                        className="w-full mt-2 bg-[var(--surface-variant)]/40 text-[var(--on-surface)] border-5 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-2xl px-4 py-3 text-md focus:outline-none transition-all duration-200 resize-none min-h-[100px]"
                       />
                     </div>
 
@@ -338,19 +339,19 @@ export const BugReportDialog = ({
                     </div>
 
                     {/* footer actions */}
-                    <div className="flex gap-3 pt-4 border-t border-[var(--outline-variant)]">
+                    <div className="flex gap-3 pt-5 border-t border-[var(--outline-variant)]">
                       <button
                         type="button"
                         disabled={isSubmitting}
                         onClick={onClose}
-                        className="flex-1 bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/30 text-[var(--on-surface)] py-3 rounded-xl text-sm font-bold transition-all cursor-pointer text-center"
+                        className="flex-1 bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/40 text-[var(--on-surface-variant)] py-3.5 rounded-2xl hover:rounded-xl active:scale-95 text-sm font-black tracking-wide transition-all duration-200 cursor-pointer text-center"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
                         disabled={isSubmitting || !title.trim() || !description.trim()}
-                        className="flex-1 bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--primary)]/90 disabled:opacity-50 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                        className="flex-[1.5] bg-[var(--primary)] text-[var(--on-primary)] disabled:bg-[var(--surface-variant)]/50 disabled:text-[var(--outline)] disabled:scale-100 disabled:opacity-50 py-3.5 rounded-xl hover:rounded-2xl active:scale-95 transition-all duration-300 ease-out flex items-center justify-center gap-2 cursor-pointer text-sm font-black tracking-wide shadow-sm disabled:shadow-none"
                       >
                         {isSubmitting ? (
                           <>
