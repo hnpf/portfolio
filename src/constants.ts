@@ -475,7 +475,7 @@ it's literally just people helping people for learning (and overall better code 
   },
 ];
 
-export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.05_2
+export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.05_4
 /* 
   {
     id: "",
@@ -493,6 +493,46 @@ export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.05_2
   }, 
 */
 
+  {
+    id: "settings-ux-theme-switcher-overhaul",
+    version: "2026.07.05_4",
+    title: "Settings UX & Theme Switcher Overhaul",
+    date: "2026.07.05",
+    changes: [
+      {
+        category: "theme switcher redesign",
+        items: [
+          "pill / pills: replaced the single long capsule with three individual m3e buttons, all with better in/out corners logic.",
+          "bouncy scale: each button now scales up with a physics pop when active and squishes on tap :)",
+          "fill animation: the active background fades and scales in/out independently per button instead of sliding across the gap, which fixed clipping.",
+        ],
+      },
+      {
+        category: "mobile settings sheet",
+        items: [
+          "rounded top: the mobile settings sheet now has rounded top corners (2rem) in both peeking and fullscreen states.",
+          "removed back button: replaced the clutter-y back button with a clean SettingsIcon on the left and an X button on the right, now matching the desktop layout better",
+        ],
+      },
+      {
+        category: "better 120hz gestures",
+        items: [
+          "native touch events: added custom touch handlers to bypass framer-motion overhead for no janky GPU dragging",
+          "useMotionValue: added motion values to update position directly in touch handlers, bypassing react renders for 120fps dragging",
+          "velocity tracking: 5-sample moving window tracks px/s velocity for a snappy drag-to-dismiss calculation.",
+        ],
+      },
+      {
+        category: "peeking default state",
+        items: [
+          "12% gap: added a 12% top viewport gap at the top of the settings menu to get near-native android backdrop sheets.",
+          "scroll-to-fullscreen: new scrolling-to-drag handover now enables easy fullscreen-to-peek snapping.",
+          "snap physics: custom spring physics snap sheet for precise 12% peek or 0% fullscreen anchor thing.",
+          "drag anywhere: edge-to-edge dragging works globally whenever internal content is at scroll-top!",
+        ],
+      },
+    ],
+  },
   {
     id: "bug-reporting-and-known-issues",
     version: "2026.07.05_2",

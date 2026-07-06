@@ -1,7 +1,7 @@
 // @ts-ignore
 // @ts-nocheck
 import React, { memo } from "react";
-import { motion, AnimatePresence, useDragControls } from "motion/react";
+import { motion, AnimatePresence, useMotionValue, animate } from "motion/react";
 import {
   Settings as SettingsIcon,
   X,
@@ -38,13 +38,150 @@ export const SettingsDialog = memo(({
   onReportBug,
   onOpenKnownIssuess,
 }: any) => {
-  const dragControls = useDragControls();
   const settingsSpring = {
     type: "spring" as const,
     stiffness: 400,
     damping: 30,
     mass: 0.8
   };
+
+  const [defaultY, setDefaultY] = React.useState(() => is_mobile ? window.innerHeight * 0.12 : 0);
+  const y = useMotionValue(is_mobile ? window.innerHeight : 0);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const modalRef = React.useRef<HTMLDivElement>(null);
+
+  const dragStartY = React.useRef(0);
+  const dragStartModalY = React.useRef(0);
+  const isDraggingSheet = React.useRef(false);
+  const touchTimes = React.useRef<{ y: number; t: number }[]>([]);
+
+  React.useEffect(() => {
+    if (!is_mobile) return;
+    const handleResize = () => {
+      setDefaultY(window.innerHeight * 0.12);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [is_mobile]);
+
+  React.useEffect(() => {
+    if (settingsOpen && is_mobile) {
+      y.set(window.innerHeight);
+    }
+  }, [settingsOpen, is_mobile, y]);
+
+  const handleClose = React.useCallback(() => {
+    setSettingsOpen(false);
+  }, [setSettingsOpen]);
+
+  React.useEffect(() => {
+    const modalEl = modalRef.current;
+    if (!modalEl || !is_mobile) return;
+
+    const handleTouchStartRaw = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      dragStartY.current = touch.clientY;
+      dragStartModalY.current = y.get();
+      
+      const isInsideScroll = scrollRef.current && scrollRef.current.contains(e.target as Node);
+      const scrollTop = scrollRef.current ? scrollRef.current.scrollTop : 0;
+      
+      if (!isInsideScroll) {
+        isDraggingSheet.current = true;
+      } else if (dragStartModalY.current > 0) {
+        isDraggingSheet.current = true;
+      } else if (scrollTop <= 0) {
+        isDraggingSheet.current = false;
+      } else {
+        isDraggingSheet.current = false;
+      }
+      
+      touchTimes.current = [{ y: touch.clientY, t: Date.now() }];
+    };
+
+    const handleTouchMoveRaw = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      const clientY = touch.clientY;
+      const deltaY = clientY - dragStartY.current;
+      const scrollTop = scrollRef.current ? scrollRef.current.scrollTop : 0;
+      
+      touchTimes.current.push({ y: clientY, t: Date.now() });
+      if (touchTimes.current.length > 5) {
+        touchTimes.current.shift();
+      }
+
+      if (dragStartModalY.current === 0 && scrollTop <= 0 && !isDraggingSheet.current) {
+        if (deltaY > 0) {
+          isDraggingSheet.current = true;
+          dragStartY.current = clientY;
+          dragStartModalY.current = 0;
+        }
+      }
+
+      if (!isDraggingSheet.current && scrollTop <= 0 && deltaY > 0) {
+        isDraggingSheet.current = true;
+        dragStartY.current = clientY;
+        dragStartModalY.current = 0;
+      }
+
+      if (isDraggingSheet.current) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+        
+        let newY = dragStartModalY.current + deltaY;
+        if (newY < 0) {
+          newY = newY * 0.2; // pull resistance
+        }
+        y.set(newY);
+      }
+    };
+
+    const handleTouchEndRaw = (e: TouchEvent) => {
+      if (!isDraggingSheet.current) return;
+      isDraggingSheet.current = false;
+
+      const currentY = y.get();
+      let velocityY = 0;
+      if (touchTimes.current.length >= 2) {
+        const first = touchTimes.current[0];
+        const last = touchTimes.current[touchTimes.current.length - 1];
+        const dt = last.t - first.t;
+        if (dt > 0) {
+          velocityY = ((last.y - first.y) / dt) * 1000;
+        }
+      }
+
+      if (velocityY > 600 || currentY > defaultY + 150) {
+        handleClose();
+      } else if (velocityY < -400) {
+        animate(y, 0, {
+          type: "spring",
+          damping: 30,
+          stiffness: 300,
+          mass: 0.8
+        });
+      } else {
+        const targetY = currentY < defaultY * 0.5 ? 0 : defaultY;
+        animate(y, targetY, {
+          type: "spring",
+          damping: 30,
+          stiffness: 300,
+          mass: 0.8
+        });
+      }
+    };
+
+    modalEl.addEventListener("touchstart", handleTouchStartRaw, { passive: false });
+    modalEl.addEventListener("touchmove", handleTouchMoveRaw, { passive: false });
+    modalEl.addEventListener("touchend", handleTouchEndRaw, { passive: false });
+
+    return () => {
+      modalEl.removeEventListener("touchstart", handleTouchStartRaw);
+      modalEl.removeEventListener("touchmove", handleTouchMoveRaw);
+      modalEl.removeEventListener("touchend", handleTouchEndRaw);
+    };
+  }, [is_mobile, y, defaultY, handleClose, settingsOpen]);
 
   return (
     <AnimatePresence>
@@ -57,14 +194,18 @@ export const SettingsDialog = memo(({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSettingsOpen(false)}
+            onClick={handleClose}
             className="absolute inset-0 bg-black/60 backdrop-blur-md motion-gpu"
             style={{ willChange: "opacity" }}
           />
           <motion.div
-            initial={is_mobile ? { y: "100%" } : { opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={is_mobile ? { y: "100%" } : {
+            ref={modalRef}
+            initial={is_mobile ? { y: window.innerHeight } : { opacity: 0, scale: 0.9, y: 20 }}
+            animate={is_mobile ? { y: defaultY } : { opacity: 1, scale: 1, y: 0 }}
+            exit={is_mobile ? { 
+              y: window.innerHeight,
+              transition: { type: "spring", damping: 30, stiffness: 300, mass: 0.8 }
+            } : {
               opacity: 0,
               scale: 0.9,
               y: 20,
@@ -73,58 +214,39 @@ export const SettingsDialog = memo(({
               }
             }}
             transition={is_mobile ? { type: "spring", damping: 30, stiffness: 350, mass: 0.8 } : settingsSpring}
-            drag={is_mobile ? "y" : false}
-            dragControls={dragControls}
-            dragListener={false}
-            dragConstraints={{ top: 0 }}
-            dragElastic={0.05}
-            onDragEnd={(_, info) => {
-              if (is_mobile && (info.offset.y > 150 || info.velocity.y > 400)) {
-                setSettingsOpen(false);
-              }
-            }}
             onClick={(e) => e.stopPropagation()}
             className={cn(
               "relative bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col motion-gpu settings-modal-content",
               is_mobile 
-                ? "w-full h-[100dvh] max-w-none max-h-none rounded-none border-none" 
+                ? "w-full h-[100dvh] max-w-none max-h-none rounded-t-[2rem] border-none" 
                 : "w-full max-w-xl rounded-[2rem] md:rounded-[2.5rem] max-h-[90vh] border border-[var(--outline-variant)]"
             )}
-            style={{ 
-              willChange: "transform, opacity",
-              touchAction: "none"
+            style={is_mobile ? { 
+              y,
+              willChange: "transform",
+              touchAction: "pan-y"
+            } : { 
+              willChange: "transform, opacity"
             }}
           >
             <div className="flex flex-col h-full overflow-hidden">
               {/* drag handle for mobile */}
               {is_mobile && (
                 <div 
-                  onPointerDown={(e) => dragControls.start(e)}
-                  className="w-full flex justify-center pt-3 pb-1 shrink-0 bg-[var(--surface)] cursor-grab active:cursor-grabbing"
+                  className="w-full flex justify-center pt-3 pb-1 shrink-0 bg-[var(--surface)]"
                 >
                   <div className="w-12 h-1.5 bg-[var(--outline-variant)] rounded-full opacity-40" />
                 </div>
               )}
 
               <div 
-                onPointerDown={is_mobile ? (e) => dragControls.start(e) : undefined}
                 className={cn(
                   "flex justify-between items-center border-b border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10 shrink-0",
-                  is_mobile ? "p-4" : "p-6 md:p-8",
-                  is_mobile && "cursor-grab active:cursor-grabbing"
+                  is_mobile ? "p-4" : "p-6 md:p-8"
                 )}
               >
                 <div className="flex items-center gap-4">
-                  {is_mobile ? (
-                    <button
-                      onClick={() => setSettingsOpen(false)}
-                      className="p-2 -ml-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors"
-                    >
-                      <ChevronLeft size={28} />
-                    </button>
-                  ) : (
-                    <SettingsIcon size={24} className="text-[var(--primary)]" />
-                  )}
+                  <SettingsIcon size={24} className="text-[var(--primary)]" />
                   <h2 className={cn(
                     "font-bold flex items-center gap-3",
                     is_mobile ? "text-xl" : "text-2xl"
@@ -133,19 +255,20 @@ export const SettingsDialog = memo(({
                     {is_mobile && <span className="text-2xl font-expressive italic font-black uppercase tracking-tight">Settings</span>}
                   </h2>
                 </div>
-                {!is_mobile && (
-                  <button
-                    onClick={() => setSettingsOpen(false)}
-                    className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors"
-                  >
-                    <X size={24} />
-                  </button>
-                )}
+                <button
+                  onClick={handleClose}
+                  className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors"
+                >
+                  <X size={24} />
+                </button>
               </div>
-              <div className={cn(
-                "space-y-10 overflow-y-auto scrollbar-hide flex-1",
-                is_mobile ? "p-6 pb-32" : "p-6 md:p-10"
-              )}>
+              <div 
+                ref={scrollRef}
+                className={cn(
+                  "space-y-10 overflow-y-auto scrollbar-hide flex-1",
+                  is_mobile ? "p-6 pb-32" : "p-6 md:p-10"
+                )}
+              >
                 <section className="space-y-6">
                   <div className="flex items-center gap-3">
                     <Palette size={20} className="text-[var(--primary)]" />
@@ -153,46 +276,67 @@ export const SettingsDialog = memo(({
                       appearance
                     </h3>
                   </div>
-                  <div className="relative grid grid-cols-3 gap-2 p-1.5 bg-[var(--surface-variant)] rounded-full overflow-hidden">
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        left:
-                          settings.mode === "light"
-                            ? "6px"
-                            : settings.mode === "dark"
-                              ? "33.33%"
-                              : "66.66%",
-                        marginLeft:
-                          settings.mode === "dark"
-                            ? "4px"
-                            : settings.mode === "system"
-                              ? "2px"
-                              : "0px",
-                      }}
-                      transition={settingsSpring}
-                      className="absolute inset-y-1.5 bg-[var(--primary)] rounded-full shadow-lg z-0"
-                      style={{
-                        width: "calc(33.33% - 8px)",
-                      }}
-                    />
-                    {(["light", "dark", "system"] as const).map((m) => (
-                      <button
-                        key={m}
-                        onClick={() => updateSettings({ mode: m })}
-                        className={cn(
-                          "relative z-10 flex items-center justify-center gap-2 py-2.5 rounded-full transition-colors capitalize text-sm font-bold",
-                          settings.mode === m
-                            ? "text-[var(--on-primary)]"
-                            : "text-[var(--on-surface-variant)] hover:bg-black/5",
-                        )}
-                      >
-                        {m === "light" && <Sun size={16} />}
-                        {m === "dark" && <Moon size={16} />}
-                        {m === "system" && <Monitor size={16} />}
-                        <span className="hidden sm:inline">{m}</span>
-                      </button>
-                    ))}
+                  <div className="grid grid-cols-3 gap-2 w-full">
+                    {(["light", "dark", "system"] as const).map((m) => {
+                      const isActive = settings.mode === m;
+                      let roundedClass = "";
+                      if (m === "light") {
+                        roundedClass = "rounded-l-[2rem] rounded-r-[0.6rem]";
+                      } else if (m === "dark") {
+                        roundedClass = "rounded-[0.6rem]";
+                      } else {
+                        roundedClass = "rounded-r-[2rem] rounded-l-[0.6rem]";
+                      }
+                      
+                      return (
+                        <motion.button
+                          key={m}
+                          onClick={() => updateSettings({ mode: m })}
+                          whileTap={{ scale: 0.94 }}
+                          animate={{
+                            scale: isActive ? 1.04 : 1,
+                            borderColor: isActive ? "var(--primary)" : "var(--outline-variant)",
+                            color: isActive ? "var(--on-primary)" : "var(--on-surface-variant)"
+                          }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 20
+                          }}
+                          className={cn(
+                            "relative overflow-hidden flex items-center justify-center gap-2.5 py-4 border-[3px] transition-colors capitalize text-sm font-black tracking-wide cursor-pointer select-none",
+                            roundedClass,
+                            !isActive && "bg-[var(--surface-variant)]/30 hover:bg-black/5"
+                          )}
+                          style={{
+                            willChange: "transform, border-color"
+                          }}
+                        >
+                          <motion.div
+                            initial={false}
+                            animate={{
+                              opacity: isActive ? 1 : 0,
+                              scale: isActive ? 1 : 0.85
+                            }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 350,
+                              damping: 22
+                            }}
+                            className={cn(
+                              "absolute -inset-[3px] bg-[var(--primary)] -z-10",
+                              roundedClass
+                            )}
+                          />
+                          <div className="relative z-10 flex items-center justify-center gap-2">
+                            {m === "light" && <Sun size={18} />}
+                            {m === "dark" && <Moon size={18} />}
+                            {m === "system" && <Monitor size={18} />}
+                            <span className="font-bold">{m}</span>
+                          </div>
+                        </motion.button>
+                      );
+                    })}
                   </div>
 
                   <motion.div
@@ -648,7 +792,7 @@ export const SettingsDialog = memo(({
                   </div>
                   <button
                     onClick={() => {
-                      setSettingsOpen(false);
+                      handleClose();
                       goto("changelog");
                     }}
                     className="w-full flex items-center justify-between border-6 border-[var(--outline-variant)]  p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group"
@@ -656,7 +800,7 @@ export const SettingsDialog = memo(({
                     <div>
                       <div className="font-bold">View changelog</div>
                       <div className="text-xs opacity-60 font-medium">
-                        See what's new in v2026.07.05_2-stable
+                        See what's new in v2026.07.05_4-stable
                       </div>                    </div>
                     <ChevronRight
                       size={20}
@@ -675,7 +819,7 @@ export const SettingsDialog = memo(({
                   <div className="flex flex-col gap-3">
                     <button
                       onClick={() => {
-                        setSettingsOpen(false);
+                        handleClose();
                         onReportBug();
                       }}
                       className="w-full flex items-center justify-between border-6 border-[var(--outline-variant)] p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group cursor-pointer"
@@ -693,7 +837,7 @@ export const SettingsDialog = memo(({
                     </button>
                     <button
                       onClick={() => {
-                        setSettingsOpen(false);
+                        handleClose();
                         onOpenKnownIssuess();
                       }}
                       className="w-full flex items-center justify-between border-6 border-[var(--outline-variant)] p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group cursor-pointer"
