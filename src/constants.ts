@@ -475,7 +475,7 @@ it's literally just people helping people for learning (and overall better code 
   },
 ];
 
-export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.05_4
+export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.06_2
 /* 
   {
     id: "",
@@ -494,9 +494,9 @@ export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.05_4
 */
 
   {
-    id: "blog-ux-polish",
+    id: "blog-ux-polish-scrollbar-makeover",
     version: "2026.07.06",
-    title: "Blog UX Polish",
+    title: "Blog UX Polish & Scrollbar Makeover",
     date: "2026.07.06",
     changes: [
       {
@@ -512,6 +512,14 @@ export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.05_4
           "copy link button: added a spring hover lift (y: -4) with a growing shadow, a 'press down' on tap, and a proper bouncy scale on click instead of the old flat pulse.",
           "copy link icon swap: the link/check icons now spin in and out with spring physics instead of a plain opacity fade, link exits rotating -45* and check enters spinning from -90*.",
           "copy link text swap: 'copy link' / 'link copied!' now slides up/out and down/in with Animate Presence instead of just a static text swap.",
+        ],
+      },
+      {
+        category: "m3 scrollbar refinements",
+        items: [
+          "new scrollbar: added new m3e scrollbar in replacement of the old native-like scrollbar.",
+          "removed scrollbar for mobile: entirely removed the scrollbar for mobile for a cleaner interface on mobile screens",
+          "cat cat meow"
         ],
       },
     ],
