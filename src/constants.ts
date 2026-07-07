@@ -128,7 +128,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: 'the old blogs are back. all of them.',
     snippet: 'i dug up every old post from the old virex.lol, going all the way back to the very beginning of the "project inception". they\'re all here again now, preserved exactly as they were back when i wrote them.',
     content: `
-# the old blogs are back. all of them.
+# the old blogs are back. all 14 of them.
 
 soooo, i was poking around some old snapshots of virex.lol recently, and found a bunch of my old blog posts sitting there! completely forgotten! some of them are from the very first version of this site, back when i was just figuring things out and writing about whatever.
 
@@ -550,7 +550,7 @@ it's literally just people helping people for learning (and overall better code 
   {
     id: "ah-shi-here-we-go-again",
     title: "Ah shi, here we go again.",
-    date: "Nov 8, 2025",
+    date: "Nov 6, 2025",
     snippet: "Rockstar has JUST announced that GTA 6 will be delayed to November 19th, 2026",
     content: "Rockstar has JUST announced that GTA 6 will be delayed to November 19th, 2026. I personally don't even want the game anymore, Rockstar can KEEP it 😭",
     category: "gaming",
@@ -610,10 +610,10 @@ it's literally just people helping people for learning (and overall better code 
   {
     id: "project-update-2025-11-03",
     title: "Project Update 2025-11-03",
-    date: "",
+    date: "Nov 3, 2025",
     snippet: "Fully overhauled and recoded search wrapper & portfolio from scratch",
     content: "Fully overhauled and recoded search wrapper & portfolio from scratch. Made my own design. This complete redesign focuses on clean code, modern aesthetics, and improved performance. The new design emphasizes my skills in both frontend and backend development.",
-    category: "Nov 3, 2025",
+    category: "dev",
     readTime: "2 min read",
     link: "project-update-2025-11-03",
   },
