@@ -23,7 +23,8 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 
 **recent changes**
 
-
+- [July 6, 2026] 	 overhauled material 3 expressive scrollbar
+- [July 6, 2026] 	 blog back to feed bug fix, and micro-animations update
 - [July 5, 2026]	 Bug reporting & "known bugs" features.
 - [July 5, 2026]	 Finally add disableAnimations to settings.
 
@@ -39,7 +40,7 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 - [May 26, 2026]     fix blur on mobile /readme, fix blog text on light mode, and much more.
 - [May 26, 2026]     update rss, llm content, and sitemap.
 
-> last updated:July 5, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
+> last updated: July 6, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
 ---
 
 ## screenshots
