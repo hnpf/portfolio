@@ -66,6 +66,15 @@
         overflow-x: hidden;
     }
 
+    /* hide native document scrollbar, replaced by M3WindowScrollBar */
+    html, body {
+        scrollbar-width: none;
+    }
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+        display: none;
+    }
+
     /* optimization */
     .motion-gpu {
         transform: translateZ(0);
@@ -135,31 +144,50 @@
         z-index: 20;
     }
 
+    /* ── m3 expressive global scrollbar works in webkit and firefox ──────── */
+
+    /* (chrome, safari, edge) */
     ::-webkit-scrollbar {
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
     }
 
     ::-webkit-scrollbar-track {
-        background: var(--surface);
-        border-left: 1px solid var(--outline-variant);
+        background: transparent;
     }
 
     ::-webkit-scrollbar-thumb {
         background: var(--outline-variant);
         border-radius: 100px;
-        border: 3px solid var(--surface);
-        transition: background 0.3s ease;
+        border: 3px solid transparent;
+        background-clip: padding-box;
+        transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     ::-webkit-scrollbar-thumb:hover {
         background: var(--primary);
-        border: 2px solid var(--surface);
+        border-width: 2px;
+        background-clip: padding-box;
     }
 
+    ::-webkit-scrollbar-thumb:active {
+        background: var(--primary);
+        border-width: 1px;
+        background-clip: padding-box;
+    }
+
+    /* firefox */
     * {
         scrollbar-width: thin;
-        scrollbar-color: var(--outline-variant) var(--surface);
+        scrollbar-color: var(--outline-variant) transparent;
+    }
+
+    /* hide scrollbar but keep scrollability used by m3ScrollContainer */
+    .scrollbar-hide {
+        scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
     }
 
     .custom-scrollbar::-webkit-scrollbar {

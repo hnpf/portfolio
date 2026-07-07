@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, useRef, memo } from "react";
 import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import {
   Home,
@@ -52,6 +52,7 @@ import { BugReportDialog } from "./components/BugReportDialog";
 import { KnownIssuesDialog } from "./components/KnownIssuesDialog";
 import { CursedPopup } from "./components/CursedPopup";
 import { BounceButton } from "./components/TechStack";
+import { M3WindowScrollBar, M3ScrollBar } from "./components/M3ScrollBar";
 
 import "./navigation/navigation-rail.css";
 
@@ -74,6 +75,7 @@ export default function App() {
   const [navHoverSide, setNavHoverSide] = useState<"top" | "bottom" | null>(null);
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
+  const navRef = useRef<HTMLElement | null>(null);
 
   // modular logic hooks
   useSettingsSync(setPendingCapsule);
@@ -119,6 +121,7 @@ export default function App() {
   useEffect(() => {
     const nav = document.getElementById("sidebar-nav");
     if (!nav) return;
+    navRef.current = nav;
     const check = () => {
       setCanScrollUp(nav.scrollTop > 5);
       setCanScrollDown(nav.scrollHeight - nav.scrollTop - nav.clientHeight > 5);
@@ -212,6 +215,14 @@ export default function App() {
     >
       <MotionConfig reducedMotion={settings.disableAnimations ? "always" : "user"} transition={settings.disableAnimations ? { duration: 0 } : undefined}>
         {IS_APR && <div className="fsh-tiled-bg" />}
+
+        {/* m3 expressive window-level scrollbar. desktop only. */}
+        {!is_mobile && !settings.focusMode && (
+          <M3WindowScrollBar
+            colorful
+            right={settings.sidebarFlipped ? 4 : 4}
+          />
+        )}
         {popup && (
           <CursedPopup content={popup} onResolve={() => setPopup(null)} />
         )}
@@ -335,6 +346,7 @@ export default function App() {
               )}
               <div className="flex-1 flex flex-col min-h-0 relative group/nav" onMouseMove={(e) => { const rect = e.currentTarget.getBoundingClientRect(); const y = e.clientY - rect.top; setNavHoverSide(y < rect.height / 2 ? "top" : "bottom"); }} onMouseLeave={() => setNavHoverSide(null)}>
                 <nav id="sidebar-nav" className={cn("flex-1 flex flex-col overflow-y-auto min-h-0 py-12 scrollbar-hide scroll-smooth", canScrollUp && canScrollDown ? "mask-both" : (canScrollUp ? "mask-top" : (canScrollDown ? "mask-bottom" : "")), "gap-6", settings.sidebarCollapsed ? "items-center px-2" : "items-stretch px-4")} data-rail-state={settings.sidebarCollapsed ? "default" : "open"}>
+                  <M3ScrollBar scrollEl={navRef} colorful />
                   <SideItem highHz={settings.highHz} isFirst glyph={Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={Fingerprint} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={BookText} text="Blog" isSelected={page === "blog"} onSelect={() => goto("blog")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
