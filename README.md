@@ -23,6 +23,10 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 
 **recent changes**
 
+- [July 7, 2026]   fix crowding in blog topics dropdown
+- [July 7, 2026]   announcements bar
+- [July 7, 2026]   bring back old blog posts
+
 - [July 6, 2026] 	 overhauled material 3 expressive scrollbar
 - [July 6, 2026] 	 blog back to feed bug fix, and micro-animations update
 - [July 5, 2026]	 Bug reporting & "known bugs" features.
