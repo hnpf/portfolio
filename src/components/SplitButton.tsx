@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "../constants";
+import { M3ScrollBar } from "./M3ScrollBar";
 
 interface SplitButtonProps {
   variant?: "elevated" | "filled" | "tonal" | "outlined";
@@ -22,6 +23,7 @@ export const SplitButton: React.FC<SplitButtonProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -87,10 +89,20 @@ export const SplitButton: React.FC<SplitButtonProps> = ({
                 stiffness: 400,
                 damping: 25,
               }}
-              className="absolute right-0 top-full mt-2 min-w-[14rem] bg-[var(--surface-variant)] rounded-[1.5rem] shadow-2xl border-4 border-[var(--outline-variant)] overflow-hidden z-50 p-2"
+              className="absolute right-0 top-full mt-2 min-w-[17rem] bg-[var(--surface-variant)] rounded-[1.5rem] shadow-2xl border-4 border-[var(--outline-variant)] overflow-hidden z-50 p-2"
+              style={{ maxHeight: "min(60vh, 28rem)" }}
             >
-              <div onClick={() => setIsOpen(false)} className="flex flex-col gap-1">
-                {menu}
+              {/* scroll container, native bar hidden, M3ScrollBar overlaid */}
+              <div className="relative">
+                <div
+                  ref={scrollRef}
+                  onClick={() => setIsOpen(false)}
+                  className="flex flex-col gap-1 overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                  style={{ maxHeight: "min(calc(60vh - 2rem), 26rem)" }}
+                >
+                  {menu}
+                </div>
+                <M3ScrollBar scrollEl={scrollRef} thinOnly colorful />
               </div>
             </motion.div>
           )}
