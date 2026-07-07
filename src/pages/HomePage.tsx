@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Activity, ChevronRight, ExternalLink, ArrowUpRight, Loader2, Download, Terminal } from "lucide-react";
-import { cn, PROJECTS } from "../constants";
+import { Activity, ChevronRight, ExternalLink, ArrowUpRight, Loader2, Download, Terminal, ArrowDown } from "lucide-react";
+import { cn, PROJECTS, BLOG_POSTS } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { Card } from "../components/Card";
 import WavyProgress from "../components/WavyProgress";
@@ -285,6 +285,99 @@ const WeatherWidget = () => {
   );
 };
 
+const ScrollVisualPull = ({ setPage, settings }: { setPage: (page: string, postId: string | null) => void, settings: any }) => {
+  const latestPost = BLOG_POSTS[0];
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  useEffect(() => {
+    if (settings.disableAnimations) {
+      setShouldAnimate(true);
+      return;
+    }
+    const timer = setTimeout(() => {
+      setShouldAnimate(true);
+    }, 800); // 0.8s delay
+    return () => clearTimeout(timer);
+  }, [settings.disableAnimations]);
+
+  const handleScrollDown = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    document.getElementById("projects-section")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const initialValues = settings.disableAnimations ? false : { opacity: 0, y: 15 };
+
+  return (
+    <motion.div
+      initial={initialValues}
+      animate={
+        shouldAnimate || settings.disableAnimations
+          ? { opacity: 1, y: 0 }
+          : initialValues
+      }
+      transition={settings.disableAnimations ? { duration: 0 } : {
+        type: "spring",
+        stiffness: settings.highHz ? 800 : 700,
+        damping: settings.highHz ? 30 : 28,
+        mass: 0.8,
+      }}
+      whileHover={settings.disableAnimations ? {} : {
+        y: settings.bentoTilt ? -6 : -12,
+        scale: settings.bentoTilt ? 1.02 : 1.01,
+        rotate: settings.bentoTilt ? 0 : 0.01,
+        transition: { type: "spring", stiffness: 400, damping: 15 }
+      }}
+      whileTap={settings.disableAnimations ? {} : { scale: 0.98 }}
+      className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 p-2 border-6 border-[var(--outline-variant)] rounded-[2.5rem] bg-[var(--surface-variant)] hover:border-[var(--primary)] hover:shadow-2xl transition-[border-color,box-shadow] duration-150 relative overflow-hidden group/pull cursor-pointer"
+    >
+      {/* left: latest blog post preview */}
+      {latestPost && (
+        <div 
+          onClick={() => setPage("blog", latestPost.id)}
+          className="flex-1 flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 sm:p-3 rounded-[2rem] cursor-pointer group/blog select-none z-10"
+        >
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="px-3 py-1 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-full text-[10px] font-expressive-bold italic tracking-widest uppercase border border-[var(--primary)]/25 shadow-sm">
+              NEW POST
+            </span>
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-col xl:flex-row xl:items-baseline gap-1 xl:gap-3">
+              <h4 className="text-[16px] sm:text-[18px] font-display font-black italic text-[var(--on-surface-variant)] group-hover/blog:text-[var(--primary)] transition-colors duration-200 truncate">
+                {latestPost.title}
+              </h4>
+              <span className="text-[12px] font-sans opacity-50 font-medium shrink-0">
+                {latestPost.date}
+              </span>
+            </div>
+            <p className="text-[13px] opacity-70 font-sans truncate mt-1 max-w-[280px] sm:max-w-[450px] lg:max-w-[500px]">
+              {latestPost.snippet}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* right: scroll anchor cta */}
+      <div 
+        onClick={handleScrollDown}
+        className="flex items-center justify-between lg:justify-end gap-4 p-4 lg:p-3 rounded-[2rem] cursor-pointer group/scroll select-none border-t border-[var(--outline-variant)]/45 lg:border-t-0 shrink-0 z-10"
+      >
+        <div className="flex flex-col items-start lg:items-end -space-y-0.5">
+          <span className="text-[11px] font-expressive-bold italic tracking-widest uppercase opacity-40">
+            EXPLORE CONTENT
+          </span>
+          <span className="text-[15px] font-display font-black italic text-[var(--on-surface-variant)] group-hover/scroll:text-[var(--primary)] transition-colors duration-200">
+            scroll to projects
+          </span>
+        </div>
+        <div className="w-10 h-10 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] group-hover/scroll:bg-[var(--primary)] group-hover/scroll:text-[var(--on-primary)] flex items-center justify-center border border-[var(--primary)]/20 group-hover/scroll:border-[var(--primary)] transition-all duration-300 shadow-sm shrink-0 group-hover/scroll:scale-110">
+          <ArrowDown size={18} strokeWidth={2.5} className="transition-transform duration-300" />
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 export const HomePage = memo(({ setPage, settings }: any) => {
   const IS_JUNE = new Date().getMonth() === 5;
   return (
@@ -321,7 +414,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
         <FshBtn />
       </header>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8">
+      <section id="works-section" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8">
         <Card
           delay={0.7}
           className="md:col-span-2 lg:col-span-1 xl:col-span-2"
@@ -373,6 +466,11 @@ export const HomePage = memo(({ setPage, settings }: any) => {
           </div>
         </Card>
 
+        {/* anc bar / active site indicator (act 2 gate) */}
+        <div className="md:col-span-2 lg:col-span-1 xl:col-span-2">
+          <ScrollVisualPull setPage={setPage} settings={settings} />
+        </div>
+
         <Card
           delay={0.6}
           className="flex-1"
@@ -407,7 +505,7 @@ export const HomePage = memo(({ setPage, settings }: any) => {
           </Card>
         </div>
 
-        <div className="md:col-span-2 lg:col-span-1 xl:col-span-2 mt-16 mb-8 flex flex-col items-center gap-2">
+        <div id="projects-section" className="md:col-span-2 lg:col-span-1 xl:col-span-2 mt-16 mb-8 flex flex-col items-center gap-2">
           <div className="text-[15px] font-black font-display font-sans italic tracking-[0.2em] opacity-30">index / select works</div>
           <h3 className="text-4xl md:text-6xl font-expressive-bold italic font-black tracking-[-0.05em] uppercase text-center">
             Projects & Research
