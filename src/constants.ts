@@ -475,7 +475,7 @@ it's literally just people helping people for learning (and overall better code 
   },
 ];
 
-export const CHANGELOGS: ChangelogEntry[] = [ // 2026.07.06_2
+export const CHANGELOGS: ChangelogEntry[] = [
 /* 
   {
     id: "",
