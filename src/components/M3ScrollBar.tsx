@@ -29,10 +29,12 @@ interface M3ScrollBarProps {
   alwaysVisible?: boolean;
   colorful?: boolean;
   className?: string;
+  /** Lock the bar to its thin 6px state permanently — no hover expand, no drag handle. */
+  thinOnly?: boolean;
 }
 
 export const M3ScrollBar = forwardRef<HTMLDivElement, M3ScrollBarProps>(
-  function M3ScrollBar({ scrollEl, thumbColor, alwaysVisible = false, colorful = true, className = "" }, ref) {
+  function M3ScrollBar({ scrollEl, thumbColor, alwaysVisible = false, colorful = true, thinOnly = false, className = "" }, ref) {
     const hostRef = useRef<HTMLDivElement>(null);
     useImperativeHandle(ref, () => hostRef.current!);
 
@@ -40,8 +42,10 @@ export const M3ScrollBar = forwardRef<HTMLDivElement, M3ScrollBarProps>(
     const [thumbOffset, setThumbOffset] = useState(0);
     const [scrollable, setScrollable]   = useState(false);
 
-    const [hovered,  setHovered]  = useState(false);
-    const [dragging, setDragging] = useState(false);
+    const [hovered,   setHovered]   = useState(false);
+    const [dragging,  setDragging]  = useState(false);
+    const [scrolling, setScrolling] = useState(false);
+    const scrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const targetRef = useRef<HTMLElement | null>(null);
 
@@ -82,11 +86,23 @@ export const M3ScrollBar = forwardRef<HTMLDivElement, M3ScrollBarProps>(
       const el = targetRef.current;
       if (!el) return;
       sync();
-      el.addEventListener("scroll", sync, { passive: true });
+      const onScroll = () => {
+        sync();
+        if (thinOnly) {
+          setScrolling(true);
+          if (scrollTimer.current) clearTimeout(scrollTimer.current);
+          scrollTimer.current = setTimeout(() => setScrolling(false), 1000);
+        }
+      };
+      el.addEventListener("scroll", onScroll, { passive: true });
       const ro = new ResizeObserver(sync);
       ro.observe(el);
-      return () => { el.removeEventListener("scroll", sync); ro.disconnect(); };
-    }, [sync]);
+      return () => {
+        el.removeEventListener("scroll", onScroll);
+        ro.disconnect();
+        if (scrollTimer.current) clearTimeout(scrollTimer.current);
+      };
+    }, [sync, thinOnly]);
 
     // ── dragging ─────────────────────────────────────────────────────────
     const dragStartY  = useRef(0);
@@ -119,9 +135,9 @@ export const M3ScrollBar = forwardRef<HTMLDivElement, M3ScrollBarProps>(
     const thumb = thumbColor ?? (colorful ? "var(--primary)" : "var(--on-surface-variant)");
     const track = `color-mix(in srgb, ${thumb} 25%, transparent)`;
 
-    const active     = hovered || dragging;
-    const showBar    = alwaysVisible || (scrollable && active);
-    const opacity    = showBar ? 0.85 : 0;
+    const active     = !thinOnly && (hovered || dragging);
+    const showBar    = alwaysVisible || (scrollable && (thinOnly ? scrolling : active));
+    const opacity    = showBar ? (thinOnly ? 0.5 : 0.85) : 0;
 
     // geometry
     const thumbTopFrac = thumbOffset * (1 - thumbRatio);
@@ -130,14 +146,14 @@ export const M3ScrollBar = forwardRef<HTMLDivElement, M3ScrollBarProps>(
     const bottomTrackT = `calc(${(thumbTopFrac + thumbRatio) * 100}% + ${TRACK_GAP}px)`;
 
     if (!scrollable && !alwaysVisible) {
-      return <div ref={hostRef} style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: BAR_WIDE + 6, pointerEvents: "none" }} />;
+      return <div ref={hostRef} style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: thinOnly ? BAR_WIDTH + 6 : BAR_WIDE + 6, pointerEvents: "none" }} />;
     }
 
     return (
       <div
         ref={hostRef}
         className={className}
-        style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: BAR_WIDE + 6, display: "flex", justifyContent: "flex-end", alignItems: "stretch", zIndex: 10 }}
+        style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: thinOnly ? BAR_WIDTH + 6 : BAR_WIDE + 6, display: "flex", justifyContent: "flex-end", alignItems: "stretch", zIndex: 10 }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => { if (!dragging) setHovered(false); }}
         onPointerMove={onPointerMove}
