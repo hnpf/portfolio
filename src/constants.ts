@@ -124,6 +124,40 @@ export const PROJECTS: Project[] = [
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    id: 'return-of-the-old-blogs',
+    title: 'the old blogs are back. all of them.',
+    snippet: 'i dug up every old post from the old virex.lol, going all the way back to the very beginning of the "project inception". they\'re all here again now, preserved exactly as they were back when i wrote them.',
+    content: `
+# the old blogs are back. all of them.
+
+soooo, i was poking around some old snapshots of virex.lol recently, and found a bunch of my old blog posts sitting there! completely forgotten! some of them are from the very first version of this site, back when i was just figuring things out and writing about whatever.
+
+i could have left them buried. but i felt way different, they're more of a part of this project's history, and i think that's now worth keeping to the public, as well.
+
+## what's back?
+
+everything from **june 2025** through **november 2025** is now restored and live in the blog feed. that also includes some of these titles:
+
+* the very first "welcome to the blog!" post
+* early project updates from when the site was barely a thing
+* thoughts on open source, cybersecurity, and dev philosophy
+* a GTA 6 rant that aged beautifully (it did get delayed again, by the way!)
+* the original inception post from when this whole thing started as a material design playground
+
+## why even bother?
+
+i think it's quite cool to have a past available here. not just the posts from now, but the old, messy, slightly rushed ones from way back. the site has come a really long way since then and looking back at those early posts is kind of wild.
+
+ps. they're posted here exactly as i wrote them! i've done zero edits, with no post polish bs. raw old virex lol posts from 2025.
+
+enjoy reading back in time :)
+    `,
+    date: 'Jul 6, 2026',
+    category: 'update',
+    readTime: '2 min read',
+    link: 'return-of-the-old-blogs',
+  },
+  {
     id: 'stop-moving-my-screen',
     title: 'stop moving my screen! this is why modern web design is a motion sickness hazard...',
     snippet: 'let\'s talk about how modern web designers went insane with motion, and why i finally finished my global toggle to turn off the damned thing!',
@@ -455,7 +489,7 @@ apparently, they missed the deadline set by the transparency act and are now doi
 
   {
     id: "why-love-open-source",
-    title: "heres why i love open source",
+    title: "heres why i love open source - 2",
     snippet:
       "honestly, open source is just better. it’s all about the community and...",
     content: `
@@ -473,6 +507,162 @@ it's literally just people helping people for learning (and overall better code 
     readTime: "1 min read",
     link: "why-love-open-source",
   },
+  {
+    id: "my-take-on-ai",
+    title: "My take on ai",
+    date: "Nov 16, 2025",
+    snippet: "My take on ai; ai is a companion, not a replacement. an assistant, and nothing more",
+    content: `AI is perfect as a LOCAL ONLY dev companion for spotting bugs, refactoring, and testing in your environment, but never let it touch security and never let it run your project. its a helper, nothing more. dont ever use ai to build your codebase. at that point, youre the consumer. not the creator. use it to see, to catch, to polish. not to replace, not to take control. AI is your TOOL, its *not your brain*. you are. so go learn new things, devs! ai is not replacing you any time soon. dont let it take your crown!`,
+    category: "ai",
+    readTime: "3 min read",
+    link: "my-take-on-ai",
+  },
+  {
+    id: "keeping-it-live",
+    title: "The VIREX portfolio is UPDATED",
+    date: "Nov 16, 2025",
+    snippet: "I've completely revamped and fixed + polished the code on ALL pages",
+    content: "Hello world! The VIREX portfolio is UPDATED!  I've completely revamped and fixed + polished the code on ALL pages!  I've optimized everything to oblivion, and added 2 new pages: FAQ and tutorials. Wordly has been revamped as well! Have fun, VIREX world! Love u all.",
+    category: "dev",
+    readTime: "2 min read",
+    link: "keeping-it-live",
+  },
+  {
+    id: "project-update-2025-11-12",
+    title: "Project Update 2025-11-12",
+    date: "Nov 12, 2025",
+    snippet: "Major fixes and improvements across the site.",
+    content: "Major fixes and improvements across the site. Improved SEO, fixed broken links, and MUCH BETTER performance. Always striving to make the site better for you and me!",
+    category: "dev",
+    readTime: "1 min read",
+    link: "project-update-2025-11-12",
+  },
+  {
+    id: "project-update-2025-11-08",
+    title: "Project Update 2025-11-08",
+    date: "Nov 8, 2025",
+    snippet: "Updated multiple things on the site for better UX...",
+    content: "Yep, it's that time again! I've updated multiple things on the site for better UX, including blog fixes, portfolio stuff, and a new photography section! this update also brings things like privacy info, sitemap, and other elements like robots.txt and llms.txt. I hope to bring more fixes and improvements over time. thanks for being along with this project!",
+    category: "dev",
+    readTime: "3 min read",
+    link: "project-update-2025-11-08",
+  },
+  {
+    id: "ah-shi-here-we-go-again",
+    title: "Ah shi, here we go again.",
+    date: "Nov 8, 2025",
+    snippet: "Rockstar has JUST announced that GTA 6 will be delayed to November 19th, 2026",
+    content: "Rockstar has JUST announced that GTA 6 will be delayed to November 19th, 2026. I personally don't even want the game anymore, Rockstar can KEEP it 😭",
+    category: "gaming",
+    readTime: "1 min read",
+    link: "ah-shi-here-we-go-again",
+  },
+  {
+    id: "future-plans-and-goals",
+    title: "Future Plans and Goals",
+    date: "Nov 7, 2025",
+    snippet: "I'm really looking forward to new projects and even more learning opportunities",
+    content: "Looking ahead, I'm really looking forward to new projects and even more learning opportunities. I wish to contribute to more open source projects, expand my photography skills, and even cybersecurity studying. My way of continuous learning never ends! :)",
+    category: "goals",
+    readTime: "2 min read",
+    link: "future-plans-and-goals",
+  },
+  {
+    id: "importance-of-cybersecurity",
+    title: "The Importance of Cybersecurity, especially in Development",
+    date: "Nov 6, 2025",
+    snippet: "understanding cybersecurity is a no brainer",
+    content: "As a developer, understanding cybersecurity is a no brainer. Having secure authentication or protecting user data, security should be a MUST have consideration in every single project, especially on the web. My search engine project emphasizes privacy and security at its core.",
+    category: "security",
+    readTime: "2 min read",
+    link: "importance-of-cybersecurity",
+  },
+  {
+    id: "why-i-love-open-source-og",
+    title: "Why I Love Open Source",
+    date: "Nov 5, 2025",
+    snippet: "Open source software has always been so important in my development journey",
+    content: "Open source software has always been so important in my development journey. Especially learning from others' code to contributing back to the community, it's a cycle of knowledge sharing that benefits literally anyone and everyone. My projects like NekoFetch and MTCLI are open source because I heavily believe in collaborative development!",
+    category: "dev",
+    readTime: "3 min read",
+    link: "why-i-love-open-source-og",
+  },
+  {
+    id: "welcome-to-the-blog",
+    title: "Welcome to the Blog!",
+    date: "Nov 4, 2025",
+    snippet: "This is the first blog post!",
+    content: "This is the first blog post! I'm happy to share updates on my projects and thoughts on development and other topics! As a self-taught full-stack developer, I believe in sharing knowledge and experiences. This blog will cover everything from coding tutorials to personal insights on the tech industry. Stay tuned for more content!",
+    category: "blog",
+    readTime: "2 min read",
+    link: "welcome-to-the-blog",
+  },
+  {
+    id: "project-update-2025-11-04",
+    title: "Project Update 2025-11-04",
+    date: "Nov 4, 2025",
+    snippet: "I've been working on a LOT of updates and features for my portfolio.",
+    content: "I've been working on a LOT of updates and features for my portfolio! I'll post updates here as I go! The latest changes include improved navigation, better SEO optimization, and enhanced user experience. I'm constantly iterating on my work to make it better for visitors.",
+    category: "dev",
+    readTime: "2 min read",
+    link: "project-update-2025-11-04",
+  },
+  {
+    id: "project-update-2025-11-03",
+    title: "Project Update 2025-11-03",
+    date: "",
+    snippet: "Fully overhauled and recoded search wrapper & portfolio from scratch",
+    content: "Fully overhauled and recoded search wrapper & portfolio from scratch. Made my own design. This complete redesign focuses on clean code, modern aesthetics, and improved performance. The new design emphasizes my skills in both frontend and backend development.",
+    category: "Nov 3, 2025",
+    readTime: "2 min read",
+    link: "project-update-2025-11-03",
+  },
+  {
+    id: "project-update-2025-10-20",
+    title: "Project Update 2025-10-20",
+    date: "Oct 20, 2025",
+    snippet: "Changed fonts & added transparency/glassy effects across the site.",
+    content: "Changed fonts & added transparency/glassy effects across the site. Typography plays a crucial role in user experience, and these changes make the content more readable and visually appealing. The glassy effects add a modern touch to the interface.",
+    category: "dev",
+    readTime: "1 min read",
+    link: "project-update-2025-10-20",
+  },
+  {
+    id: "project-update-2025-10-19",
+    title: "Project Update 2025-10-19",
+    date: "Oct 19, 2025",
+    snippet: "Fixed and revamped various parts of the UI",
+    content: "Fixed and revamped various parts of the UI. User interface design is iterative, and these improvements address usability issues and enhance the overall user experience. Every detail matters when creating a professional portfolio.",
+    category: "dev",
+    readTime: "1 min read",
+    link: "project-update-2025-10-19",
+  },
+  {
+    id: "project-update-2025-6-12",
+    title: "Project Inception 2025-6-12",
+    date: "Jun 12, 2025",
+    snippet: "Started with the idea of creating a Material Design testing playground as a hobby.",
+    content: "Started with the idea of creating a Material Design testing playground as a hobby. The initial project sparked my passion for web development and led to the creation of my current portfolio. It's amazing how a simple hobby project can evolve into something meaningful.",
+    category: "beginning",
+    readTime: "2 min read",
+    link: "project-update-2025-6-12",
+  },
+
+
+  /*
+  
+  {
+    id: "",
+    title: "",
+    date: "",
+    snippet: "",
+    content: "",
+    category: "",
+    readTime: "",
+    link: "",
+  },
+
+  */
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [
