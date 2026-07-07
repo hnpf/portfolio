@@ -126,7 +126,7 @@ export const M3ScrollBar = forwardRef<HTMLDivElement, M3ScrollBarProps>(
     // geometry
     const thumbTopFrac = thumbOffset * (1 - thumbRatio);
 
-    const topTrackH    = `max(0px, calc(${thumbTopFrac * 100}% - ${TRACK_GAP}px))`;
+    const topTrackH    = `max(0px, calc(${thumbTopFrac * 100}% - ${TRACK_GAP + PAD}px))`;
     const bottomTrackT = `calc(${(thumbTopFrac + thumbRatio) * 100}% + ${TRACK_GAP}px)`;
 
     if (!scrollable && !alwaysVisible) {
@@ -362,7 +362,7 @@ export function M3WindowScrollBar({ colorful = true, right = 4 }: M3WindowScroll
   const track = `color-mix(in srgb, ${thumb} 25%, transparent)`;
   const active = hovered || dragging;
   const thumbTopFrac = thumbOffset * (1 - thumbRatio);
-  const topTrackH    = `max(0px, calc(${thumbTopFrac * 100}% - ${TRACK_GAP}px))`;
+  const topTrackH    = `max(0px, calc(${thumbTopFrac * 100}% - ${TRACK_GAP + PAD}px))`;
   const bottomTrackT = `calc(${(thumbTopFrac + thumbRatio) * 100}% + ${TRACK_GAP}px)`;
 
   return (
