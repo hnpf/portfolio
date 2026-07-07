@@ -1,14 +1,18 @@
 // @ts-nocheck
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, memo, createContext, useContext } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronRight, Calendar, CheckCircle2, ArrowUpRight, Filter } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import { cn, BLOG_POSTS } from "../constants";
 import CopyLinkCapsule from "../components/CopyLinkCapsule";
 import { Card } from "../components/Card";
 import { Code } from "../components/Code";
 import { SplitButton } from "../components/SplitButton";
+
+// context to pass nesting depth into list items
+const ListDepthContext = createContext(0);
 
 export const BlogPage = memo(({ targetId, navigateTo }: any) => {
   const [active_cat, setActiveCat] = useState<string | null>(null);
@@ -114,65 +118,160 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
         <div className="markdown-body py-12">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeHighlight]}
             components={{
+              // --- code blocks ---
               pre: ({ node, ...props }: any) => <Code {...props} />,
-              h1: ({ children }: any) => (
-                <h1 className="text-5xl font-display font-black tracking-tight mb-8 text-[var(--primary)]">
-                  {children}
-                </h1>
-              ),
-              h2: ({ children }: any) => (
-                <h2 className="text-3xl font-display font-black tracking-tight mt-12 mb-6">
-                  {children}
-                </h2>
-              ),
-              h3: ({ children }: any) => (
-                <h3 className="text-xl font-black uppercase tracking-[0.2em] opacity-40 mt-8 mb-4">
-                  {children}
-                </h3>
-              ),
-              p: ({ children }: any) => {
-                // handle the custom spacer tag
-                const text = Array.isArray(children) ? children[0] : children;
-                if (
-                  typeof text === "string" &&
-                  text.startsWith("SPACER_H_")
-                ) {
-                  const height = text.replace("SPACER_H_", "");
-                  return (
-                    <div
-                      style={{ height: height || "2rem" }}
-                      aria-hidden="true"
-                    />
-                  );
-                }
-                return (
-                  <p className="text-xl leading-relaxed opacity-80 mb-6 text-pretty">
-                    {children}
-                  </p>
-                );
-              },
-              ul: ({ children }: any) => (
-                <ul className="space-y-4 mb-8 list-none">
-                  {children}
-                </ul>
-              ),
-              li: ({ children }: any) => (
-                <li className="flex gap-4 text-xl opacity-80 leading-relaxed">
-                  <span className="text-[var(--primary)] font-black select-none mt-1">//</span>
-                  <span>{children}</span>
-                </li>
-              ),
               code: ({ node, inline, className, children, ...props }: any) => {
                 if (inline) {
                   return (
-                    <code className="bg-[var(--primary-container)]/30 text-[var(--primary)] px-1.5 py-0.5 rounded-md font-mono text-sm font-bold">
+                    <code className="bg-[var(--primary-container)]/30 text-[var(--primary)] px-1.5 py-0.5 rounded-md font-mono text-[0.85em] font-bold">
                       {children}
                     </code>
                   );
                 }
                 return <code className={className} {...props}>{children}</code>;
-              }
+              },
+
+              // --- headings ---
+              h1: ({ children }: any) => (
+                <h1 className="text-4xl md:text-5xl font-expressive font-display font-black tracking-[0.03em] mt-14 mb-6 text-[var(--primary)] leading-tight">
+                  {children}
+                </h1>
+              ),
+              h2: ({ children }: any) => (
+                <h2 className="text-2xl md:text-3xl font-display font-black tracking-tight mt-12 mb-5 border-b border-[var(--outline-variant)]/40 pb-3">
+                  {children}
+                </h2>
+              ),
+              h3: ({ children }: any) => (
+                <h3 className="text-lg md:text-xl font-black tracking-[0.05em] mt-8 mb-3 opacity-70">
+                  {children}
+                </h3>
+              ),
+              h4: ({ children }: any) => (
+                <h4 className="text-base font-black uppercase tracking-[0.15em] mt-6 mb-2 opacity-40">
+                  {children}
+                </h4>
+              ),
+
+              // --- paragraphs (with spacer support) ---
+              p: ({ children }: any) => {
+                const text = Array.isArray(children) ? children[0] : children;
+                if (typeof text === "string" && text.startsWith("SPACER_H_")) {
+                  const height = text.replace("SPACER_H_", "");
+                  return <div style={{ height: height || "2rem" }} aria-hidden="true" />;
+                }
+                return (
+                  <p className="text-lg md:text-xl leading-[1.9] opacity-80 mb-5 text-pretty">
+                    {children}
+                  </p>
+                );
+              },
+
+              // --- unordered lists (depth-aware) ---
+              ul: ({ children, depth }: any) => {
+                const parentDepth = useContext(ListDepthContext);
+                const currentDepth = parentDepth;
+                return (
+                  <ListDepthContext.Provider value={currentDepth + 1}>
+                    <ul className={cn(
+                      "mb-6 list-none",
+                      currentDepth === 0 ? "space-y-3" : "mt-2 space-y-2 ml-6 border-l-2 border-[var(--outline-variant)]/30 pl-4"
+                    )}>
+                      {children}
+                    </ul>
+                  </ListDepthContext.Provider>
+                );
+              },
+
+              // --- ordered lists (depth-aware) ---
+              ol: ({ children }: any) => {
+                const parentDepth = useContext(ListDepthContext);
+                return (
+                  <ListDepthContext.Provider value={parentDepth + 1}>
+                    <ol className={cn(
+                      "mb-6 list-none counter-reset-custom",
+                      parentDepth === 0 ? "space-y-3" : "mt-2 space-y-2 ml-6 border-l-2 border-[var(--outline-variant)]/30 pl-4"
+                    )}>
+                      {children}
+                    </ol>
+                  </ListDepthContext.Provider>
+                );
+              },
+
+              // --- list items ---
+              li: ({ children, ordered, index }: any) => {
+                const depth = useContext(ListDepthContext);
+                const isTop = depth <= 1;
+                return (
+                  <li className="flex gap-3 text-lg md:text-xl opacity-80 leading-relaxed">
+                    <span className={cn(
+                      "select-none shrink-0 font-black mt-0.5",
+                      isTop
+                        ? "text-[var(--primary)] text-lg"
+                        : "text-[var(--primary)]/50 text-base"
+                    )}>
+                      {ordered
+                        ? `${(index ?? 0) + 1}.`
+                        : isTop ? "//" : ">"}
+                    </span>
+                    <span className="flex-1 min-w-0">{children}</span>
+                  </li>
+                );
+              },
+
+              // --- blockquote ---
+              blockquote: ({ children }: any) => (
+                <blockquote className="my-10 pl-8 pr-8 py-8 border-l-6 border-[var(--primary)] bg-[var(--primary-container)]/15 rounded-r-[3rem] italic flex flex-col justify-center min-h-[120px] [&>p]:m-0">
+                  <div className="text-xl md:text-2xl opacity-90 leading-relaxed">
+                    {children}
+                  </div>
+                </blockquote>
+              ),
+
+              // --- horizontal rule ---
+              hr: () => (
+                <div className="my-10 flex items-center gap-4 opacity-30">
+                  <div className="flex-1 h-px bg-[var(--outline-variant)]" />
+                  <span className="text-[var(--primary)] font-black text-xs tracking-widest">+</span>
+                  <div className="flex-1 h-px bg-[var(--outline-variant)]" />
+                </div>
+              ),
+
+              // --- images (like github readmes) ---
+              img: ({ src, alt }: any) => (
+                <figure className="my-8">
+                  <img
+                    src={src}
+                    alt={alt}
+                    className="w-full rounded-2xl object-cover"
+                    loading="lazy"
+                  />
+                  {alt && (
+                    <figcaption className="text-center text-sm opacity-50 italic">
+                      {alt}
+                    </figcaption>
+                  )}
+                </figure>
+              ),
+
+              // --- links ---
+              a: ({ href, children }: any) => (
+                <a
+                  href={href}
+                  target={href?.startsWith("http") ? "_blank" : undefined}
+                  rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="text-[var(--primary)] font-bold underline underline-offset-3 decoration-[var(--primary)]/60 hover:decoration-[var(--primary)] transition-all"
+                >
+                  {children}
+                </a>
+              ),
+
+              // --- strong ---
+              strong: ({ children }: any) => (
+                <strong className="font-black text-[var(--on-surface)]">{children}</strong>
+              ),
             } as any}
           >
             {post.content.replace(

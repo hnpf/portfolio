@@ -124,6 +124,122 @@ export const PROJECTS: Project[] = [
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    id: 'more-old-blogs-restored',
+    title: 'even more history! part 2 of restoring the early blogs',
+    snippet: 'restored a few more gems from the early 2026 snapshots, including some of my favorite rants and the revamped markdown stress test.',
+    content: `
+# even more history! part 2 of restoring the early blogs
+
+i'm on a roll again! after digging up the 2025 posts, i decided to go a bit further and bring back some of the early 2026 archives that i missed as well. these are from a time when the site's style and identity was really starting to solidify around the current aesthetic, but was still before this style.
+
+## what's new in the feed, you might say?
+
+here are the latest additions to the restored blogs:
+
+*   **search bars are e-waste:** a take on why you probably don't need a search bar if your site is actually well-structured
+*   **networking wiki:** my networking wiki stuff, restored. funny that that project has been stalled for months now, isnt it?
+*   **de-sanitizing the site:** a devlog about gutting the old "safe" design and going for something more aggressive, or whatever.
+*   **mobile magic & hardware:** the updates that brought the nav bar and hardware stuff.
+*   **stop making it easy to pwn you:** a cybersecurity 101 guide for the average person, somewhat changed because things itself in the industry changed.
+*   **markdown stress test (REVAMPED):** this one's special, i completely overhauled it and moved it to the top to test the new oklch-powered markdown stuff.
+
+## the stress test revamp
+
+the markdown stress test is now much more intense. it tests everything from nested lists and complex tables to dynamic syntax highlighting. if the site looks good there, it looks good everywhere!
+
+more updates coming soon, but for now, enjoy the deeper addition to the blogs!
+    `,
+    date: 'Jul 7, 2026',
+    category: 'update',
+    readTime: '2 min read',
+    link: 'more-old-blogs-restored',
+  },
+
+  {
+    id: 'markdown-test',
+    title: 'markdown stress test, testing the parser',
+    snippet: 'checking if the new react-markdown setup can handle me.',
+    content: `
+# header 1 looks like this
+## and header 2 looks like this
+### and header 3 looks like this
+#### and header 4 looks like this
+
+this is a normal paragraph with some **bold text**, some *italics*, and a [**link to my github**](https://github.com/hnpf) just to see if it works.
+
+## testing the code blocks
+
+here is some simple python logic:
+
+\`\`\`python
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+\`\`\`
+
+and some typescript:
+
+\`\`\`typescript
+interface User {
+  id: string;
+  name: string;
+  active: boolean;
+}
+
+const greet = (user: User) => {
+  return \`Hello, \${user.name}!\`;
+};
+\`\`\`
+
+## testing lists and formatting (*, *, *, etc)
+* top level item
+    * nested item (this would have broken before)
+    * another nested one
+        * double nested!
+* back to basics
+
+## ordered lists (1., 2., 3., etc)
+
+1. Ordered list item 1
+2. Ordered list item 2
+    * Nested unordered item
+    * Another nested unordered item
+3. Back to ordered
+
+## testing blockquotes
+
+> "if it works on my machine, it's production ready." - basically me
+
+## testing gfm (tables)
+
+| feature | status | notes |
+| :--- | :--- | :--- |
+| headers | working | looks clean |
+| tables | hopefully working | oklch colors! |
+| sanity | gone? | permanently. |
+| dynamic | yes | based on hue |
+
+---
+
+## horizontal rule above
+
+### testing inline styles
+this is \`inline code\`, this is **bold**, this is *italic*, and this is [a link](https://virex.lol).
+
+### testing images
+![nekofetch official screenshot](https://raw.githubusercontent.com/hnpf/nekofetch/refs/heads/main/screenshot.png)
+
+ok thats it bye
+    `,
+    date: 'Jul 7, 2026',
+    category: 'devlog',
+    readTime: '2 min read',
+    link: 'markdown-test',
+  },
+
+  {
     id: 'return-of-the-old-blogs',
     title: 'the old blogs are back. all of them.',
     snippet: 'i dug up every old post from the old virex.lol, going all the way back to the very beginning of the "project inception". they\'re all here again now, preserved exactly as they were back when i wrote them.',
@@ -353,6 +469,176 @@ it’s not just about flashing mrchromebox! it's about making sure the audio act
     category: "linux",
     readTime: "4 min read",
     link: "ewaste-1-fr",
+  },
+
+  {
+    id: 'more-hardware-updates-feb-2026',
+    title: 'mobile magic & hardware redesign',
+    snippet: 'the new mobile "more" menu and the revamped hardware section.',
+    content: `
+# touching up the mobile experience
+
+wrapped up some updates that make navigating the site smoother, especially on mobile, and gave some love to the hardware display.
+
+## ✦ mobile-first "more" menu
+
+for the mobile crowd, i rolled out a new **pull-up "more" menu** from the bottom.
+
+* **quick access:** get to settings, "the hardware" pane, github, and toggle light/dark mode super easily.
+* **gestures:** you can now just **drag down** to dismiss it. smooth and fast.
+* **the little things:** includes my profile for a personal touch!
+
+## ✦ the hardware section got a glowup
+
+the hardware tab got a visual overhaul.
+
+* **categorized cards:** system specs are now organized into cards like "core system," "processing units," and "storage & memory."
+* **visual progress:** memory and storage now have **progress bars**, showing usage at a glance.
+* **clean layout:** overall typography and spacing refined for a more modern aesthetic that stays true to the site's theme.
+
+small changes, big difference in how you interact with the site.
+    `,
+    date: 'Feb 11, 2026',
+    category: 'devlog',
+    readTime: '3 min read',
+    link: 'more-hardware-updates-feb-2026',
+  },
+
+  {
+    id: 'site-overhaul-feb-2026',
+    title: 'de-sanitizing the site',
+    snippet: 'a deep dive into why i gutted the old design, added new tweaks, and gave you keys to customization.',
+    content: `
+## de-sanitizing the site
+
+my philosophy has always been "high specs, low standards :)".
+after a solid run, it was time for another overhaul to push the boundaries again!
+
+### + what's new?
+
+the biggest change? a complete redo of the site's responsiveness and feel.
+
+* **adaptive navigation:** the static sidebar was a pain on smaller screens. now a **dynamic bottom navigation bar** takes its place, complete with smooth **microanimations** and a material 3 expressive "pill" active state. it adapts whether you're on desktop or mobile.
+
+* **better content ux:** addressed the awkward card scaling and density issues, mainly in the **active protocols** and **tracker** sections. cards now scale nicely, and the tracker has denser, more refined cards with revamped typography and progress bars.
+
+* **responsive hovers:** the **"inspect element"** buttons now have bouncy hover animations.
+
+### + your situation, your rules: the customizer
+
+i've massively expanded the **customizer** to give *you* more control.
+
+**desktop only tweaks:**
+* **flip sidebar direction:**s
+* **invert colors:**
+* **monochrome mode:**
+* **disable animations:**
+* **gtk3 nostalgia mode:**
+
+**your own accent:**
+* **dynamic hue slider:** slide to shift the entire accent color hue of the site!
+
+stay tuned for more unsolicited opinions!
+    `,
+    date: 'Feb 11, 2026',
+    category: 'devlog',
+    readTime: '3 min read',
+    link: 'feb-11-update',
+  },
+
+  {
+    id: 'search-is-mid',
+    title: 'this is why search bars are e-waste',
+    snippet: "let's be honest.. if you needed a search bar to find content on a site, you are trying too hard.",
+    content: `
+# search is for bad sites anyway
+
+i recently removed the search engine on virex.lol because... let's be real, nobody was using it. instead, i updated the whole site and added **the hardware** pane that actually shows my specs.
+
+if you want to find something, just click the sidebar. it's not that insane.
+
+## why the tracker?
+i added a **protocols/tracker** page to track my progress in cybersecurity. it looks cool and makes me feel like i'm in a movie while i study. waiting for those progress bars to hit 87% on vulnerability analysis is the only dopamine i need right now.
+
+> "if it works on my machine, it's production ready." - me, every time i push to virex.lol >_<
+
+anyways, stay tuned for more unsolicited opinions. bye, my zero viewers!
+    `,
+    date: 'Feb 10, 2026',
+    category: 'opinions',
+    readTime: '2 min read',
+    link: 'search-is-mid',
+  },
+
+  {
+    id: 'unw-upw-is-a-bible-lol',
+    title: 'my networking wiki just got a full reinstallation',
+    snippet: 'after a whole year of rotting, the wiki is finally a 300k character monster.',
+    content: `
+## the networking wiki update
+
+it's been a **whole year**. the old wiki was basically brain dumps and it was mid at best.
+
+today, that era ends. i completely rewrote the whole thing!
+
+## the new stuff
+
+* 3476 lines
+* 278629 characters
+* **zero** carpal tunnel. (thanks, python!)
+
+## from near-zero context to a full bible
+
+every protocol and tool now has structured sections for purpose, key features, and use cases. no more half-baked notes. it's basically a cheat code for my hobby grind now.
+
+> "if it works on my machine, it's production ready." - again, basically me
+
+## automation is king
+
+check the repo: [ultimate-networking-wiki](https://github.com/hnpf/untimate-networking-wiki)
+    `,
+    date: 'Feb 03, 2026',
+    category: 'devlog',
+    readTime: '4 min read',
+    link: 'unw-upw-is-a-bible-lol',
+  },
+{
+    id: 'cybersec-101',
+    title: 'stop making it easy to pwn you',
+    snippet: 'the absolute bare minimum to not get wiped out online.',
+    content: `
+the internet is hostile, mostly because corporations treat your data like public property and security is treated as an afterthought. you don't need a degree to protect yourself, you just need to stop doing the dumbest things.
+
+## credentials are broken by design
+reusing passwords means one database leak opens every single account you own. stop it. 
+* use a local or trusted password manager (keepassxc, bitwarden). generate random strings.
+* turn on totp mfa (authenticator apps, hardware keys). sms mfa is vulnerable to sim swapping, but it's still better than nothing.
+
+## stop ignoring patches
+zero-days exist, but most malware exploits known vulnerabilities that people just refused to patch for six months. 
+* when your system says update, do it. 
+* automation is your friend here.
+
+## your threat model probably isn't the nsa
+you are likely to get hit by mass phishing, not a targeted nation-state attack.
+* look at the url. if it says login-paypal-secure-server.com, it's fake.
+* public wi-fi isn't inherently going to instant-infect you anymore thanks to ubiquitous https, but untrusted networks still expose your metadata. wireguard into a home server or trusted vpn if you're paranoid.
+
+### the absolute minimum
+| defense | vector blocked | status |
+| :--- | :--- | :--- |
+| unique keys | credential stuffing | mandatory |
+| totp / yubikey | bypassed passwords | mandatory |
+| rapid patching | automated exploits | mandatory |
+
+---
+if you're using password123, you aren't being targeted. you're just being harvested.
+---
+    `,
+    date: 'Jul 07, 2026',
+    category: 'cybersecurity',
+    readTime: '1 min read',
+    link: 'cybersec-101',
   },
 
   {
@@ -666,6 +952,30 @@ it's literally just people helping people for learning (and overall better code 
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [
+  {
+    id: "markdown-overhaul-and-archives",
+    version: "2026.07.07_2",
+    title: "markdown overhaul & archives",
+    date: "Jul 7, 2026",
+    changes: [
+      {
+        category: "markdown",
+        items: [
+          "overhauled markdown components with full dynamic oklch theming support",
+          "refactored code blocks to adapt syntax colors based on the primary hue",
+          "fixed blockquote vertical alignment and added premium styling with 120px min-height",
+          "removed static highlight.js theme dependencies for a more cohesive UI",
+        ],
+      },
+      {
+        category: "archives",
+        items: [
+          "restored 6 additional legacy posts from early 2026",
+          "revamped the markdown stress test post with comprehensive technical examples",
+        ],
+      },
+    ],
+  },
 /* 
   {
     id: "",
