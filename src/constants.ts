@@ -684,6 +684,22 @@ export const CHANGELOGS: ChangelogEntry[] = [
 */
 
   {
+    id: "home-page-announcement-bar-addition",
+    version: "2026.07.07",
+    title: "Home page announcement bar addition!",
+    date: "2026.07.07",
+    changes: [
+      {
+        category: "announcement bar addition",
+        items: [
+          "added a new announcement bar as a full-width card under the philosophy card, fixing the multi-focal-point conflict for ux on the homepage.",
+          "smooth scroll integration: linked the explore CTA directly down to the projects section, passing secondary widgets.",
+        ],
+      },
+    ],
+  },
+
+  {
     id: "blog-ux-polish-scrollbar-makeover",
     version: "2026.07.06",
     title: "Blog UX Polish & Scrollbar Makeover",

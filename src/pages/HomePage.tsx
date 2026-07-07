@@ -328,13 +328,13 @@ const ScrollVisualPull = ({ setPage, settings }: { setPage: (page: string, postI
         transition: { type: "spring", stiffness: 400, damping: 15 }
       }}
       whileTap={settings.disableAnimations ? {} : { scale: 0.98 }}
-      className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 p-2 border-6 border-[var(--outline-variant)] rounded-[2.5rem] bg-[var(--surface-variant)] hover:border-[var(--primary)] hover:shadow-2xl transition-[border-color,box-shadow] duration-150 relative overflow-hidden group/pull cursor-pointer"
+      className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2 lg:gap-4 p-1.5 lg:p-2 border-6 border-[var(--outline-variant)] rounded-[2.5rem] bg-[var(--surface-variant)] hover:border-[var(--primary)] hover:shadow-2xl transition-[border-color,box-shadow] duration-150 relative overflow-hidden group/pull cursor-pointer"
     >
       {/* left: latest blog post preview */}
       {latestPost && (
         <div 
           onClick={() => setPage("blog", latestPost.id)}
-          className="flex-1 flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 sm:p-3 rounded-[2rem] cursor-pointer group/blog select-none z-10"
+          className="flex-1 flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 rounded-[2rem] cursor-pointer group/blog select-none z-10"
         >
           <div className="flex items-center gap-2 shrink-0">
             <span className="px-3 py-1 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-full text-[10px] font-expressive-bold italic tracking-widest uppercase border border-[var(--primary)]/25 shadow-sm">
@@ -357,10 +357,13 @@ const ScrollVisualPull = ({ setPage, settings }: { setPage: (page: string, postI
         </div>
       )}
 
+      {/* flat straight divider line for mobile view */}
+      {latestPost && <div className="h-px bg-[var(--outline-variant)]/40 mx-4 lg:hidden z-10" />}
+
       {/* right: scroll anchor cta */}
       <div 
         onClick={handleScrollDown}
-        className="flex items-center justify-between lg:justify-end gap-4 p-4 lg:p-3 rounded-[2rem] cursor-pointer group/scroll select-none border-t border-[var(--outline-variant)]/45 lg:border-t-0 shrink-0 z-10"
+        className="flex items-center justify-between lg:justify-end gap-4 p-3 rounded-[2rem] cursor-pointer group/scroll select-none shrink-0 z-10"
       >
         <div className="flex flex-col items-start lg:items-end -space-y-0.5">
           <span className="text-[11px] font-expressive-bold italic tracking-widest uppercase opacity-40">
