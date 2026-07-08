@@ -953,6 +953,34 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "overhauled-to-top-and-fix-mobile-focus-mode",
+    version: "2026.07.08",
+    title: "Overhauled to top and fix mobile focus mode",
+    date: "Jul 8, 2026",
+    changes: [
+      {
+        category: "focus mode",
+        items: [
+          "fixed view for mobile, so it unblurs as you scroll, rather than needing to tap every card and piece of content as you go.",
+        ],
+      },
+      {
+        category: "to top redesign",
+        items: [
+          "made the chip shorter, which looks significantly better.",
+          "made it expand when scrolling down and slightly up on mobile.",
+          "more expressive animations for both",
+        ],
+      },
+      {
+        category: "exit focus mode logic for mobile",
+        items: [
+          "mobile and desktop now shows different text, without showing the `esc` hint",
+        ],
+      },
+    ],
+  },
+  {
     id: "markdown-overhaul-and-archives",
     version: "2026.07.07_2",
     title: "markdown overhaul & archives",

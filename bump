@@ -1,0 +1,229 @@
+#!/usr/bin/env bash
+# ver bumping and changelog automation helper.
+
+# exit on error
+set -e
+
+# find current ver from src/App.tsx
+VERSION_LINE=$(grep -oE "v[0-9]+\.[0-9]+\.[0-9]+-stable \([0-9]+\.[0-9]+\.[0-9]+(_[0-9]+)?\)" src/App.tsx || true)
+
+if [ -z "$VERSION_LINE" ]; then
+    echo "did not find version pattern in src/App.tsx"
+    exit 1
+fi
+
+curr_version=$(echo "$VERSION_LINE" | sed -E 's/v([^-]+)-stable.*/\1/')
+curr_date_version=$(echo "$VERSION_LINE" | sed -E 's/.*\(([^)]+)\)/\1/')
+
+echo "----------------------------------------"
+echo "ver:      $curr_version"
+echo "date-ver: $curr_date_version"
+echo "----------------------------------------"
+
+read -p "new version [$curr_version]: " new_version
+new_version=${new_version:-$curr_version}
+
+read -p "new date-version [$curr_date_version]: " new_date_version
+new_date_version=${new_date_version:-$curr_date_version}
+
+# add a changelog entry
+read -p "add a changelog entry? [Y/n]: " add_changelog
+add_changelog=${add_changelog:-Y}
+
+has_changelog=false
+temp_file=$(mktemp /tmp/changelog_template.XXXXXX)
+
+# remove temp file on close
+trap 'rm -f "$temp_file"' EXIT
+
+if [[ "$add_changelog" =~ ^[Yy]$ ]]; then
+    # template
+    cat <<EOF > "$temp_file"
+# template for version $new_version ($new_date_version)
+# '#' are comments and will be ignored
+# use title for this release (e.g., markdown overhaul):
+Title: 
+
+# define changes via category using [category-name] and bullet points.
+# add as many categories and bullet points as wanted
+# 
+# eample:
+# [category]
+# - fixed something
+# - optimized another thing
+# 
+# [design]
+# - upgraded another thing
+#
+# add changes below:
+
+[general]
+- 
+EOF
+
+    # open editor
+    EDITOR=${VISUAL:-${EDITOR:-nano}}
+    echo "Opening editor ($EDITOR) for changelog entry..."
+    $EDITOR "$temp_file"
+
+    # checks if user edited template or left title empty
+    if grep -q "^Title:[[:space:]]*$" "$temp_file" || ! grep -q -E "^[^#]" "$temp_file"; then
+        echo "changelog title was left empty or file wasn't changed. skipping changelog entry for now."
+    else
+        has_changelog=true
+    fi
+fi
+
+# run python inline script to do the file rewrites and parsing
+python3 - <<EOF "$curr_version" "$curr_date_version" "$new_version" "$new_date_version" "$temp_file" "$has_changelog"
+import sys
+import os
+import re
+from datetime import datetime
+
+curr_version = sys.argv[1]
+curr_date_version = sys.argv[2]
+new_version = sys.argv[3]
+new_date_version = sys.argv[4]
+changelog_file = sys.argv[5]
+has_changelog = sys.argv[6].lower() == 'true'
+
+# 1. update src/App.tsx
+app_path = "src/App.tsx"
+if os.path.exists(app_path):
+    with open(app_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    
+    # replace vX.Y.Z-stable (YYYY.MM.DD_rev)
+    old_pattern = f"v{curr_version}-stable ({curr_date_version})"
+    new_pattern = f"v{new_version}-stable ({new_date_version})"
+    content = content.replace(old_pattern, new_pattern)
+    
+    # replace vYYYY.MM.DD_rev-stable
+    old_build_info = f"v{curr_date_version}-stable"
+    new_build_info = f"v{new_date_version}-stable"
+    content = content.replace(old_build_info, new_build_info)
+    
+    with open(app_path, "w", encoding="utf-8") as f:
+        f.write(content)
+    print(f"Updated {app_path}")
+
+# 2. update src/components/SettingsDialog.tsx
+settings_path = "src/components/SettingsDialog.tsx"
+if os.path.exists(settings_path):
+    with open(settings_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    
+    # replace "what's new in YYYY.MM.DD_rev-stable" line
+    old_settings = f"See what's new in {curr_date_version}-stable"
+    new_settings = f"See what's new in {new_date_version}-stable"
+    content = content.replace(old_settings, new_settings)
+    
+    with open(settings_path, "w", encoding="utf-8") as f:
+        f.write(content)
+    print(f"Updated {settings_path}")
+
+# 3. update src/constants.ts and add changelog, if added
+constants_path = "src/constants.ts"
+if os.path.exists(constants_path):
+    with open(constants_path, "r", encoding="utf-8") as f:
+        content = f.read()
+        
+    target = "export const CHANGELOGS: ChangelogEntry[] = ["
+    
+    if has_changelog:
+        # parse changelog file
+        title = ""
+        changes = []
+        current_category = None
+        
+        with open(changelog_file, 'r', encoding="utf-8") as f_cl:
+            for line in f_cl:
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                
+                title_match = re.match(r'^Title:\s*(.*)', line, re.IGNORECASE)
+                if title_match:
+                    title = title_match.group(1).strip()
+                    continue
+                    
+                cat_match = re.match(r'^\[(.*)\]$', line)
+                if cat_match:
+                    current_category = cat_match.group(1).strip()
+                    changes.append({
+                        "category": current_category,
+                        "items": []
+                    })
+                    continue
+                    
+                if line.startswith('-') or line.startswith('*'):
+                    item = re.sub(r'^[-*]\s*', '', line).strip()
+                    if item and changes:
+                        changes[-1]["items"].append(item)
+        
+        changes = [c for c in changes if c["items"]]
+        
+        if title:
+            # slugify title
+            slug = title.lower()
+            slug = re.sub(r'[^a-z0-9\s-]', '', slug)
+            slug = re.sub(r'[\s-]+', '-', slug)
+            changelog_id = slug.strip('-')
+            
+            # format date (e.g. Jul 8, 2026)
+            date_str = datetime.now().strftime("%b %-d, %Y")
+            
+            # format changelog TS entry
+            lines = []
+            lines.append("  {")
+            lines.append(f'    id: "{changelog_id}",')
+            lines.append(f'    version: "{new_date_version}",')
+            lines.append(f'    title: "{title}",')
+            lines.append(f'    date: "{date_str}",')
+            lines.append("    changes: [")
+            for change in changes:
+                lines.append("      {")
+                lines.append(f'        category: "{change["category"]}",')
+                lines.append("        items: [")
+                for item in change["items"]:
+                    escaped_item = item.replace('"', '\\"')
+                    lines.append(f'          "{escaped_item}",')
+                lines.append("        ],")
+                lines.append("      },")
+            lines.append("    ],")
+            lines.append("  },")
+            new_entry = "\n".join(lines)
+            
+            # insert into content
+            if target in content:
+                insert_index = content.find(target) + len(target)
+                while insert_index < len(content) and content[insert_index] != '\n':
+                    insert_index += 1
+                insert_index += 1 # past newline
+                
+                content = content[:insert_index] + new_entry + "\n" + content[insert_index:]
+                print(f"added new changelog entry \"{title}\" ({new_date_version}) to {constants_path}")
+            else:
+                print("didn't find CHANGELOGS in src/constants.ts")
+                sys.exit(1)
+        else:
+            print("changelog title was not found, skipping insertion.")
+    else:
+        # if no changelog added, update the ver of first changelog entry to stay sync'd
+        start_pos = content.find(target)
+        if start_pos != -1:
+            match = re.search(r'version:\s*"[^"]+"', content[start_pos:])
+            if match:
+                old_version_str = match.group(0)
+                new_version_str = f'version: "{new_date_version}"'
+                updated_suffix = content[start_pos:].replace(old_version_str, new_version_str, 1)
+                content = content[:start_pos] + updated_suffix
+                print(f"updated latest changelog version in {constants_path} to {new_date_version}")
+                
+    with open(constants_path, "w", encoding="utf-8") as f:
+        f.write(content)
+
+EOF
+
+echo "good job. ver has been bumped to v$new_version ($new_date_version)."
