@@ -85,8 +85,10 @@ export const TiltContainer = memo(({ children, className, innerClassName, onClic
         className={cn("w-full h-full outline-none", innerClassName, useTilt && "group-hover/tilt:tilt-card")}
         style={{
           ...props.style,
-          rotateX: useTilt ? rx : 0,
-          rotateY: useTilt ? ry : 0,
+          ...(useTilt ? {
+            rotateX: rx,
+            rotateY: ry,
+          } : {}),
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden",
         }}

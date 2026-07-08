@@ -178,9 +178,12 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
       whileInView={settings.disableAnimations ? false : { opacity: 1, y: 0 }}
       viewport={{ margin: "100px", once: true }}
       onViewportEnter={() => setIsInView(true)}
-      whileHover={settings.disableAnimations ? undefined : {
-        y: -8,
-        scale: 1.01,
+      whileHover={settings.disableAnimations ? undefined : "hover"}
+      variants={{
+        hover: {
+          y: -8,
+          scale: 1.01,
+        }
       }}
       whileTap={settings.disableAnimations ? undefined : { scale: 0.98 }}
       transition={{
@@ -196,7 +199,7 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
               ? "md:row-span-2"
               : "",
       )}
-      innerClassName="rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden border-6 border-[var(--outline-variant)]"
+      innerClassName="rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden"
     >
       <div className="absolute inset-0 rounded-[1.8rem] overflow-hidden m-0.5">
         {/* blur thing p */}
@@ -211,17 +214,24 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
         />
         {/* main image*/}
         {isInView && (
-          <img
+          <motion.img
             src={photo.url}
             alt={photo.description}
             onLoad={() => setIsLoaded(true)}
             loading={i < 2 ? "eager" : "lazy"}
             decoding="async"
             className={cn(
-              "w-full h-full object-cover transition-[opacity,transform] group-hover:scale-105",
+              "w-full h-full object-cover transition-opacity duration-500",
               isLoaded ? "opacity-100" : "opacity-0",
-              settings.highHz ? "duration-300" : "duration-400",
             )}
+            variants={{
+              hover: { scale: 1.05 }
+            }}
+            transition={{
+              type: "spring",
+              stiffness: settings.highHz ? 400 : 300,
+              damping: 25,
+            }}
             referrerPolicy="no-referrer"
           />
         )}
@@ -231,8 +241,10 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
           {photo.description}
         </p>
       </div>
-      {/* GPU-friendly border overlay to prevent layout/paint invalidation */}
-      <div className="absolute inset-[-6px] border-6 border-[var(--primary)] rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-30" />
+      {/* static outline border (never changes color, zero paint invalidation cost) */}
+      <div className="absolute inset-0 border-6 border-[var(--outline-variant)] rounded-[2.5rem] pointer-events-none z-30" />
+      {/* hovers primary border (only changes opacity on hover, compositor only operation) */}
+      <div className="absolute inset-0 border-6 border-[var(--primary)] rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-30" />
     </TiltContainer>
   );
 });

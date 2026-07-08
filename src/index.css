@@ -437,10 +437,9 @@
 
     .lens-item {
         @apply relative transition-colors isolate;
-        will-change: transform;
-        transform: translateZ(0);
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
+        -webkit-mask-image: -webkit-radial-gradient(white, black);
     }
 
     .tilt-active {
@@ -458,10 +457,9 @@
     }
 
     .lens-item img {
-        will-change: transform;
+        /* let Framer Motion handle transform compositing dynamically */
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
-        transform: translateZ(0);
     }
 
     /* M3 Split Button */
