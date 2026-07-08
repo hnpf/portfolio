@@ -953,6 +953,25 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "fix-the-bento-lag-once-and-for-all",
+    version: "2026.07.08_2",
+    title: "fix the bento lag once and for all",
+    date: "Jul 8, 2026",
+    changes: [
+      {
+        category: "fix desktop bento grid",
+        items: [
+          "optimized image assets",
+          "added view-based deferred rendering (lazy loading)",
+          "added gpu compositor friendly overlay borders",
+          "better card and image hover scaling to fix anim stutters",
+          "fixed webkit border-rad aliasing and jagged edges",
+          "removed static will-change overrides for actually usable window resizing",
+        ],
+      },
+    ],
+  },
+  {
     id: "overhauled-to-top-and-fix-mobile-focus-mode",
     version: "2026.07.08_2",
     title: "Overhauled to top and fix mobile focus mode",
