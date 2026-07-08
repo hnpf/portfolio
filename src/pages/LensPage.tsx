@@ -158,6 +158,7 @@ const LENS_PHOTOS = [
 
 const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(i < 4);
   const portrait = photo.orientation === "portrait";
   
   // dynamic bento logic - more conservative to prevent gaps
@@ -176,6 +177,7 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
       initial={settings.disableAnimations ? false : { opacity: 0, y: 10 }}
       whileInView={settings.disableAnimations ? false : { opacity: 1, y: 0 }}
       viewport={{ margin: "100px", once: true }}
+      onViewportEnter={() => setIsInView(true)}
       whileHover={settings.disableAnimations ? undefined : {
         y: -8,
         scale: 1.01,
@@ -194,7 +196,7 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
               ? "md:row-span-2"
               : "",
       )}
-      innerClassName="rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden border-6 border-[var(--outline-variant)] hover:border-[var(--primary)] transition-colors duration-300"
+      innerClassName="rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden border-6 border-[var(--outline-variant)]"
     >
       <div className="absolute inset-0 rounded-[1.8rem] overflow-hidden m-0.5">
         {/* blur thing p */}
@@ -208,25 +210,29 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
           )}
         />
         {/* main image*/}
-        <img
-          src={photo.url}
-          alt={photo.description}
-          onLoad={() => setIsLoaded(true)}
-          loading={i < 2 ? "eager" : "lazy"}
-          decoding="async"
-          className={cn(
-            "w-full h-full object-cover transition-all group-hover:scale-105",
-            isLoaded ? "opacity-100" : "opacity-0",
-            settings.highHz ? "duration-500" : "duration-700",
-          )}
-          referrerPolicy="no-referrer"
-        />
+        {isInView && (
+          <img
+            src={photo.url}
+            alt={photo.description}
+            onLoad={() => setIsLoaded(true)}
+            loading={i < 2 ? "eager" : "lazy"}
+            decoding="async"
+            className={cn(
+              "w-full h-full object-cover transition-[opacity,transform] group-hover:scale-105",
+              isLoaded ? "opacity-100" : "opacity-0",
+              settings.highHz ? "duration-300" : "duration-400",
+            )}
+            referrerPolicy="no-referrer"
+          />
+        )}
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8 z-20">
         <p className="text-white text-lg font-bold leading-tight drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
           {photo.description}
         </p>
       </div>
+      {/* GPU-friendly border overlay to prevent layout/paint invalidation */}
+      <div className="absolute inset-[-6px] border-6 border-[var(--primary)] rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-30" />
     </TiltContainer>
   );
 });

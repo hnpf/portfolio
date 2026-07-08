@@ -437,6 +437,10 @@
 
     .lens-item {
         @apply relative transition-colors isolate;
+        will-change: transform;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
     }
 
     .tilt-active {
@@ -454,6 +458,7 @@
     }
 
     .lens-item img {
+        will-change: transform;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
         transform: translateZ(0);
