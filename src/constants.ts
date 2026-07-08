@@ -954,7 +954,7 @@ it's literally just people helping people for learning (and overall better code 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
     id: "overhauled-to-top-and-fix-mobile-focus-mode",
-    version: "2026.07.08",
+    version: "2026.07.08_2",
     title: "Overhauled to top and fix mobile focus mode",
     date: "Jul 8, 2026",
     changes: [
@@ -1907,7 +1907,7 @@ export const KNOWN_ISSUES: KnownIssues[] = [
     id: "desktop-photo-bento-lag",
     title: "desktop photo bento lag",
     description: "scrolling down on the bento and hovering over other photos causes immense lag. not sure why, but it's been on my watch for about a month now.",
-    status: "investigating",
+    status: "resolved",
     date: "2026-07-05",
     severity: "medium",
   }
