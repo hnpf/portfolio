@@ -70,6 +70,8 @@ export default function App() {
   const [pendingCapsule, setPendingCapsule] = useState<any>(null);
   const [do_wiggle, setDoWiggle] = useState(false);
   const [show_top, setShowTop] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState<"up" | "down">("up");
+  const lastScrollY = useRef(0);
   const [scrolled, set_scrolled] = useState(false);
   const [show_grid, set_show_grid] = useState(true);
   const [navHoverSide, setNavHoverSide] = useState<"top" | "bottom" | null>(null);
@@ -162,8 +164,21 @@ export default function App() {
 
   useEffect(() => {
     const on_scroll = () => {
-      setShowTop(window.scrollY > 400);
-      set_scrolled(window.scrollY > 0);
+      const currentScrollY = window.scrollY;
+      setShowTop(currentScrollY > 400);
+      set_scrolled(currentScrollY > 0);
+
+      if (currentScrollY <= 400) {
+        setScrollDirection("up");
+      } else {
+        const diff = currentScrollY - lastScrollY.current;
+        if (diff > 10) {
+          setScrollDirection("down");
+        } else if (diff < -10) {
+          setScrollDirection("up");
+        }
+      }
+      lastScrollY.current = currentScrollY;
     };
     window.addEventListener("scroll", on_scroll);
     return () => window.removeEventListener("scroll", on_scroll);
@@ -188,6 +203,8 @@ export default function App() {
   const is_tiny = viewport.h < 550;
   const is_mobile = viewport.w < 768 && !settings.forceDesktop;
   const is_tablet = viewport.w >= 768 && viewport.w < 1024 && !settings.forceDesktop;
+  const showBottomNav = !settings.focusMode && page !== "no" && page !== "readme" && is_mobile;
+  const isExpanded = is_mobile && scrollDirection === "up" && !settings.focusMode;
   const show_pfp_container = settings.profileContainer && viewport.h > 720;
 
   const springConfig = {
@@ -285,13 +302,40 @@ export default function App() {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            whileHover={{ scale: 1.15 }}
+            whileTap={{ scale: 0.92 }}
+            transition={{
+              type: "spring",
+              stiffness: 380,
+              damping: 26,
+            }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className={cn("fixed bottom-24 lg:bottom-12 z-50 p-4 bg-[var(--primary)] text-[var(--on-primary)] rounded-full shadow-2xl border-6 border-[var(--outline-variant)]  backdrop-blur-md", settings.sidebarFlipped ? "right-6 lg:right-auto lg:left-12" : "right-6 lg:right-12")}
+            className={cn(
+              "fixed z-50 flex items-center justify-center bg-[var(--primary)] text-[var(--on-primary)] rounded-full shadow-2xl border-6 border-[var(--outline-variant)] backdrop-blur-md h-14 p-4",
+              is_mobile 
+                ? (showBottomNav ? "bottom-24" : "bottom-15") 
+                : "bottom-15 lg:bottom-12",
+              settings.sidebarFlipped ? "right-6 lg:right-auto lg:left-12" : "right-6 lg:right-12"
+            )}
           >
-            <ArrowUpRight size={24} className="-rotate-45" />
+            <ArrowUpRight size={24} className="-rotate-45 shrink-0" />
+            <AnimatePresence>
+              {isExpanded && (
+                <motion.span
+                  initial={{ width: 0, opacity: 0, scale: 0.8 }}
+                  animate={{ width: "auto", opacity: 1, scale: 1 }}
+                  exit={{ width: 0, opacity: 0, scale: 0.8 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 25,
+                  }}
+                  className="font-expressive-bold text-xs uppercase tracking-widest overflow-hidden whitespace-nowrap pt-0.5 ml-2 block"
+                >
+                  Top
+                </motion.span>
+              )}
+            </AnimatePresence>
           </motion.button>
         )}
       </AnimatePresence>
@@ -410,8 +454,25 @@ export default function App() {
         </AnimatePresence>
         <AnimatePresence>
           {settings.focusMode && (
-            <motion.button initial={{ opacity: 0, scale: 0.8, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.8, y: 20 }} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => updateSettings({ focusMode: false })} className="fixed bottom-15 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-[var(--primary)] text-[var(--on-primary)] rounded-full font-bold shadow-2xl flex items-center gap-3 border-2 border-white/20 backdrop-blur-md">
-              <EyeOff size={20} /><span>exit focus:</span><span className="text-[10px] opacity-60 bg-black/20 px-2 py-0.5 rounded uppercase tracking-wider">Esc</span><span>or click me!</span>
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 20 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => updateSettings({ focusMode: false })}
+              className="fixed bottom-15 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-[var(--primary)] text-[var(--on-primary)] rounded-full font-bold shadow-2xl flex items-center gap-3 border-2 border-white/20 backdrop-blur-md whitespace-nowrap"
+            >
+              <EyeOff size={20} />
+              {is_mobile ? (
+                <span className="font-expressive text-md tracking-widest pt-0.5">Exit Focus</span>
+              ) : (
+                <>
+                  <span>Exit focus:</span>
+                  <span className="text-md opacity-60 bg-black/20 px-2 py-0.5 rounded tracking-wider">Esc</span>
+                  <span>or click me!</span>
+                </>
+              )}
             </motion.button>
           )}
         </AnimatePresence>
