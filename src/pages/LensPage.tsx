@@ -203,8 +203,8 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
           alt=""
           aria-hidden="true"
           className={cn(
-            "absolute inset-0 w-full h-full object-cover scale-110 blur-xl transition-opacity duration-700",
-            isLoaded ? "opacity-0" : "opacity-100"
+            "absolute inset-0 w-full h-full object-cover scale-110 blur-xl transition-all duration-700",
+            isLoaded ? "opacity-0 invisible" : "opacity-100 visible"
           )}
         />
         {/* main image*/}
@@ -410,8 +410,8 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
                   src={LENS_PHOTOS[idx].blur}
                   aria-hidden="true"
                   className={cn(
-                    "absolute inset-0 w-full h-full object-contain scale-110 blur-xl transition-opacity duration-500 rounded-[40px] md:rounded-[60px]",
-                    isExpandedLoaded ? "opacity-0" : "opacity-100"
+                    "absolute inset-0 w-full h-full object-contain scale-110 blur-xl transition-all duration-500 rounded-[40px] md:rounded-[60px]",
+                    isExpandedLoaded ? "opacity-0 invisible" : "opacity-100 visible"
                   )}
                 />
                 <img
