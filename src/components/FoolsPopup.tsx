@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { motion } from "motion/react";
 
@@ -6,7 +7,7 @@ const IS_APR = (() => {
   return now.getMonth() === 3 && now.getDate() === 1;
 })();
 
-export const CursedPopup = ({
+export const FoolsPopup = ({
   content,
   onResolve,
 }: {

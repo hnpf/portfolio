@@ -46,11 +46,12 @@ import NotFound from "./pages/NotFound";
 import { SideItem, BotNav } from "./components/Navigation";
 import { SettingsDialog } from "./components/SettingsDialog";
 import { DebugConfirmDialog } from "./components/DebugConfirmDialog";
+import { DebugView } from "./components/DebugView";
 import { CapsuleConfirmDialog } from "./components/CapsuleConfirmDialog";
 import { RefreshConfirmDialog } from "./components/RefreshConfirmDialog";
 import { BugReportDialog } from "./components/BugReportDialog";
 import { KnownIssuesDialog } from "./components/KnownIssuesDialog";
-import { CursedPopup } from "./components/CursedPopup";
+import { FoolsPopup } from "./components/FoolsPopup";
 import { BounceButton } from "./components/TechStack";
 import { M3WindowScrollBar, M3ScrollBar } from "./components/M3ScrollBar";
 
@@ -73,7 +74,6 @@ export default function App() {
   const [scrollDirection, setScrollDirection] = useState<"up" | "down">("up");
   const lastScrollY = useRef(0);
   const [scrolled, set_scrolled] = useState(false);
-  const [show_grid, set_show_grid] = useState(true);
   const [navHoverSide, setNavHoverSide] = useState<"top" | "bottom" | null>(null);
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
@@ -184,9 +184,7 @@ export default function App() {
     return () => window.removeEventListener("scroll", on_scroll);
   }, []);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("debug-grid-active", settings.debugMode && show_grid);
-  }, [settings.debugMode, show_grid]);
+
 
   const goto = React.useCallback((newPage: string, postId: string | null = null) => {
     setSettingsOpen(false);
@@ -241,7 +239,7 @@ export default function App() {
           />
         )}
         {popup && (
-          <CursedPopup content={popup} onResolve={() => setPopup(null)} />
+          <FoolsPopup content={popup} onResolve={() => setPopup(null)} />
         )}
 
       <AnimatePresence>
@@ -258,41 +256,6 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {settings.debugMode && (
-        <div className="fixed bottom-4 right-4 z-[9999] bg-white/10 dark:bg-black/20 text-[var(--on-surface)] font-mono text-[10px] p-6 rounded-[2.5rem] border-6 border-[var(--outline-variant)] ring-6 ring-[var(--outline-variant)]/30 backdrop-blur-2xl shadow-2xl flex flex-col gap-4 min-w-[240px]">
-          <div className="flex items-center gap-2 border-b border-[var(--outline-variant)]/20 pb-2">
-            <Terminal size={14} className="text-[var(--primary)]" />
-            <span className="font-black tracking-[0.2em] text-[10px] opacity-60">Virex debug view</span>
-          </div>
-          <div className="space-y-2">
-            <div className="flex justify-between gap-4">
-              <span className="opacity-40 font-bold">PAGE:</span>
-              <span className="text-[var(--primary)] font-black">{page.toUpperCase()}{blogPostId ? `:${blogPostId}` : ""}</span>
-            </div>
-            <div className="flex justify-between gap-4">
-              <span className="opacity-40 font-bold">VIEWPORT:</span>
-              <span className="font-black">{viewport.w}x{viewport.h}</span>
-            </div>
-            <div className="flex justify-between gap-4">
-              <span className="opacity-40 font-bold">THEME:</span>
-              <span className="font-black">{actualTheme.toUpperCase()}</span>
-            </div>
-          </div>
-          <div className="pt-2 flex flex-col gap-2 border-t border-[var(--outline-variant)]/20">
-            <button onClick={() => set_show_grid(!show_grid)} className={cn("flex items-center justify-between p-2 rounded-xl transition-all font-black uppercase text-[9px] tracking-widest", show_grid ? "bg-[var(--primary)] text-[var(--on-primary)]" : "bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")}>
-              <span>Layout Grid</span>{show_grid ? <Check size={10} strokeWidth={4} /> : <X size={10} strokeWidth={4} />}
-            </button>
-            <button onClick={() => cycleTheme()} className="flex items-center justify-between p-2 rounded-xl bg-[var(--surface-variant)] text-[var(--on-surface-variant)] hover:bg-[var(--primary-container)] transition-all font-black uppercase text-[9px] tracking-widest">
-              <span>Cycle Theme</span><Palette size={10} />
-            </button>
-          </div>
-          <div className="pt-2 flex flex-col gap-1 border-t border-[var(--outline-variant)]/20">
-            <div className="flex items-center gap-2 opacity-30 italic">
-              <Cpu size={10} /><span>v2.7.6-stable (2026.07.08_2)</span>
-            </div>
-          </div>
-        </div>
-      )}
 
       <AnimatePresence>
         {show_top && (
@@ -517,16 +480,7 @@ export default function App() {
       <DebugConfirmDialog showDebugConfirm={showDebugConfirm} setShowDebugConfirm={setShowDebugConfirm} updateSettings={updateSettings} />
       <CapsuleConfirmDialog pendingCapsule={pendingCapsule} setPendingCapsule={setPendingCapsule} updateSettings={updateSettings} setToast={setToast} />
       <RefreshConfirmDialog showRefreshConfirm={showRefreshConfirm} setShowRefreshConfirm={setShowRefreshConfirm} />
-      {settings.debugMode && (
-        <div className="fixed top-4 right-4 z-[150] p-4 bg-black/80 text-white font-mono text-[10px] rounded-2xl backdrop-blur-xl border border-white/10 pointer-events-none space-y-1">
-          <div className="text-[var(--primary)] font-bold mb-2 flex items-center gap-2"><Cpu size={12} />BUILD INFO</div>
-          <div>PLATFORM: {viewport.w}x{viewport.h}</div>
-          <div>PAGE: {page.toUpperCase()}</div>
-          <div>THEME: {settings.mode.toUpperCase()}</div>
-          <div>ANIM: {settings.disableAnimations ? "OFF" : "ON"}</div>
-          <div className="pt-2 opacity-40">v2026.07.08_2-stable</div>
-        </div>
-      )}
+      <DebugView page={page} blogPostId={blogPostId} viewport={viewport} />
       </MotionConfig>
     </div>
   );

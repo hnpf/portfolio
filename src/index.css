@@ -517,8 +517,17 @@
     /* removed for performance, was causing massive lag on scroll due to blend mode */
 
     /* debug mode */
-    .debug-mode * {
-        outline: 1px solid rgba(255, 0, 0, 0.1) !important;
+    :root {
+        --debug-grid-color: rgba(0, 0, 0, 0.05);
+        --debug-outline-color: rgba(239, 68, 68, 0.15);
+    }
+    .dark {
+        --debug-grid-color: rgba(255, 255, 255, 0.05);
+        --debug-outline-color: rgba(239, 68, 68, 0.25);
+    }
+
+    .debug-outlines-active * {
+        outline: 1px solid var(--debug-outline-color) !important;
     }
 
     .debug-grid-active::after {
@@ -527,14 +536,33 @@
         inset: 0;
         background-image:
             linear-gradient(to right,
-                rgba(255, 255, 255, 0.04) 1px,
+                var(--debug-grid-color) 1px,
                 transparent 1px),
             linear-gradient(to bottom,
-                rgba(255, 255, 255, 0.04) 1px,
+                var(--debug-grid-color) 1px,
                 transparent 1px);
         background-size: 20px 20px;
         pointer-events: none;
         z-index: 9999;
+    }
+
+    .debug-slow-animations-active * {
+        transition-duration: 2.5s !important;
+        animation-duration: 2.5s !important;
+    }
+
+    @keyframes debug-vinyl-spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    .debug-vinyl-mode-active .m3-card:hover,
+    .debug-vinyl-mode-active .readme-card:hover {
+        animation: debug-vinyl-spin 4s linear infinite !important;
+    }
+    .debug-vinyl-mode-active a:hover,
+    .debug-vinyl-mode-active button:hover {
+        filter: hue-rotate(180deg) invert(1) scale(1.05) !important;
+        transition: filter 0.1s ease-in-out !important;
     }
 }
 

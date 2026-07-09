@@ -25,12 +25,11 @@ export const DebugConfirmDialog = ({ showDebugConfirm, setShowDebugConfirm, upda
                 <Cpu size={32} className="text-[var(--primary)]" />
               </div>
               <h3 className="text-3xl font-display font-black tracking-tight leading-tight">
-                wait, actually?
+                enable developer tools?
               </h3>
               <p className="text-xl opacity-70 font-medium leading-relaxed">
-                debug mode displays the layout grid and internal build
-                metrics. it's messy, distracting, and probably not what you
-                want!
+                this activates the real-time developer HUD. you can inspect elements,
+                track console telemetry logs, view storage, slow down animations, and toggle layout grids.
               </p>
             </div>
             <div className="flex flex-col gap-3">
