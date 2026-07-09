@@ -4,11 +4,11 @@
 # exit on error
 set -e
 
-# find current ver from src/App.tsx
-VERSION_LINE=$(grep -oE "v[0-9]+\.[0-9]+\.[0-9]+-stable \([0-9]+\.[0-9]+\.[0-9]+(_[0-9]+)?\)" src/App.tsx || true)
+# find current ver from src/components/DebugView.tsx
+VERSION_LINE=$(grep -oE "v[0-9]+\.[0-9]+\.[0-9]+-stable \([0-9]+\.[0-9]+\.[0-9]+(_[0-9]+)?\)" src/components/DebugView.tsx || true)
 
 if [ -z "$VERSION_LINE" ]; then
-    echo "did not find version pattern in src/App.tsx"
+    echo "did not find version pattern in src/components/DebugView.tsx"
     exit 1
 fi
 
@@ -88,8 +88,8 @@ new_date_version = sys.argv[4]
 changelog_file = sys.argv[5]
 has_changelog = sys.argv[6].lower() == 'true'
 
-# 1. update src/App.tsx
-app_path = "src/App.tsx"
+# 1. update src/components/DebugView.tsx
+app_path = "src/components/DebugView.tsx"
 if os.path.exists(app_path):
     with open(app_path, "r", encoding="utf-8") as f:
         content = f.read()

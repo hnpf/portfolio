@@ -953,6 +953,30 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "completely-overhauled-debug-view",
+    version: "2026.07.08_3",
+    title: "completely overhauled debug view",
+    date: "Jul 8, 2026",
+    changes: [
+      {
+        category: "debug view",
+        items: [
+          "overhauled the menu and completely rewrote it",
+          "added new features exclusive to the menu (e.g. slow animations, vinyl mode)",
+          "separated component",
+        ],
+      },
+      {
+        category: "other changes",
+        items: [
+          "rewrote the text for warn turning on debug mode",
+          "renamed FoolsPopup for better clarity",
+          "recolored lots of stuff for ux",
+        ],
+      },
+    ],
+  },
+  {
     id: "fix-the-bento-lag-once-and-for-all",
     version: "2026.07.08_2",
     title: "fix the bento lag once and for all",

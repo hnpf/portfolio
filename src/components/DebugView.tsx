@@ -107,6 +107,7 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
   
   if (!settings.debugMode) return null;
 
+  const BUILD_VERSION = "v2.7.9-stable (2026.07.08_3)";
   const dragControls = useDragControls();
 
   // local debug console state
@@ -495,8 +496,8 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
                 <span className="font-black text-[13px] tracking-[0.04em] text-[var(--on-surface)]">
                   virex debug view & tools
                 </span>
-                <span className="text-[9px] bg-[var(--primary-container)] text-[var(--on-primary-container)] px-2 py-0.5 rounded-full font-black">
-                  v2.8.0
+                <span className="text-[9px] bg-[var(--primary-container)] text-[var(--on-primary-container)] px-2 py-0.5 rounded-full font-black font-mono">
+                  {BUILD_VERSION.split("-")[0]}
                 </span>
               </div>
               <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
@@ -655,8 +656,9 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
                     </span>
                   </div>
 
-                  <div className="mt-3 text-[9px] opacity-40 text-center font-mono leading-relaxed select-text border-t border-[var(--outline-variant)]/20 pt-2">
-                    {navigator.userAgent}
+                  <div className="mt-3 text-[9px] opacity-40 text-center font-mono leading-relaxed select-text border-t border-[var(--outline-variant)]/20 pt-2 space-y-1">
+                    <div>{BUILD_VERSION}</div>
+                    <div>{navigator.userAgent}</div>
                   </div>
                 </div>
               )}
