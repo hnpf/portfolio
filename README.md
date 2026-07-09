@@ -23,12 +23,18 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 
 **recent changes**
 
-- [July 7, 2026]   fix crowding in blog topics dropdown
-- [July 7, 2026]   announcements bar
-- [July 7, 2026]   bring back old blog posts
+- [July 8, 2026]	 completely overhauled debug view
+- [July 8, 2026]	 fix lens bento lag
+- [July 8, 2026]	 add a bump script helper
+- [July 8, 2026]	 overhauled "to top" and fix mobile focus mode
+
+- [July 7, 2026]	 fix crowding in blog topics dropdown
+- [July 7, 2026]     announcements bar
+- [July 7, 2026]     bring back old blog posts
 
 - [July 6, 2026] 	 overhauled material 3 expressive scrollbar
 - [July 6, 2026] 	 blog back to feed bug fix, and micro-animations update
+
 - [July 5, 2026]	 Bug reporting & "known bugs" features.
 - [July 5, 2026]	 Finally add disableAnimations to settings.
 
@@ -36,7 +42,9 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 - [June 9, 2026]     Fix prod bugs and type mismatches (v2026.06.09)
 
 - [June 6, 2026]     expressive typography overhaul V2!
+
 - [June 5, 2026]     expressive typography overhaul!
+
 - [June 1, 2026]     pride month update
 
 - [May 27, 2026]     better haptics, fade switches icon, hide hover indicator on mobile.
