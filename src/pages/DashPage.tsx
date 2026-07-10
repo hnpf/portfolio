@@ -221,42 +221,42 @@ export default function DashPage() {
           <Uppercasecard delay={0.6} className="p-0 overflow-hidden border-6 border-[var(--outline-variant)]/40 bg-[var(--surface-variant)]/10">
             {/* desktop table view */}
             <div className="hidden md:block">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left border-collapse table-fixed">
                 <thead>
                   <tr className="border-b border-[var(--outline-variant)]/40 bg-[var(--surface)]/50">
-                    <th className="px-10 rounded-tl-[1.3rem] py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Path</th>
-                    <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Destination</th>
-                    <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-center">Visits</th>
-                    <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-right">Created</th>
-                    <th className="px-10 rounded-tr-[1.3rem] py-8"></th>
+                    <th className="w-[15%] px-8 rounded-tl-[1.3rem] py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Path</th>
+                    <th className="w-[40%] px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Destination</th>
+                    <th className="w-[15%] px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-center">Visits</th>
+                    <th className="w-[15%] px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-right">Created</th>
+                    <th className="w-[15%] px-4 rounded-tr-[1.3rem] py-8"></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--outline-variant)]/20">
                   {links.map((link) => (
                     <tr key={link.id} className="hover:bg-[var(--primary-container)]/10 transition-colors group">
-                      <td className="px-10 py-8 font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter">/{link.path}</td>
-                      <td className="px-10 py-8 max-w-[20rem] xl:max-w-md truncate opacity-60 font-display font-medium text-xl">{link.original_url}</td>
-                      <td className="px-10 py-8 font-black text-2xl text-center tabular-nums opacity-80">{link.visits}</td>
-                      <td className="px-10 py-8 opacity-40 text-sm font-bold text-right uppercase tracking-widest">
+                      <td className="px-8 py-8 font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter truncate">/{link.path}</td>
+                      <td className="px-8 py-8 opacity-60 font-display font-medium text-xl truncate">{link.original_url}</td>
+                      <td className="px-8 py-8 font-black text-2xl text-center tabular-nums opacity-80">{link.visits}</td>
+                      <td className="px-8 py-8 opacity-40 text-sm font-bold text-right uppercase tracking-widest truncate">
                         {new Date(link.created_at).toLocaleDateString()}
                       </td>
-                      <td className="px-10 py-8 text-right">
-                        <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <td className="px-4 py-8 text-right">
+                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
                             onClick={() => copylinkhandler(link.path)}
                             className={cn(
-                              "p-4 bg-[var(--surface)] rounded-2xl hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all active:scale-90 border-4 border-[var(--outline-variant)]/30 hover:border-[var(--primary)]/20",
+                              "p-3 bg-[var(--surface)] rounded-xl hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all active:scale-90 border-4 border-[var(--outline-variant)]/30 hover:border-[var(--primary)]/20",
                               copypath === link.path && "bg-green-500 text-white border-green-500/20 hover:bg-green-600 hover:text-white"
                             )}
                           >
-                            {copypath === link.path ? <Check size={20} /> : <Copy size={20} />}
+                            {copypath === link.path ? <Check size={18} /> : <Copy size={18} />}
                           </button>
                           <a
                             href={`/r/${link.path}`}
                             target="_blank"
-                            className="p-4 bg-[var(--surface)] rounded-2xl hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all active:scale-90 border-4 border-[var(--outline-variant)]/30 hover:border-[var(--primary-container)]/20"
+                            className="p-3 bg-[var(--surface)] rounded-xl hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all active:scale-90 border-4 border-[var(--outline-variant)]/30 hover:border-[var(--primary-container)]/20"
                           >
-                            <ExternalLink size={20} />
+                            <ExternalLink size={18} />
                           </a>
                         </div>
                       </td>
@@ -269,43 +269,40 @@ export default function DashPage() {
             {/* mobile view */}
             <div className="md:hidden divide-y divide-[var(--outline-variant)]/20">
               {links.map((link) => (
-                <div key={link.id} className="p-8 space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div className="font-mono font-bold text-3xl text-[var(--primary)] tracking-tighter">/{link.path}</div>
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => copylinkhandler(link.path)}
-                        className={cn(
-                          "p-4 bg-[var(--surface)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-[var(--outline-variant)]/30",
-                          copypath === link.path && "bg-green-500 text-white border-transparent"
-                        )}
-                      >
-                        {copypath === link.path ? <Check size={24} /> : <Copy size={24} />}
-                      </button>
-                      <a
-                        href={`/r/${link.path}`}
-                        target="_blank"
-                        className="p-4 bg-[var(--surface)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-[var(--outline-variant)]/30"
-                      >
-                        <ExternalLink size={24} />
-                      </a>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Destination</div>
-                    <div className="truncate opacity-80 text-md font-bold bg-[var(--surface)] px-5 py-4 rounded-2xl border-4 border-[var(--outline-variant)]/30 font-display">
-                      {link.original_url}
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-end pt-4">
-                    <div className="flex gap-8">
-                      <div className="space-y-1">
-                        <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Visits</div>
-                        <div className="font-black text-2xl tabular-nums opacity-80">{link.visits}</div>
+                <div key={link.id} className="p-6">
+                  <div className="flex flex-col gap-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex flex-col gap-1.5 overflow-hidden">
+                        <div className="font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter truncate">/{link.path}</div>
+                        <div className="text-sm opacity-50 font-display truncate">
+                          {link.original_url}
+                        </div>
                       </div>
-                      <div className="space-y-1">
-                        <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Date</div>
-                        <div className="font-bold opacity-60 text-md tracking-wider">{new Date(link.created_at).toLocaleDateString()}</div>
+                      <div className="flex gap-2 shrink-0">
+                        <button
+                          onClick={() => copylinkhandler(link.path)}
+                          className={cn(
+                            "p-3 bg-[var(--surface)] rounded-xl active:scale-90 transition-all border-4 border-[var(--outline-variant)]/30",
+                            copypath === link.path && "bg-green-500 text-white border-transparent"
+                          )}
+                        >
+                          {copypath === link.path ? <Check size={20} /> : <Copy size={20} />}
+                        </button>
+                        <a
+                          href={`/r/${link.path}`}
+                          target="_blank"
+                          className="p-3 bg-[var(--surface)] rounded-xl active:scale-90 transition-all border-4 border-[var(--outline-variant)]/30"
+                        >
+                          <ExternalLink size={20} />
+                        </a>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4 border-t border-[var(--outline-variant)]/20">
+                      <div className="text-sm font-bold opacity-60 bg-[var(--surface)] px-3 py-1 rounded-lg">
+                        {link.visits} visits
+                      </div>
+                      <div className="text-xs font-bold opacity-40 uppercase tracking-widest">
+                        {new Date(link.created_at).toLocaleDateString()}
                       </div>
                     </div>
                   </div>
