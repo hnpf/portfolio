@@ -1,107 +1,172 @@
-// @ts-ignore
+// @ts-nocheck
 import React, { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ExternalLink, Pin } from "lucide-react";
 import { cn } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { TiltContainer } from "../components/TiltContainer";
 
 const LENS_PHOTOS = [
   {
-    id: "1",
-    url: "/photography/20250524_125754_optimized_optimized_optimized.webp",
-    description: "light at the end of the brick tunnel",
+    id: "24",
+    url: "/photography/7062_1783717766914_optimized.webp",
+    description: "fourth of july weirdly edited photo",
+    date: "Jul 4, 2026",
     orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoKAAYAAUAmJZwCdAELX9KGTAAA/vfhlJaIa8/+BI2i/xfz0mMokO0SJTFw7phOwAA="
+    blur: "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAABwBACdASoUABQAPyV6slOuJ6Sit/qoAcAkiWNpzlClbqIh7/S+ElIs0roziAD+7hwfQotekKxG6zrTa2QHdmahwyj9zV8NUwcYIpLoIXcA/IRXvh4q9gAAAAA=",
+    pinned: true
   },
   {
-    id: "2",
-    url: "/photography/20250526_104032_optimized_optimized_optimized.webp",
-    description: "aerial smoke trails in formation",
+    id: "37",
+    url: "/photography/PXL_20260709_0508034562_1783718361121_optimized.webp",
+    description: "the setup",
+    date: "Jul 9, 2026",
     orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACQAQCdASoKAAUAAUAmJZwAAtz5SiwA/vU/YVbI62ukrk+AAAA="
+    blur: "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAACQAwCdASoUAA0APzmGuVOvKSWisAgB4CcJYwDImApsFr3mSEAAAP4WcQowGvS+J86eQnfIDzXewtA83t0G5C3nIVdMsSzk6yOaHIfvqZoAAA==",
+    pinned: true
   },
   {
-    id: "3",
-    url: "/photography/20250628_124853_optimized_optimized.webp",
-    description: "solitary boat with shallow depth of field",
+    id: "36",
+    url: "/photography/PXL_20260705_1526255632_1783718350483_optimized.webp",
+    description: "wide shot pelican and little gull aura",
+    date: "Jul 5, 2026",
     orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADQAQCdASoKAAYAAUAmJQBOgCHo69/XSAD+vGfdeNdk4HxVogXDW+pnjbdcnR/7yuMeBgAA"
+    blur: "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADwAwCdASoUAA8APzmGuVOvKSWisAgB4CcJQBOkJABXukaVuF6q6BwAAP3SA9E8ANB58wSvN/Xq48Vtap8cGcP2IsHGUo0y7ri6Jt6W8D9owiNAAAA="
   },
   {
-    id: "4",
-    url: "/photography/20250704_194559_optimized.webp",
-    description: "sunset framed by summer leaves",
-    orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoKAAgAAUAmJQBOgCHf6jrwAAD+/tSYC3P4yoe7S1bnvvvp5pKR+OWwAAA="
-  },
-  {
-    id: "5",
-    url: "/photography/20250704_203117_optimized.webp",
-    description: "fourth of july sparks",
-    orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAADQAQCdASoKAAgAAUAmJZwCdAEPAUHMgAD+/x+wlJMPl5iPiMzf4gkjIAA="
-  },
-  {
-    id: "6",
-    url: "/photography/20250705_091012_optimized.webp",
-    description: "ducks drifting on the water",
-    orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAAAQAgCdASoKAAgAAUAmJYgCdLoAAwi4roQAAP7tsZhlLc85SG0d7djBqwv9CbJZReAAAA=="
-  },
-  {
-    id: "7",
-    url: "/photography/20251106_151437.webp",
-    description: "random street sign in the lake",
-    orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAACwAQCdASoKAAUAAUAmJQBOgB6Q/22AAP6tgjOds+Xe1nCw8RdPnTh8Z1Lj1HJky0PuAAAA"
-  },
-  {
-    id: "8",
-    url: "/photography/20251221_035746.webp",
-    description: "a. seemanni face-to-face",
-    orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoKAAcAAUAmJQBOgCHgSD2CYAD+/nFNvDDp4uXVgTBLtD0RD5kArHDpAAA="
-  },
-  {
-    id: "9",
-    url: "/photography/IMG_20251101_1654442.webp",
-    description: "palm tree against the vibrant sun",
-    orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoKAAYAAUAmJQBOgB6RqHuwAAD+0kIa5Rovre4qzC6j+C7+fCBr7H6uIAA="
-  },
-  {
-    id: "10",
-    url: "/photography/PXL_20251225_142558068~2.webp",
-    description: "dewy webs on the rocks",
-    orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADQAQCdASoKAA0AAUAmJZACdAD0eq6CgAD+6f0/2/keaZso+L2Q8dAeSurb+P98BfZftDHxdWzflX8AAAA="
-  },
-  {
-    id: "11",
-    url: "/photography/PXL_20251230_074304887.PORTRAIT.webp",
-    description: "the workstation aesthetic",
+    id: "35",
+    url: "/photography/PXL_20260705_1526196952_1783718331804_optimized.webp",
+    description: "pelican and little gull aura",
+    date: "Jul 5, 2026",
     orientation: "portrait",
-    blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAADwAQCdASoKAAgAAUAmJZwC7AEPC80zZgAA/v4shjdN3hAA/66ZgAAA"
+    blur: "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADwAwCdASoPABQAPzmKulOvKaWisAgB4CcJZAC06CHEyFs1Hpv7jxgQAP5Rpga29vfubifH15t5SMKW67oqVdwRhD6wJ+TIC7SaocZMPy1wx7gDLQAAAA=="
   },
   {
-    id: "12",
-    url: "/photography/PXL_20251231_013358426.PORTRAIT~2.webp",
-    description: "feline toes",
+    id: "34",
+    url: "/photography/PXL_20260705_152634614_1783718273422_optimized.webp",
+    description: "laughing gull aura",
+    date: "Jul 5, 2026",
     orientation: "portrait",
-    blur: "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADwAQCdASoKAA0AAUAmJQBOgCHaSdkecmAA/v3q1N18FJpLbCm4lLtzSZJRUNV/2sax0tNyKCwsvYDVgAA="
+    blur: "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABwAwCdASoPABQAPzmGuVOvKSWisAgB4CcJZgAAGydaB8eSM+wAt8BSZOwGlEiOt3cIJJ93M8yHK/52rSUtE/vcqTr/RP2caKT4tAAA"
   },
   {
-    id: "13",
-    url: "/photography/PXL_20251231_235312192.webp",
-    description: "fiery red sky behind the treeline",
+    id: "33",
+    url: "/photography/PXL_20260704_221110626_1783718247324_optimized.webp",
+    description: "unique building shot",
+    date: "Jul 4, 2026",
+    orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAQBACdASoPABQAPzmEuVOvKKWisAgB4CcJZACdACF5FJj2InP6wyx7AAD+UcdJ1E/bsqjXslWDhymWzPjPX1wm/FcpU8dmK1vF+Hfa4p9RBkW2MOgKlORDxdR0xiUAAAA="
+  },
+  {
+    id: "32",
+    url: "/photography/PXL_20260703_020814005_PORTRAIT_ORIGINAL_1783718214601_optimized.webp",
+    description: "galveston tuff high-rise at night",
+    date: "Jul 3, 2026",
+    orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAADwAwCdASoPABQAPzmEuVOvKKWisAgB4CcJQBYdhDvpkWOF1LnA6YcAAP7itwzfvuKixUd3bZb89To/FmONUqfU6oJqEPo83R83OUpxtoCHZQRFGRg8MAAA"
+  },
+  {
+    id: "31",
+    url: "/photography/PXL_20260621_040027162_1783718186632_optimized.webp",
+    description: "textured leather",
+    date: "Jun 21, 2026",
     orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAACwAQCdASoKAAgAAUAmJQBOgCHXXDDgAP0rAkNfVA+1CPmcr6MZM5n9Xrb4+e47BxSQAAAA"
+    blur: "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAACwAwCdASoUABQAPzmMulavKSUkqA1R4CcJaQAAI8VaKhj1Q1L1AAD90/dLlzmn/keIw9mP264fE+qEMONksH5XlHCNKq1uRRnUOqXzUWcEUCU+xK7Q5gAA"
+  },
+  {
+    id: "30",
+    url: "/photography/PXL_20260517_0115338203_1783718173036_optimized.webp",
+    description: "palm tree against the sky",
+    date: "May 17, 2026",
+    orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAACQBACdASoUABQAPzmUwVmvKicjqAgB4CcJZwC90A2MpZpJ+oGwoua09A0pCgAA/Hkr15XUhaMYBjAdFww5AT4t+oOjMOoQZeEy++ufN0+ND77Wp6Jw9MnjUqjbHW3h/xvi0A2Q8G2oS2zO+q8xAjnr8I9ItPclAk39crEAAAA="
+  },
+  {
+    id: "29",
+    url: "/photography/PXL_20260420_183931363_1783718153333_optimized.webp",
+    description: "walrus thing",
+    date: "Apr 20, 2026",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACwAwCdASoUAA8APzmGulOvKSWisAgB4CcJbACdACHZsjPYNl+kwAD+w0/LOlUML+tmioOYSHtni6E9938HcbUrJAR0tUu5fJIJuoRHQAA="
+  },
+  {
+    id: "28",
+    url: "/photography/PXL_20260412_164451895_1783718101595_optimized.webp",
+    description: "crocs",
+    date: "Apr 12, 2026",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAAAwAwCdASoUAA8APzmGuVOvKSWisAgB4CcJQAAG4OVwahYIAP2zMjQx4QDCMfC590EcXTa88lQSfO2MlH4O2lz0gNnMNnJJy8AAAA=="
+  },
+  {
+    id: "27",
+    url: "/photography/PXL_20260404_1835532162_1783718089310_optimized.webp",
+    description: "kites shot in galveston",
+    date: "Apr 4, 2026",
+    orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACwBACdASoUABQAPzmKu1WvKSYjKA1R4CcJZwAAMX/frzq12a2VKHajosNqjBpwAP6xYOOBo2Cb4KzvysttiWGq0EELqwgAAAA="
+  },
+  {
+    id: "26",
+    url: "/photography/PXL_20260403_201643763_1783718068597_optimized.webp",
+    description: "galveston tuff high-rise",
+    date: "Apr 3, 2026",
+    orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAACwAwCdASoPABQAPzmGu1QvKSYjMAgB4CcJQBYdhDnu+FMWrt34dAD8U8HGNMwVcKQmaPOgNT7cxFSIVLjjDKvYHKxiGUAA",
+    pinned: true
+  },
+  {
+    id: "25",
+    url: "/photography/PXL_20260324_225858957_1783717935425_optimized.webp",
+    description: "a close up shot of my tarantula",
+    date: "Mar 24, 2026",
+    orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBACdASoPABQAPzmEuVOvKKWisAgB4CcJaACdMoADTnyTEnlxrb8rgAD7IW2QhBhNhoUSulh9qT2dyyZX8Tyof9JymsdDMHBBkqwTz9c1mNUUu6Tz7o+cFb+ggxoKYcXlMp/Emhcp4DrtYhWomiybpsg0vNAA"
+  },
+  {
+    id: "21",
+    url: "/photography/PXL_20260301_211813696.webp",
+    description: "A cute wild Tan jumping spider!",
+    date: "Mar 1, 2026",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADQAQCdASoKAA0AAUAmJZwAAueHty3OAAD+/jvso/q3pAc+oLpQf29h8wgAAA=="
+  },
+  {
+    id: "22",
+    url: "/photography/PXL_20260208_0319125062_1783717642816_optimized.webp",
+    description: "weird abandoned mall scenery",
+    date: "Feb 8, 2026",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAADQAwCdASoUAA8APzmEuVOvKKWisAgB4CcJYwCsAB6XKtgI+JTH8xAA+fXGwzdSso7WoK6HMEl+LCKxzQTnkYzXyXTngAAA"
+  },
+  {
+    id: "18",
+    url: "/photography/PXL_20260131_233605673.BURST-01.webp",
+    description: "the moon in broad daylight",
+    date: "Jan 31, 2026",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAABwAQCdASoKAA0AAUAmJQBOgCHAgAD24InRNrLBp+RClDe2prOn9sfZfdi5SPuAAAA="
+  },
+  {
+    id: "17",
+    url: "/photography/PXL_20260129_045632703.PORTRAIT~2.webp",
+    description: "silly silly / pure chaos..",
+    date: "Jan 29, 2026",
+    orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAAAwAgCdASoKAAgAAUAmJaACdLoAAwj5sdxkAAD++gyXVUt//ft38XKp7+OdpsUu5HGn9w5fxjToeAAA"
+  },
+  {
+    id: "16",
+    url: "/photography/PXL_20260115_062158733.PORTRAIT.webp",
+    description: "tarantula at the watering hole",
+    date: "Jan 15, 2026",
+    orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAADwAQCdASoKAAgAAUAmJYgCdAEObiD8oAAA/uUcffQj6uPkHzRC//FNCLfcNBq1Y/uvuvA3wtSgAA=="
   },
   {
     id: "14",
     url: "/photography/PXL_20260108_040856251.webp",
     description: "p. audax carrying a droplet",
+    date: "Jan 8, 2026",
     orientation: "landscape",
     blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoKAAgAAUAmJYwC7ADdDSGAAAD+2HmZiv6NWI+iVP00jEpvNmK4wF8AAAA="
   },
@@ -109,34 +174,55 @@ const LENS_PHOTOS = [
     id: "15",
     url: "/photography/PXL_20260108_042253119.webp",
     description: "tarantula being a menace",
+    date: "Jan 8, 2026",
     orientation: "landscape",
     blur: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADQAQCdASoKAA0AAUAmJYwCdAD0KkCjAAD2tfsBwgi6zffyYr+TZyGy/+qir515wasHAAAA"
   },
   {
-    id: "16",
-    url: "/photography/PXL_20260115_062158733.PORTRAIT.webp",
-    description: "tarantula at the watering hole",
+    id: "12",
+    url: "/photography/PXL_20251231_013358426.PORTRAIT~2.webp",
+    description: "feline toes",
+    date: "Dec 31, 2025",
     orientation: "portrait",
-    blur: "data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAADwAQCdASoKAAgAAUAmJYgCdAEObiD8oAAA/uUcffQj6uPkHzRC//FNCLfcNBq1Y/uvuvA3wtSgAA=="
+    blur: "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADwAQCdASoKAA0AAUAmJQBOgCHaSdkecmAA/v3q1N18FJpLbCm4lLtzSZJRUNV/2sax0tNyKCwsvYDVgAA="
   },
   {
-    id: "17",
-    url: "/photography/PXL_20260129_045632703.PORTRAIT~2.webp",
-    description: "silly silly / pure chaos..",
-    orientation: "portrait",
-    blur: "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAAAwAgCdASoKAAgAAUAmJaACdLoAAwj5sdxkAAD++gyXVUt//ft38XKp7+OdpsUu5HGn9w5fxjToeAAA"
-  },
-  {
-    id: "18",
-    url: "/photography/PXL_20260131_233605673.BURST-01.webp",
-    description: "the moon in broad daylight",
+    id: "13",
+    url: "/photography/PXL_20251231_235312192.webp",
+    description: "fiery red sky behind the treeline",
+    date: "Dec 31, 2025",
     orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAABwAQCdASoKAA0AAUAmJQBOgCHAgAD24InRNrLBp+RClDe2prOn9sfZfdi5SPuAAAA="
+    blur: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAACwAQCdASoKAAgAAUAmJQBOgCHXXDDgAP0rAkNfVA+1CPmcr6MZM5n9Xrb4+e47BxSQAAAA"
+  },
+  {
+    id: "11",
+    url: "/photography/PXL_20251230_074304887.PORTRAIT.webp",
+    description: "the workstation aesthetic",
+    date: "Dec 30, 2025",
+    orientation: "portrait",
+    blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAADwAQCdASoKAAgAAUAmJZwC7AEPC80zZgAA/v4shjdN3hAA/66ZgAAA"
+  },
+  {
+    id: "10",
+    url: "/photography/PXL_20251225_142558068~2.webp",
+    description: "dewy webs on the rocks",
+    date: "Dec 25, 2025",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADQAQCdASoKAA0AAUAmJZACdAD0eq6CgAD+6f0/2/keaZso+L2Q8dAeSurb+P98BfZftDHxdWzflX8AAAA="
+  },
+  {
+    id: "8",
+    url: "/photography/20251221_035746.webp",
+    description: "a. seemanni face-to-face",
+    date: "Dec 21, 2025",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoKAAcAAUAmJQBOgCHgSD2CYAD+/nFNvDDp4uXVgTBLtD0RD5kArHDpAAA="
   },
   {
     id: "19",
     url: "/photography/SGCAM_20251127_134227019.webp",
     description: "cat on patrol",
+    date: "Nov 27, 2025",
     orientation: "landscape",
     blur: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADwAQCdASoKAAcAAUAmJZQCdAEQFSLLIgAA/mtiRXs6w0GcArxuOKgJhv0UkQAA"
   },
@@ -144,15 +230,73 @@ const LENS_PHOTOS = [
     id: "20",
     url: "/photography/SGCAM_20251127_134233696.webp",
     description: "morning stretches on the hood",
+    date: "Nov 27, 2025",
     orientation: "landscape",
     blur: "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADwAQCdASoKAAcAAUAmJZwCdAEPDGj2hwAA/uRrytlsUi9RyFwESfCz0yYAAA=="
   },
   {
-    id: "21",
-    url: "/photography/PXL_20260301_211813696.webp",
-    description: "A cute wild Tan jumping spider!",
+    id: "9",
+    url: "/photography/IMG_20251101_1654442.webp",
+    description: "palm tree against the vibrant sun",
+    date: "Nov 1, 2025",
     orientation: "landscape",
-    blur: "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADQAQCdASoKAA0AAUAmJZwAAueHty3OAAD+/jvso/q3pAc+oLpQf29h8wgAAA=="
+    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoKAAYAAUAmJQBOgB6RqHuwAAD+0kIa5Rovre4qzC6j+C7+fCBr7H6uIAA="
+  },
+  {
+    id: "6",
+    url: "/photography/20250705_091012_optimized.webp",
+    description: "ducks drifting on the water",
+    date: "Jul 5, 2025",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAAAQAgCdASoKAAgAAUAmJYgCdLoAAwi4roQAAP7tsZhlLc85SG0d7djBqwv9CbJZReAAAA=="
+  },
+  {
+    id: "4",
+    url: "/photography/20250704_194559_optimized.webp",
+    description: "sunset framed by summer leaves",
+    date: "Jul 4, 2025",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoKAAgAAUAmJQBOgCHf6jrwAAD+/tSYC3P4yoe7S1bnvvvp5pKR+OWwAAA="
+  },
+  {
+    id: "5",
+    url: "/photography/20250704_203117_optimized.webp",
+    description: "fourth of july sparks",
+    date: "Jul 4, 2025",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAADQAQCdASoKAAgAAUAmJZwCdAEPAUHMgAD+/x+wlJMPl5iPiMzf4gkjIAA="
+  },
+  {
+    id: "3",
+    url: "/photography/20250628_124853_optimized_optimized.webp",
+    description: "solitary boat with shallow depth of field",
+    date: "Jun 28, 2025",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADQAQCdASoKAAYAAUAmJQBOgCHo69/XSAD+vGfdeNdk4HxVogXDW+pnjbdcnR/7yuMeBgAA"
+  },
+  {
+    id: "7",
+    url: "/photography/20251106_151437.webp",
+    description: "random street sign in the lake",
+    date: "Jun 11, 2025",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAACwAQCdASoKAAUAAUAmJQBOgB6Q/22AAP6tgjOds+Xe1nCw8RdPnTh8Z1Lj1HJky0PuAAAA"
+  },
+  {
+    id: "2",
+    url: "/photography/20250526_104032_optimized_optimized_optimized.webp",
+    description: "aerial smoke trails in formation",
+    date: "May 26, 2025",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACQAQCdASoKAAUAAUAmJZwAAtz5SiwA/vU/YVbI62ukrk+AAAA="
+  },
+  {
+    id: "1",
+    url: "/photography/20250524_125754_optimized_optimized_optimized.webp",
+    description: "light at the end of the brick tunnel",
+    date: "May 24, 2025",
+    orientation: "landscape",
+    blur: "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoKAAYAAUAmJZwCdAELX9KGTAAA/vfhlJaIa8/+BI2i/xfz0mMokO0SJTFw7phOwAA="
   },
 ];
 
@@ -237,9 +381,23 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
         )}
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8 z-20">
-        <p className="text-white text-lg font-bold leading-tight drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-          {photo.description}
-        </p>
+        <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300 w-full flex justify-between items-end gap-4">
+          <div className="flex flex-col gap-1">
+            <p className="text-white text-lg font-bold leading-tight drop-shadow-md">
+              {photo.description}
+            </p>
+            {photo.date && (
+              <p className="text-white/80 text-sm font-medium drop-shadow-md">
+                {photo.date}
+              </p>
+            )}
+          </div>
+          {photo.pinned && (
+            <div className="bg-[var(--primary)] text-[var(--on-primary)] mr-1 p-2.5 rounded-full shadow-xl">
+              <Pin size={20} fill="currentColor" strokeWidth={1.5} />
+            </div>
+          )}
+        </div>
       </div>
       {/* static outline border (never changes color, zero paint invalidation cost) */}
       <div className="absolute inset-0 border-6 border-[var(--outline-variant)] rounded-[2.5rem] pointer-events-none z-30" />
@@ -354,6 +512,11 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
                 <div className="text-[var(--on-surface)] font-display font-black text-lg md:text-2xl tracking-tight leading-tight truncate">
                   {LENS_PHOTOS[idx].description}
                 </div>
+                {LENS_PHOTOS[idx].date && (
+                  <div className="text-[var(--on-surface)]/60 font-medium text-xs md:text-sm mt-0.5 md:mt-1 truncate">
+                    {LENS_PHOTOS[idx].date}
+                  </div>
+                )}
               </div>
 
               <motion.button

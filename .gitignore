@@ -35,3 +35,5 @@ yarn-error.log*
 !.vscode/settings.json
 !.vscode/extensions.json
 !.vscode/launch.json
+!public/photography/.gitkeep
+
