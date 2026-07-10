@@ -24,8 +24,6 @@ const NoPage = () => {
   const [maybe_on, setMaybeOn] = useState(false);
   const [messy, setMessy] = useState(false);
   const [amber, setAmber] = useState(false);
-  // const [shake, setShake] = useState(false)  
-  // was gonna add a shake anim on mass click, meh lmao
   const recent_ts = useRef<number[]>([]);
   const konami_prog = useRef(0);
   const virex_prog = useRef(0);
