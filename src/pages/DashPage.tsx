@@ -1,8 +1,7 @@
-// @ts-ignore
-
-import React, { useState, useEffect } from 'react';
+// @ts-nocheck
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Copy, Check, ExternalLink, Link as LinkIcon, Plus, Hash, Globe, AlertTriangle, Loader2 } from 'lucide-react';
+import { Copy, Check, ExternalLink, Link as LinkIcon, Hash, Globe, AlertTriangle, Loader2, ArrowRight } from 'lucide-react';
 import { cn } from '../constants';
 
 const Uppercasecard = ({ children, className, delay = 0 }: any) => {
@@ -38,13 +37,8 @@ export default function DashPage() {
   const [copypath, setCopypath] = useState<string | null>(null);
   const [placeholder, setPlaceholder] = useState('https://keep.google.com/');
   const [isLoading, setIsLoading] = useState(false);
-  const [show_top, setShowTop] = useState(false);
-
-  useEffect(() => {
-    const on_scroll = () => setShowTop(window.scrollY > 400);
-    window.addEventListener('scroll', on_scroll);
-    return () => window.removeEventListener('scroll', on_scroll);
-  }, []);
+  const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const weirdlinkpresets = [
     'https://virex.lol/lens',
@@ -69,6 +63,10 @@ export default function DashPage() {
   useEffect(() => {
     loadlink();
     setPlaceholder(weirdlinkpresets[Math.floor(Math.random() * weirdlinkpresets.length)]);
+    // auti-focus the input on start
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100);
   }, []);
 
   const submitlinkhandler = async (e: React.FormEvent) => {
@@ -108,125 +106,147 @@ export default function DashPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12 md:space-y-20 pb-32 relative">
-      <header className="page-header italic font-expressive-bold space-y-6 md:space-y-8 px-4 md:px-0">
-        <div className="flex items-center gap-6">
-          <h1 className="page-title text-6xl md:text-[100px] tracking-[-0.05em]">Shorten</h1>
+    <div className="max-w-6xl mx-auto space-y-16 md:space-y-24 pb-32 relative pt-8 md:pt-16">
+      
+      {/* hero input */}
+      <div className="flex flex-col items-center justify-center px-4 md:px-0 relative z-20">
+        <div className="text-center space-y-4 mb-10 md:mb-16">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.33, 1, 0.68, 1] }}
+            className="text-5xl md:text-7xl font-expressive-bold italic tracking-tight"
+          >
+            Create short links.
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: [0.33, 1, 0.68, 1] }}
+            className="text-lg md:text-2xl text-[var(--on-surface-variant)] opacity-60 font-display font-medium"
+          >
+            HTTPS is only a suggestion! <span className="italic opacity-40 ml-2">// quick and dirty.</span>
+          </motion.p>
         </div>
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
-          className="text-lg md:text-3xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-4xl leading-tight"
-        >
-          HTTPS is only a suggestion! <span className="italic opacity-40 text-sm md:text-xl ml-2">// quick and dirty links.</span>
-        </motion.p>
-      </header>
 
-      <div className="grid grid-cols-1 gap-8 md:gap-16 px-4 md:px-0">
-        <Uppercasecard className="bg-[var(--primary-container)]/10 border-6 border-[var(--primary)]/20 relative overflow-hidden group p-8 md:p-16">
-          <form onSubmit={submitlinkhandler} className="relative z-10 space-y-8 md:space-y-12">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10">
-              <div className="md:col-span-8 space-y-4">
-                <div className="flex items-center gap-3 px-1">
-                  <Globe size={16} className="text-[var(--primary)]" />
-                  <label className="text-[10px] md:text-[12px] font-black tracking-[0.4em] opacity-50 uppercase italic">Destination URL</label>
-                </div>
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.33, 1, 0.68, 1] }}
+          className="w-full max-w-5xl"
+        >
+          <form onSubmit={submitlinkhandler} className="relative group">
+            <div className={cn(
+              "absolute -inset-4 from-[var(--primary)] to-[var(--primary-container)] rounded-[3.5rem] blur-xl opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200",
+              isFocused ? "opacity-50 duration-200" : ""
+            )}></div>
+            
+            <div className={cn(
+              "relative bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 rounded-[3rem] p-4 md:p-6 shadow-2xl flex flex-col md:flex-row gap-4 items-center transition-all duration-300",
+              isFocused ? "border-[var(--primary)]/50 scale-[1.01]" : "hover:border-[var(--primary)]/30"
+            )}>
+              
+              <div className="flex-1 w-full flex items-center bg-[var(--surface-variant)]/40 rounded-[2rem] px-6 py-2 border-4 border-transparent focus-within:bg-[var(--surface-variant)] focus-within:border-[var(--primary)]/20 transition-all h-20 md:h-24">
+                <Globe className={cn("transition-colors duration-300 mr-4 md:mr-6", isFocused ? "text-[var(--primary)]" : "text-[var(--primary)] opacity-40")} size={28} />
                 <input
+                  ref={inputRef}
                   type="url"
                   placeholder={placeholder}
-                  className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[1.5rem] md:rounded-[2rem] px-6 md:px-10 py-4 md:py-6 text-xl md:text-2xl outline-none transition-all shadow-inner font-display font-bold placeholder:opacity-20"
+                  className="w-full bg-transparent py-4 text-2xl md:text-4xl outline-none font-display font-bold placeholder:opacity-20 placeholder:font-medium"
                   value={url}
                   onChange={e => setUrl(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
                   required
                 />
               </div>
-              <div className="md:col-span-4 space-y-4">
-                <div className="flex items-center gap-3 px-1">
-                  <Hash size={16} className="text-[var(--primary)]" />
-                  <label className="text-[10px] md:text-[12px] font-black tracking-[0.4em] opacity-50 uppercase italic">Custom path</label>
-                </div>
-                <div className="relative">
-                  <span className="absolute left-6 md:left-10 top-1/2 -translate-y-1/2 text-2xl font-mono opacity-30">/</span>
-                  <input
-                    type="text"
-                    placeholder="optional"
-                    className="w-full bg-[var(--surface)] border-6 border-[var(--outline-variant)]/60 focus:border-[var(--primary)] rounded-[1.5rem] md:rounded-[2rem] pl-12 md:pl-16 pr-6 md:pr-10 py-4 md:py-6 text-xl md:text-2xl font-mono outline-none transition-all shadow-inner"
-                    value={path}
-                    onChange={e => setpath(e.target.value)}
-                  />
-                </div>
+
+              <div className="w-full md:w-auto flex items-center bg-[var(--surface-variant)]/40 rounded-[2rem] px-6 py-2 border-4 border-transparent focus-within:bg-[var(--surface-variant)] focus-within:border-[var(--primary)]/20 transition-all h-20 md:h-24">
+                <Hash className="text-[var(--primary)] opacity-40 mr-2 md:mr-3" size={24} />
+                <span className="text-2xl font-mono opacity-30 mr-1">/</span>
+                <input
+                  type="text"
+                  placeholder="custom"
+                  className="w-full md:w-48 bg-transparent py-4 text-2xl font-mono outline-none placeholder:opacity-30 placeholder:font-medium"
+                  value={path}
+                  onChange={e => setpath(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                />
               </div>
-            </div>
-            
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8 md:pt-10 border-t border-[var(--outline-variant)]/30">
-              <div className="flex-1 w-full">
-                <AnimatePresence mode="wait">
-                  {error && (
-                    <motion.div 
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 10 }}
-                      className="text-red-500 font-bold flex items-center gap-3 bg-red-500/10 px-4 md:px-6 py-3 rounded-2xl border-4 border-red-500/20 text-sm md:text-base"
-                    >
-                      <AlertTriangle size={18} />
-                      {error}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full md:w-auto bg-[var(--primary)] text-[var(--on-primary)] font-black tracking-[0.2em] uppercase px-12 md:px-16 h-16 md:h-20 rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center gap-4 hover:scale-[1.03] active:scale-[0.97] disabled:opacity-50 disabled:scale-100 transition-all shadow-2xl shadow-[var(--primary)]/30 group/btn text-md md:text-lg"
+                disabled={isLoading || !url}
+                className="w-full md:w-auto h-20 md:h-24 bg-[var(--primary)] text-[var(--on-primary)] px-10 rounded-[2rem] flex items-center justify-center hover:scale-[1.02] active:scale-[0.95] disabled:opacity-50 disabled:scale-100 transition-all shadow-xl shadow-[var(--primary)]/20 group/btn"
               >
-                {isLoading ? <Loader2 className="animate-spin" /> : 'Create Link'}
-                {!isLoading && <Plus size={24} className="group-hover/btn:rotate-90 transition-transform duration-500" />}
+                {isLoading ? (
+                  <Loader2 className="animate-spin" size={32} />
+                ) : (
+                  <ArrowRight size={36} className="group-hover/btn:translate-x-2 transition-transform duration-300" />
+                )}
               </button>
             </div>
+
+            <AnimatePresence>
+              {error && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  className="relative top-full mt-8 left-0 right-0 mx-auto max-w-2xl text-red-500 font-bold flex items-center justify-center gap-3 bg-red-500/30 px-6 py-4 rounded-2xl mb-3 border-4 border-red-500/20 text-lg backdrop-blur-md z-30"
+                >
+                  <AlertTriangle size={24} />
+                  {error}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </form>
-          
-          <div className="absolute -right-20 -bottom-20 opacity-[0.03] pointer-events-none group-hover:scale-110 group-hover:rotate-12 transition-all duration-1000 text-[var(--primary)]">
-            <LinkIcon size={450} />
-          </div>
-        </Uppercasecard>
+        </motion.div>
+      </div>
 
+      <div className="grid grid-cols-1 gap-8 md:gap-16 px-4 md:px-0 mt-20 relative z-10">
         <div className="space-y-8">
-          <div className="flex items-center justify-between px-4 md:px-8">
-            <h2 className="text-3xl md:text-4xl font-expressive-bold italic tracking-tight">Recent Links</h2>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="flex items-center justify-between px-4 md:px-8"
+          >
+            <h2 className="text-3xl md:text-4xl font-expressive-bold italic tracking-tight opacity-80">Recent Links</h2>
             <div className="h-px flex-1 mx-8 bg-[var(--outline-variant)]/30" />
-            <span className="text-xs font-black uppercase tracking-[0.3em] opacity-30">{links.length} total</span>
-          </div>
+            <span className="text-[16px] font-black tracking-[0.2em] italic opacity-30">{links.length} total</span>
+          </motion.div>
 
-          <Uppercasecard delay={0.1} className="p-0 overflow-hidden border-6 border-[var(--outline-variant)]/40">
+          <Uppercasecard delay={0.6} className="p-0 overflow-hidden border-6 border-[var(--outline-variant)]/40 bg-[var(--surface-variant)]/10">
             {/* desktop table view */}
             <div className="hidden md:block">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-[var(--outline-variant)]/40 bg-[var(--surface-variant)]/10">
-                    <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Path</th>
+                  <tr className="border-b border-[var(--outline-variant)]/40 bg-[var(--surface)]/50">
+                    <th className="px-10 rounded-tl-[1.3rem] py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Path</th>
                     <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Destination</th>
                     <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-center">Visits</th>
                     <th className="px-10 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-right">Created</th>
-                    <th className="px-10 py-8"></th>
+                    <th className="px-10 rounded-tr-[1.3rem] py-8"></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--outline-variant)]/20">
                   {links.map((link) => (
-                    <tr key={link.id} className="hover:bg-[var(--primary-container)]/5 transition-colors group">
+                    <tr key={link.id} className="hover:bg-[var(--primary-container)]/10 transition-colors group">
                       <td className="px-10 py-8 font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter">/{link.path}</td>
-                      <td className="px-10 py-8 max-w-xs truncate opacity-60 font-display font-medium text-lg">{link.original_url}</td>
-                      <td className="px-10 py-8 font-black text-2xl text-center tabular-nums">{link.visits}</td>
+                      <td className="px-10 py-8 max-w-[20rem] xl:max-w-md truncate opacity-60 font-display font-medium text-xl">{link.original_url}</td>
+                      <td className="px-10 py-8 font-black text-2xl text-center tabular-nums opacity-80">{link.visits}</td>
                       <td className="px-10 py-8 opacity-40 text-sm font-bold text-right uppercase tracking-widest">
                         {new Date(link.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-10 py-8 text-right">
-                        <div className="flex justify-end gap-3">
+                        <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
                             onClick={() => copylinkhandler(link.path)}
                             className={cn(
-                              "p-4 bg-[var(--surface-variant)] rounded-2xl hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all active:scale-90 border-4 border-transparent hover:border-[var(--primary)]/20",
-                              copypath === link.path && "bg-green-500 text-white border-green-500/20"
+                              "p-4 bg-[var(--surface)] rounded-2xl hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all active:scale-90 border-4 border-[var(--outline-variant)]/30 hover:border-[var(--primary)]/20",
+                              copypath === link.path && "bg-green-500 text-white border-green-500/20 hover:bg-green-600 hover:text-white"
                             )}
                           >
                             {copypath === link.path ? <Check size={20} /> : <Copy size={20} />}
@@ -234,7 +254,7 @@ export default function DashPage() {
                           <a
                             href={`/r/${link.path}`}
                             target="_blank"
-                            className="p-4 bg-[var(--surface-variant)] rounded-2xl hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all active:scale-90 border-4 border-transparent hover:border-[var(--primary-container)]/20"
+                            className="p-4 bg-[var(--surface)] rounded-2xl hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all active:scale-90 border-4 border-[var(--outline-variant)]/30 hover:border-[var(--primary-container)]/20"
                           >
                             <ExternalLink size={20} />
                           </a>
@@ -256,8 +276,8 @@ export default function DashPage() {
                       <button
                         onClick={() => copylinkhandler(link.path)}
                         className={cn(
-                          "p-5 bg-[var(--surface-variant)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-transparent",
-                          copypath === link.path && "bg-green-500 text-white"
+                          "p-4 bg-[var(--surface)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-[var(--outline-variant)]/30",
+                          copypath === link.path && "bg-green-500 text-white border-transparent"
                         )}
                       >
                         {copypath === link.path ? <Check size={24} /> : <Copy size={24} />}
@@ -265,7 +285,7 @@ export default function DashPage() {
                       <a
                         href={`/r/${link.path}`}
                         target="_blank"
-                        className="p-5 bg-[var(--surface-variant)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-transparent"
+                        className="p-4 bg-[var(--surface)] rounded-[1.5rem] active:scale-90 transition-all border-4 border-[var(--outline-variant)]/30"
                       >
                         <ExternalLink size={24} />
                       </a>
@@ -281,7 +301,7 @@ export default function DashPage() {
                     <div className="flex gap-8">
                       <div className="space-y-1">
                         <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Visits</div>
-                        <div className="font-black text-2xl tabular-nums">{link.visits}</div>
+                        <div className="font-black text-2xl tabular-nums opacity-80">{link.visits}</div>
                       </div>
                       <div className="space-y-1">
                         <div className="text-[10px] font-black tracking-[0.4em] opacity-40 uppercase italic">Date</div>
@@ -295,11 +315,16 @@ export default function DashPage() {
 
             {links.length === 0 && (
               <div className="px-10 py-32 text-center opacity-30 font-display text-3xl font-black italic tracking-tighter">
-                database is silent.
+                database is quiet.. for now.
               </div>
             )}
           </Uppercasecard>
         </div>
+      </div>
+      
+      {/* some extra bg decor :) */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center opacity-[0.02] dark:opacity-[0.03]">
+        <LinkIcon size={800} className="text-[var(--primary)] -rotate-12 scale-150" />
       </div>
     </div>
   );
