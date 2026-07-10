@@ -30,6 +30,9 @@ yarn-error.log*
 .env.production.local
 .env*.local
 
+# db stuff
+virex_db.json
+
 # vscode
 .vscode/*
 !.vscode/settings.json
