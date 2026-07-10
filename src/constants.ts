@@ -940,6 +940,35 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "retire-loom-and-tracker",
+    version: "2026.07.10",
+    title: "Retire Loom and Tracker",
+    date: "Jul 10, 2026",
+    changes: [
+      {
+        category: "loom",
+        items: [
+          "Completely scraped loom from the codebase as I'm currently not focused on it. :(",
+        ],
+      },
+      {
+        category: "tracker",
+        items: [
+          "Removed tracker, like loom, as I wasn't updating it, and it seemed too confusing/random for viewers.",
+        ],
+      },
+      {
+        category: "what's actually new?",
+        items: [
+          "Now page: A page that actually has more info about me, and what I'm learning. Such as: What I'm building, learning, reading, and listening to right now.",
+          "Lens pinning: Added pins to the Lens gallery, for my curated/favorite images :)",
+          "Photo dates: added dates to all photos in Lens.",
+          "Date sorting in Lens: Lens page photos are finally sorted by date properly.",
+        ],
+      },
+    ],
+  },
+  {
     id: "completely-overhauled-debug-view",
     version: "2026.07.08_3",
     title: "completely overhauled debug view",
