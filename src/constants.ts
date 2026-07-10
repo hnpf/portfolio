@@ -960,6 +960,7 @@ export const CHANGELOGS: ChangelogEntry[] = [
       {
         category: "what's actually new?",
         items: [
+          "Dash: Fully overhauled the URL shortener/dash page. It's now aimed for an input-first style, and has a floating input-bar now! It's also better for mobile than ever before!",
           "Now page: A page that actually has more info about me, and what I'm learning. Such as: What I'm building, learning, reading, and listening to right now.",
           "Lens pinning: Added pins to the Lens gallery, for my curated/favorite images :)",
           "Photo dates: added dates to all photos in Lens.",
