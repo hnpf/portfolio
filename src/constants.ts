@@ -50,13 +50,6 @@ export interface TrackerItem {
 }
 
 export const PROJECTS: Project[] = [
-  /*{
-    id: 'loom-lang',
-    title: 'loom lang',
-    description: 'a lightweight, expressive, and efficient programming language. made for speed and simplicity.',
-    link: '/loom',
-    tags: ['Rust', 'Interpreter']
-  },*/
   {
     id: "cons blog",
     title: "cons blog",
@@ -1881,7 +1874,6 @@ export const CHANGELOGS: ChangelogEntry[] = [
         category: "performance and utility",
         items: [
           "lens optimization: reduced image assets from ~200MB to ~40MB (WebP conversion)",
-          "loom deep search: prefetch markdown for real-time body-content search",
           "PWA support: fully installable via custom manifest",
           "RSS feed: official support (https://virex.lol/rss.xml)",
           "deep SEO: added OpenGraph and JSON-LD structured data",

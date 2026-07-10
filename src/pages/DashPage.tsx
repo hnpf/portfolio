@@ -47,7 +47,6 @@ export default function DashPage() {
   }, []);
 
   const weirdlinkpresets = [
-    'https://github.com/hnpf/LOOM_PROGRAMMING_LANGUAGE',
     'https://virex.lol/lens',
     'https://archlinux.org/download/',
     'https://news.ycombinator.com/',
