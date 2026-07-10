@@ -41,13 +41,7 @@ export interface Photo {
   description?: string;
 }
 
-export interface TrackerItem {
-  id: string;
-  title: string;
-  tips: string[];
-  tools: string[];
-  category: "Cybersec" | "Dev" | "Research" | "Design";
-}
+
 
 export const PROJECTS: Project[] = [
   {
@@ -1883,45 +1877,7 @@ export const CHANGELOGS: ChangelogEntry[] = [
   },
 ];
 
-export const TRACKER_ITEMS: TrackerItem[] = [
-  {
-    id: "cybersecurity-ceh",
-    title: "ceh cert",
-    category: "Cybersec",
-    tips: [
-      "understand the methodology, not just the tool",
-      "network layer basics are everything",
-    ],
-    tools: ["Nmap", "Wireshark", "Metasploit"],
-  },
-  {
-    id: "m3-adwaita-ui",
-    title: "m3e, Libadwaita, etc",
-    category: "Design",
-    tips: [
-      "squircles are superior geometry",
-      "animations should feel organic and not static",
-    ],
-    tools: ["Tailwind CSS", "Framer Motion", "Radix UI"],
-  },
-  {
-    id: "systems-automation",
-    title: "automation",
-    category: "Dev",
-    tips: ["if you must do it twice, script it", "minimalism is a feature."],
-    tools: ["Rust", "Vim", "Linux", "GNOME"],
-  },
-  {
-    id: "vulnerability-lab",
-    title: "research",
-    category: "Cybersec",
-    tips: [
-      "documentation is 50% of the exploit",
-      "keep the environment isolated",
-    ],
-    tools: ["GDB", "Ghidra", "Python"],
-  },
-];
+
 
 export const TECH_STACK = {
   web: ["React", "TypeScript", "TailwindCSS", "Next.js", "Node", "Javascript"],

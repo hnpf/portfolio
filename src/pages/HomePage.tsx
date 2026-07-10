@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-nocheck
 
 import React, { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";

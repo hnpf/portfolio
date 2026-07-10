@@ -97,7 +97,7 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 
 > **lore** — interactive bio with a cool ass animation and more.
 
-> **tracker** — research log. cybersec, dev, design, tooling, whatever i'm poking at.
+> **now** — what i'm actively building, reading, and learning right now.
 
 > **settings** — accent hue, light/dark/system, highHz mode, brutalist mode (0px radii), zen mode, jetbrains mono override, and more.
 

@@ -19,7 +19,7 @@ export async function onRequestPost(context) {
       return new Response(JSON.stringify({ error: 'URL is malformed!' }), { status: 400 });
     }
 
-    const RESERVED = new Set(['dash', 'api', 'login', 'u', 'static', 'health', 'admin', 'fetch', 'r', 'blog', 'lens', 'tracker', 'readme', 'changelog', 'no']);
+    const RESERVED = new Set(['dash', 'api', 'login', 'u', 'static', 'health', 'admin', 'fetch', 'r', 'blog', 'lens', 'now', 'readme', 'changelog', 'no']);
 
     let finalPath = path;
     if (finalPath) {

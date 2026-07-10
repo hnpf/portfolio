@@ -37,7 +37,7 @@ import { BlogPage } from "./pages/BlogPage";
 import { ChangelogPage } from "./pages/ChangelogPage";
 import { LensPage } from "./pages/LensPage";
 import { ReadmePage } from "./pages/ReadmePage";
-import { TrackerPage } from "./pages/TrackerPage";
+import { NowPage } from "./pages/NowPage";
 import DashPage from "./pages/DashPage";
 import NoPage from "./pages/NoPage";
 import NotFound from "./pages/NotFound";
@@ -88,7 +88,7 @@ export default function App() {
     if (path === "readme") return "home";
     if (loc === "/" || loc === "") return "home";
     if (loc.startsWith("/blog/")) return "blog";
-    const ALLOWED = ["home", "blog", "lens", "tracker", "readme", "changelog", "dash", "no"];
+    const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "dash", "no"];
     return ALLOWED.includes(path) ? path : "404";
   });
 
@@ -153,7 +153,7 @@ export default function App() {
         setPage("blog"); setBlogPostId(loc.split("/")[2]);
       } else {
         const path = loc.replace("/", "").toLowerCase();
-        const ALLOWED = ["home", "blog", "lens", "tracker", "readme", "changelog", "dash", "no"];
+        const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "dash", "no"];
         setPage(ALLOWED.includes(path) ? path : "404");
         setBlogPostId(null);
       }
@@ -358,7 +358,7 @@ export default function App() {
                   <SideItem highHz={settings.highHz} glyph={Fingerprint} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={BookText} text="Blog" isSelected={page === "blog"} onSelect={() => goto("blog")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={Camera} text="Lens" isSelected={page === "lens"} onSelect={() => goto("lens")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
-                  <SideItem highHz={settings.highHz} glyph={Activity} text="Tracker" isSelected={page === "tracker"} onSelect={() => goto("tracker")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
+                  <SideItem highHz={settings.highHz} glyph={Activity} text="Now" isSelected={page === "now"} onSelect={() => goto("now")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} isLast glyph={LinkIcon} text="Short" isSelected={page === "dash"} onSelect={() => goto("dash")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                 </nav>
                 <AnimatePresence>
@@ -407,12 +407,12 @@ export default function App() {
             {page === "home" && <HomePage setPage={goto} settings={settings} />}
             {page === "blog" && <BlogPage targetId={blogPostId} navigateTo={goto} />}
             {page === "lens" && <LensPage viewport={viewport} />}
-            {page === "tracker" && <TrackerPage />}
+            {page === "now" && <NowPage />}
             {page === "readme" && <ReadmePage setPage={goto} is_mobile={is_mobile} />}
             {page === "changelog" && <ChangelogPage />}
             {page === "dash" && <DashPage />}
             {page === "no" && <NoPage />}
-            {![ "home", "blog", "lens", "tracker", "readme", "changelog", "dash", "no" ].includes(page) && <NotFound go={goto} />}
+            {![ "home", "blog", "lens", "now", "readme", "changelog", "dash", "no" ].includes(page) && <NotFound go={goto} />}
           </motion.div>
         </AnimatePresence>
         <AnimatePresence>

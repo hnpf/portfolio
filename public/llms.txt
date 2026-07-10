@@ -8,7 +8,7 @@ focused on systems programming, UI/UX, and vulnerability research.
 - **Beetrap**: Go honeypot with real-time TUI logging.
 - **SniffCLI**: Lightweight Go packet sniffer and network sentry.
 - **Lens**: photography — nature, cats, spiders, misc
-- **Tracker**: personal progress tracker for CEH prep, Material 3, and Rust/systems work
+- **Now**: what i'm actively building, reading, and learning right now
 
 ## stack
 
