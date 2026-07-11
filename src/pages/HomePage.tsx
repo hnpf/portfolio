@@ -337,8 +337,8 @@ const ScrollVisualPull = ({ setPage, settings }: { setPage: (page: string, postI
           className="flex-1 flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 rounded-[2rem] cursor-pointer group/blog select-none z-10"
         >
           <div className="flex items-center gap-2 shrink-0">
-            <span className="px-3 py-1 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-full text-[10px] font-expressive-bold italic tracking-widest uppercase border border-[var(--primary)]/25 shadow-sm">
-              NEW POST
+            <span className="px-3 py-1 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-full text-[12px] font-expressive italic tracking-widest border border-[var(--primary)]/25 shadow-sm">
+              New Post!
             </span>
           </div>
           <div className="flex-1 min-w-0">
