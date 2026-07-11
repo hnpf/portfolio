@@ -24,16 +24,16 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 - [July 10, 2026]  Page header descriptions
 - [July 10, 2026]  Removed loom
 - [July 10, 2026]  Lens pinning
-
+---
 - [July 8, 2026]	 completely overhauled debug view
 - [July 8, 2026]	 fix lens bento lag
 - [July 8, 2026]	 add a bump script helper
 - [July 8, 2026]	 overhauled "to top" and fix mobile focus mode
-
+---
 - [July 7, 2026]	 fix crowding in blog topics dropdown
 - [July 7, 2026]     announcements bar
 - [July 7, 2026]     bring back old blog posts
-
+---
 - [July 6, 2026] 	 overhauled material 3 expressive scrollbar
 - [July 6, 2026] 	 blog back to feed bug fix, and micro-animations update
 
