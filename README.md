@@ -12,8 +12,6 @@
 <img src="https://img.shields.io/badge/vercel-000?style=for-the-badge&logo=vercel&logoColor=white&labelColor=1C1B1F" />
 <img src="https://img.shields.io/badge/gpl--3.0-EF5350?style=for-the-badge&logo=gnu&logoColor=white&labelColor=1C1B1F" />
 
-# [virex.lol](https://virex.lol)
-
 personal hub and experimental site. material 3 ui, custom android-like shell, built on react 19. research, photography, rants.
 
 </div>
