@@ -20,6 +20,9 @@ import {
   ChevronRight,
   ChevronLeft,
   Bug,
+  Activity,
+  Link as LinkIcon,
+  Compass,
 } from "lucide-react";
 import { cn } from "../constants";
 import Switch from "./M3Switch";
@@ -269,6 +272,8 @@ export const SettingsDialog = memo(({
                   is_mobile ? "p-6 pb-32" : "p-6 md:p-10"
                 )}
               >
+                
+
                 <section className="space-y-6">
                   <div className="flex items-center gap-3">
                     <Palette size={20} className="text-[var(--primary)]" />
@@ -338,7 +343,7 @@ export const SettingsDialog = memo(({
                       );
                     })}
                   </div>
-
+                      
                   <motion.div
                     initial={false}
                     animate={{
@@ -371,7 +376,7 @@ export const SettingsDialog = memo(({
                       />
                     </label>
                   </motion.div>
-
+                  
                   <div className="space-y-4">
                     <div className="text-sm font-bold text-[var(--on-surface)]">
                       Accent Color
@@ -498,6 +503,38 @@ export const SettingsDialog = memo(({
                     )}
                   </div>
                 </section>
+                {is_mobile && (
+                  <section className="space-y-6">
+                    <div className="flex items-center gap-3">
+                      <Compass size={20} className="text-[var(--primary)]" />
+                      <h3 className="text-[14] font-black tracking-[0.2em] text-[var(--on-surface-variant)]">
+                        Extra navigation
+                      </h3>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button
+                        onClick={() => {
+                          handleClose();
+                          goto("now");
+                        }}
+                        className="flex flex-col items-center justify-center gap-3 border-6 border-[var(--outline-variant)] py-6 bg-[var(--surface-variant)]/50 hover:bg-[var(--primary-container)] hover:border-[var(--primary)]/30 text-[var(--on-surface-variant)] hover:text-[var(--on-primary-container)] transition-all rounded-[1.5rem] group"
+                      >
+                        <Activity size={28} className="text-[var(--primary)] group-hover:scale-110 transition-transform" />
+                        <span className="font-bold text-sm tracking-wide">Now</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          handleClose();
+                          goto("dash");
+                        }}
+                        className="flex flex-col items-center justify-center gap-3 border-6 border-[var(--outline-variant)] py-6 bg-[var(--surface-variant)]/50 hover:bg-[var(--primary-container)] hover:border-[var(--primary)]/30 text-[var(--on-surface-variant)] hover:text-[var(--on-primary-container)] transition-all rounded-[1.5rem] group"
+                      >
+                        <LinkIcon size={28} className="text-[var(--primary)] group-hover:scale-110 transition-transform" />
+                        <span className="font-bold text-sm tracking-wide">Short</span>
+                      </button>
+                    </div>
+                  </section>
+                )}
                 {[
                   {
                     title: "Customization",
