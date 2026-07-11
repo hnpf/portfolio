@@ -201,7 +201,7 @@ export default function App() {
   const is_tiny = viewport.h < 550;
   const is_mobile = viewport.w < 768 && !settings.forceDesktop;
   const is_tablet = viewport.w >= 768 && viewport.w < 1024 && !settings.forceDesktop;
-  const showBottomNav = !settings.focusMode && page !== "no" && page !== "readme" && is_mobile;
+  const showBottomNav = !settings.focusMode && page !== "no" && (page !== "readme" || !settings.infoFullscreen) && is_mobile;
   const isExpanded = is_mobile && scrollDirection === "up" && !settings.focusMode;
   const show_pfp_container = settings.profileContainer && viewport.h > 720;
 
@@ -313,7 +313,7 @@ export default function App() {
       </AnimatePresence>
 
       <AnimatePresence>
-        {!settings.focusMode && page !== "no" && page !== "readme" && !is_mobile && (
+        {!settings.focusMode && page !== "no" && (page !== "readme" || !settings.infoFullscreen) && !is_mobile && (
           <motion.aside
             initial={{ x: settings.sidebarFlipped ? 60 : -60, opacity: 0 }}
             animate={{ x: 0, opacity: 1, width: settings.sidebarCollapsed ? (settings.floatingSidebar ? 144 : 96) : (settings.floatingSidebar ? (is_tablet ? 280 : 350) : (is_tablet ? 260 : 320)), paddingTop: settings.floatingSidebar ? "1.5rem" : "12px", paddingBottom: settings.floatingSidebar ? "1.5rem" : "12px", paddingLeft: settings.sidebarFlipped ? (settings.floatingSidebar ? "1.5rem" : "12px") : (settings.floatingSidebar ? "1.5rem" : "0px"), paddingRight: settings.sidebarFlipped ? (settings.floatingSidebar ? "1.5rem" : "0px") : (settings.floatingSidebar ? "1.5rem" : "12px"), borderTopLeftRadius: settings.floatingSidebar || settings.sidebarFlipped ? "3rem" : "0rem", borderBottomLeftRadius: settings.floatingSidebar || settings.sidebarFlipped ? "3rem" : "0rem", borderTopRightRadius: settings.floatingSidebar || !settings.sidebarFlipped ? "3rem" : "0rem", borderBottomRightRadius: settings.floatingSidebar || !settings.sidebarFlipped ? "3rem" : "0rem" }}
@@ -401,7 +401,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <motion.main className={cn("flex-1 overflow-x-hidden page-container", page === "readme" ? "p-0" : "p-6 md:p-12 lg:p-16", settings.forceDesktop || viewport.w >= 768 ? "pb-16" : "pb-40")}>
+      <motion.main className={cn("flex-1 overflow-x-hidden page-container", (page === "readme" && settings.infoFullscreen) ? "p-0" : "p-6 md:p-12 lg:p-16", settings.forceDesktop || viewport.w >= 768 ? "pb-16" : "pb-40")}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div key={page + (blogPostId || "")} initial={settings.disableAnimations ? false : { opacity: 0, y: 15, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -15, scale: 0.98 }} transition={{ duration: settings.disableAnimations ? 0 : (settings.highHz ? 0.25 : 0.4), ease: [0.22, 1, 0.36, 1], scale: { type: "spring", stiffness: settings.highHz ? 600 : 300, damping: settings.highHz ? 35 : 25 } }}>
             {page === "home" && <HomePage setPage={goto} settings={settings} />}
@@ -442,7 +442,7 @@ export default function App() {
       </motion.main>
 
       <AnimatePresence>
-        {!settings.focusMode && page !== "no" && page !== "readme" && is_mobile && (
+        {!settings.focusMode && page !== "no" && (page !== "readme" || !settings.infoFullscreen) && is_mobile && (
           <motion.nav initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} transition={{ type: "spring", damping: 25, stiffness: 120 }} className="fixed -bottom-4 left-0 right-0 bg-[var(--surface)] border-t border-[var(--outline-variant)] px-4 pt-1 pb-[calc(env(safe-area-inset-bottom,16px)+1.5rem)] flex justify-around z-40 shadow-[0_-8px_32px_rgba(0,0,0,0.06)] motion-gpu" style={{ willChange: "transform" }}>
             <BotNav glyph={Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} />
             <BotNav glyph={Fingerprint} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} />

@@ -15,6 +15,7 @@ interface ThemeSettings {
   developerFont: boolean;
   focusMode: boolean;
   floatingSidebar: boolean;
+  infoFullscreen: boolean;
   debugMode: boolean;
   helloAnimation: boolean;
   disableAnimations: boolean;
@@ -42,6 +43,7 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   developerFont: false,
   focusMode: false,
   floatingSidebar: false,
+  infoFullscreen: false,
   debugMode: false,
   helloAnimation: true,
   disableAnimations: false,

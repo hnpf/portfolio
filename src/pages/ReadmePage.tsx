@@ -2,6 +2,7 @@
 import React, { useState, useEffect, memo } from "react";
 import { motion } from "motion/react";
 import { Activity, MapPin, History, Target, SquareTerminal, Code2, Archive, Github, MessageSquare, Home } from "lucide-react";
+import { GitHubCalendar } from 'react-github-calendar';
 import { cn, TECH_STACK } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { Card } from "../components/Card";
@@ -21,7 +22,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
   const letters = "virex".split("");
   const [flickering, setFlick] = useState<number[]>([]);
   const [swoopDone, setSwoopDone] = useState(false);
-  const { settings } = useTheme();
+  const { settings, actualTheme } = useTheme();
 
   const glass_class = is_mobile ? "" : "backdrop-blur-md";
 
@@ -48,21 +49,16 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[500] flex flex-col bg-[var(--surface)] overflow-y-auto custom-scrollbar overflow-x-hidden selection:bg-[var(--primary)] selection:text-[var(--on-primary)]"
+      className={cn(
+        "flex flex-col selection:bg-[var(--primary)] selection:text-[var(--on-primary)] transition-all duration-300",
+        settings.infoFullscreen 
+          ? "fixed inset-0 z-[500] bg-[var(--surface)] overflow-y-auto custom-scrollbar overflow-x-hidden" 
+          : "relative w-full overflow-x-hidden z-10"
+      )}
     >
       {/* bg effecting stuff*/}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <svg className="hidden">
-          <defs>
-            <filter id="gooey">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
-              <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-            </filter>
-          </defs>
-        </svg>
-
-        <div className={cn("absolute inset-0", !is_mobile && !settings.disableAnimations && "vx-frosted")}>
+        <div className={cn("absolute inset-0 z-[-1]", !is_mobile && !settings.disableAnimations)}>
           {/* bigg star */}
           <motion.div
             initial={{ opacity: 0.1 }}
@@ -320,6 +316,36 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
               </div>
             </div>
           </Card>
+
+          {/* contrib gh heatmap */}
+          <Card noDefaultStyles
+            delay={1.6}
+            whileHover={{ y: -8, scale: 1.01 }}
+            className="col-span-2 md:col-span-12"
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 flex flex-col gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200 overflow-hidden", glass_class)}
+          >
+            <div className="flex items-center gap-3">
+              <Github className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" />
+              <h4 className="text-2xl md:text-3xl font-display font-black tracking-tight flex items-center transition-colors group-hover:text-[var(--primary)] italic">
+                GitHub activity
+              </h4>
+            </div>
+            <div className="w-full overflow-x-auto custom-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0">
+              <div className="min-w-[750px] font-display text-sm opacity-80">
+                <GitHubCalendar 
+                  username="hnpf" 
+                  colorScheme={actualTheme}
+                  theme={{
+                    light: ['var(--outline-variant)', 'var(--primary-container)', 'var(--primary)', 'oklch(0.5 var(--primary-chroma) var(--primary-hue))', 'oklch(0.4 var(--primary-chroma) var(--primary-hue))'],
+                    dark: ['var(--outline-variant)', 'var(--primary-container)', 'var(--primary)', 'oklch(0.7 var(--primary-chroma) var(--primary-hue))', 'oklch(0.8 var(--primary-chroma) var(--primary-hue))']
+                  }}
+                  labels={{
+                    totalCount: '{{count}} contributions in the last year',
+                  }}
+                />
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* foooootters */}
@@ -359,6 +385,11 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             <Home size={28} />
             Go home
           </motion.button>
+          
+          {/* spacer for when not fullscreen */}
+          {!settings.infoFullscreen && (
+             <div className="h-16" />
+          )}
         </div>
       </div>
     </motion.div>

@@ -605,6 +605,11 @@ export const SettingsDialog = memo(({
                         label: "Force Desktop",
                         desc: "prevent switching to mobile layout on small screens",
                       },
+                      {
+                        key: "infoFullscreen",
+                        label: "Info Page Fullscreen",
+                        desc: "hide navigation bars when on the info page",
+                      },
                     ],
                   },
                   {
@@ -759,7 +764,7 @@ export const SettingsDialog = memo(({
                               const keys: (keyof typeof settings)[] = [
                                 "mode", "accent", "hue", "saturation", "sidebarFlipped",
                                 "sidebarCollapsed", "profileContainer", "brutalistMode",
-                                "developerFont", "focusMode", "floatingSidebar", "debugMode",
+                                "developerFont", "focusMode", "floatingSidebar", "infoFullscreen", "debugMode",
                                 "helloAnimation", "disableAnimations", "highHz", "amoledMode",
                                 "bentoTilt"
                               ];
@@ -794,7 +799,7 @@ export const SettingsDialog = memo(({
                                 const keys: (keyof typeof settings)[] = [
                                   "mode", "accent", "hue", "saturation", "sidebarFlipped",
                                   "sidebarCollapsed", "profileContainer", "brutalistMode",
-                                  "developerFont", "focusMode", "floatingSidebar", "debugMode",
+                                  "developerFont", "focusMode", "floatingSidebar", "infoFullscreen", "debugMode",
                                   "helloAnimation", "disableAnimations", "highHz", "amoledMode",
                                   "bentoTilt"
                                 ];
