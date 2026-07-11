@@ -18,10 +18,12 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 
 ## what's new?
 
-**important changes**
-- [May 25, 2026]     moved to cloudflare - bye vercel!
-
 **recent changes**
+- [July 10, 2026]  Overhauled Short page
+- [July 10, 2026]  Remove tracker and add Now in it's place
+- [July 10, 2026]  Page header descriptions
+- [July 10, 2026]  Removed loom
+- [July 10, 2026]  Lens pinning
 
 - [July 8, 2026]	 completely overhauled debug view
 - [July 8, 2026]	 fix lens bento lag
@@ -35,10 +37,7 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 - [July 6, 2026] 	 overhauled material 3 expressive scrollbar
 - [July 6, 2026] 	 blog back to feed bug fix, and micro-animations update
 
-- [July 5, 2026]	 Bug reporting & "known bugs" features.
-- [July 5, 2026]	 Finally add disableAnimations to settings.
-
-> last updated: July 6, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
+> last updated: July 10, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
 ---
 
 ## screenshots
