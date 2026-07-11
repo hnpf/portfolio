@@ -205,7 +205,7 @@ export default function DashPage() {
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 md:gap-16 px-4 md:px-0 mt-20 relative z-10">
+      <div className="grid grid-cols-1 gap-8 md:gap-16 px-4 md:px-0 mt-20 backdrop-blur-md relative z-10">
         <div className="space-y-8">
           <motion.div 
             initial={{ opacity: 0 }}
@@ -231,16 +231,16 @@ export default function DashPage() {
                     <th className="w-[15%] px-4 rounded-tr-[1.3rem] py-8"></th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[var(--outline-variant)]/20">
+                <tbody className="">
                   {links.map((link) => (
                     <tr key={link.id} className="hover:bg-[var(--primary-container)]/10 transition-colors group">
-                      <td className="px-8 py-8 font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter truncate">/{link.path}</td>
-                      <td className="px-8 py-8 opacity-60 font-display font-medium text-xl truncate">{link.original_url}</td>
-                      <td className="px-8 py-8 font-black text-2xl text-center tabular-nums opacity-80">{link.visits}</td>
-                      <td className="px-8 py-8 opacity-40 text-sm font-bold text-right uppercase tracking-widest truncate">
+                      <td className="first:rounded-l-xl last:rounded-r-xl px-8 py-8 font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter truncate">/{link.path}</td>
+                      <td className="first:rounded-l-xl last:rounded-r-xl px-8 py-8 opacity-60 font-display font-medium text-xl truncate">{link.original_url}</td>
+                      <td className="first:rounded-l-xl last:rounded-r-xl px-8 py-8 font-black text-2xl text-center tabular-nums opacity-80">{link.visits}</td>
+                      <td className="first:rounded-l-xl last:rounded-r-xl px-8 py-8 opacity-40 text-sm font-bold text-right uppercase tracking-widest truncate">
                         {new Date(link.created_at).toLocaleDateString()}
                       </td>
-                      <td className="px-4 py-8 text-right">
+                      <td className="first:rounded-l-xl last:rounded-r-xl px-4 py-8 text-right">
                         <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
                             onClick={() => copylinkhandler(link.path)}
