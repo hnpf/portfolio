@@ -107,7 +107,7 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
   
   if (!settings.debugMode) return null;
 
-  const BUILD_VERSION = "v2.8.0-stable (2026.07.10)";
+  const BUILD_VERSION = "v2.8.2-stable (2026.07.11)";
   const dragControls = useDragControls();
 
   // local debug console state

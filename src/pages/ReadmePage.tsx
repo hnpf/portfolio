@@ -336,8 +336,20 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
                   username="hnpf" 
                   colorScheme={actualTheme}
                   theme={{
-                    light: ['var(--outline-variant)', 'var(--primary-container)', 'var(--primary)', 'oklch(0.5 var(--primary-chroma) var(--primary-hue))', 'oklch(0.4 var(--primary-chroma) var(--primary-hue))'],
-                    dark: ['var(--outline-variant)', 'var(--primary-container)', 'var(--primary)', 'oklch(0.7 var(--primary-chroma) var(--primary-hue))', 'oklch(0.8 var(--primary-chroma) var(--primary-hue))']
+                    light: [
+                      'rgba(0, 0, 0, 0.05)', 
+                      'color-mix(in oklch, var(--primary) 30%, transparent)', 
+                      'color-mix(in oklch, var(--primary) 55%, transparent)', 
+                      'color-mix(in oklch, var(--primary) 80%, transparent)', 
+                      'var(--primary)'
+                    ],
+                    dark: [
+                      'rgba(255, 255, 255, 0.05)', 
+                      'color-mix(in oklch, var(--primary) 30%, transparent)', 
+                      'color-mix(in oklch, var(--primary) 55%, transparent)', 
+                      'color-mix(in oklch, var(--primary) 80%, transparent)', 
+                      'var(--primary)'
+                    ]
                   }}
                   labels={{
                     totalCount: '{{count}} contributions in the last year',

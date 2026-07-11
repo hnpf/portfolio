@@ -940,6 +940,26 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "info-page-fresh-air-update",
+    version: "2026.07.11",
+    title: "Info page fresh air update",
+    date: "Jul 11, 2026",
+    changes: [
+      {
+        category: "settings",
+        items: [
+          "added a toggle for info page fullscreen",
+        ],
+      },
+      {
+        category: "github heatmap",
+        items: [
+          "added contribution heatmap at the bottom of the info page",
+        ],
+      },
+    ],
+  },
+  {
     id: "retire-loom-and-tracker",
     version: "2026.07.10",
     title: "Retire Loom and Tracker",
