@@ -330,32 +330,30 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
                 GitHub activity
               </h4>
             </div>
-            <div className="w-full overflow-x-auto custom-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0">
-              <div className="min-w-[750px] font-display text-sm opacity-80">
-                <GitHubCalendar 
-                  username="hnpf" 
-                  colorScheme={actualTheme}
-                  theme={{
-                    light: [
-                      'rgba(0, 0, 0, 0.05)', 
-                      'color-mix(in oklch, var(--primary) 30%, transparent)', 
-                      'color-mix(in oklch, var(--primary) 55%, transparent)', 
-                      'color-mix(in oklch, var(--primary) 80%, transparent)', 
-                      'var(--primary)'
-                    ],
-                    dark: [
-                      'rgba(255, 255, 255, 0.05)', 
-                      'color-mix(in oklch, var(--primary) 30%, transparent)', 
-                      'color-mix(in oklch, var(--primary) 55%, transparent)', 
-                      'color-mix(in oklch, var(--primary) 80%, transparent)', 
-                      'var(--primary)'
-                    ]
-                  }}
-                  labels={{
-                    totalCount: '{{count}} contributions in the last year',
-                  }}
-                />
-              </div>
+            <div className="w-full font-display text-sm opacity-80 mt-2">
+              <GitHubCalendar 
+                username="hnpf" 
+                colorScheme={actualTheme}
+                theme={{
+                  light: [
+                    'rgba(0, 0, 0, 0.05)', 
+                    'color-mix(in oklch, var(--primary) 30%, transparent)', 
+                    'color-mix(in oklch, var(--primary) 55%, transparent)', 
+                    'color-mix(in oklch, var(--primary) 80%, transparent)', 
+                    'var(--primary)'
+                  ],
+                  dark: [
+                    'rgba(255, 255, 255, 0.05)', 
+                    'color-mix(in oklch, var(--primary) 30%, transparent)', 
+                    'color-mix(in oklch, var(--primary) 55%, transparent)', 
+                    'color-mix(in oklch, var(--primary) 80%, transparent)', 
+                    'var(--primary)'
+                  ]
+                }}
+                labels={{
+                  totalCount: '{{count}} contributions in the last year',
+                }}
+              />
             </div>
           </Card>
         </div>
