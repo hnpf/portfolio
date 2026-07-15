@@ -940,6 +940,26 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "guestbook-addition-and-shorten-page-ux-fixes",
+    version: "2026.07.14",
+    title: "guestbook addition and shorten page ux fixes",
+    date: "Jul 14, 2026",
+    changes: [
+      {
+        category: "guestbook addition",
+        items: [
+          "added a page at the bottom of the home to leave a message about the site or even communicate with eachother!",
+        ],
+      },
+      {
+        category: "shorten/dash page ux fixes",
+        items: [
+          "fixed the containers, and revamped open animations.",
+        ],
+      },
+    ],
+  },
+  {
     id: "info-page-fresh-air-update",
     version: "2026.07.11",
     title: "Info page fresh air update",
