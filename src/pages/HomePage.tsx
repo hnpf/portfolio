@@ -619,8 +619,9 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
               </div>
             )}
           </div>
-          <div className="shrink-0 flex items-center justify-center bg-[var(--primary)] text-[var(--on-primary)] hover:scale-105 active:scale-95 transition-all w-16 h-16 rounded-3xl shadow-xl shadow-[var(--primary)]/20">
-            <ChevronRight size={32} />
+          <div className="w-full md:w-16 h-14 md:h-16 rounded-2xl md:rounded-3xl shrink-0 flex items-center justify-center gap-2 bg-[var(--primary)] text-[var(--on-primary)] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[var(--primary)]/20">
+            <span className="md:hidden font-expressive text-sm tracking-wider pt-0.5">Open guestbook</span>
+            <ChevronRight size={24} className="md:w-8 md:h-8" />
           </div>
         </Card>
       </section>

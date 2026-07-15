@@ -1,6 +1,6 @@
 // @ts-nocheck
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence, useMotionValue, animate } from "motion/react";
 import { MessageSquare, X, Loader2, CheckCircle, Send, Calendar } from "lucide-react";
 import { cn } from "../constants";
 
@@ -23,6 +23,144 @@ export const GuestbookDialog = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const [defaultY, setDefaultY] = useState(() => isMobile ? window.innerHeight * 0.12 : 0);
+  const y = useMotionValue(isMobile ? window.innerHeight : 0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const dragStartY = useRef(0);
+  const dragStartModalY = useRef(0);
+  const isDraggingSheet = useRef(false);
+  const touchTimes = useRef<{ y: number; t: number }[]>([]);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const handleResize = () => {
+      setDefaultY(window.innerHeight * 0.12);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (isOpen && isMobile) {
+      y.set(window.innerHeight);
+    }
+  }, [isOpen, isMobile, y]);
+
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
+  useEffect(() => {
+    const modalEl = modalRef.current;
+    if (!modalEl || !isMobile) return;
+
+    const handleTouchStartRaw = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      dragStartY.current = touch.clientY;
+      dragStartModalY.current = y.get();
+      
+      const isInsideScroll = scrollRef.current && scrollRef.current.contains(e.target as Node);
+      const scrollTop = scrollRef.current ? scrollRef.current.scrollTop : 0;
+      
+      if (!isInsideScroll) {
+        isDraggingSheet.current = true;
+      } else if (dragStartModalY.current > 0) {
+        isDraggingSheet.current = true;
+      } else if (scrollTop <= 0) {
+        isDraggingSheet.current = false;
+      } else {
+        isDraggingSheet.current = false;
+      }
+      
+      touchTimes.current = [{ y: touch.clientY, t: Date.now() }];
+    };
+
+    const handleTouchMoveRaw = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      const clientY = touch.clientY;
+      const deltaY = clientY - dragStartY.current;
+      const scrollTop = scrollRef.current ? scrollRef.current.scrollTop : 0;
+      
+      touchTimes.current.push({ y: clientY, t: Date.now() });
+      if (touchTimes.current.length > 5) {
+        touchTimes.current.shift();
+      }
+
+      if (dragStartModalY.current === 0 && scrollTop <= 0 && !isDraggingSheet.current) {
+        if (deltaY > 0) {
+          isDraggingSheet.current = true;
+          dragStartY.current = clientY;
+          dragStartModalY.current = 0;
+        }
+      }
+
+      if (!isDraggingSheet.current && scrollTop <= 0 && deltaY > 0) {
+        isDraggingSheet.current = true;
+        dragStartY.current = clientY;
+        dragStartModalY.current = 0;
+      }
+
+      if (isDraggingSheet.current) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+        
+        let newY = dragStartModalY.current + deltaY;
+        if (newY < 0) {
+          newY = newY * 0.2; // pull resistance
+        }
+        y.set(newY);
+      }
+    };
+
+    const handleTouchEndRaw = (e: TouchEvent) => {
+      if (!isDraggingSheet.current) return;
+      isDraggingSheet.current = false;
+
+      const currentY = y.get();
+      let velocityY = 0;
+      if (touchTimes.current.length >= 2) {
+        const first = touchTimes.current[0];
+        const last = touchTimes.current[touchTimes.current.length - 1];
+        const dt = last.t - first.t;
+        if (dt > 0) {
+          velocityY = ((last.y - first.y) / dt) * 1000;
+        }
+      }
+
+      if (velocityY > 600 || currentY > defaultY + 150) {
+        handleClose();
+      } else if (velocityY < -400) {
+        animate(y, 0, {
+          type: "spring",
+          damping: 30,
+          stiffness: 300,
+          mass: 0.8
+        });
+      } else {
+        const targetY = currentY < defaultY * 0.5 ? 0 : defaultY;
+        animate(y, targetY, {
+          type: "spring",
+          damping: 30,
+          stiffness: 300,
+          mass: 0.8
+        });
+      }
+    };
+
+    modalEl.addEventListener("touchstart", handleTouchStartRaw, { passive: false });
+    modalEl.addEventListener("touchmove", handleTouchMoveRaw, { passive: false });
+    modalEl.addEventListener("touchend", handleTouchEndRaw, { passive: false });
+
+    return () => {
+      modalEl.removeEventListener("touchstart", handleTouchStartRaw);
+      modalEl.removeEventListener("touchmove", handleTouchMoveRaw);
+      modalEl.removeEventListener("touchend", handleTouchEndRaw);
+    };
+  }, [isMobile, y, defaultY, handleClose, isOpen]);
 
   const fetchEntries = async () => {
     setIsLoading(true);
@@ -110,23 +248,40 @@ export const GuestbookDialog = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => !isSubmitting && onClose()}
+            onClick={() => !isSubmitting && handleClose()}
             className="absolute inset-0 bg-black/60 backdrop-blur-md motion-gpu"
+            style={{ willChange: "opacity" }}
           />
 
           {/* container */}
           <motion.div
-            initial={isMobile ? { y: "100%" } : { opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={isMobile ? { y: "100%" } : { opacity: 0, scale: 0.9, y: 20, transition: { duration: 0.2 } }}
+            ref={modalRef}
+            initial={isMobile ? { y: window.innerHeight } : { opacity: 0, scale: 0.9, y: 20 }}
+            animate={isMobile ? { y: defaultY } : { opacity: 1, scale: 1, y: 0 }}
+            exit={isMobile ? { 
+              y: window.innerHeight,
+              transition: { type: "spring", damping: 30, stiffness: 300, mass: 0.8 }
+            } : { 
+              opacity: 0, 
+              scale: 0.9, 
+              y: 20, 
+              transition: { duration: 0.2 } 
+            }}
             transition={isMobile ? { type: "spring", damping: 30, stiffness: 350, mass: 0.8 } : dialogSpring}
             onClick={(e) => e.stopPropagation()}
             className={cn(
               "relative bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col motion-gpu border-[var(--outline-variant)]",
               isMobile 
-                ? "w-full h-[100dvh] max-w-none max-h-none rounded-none border-none" 
+                ? "w-full h-[100dvh] max-w-none max-h-none rounded-t-[2rem] border-none" 
                 : "w-full max-w-2xl rounded-[2rem] md:rounded-[2.5rem] h-[80vh] border"
             )}
+            style={isMobile ? { 
+              y,
+              willChange: "transform",
+              touchAction: "pan-y"
+            } : { 
+              willChange: "transform, opacity"
+            }}
           >
             <div className="flex flex-col h-full overflow-hidden">
               {/* handle drag for mobile */}
@@ -149,7 +304,7 @@ export const GuestbookDialog = ({
                 </div>
                 {!isSubmitting && (
                   <button
-                    onClick={onClose}
+                    onClick={handleClose}
                     className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors cursor-pointer text-[var(--on-surface)]"
                   >
                     <X size={24} />
@@ -160,7 +315,10 @@ export const GuestbookDialog = ({
               {/* main split layout */}
               <div className="flex-1 flex flex-col md:flex-row overflow-hidden min-h-0">
                 {/* entries */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-4 border-r border-[var(--outline-variant)]/30 max-h-[50vh] md:max-h-none">
+                <div 
+                  ref={scrollRef}
+                  className="flex-1 overflow-y-auto p-6 space-y-4 border-r border-[var(--outline-variant)]/30 max-h-[50vh] md:max-h-none"
+                >
                   <h3 className="text-md ml-1 font-black tracking-[0.2em] text-[var(--on-surface-variant)] opacity-60 mb-2">
                     Recent signs ({entries.length})
                   </h3>
