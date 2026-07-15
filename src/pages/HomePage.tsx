@@ -381,7 +381,20 @@ const ScrollVisualPull = ({ setPage, settings }: { setPage: (page: string, postI
   );
 };
 
-export const HomePage = memo(({ setPage, settings }: any) => {
+export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
+  const [latestEntry, setLatestEntry] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/guestbook")
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setLatestEntry(data[0]);
+        }
+      })
+      .catch(err => console.error("Error loading guestbook preview:", err));
+  }, []);
+
   const IS_JUNE = new Date().getMonth() === 5;
   return (
     <div className="space-y-16 max-w-6xl mx-auto px-4 md:px-0 relative">
@@ -579,6 +592,37 @@ export const HomePage = memo(({ setPage, settings }: any) => {
             </Card>
           ))}
         </div>
+      </section>
+
+      {/* guestbook */}
+      <section className="mt-20 flex flex-col items-center gap-6">
+        <div className="text-[15px] font-black font-display font-sans italic tracking-[0.2em] opacity-30">community / more feedback</div>
+        <h3 className="text-4xl md:text-6xl font-expressive-bold italic font-black tracking-[-0.05em] uppercase text-center">
+          The Guestbook
+        </h3>
+        <div className="h-1 w-24 bg-[var(--primary)] mt-2 mb-4" />
+        <Card
+          delay={0.8}
+          onClick={onOpenGuestbook}
+          className="w-full max-w-4xl cursor-pointer"
+          innerClassName="border-6 border-[var(--outline-variant)]/40 p-8 md:p-12 hover:border-[var(--primary)] hover:shadow-2xl transition-[border-color,box-shadow] duration-150 flex flex-col md:flex-row justify-between items-center gap-6 w-full"
+        >
+          <div className="space-y-4 text-center md:text-left flex-1 min-w-0">
+            <h4 className="text-3xl font-display font-black italic">Leave a note!</h4>
+            <p className="opacity-70 text-lg max-w-xl font-medium leading-relaxed">
+              Drop by and leave your thoughts, a greeting, or tell me what you think of this site. Click to view all entries and sign!
+            </p>
+            {latestEntry && (
+              <div className="inline-flex flex-col sm:flex-row sm:items-center gap-2 mt-2 p-3 bg-[var(--surface-variant)]/40 rounded-2xl border border-[var(--outline-variant)]/20 text-sm max-w-md w-full text-left">
+                <span className="font-black text-[var(--primary)] shrink-0">@{latestEntry.name}:</span>
+                <span className="opacity-85 truncate flex-1 font-medium italic">"{latestEntry.message}"</span>
+              </div>
+            )}
+          </div>
+          <div className="shrink-0 flex items-center justify-center bg-[var(--primary)] text-[var(--on-primary)] hover:scale-105 active:scale-95 transition-all w-16 h-16 rounded-3xl shadow-xl shadow-[var(--primary)]/20">
+            <ChevronRight size={32} />
+          </div>
+        </Card>
       </section>
     </div>
   );

@@ -32,6 +32,7 @@ yarn-error.log*
 
 # db stuff
 virex_db.json
+guestbook_db.json
 
 # vscode
 .vscode/*

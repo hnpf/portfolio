@@ -45,6 +45,7 @@ import NotFound from "./pages/NotFound";
 // components
 import { SideItem, BotNav } from "./components/Navigation";
 import { SettingsDialog } from "./components/SettingsDialog";
+import { GuestbookDialog } from "./components/GuestbookDialog";
 import { DebugConfirmDialog } from "./components/DebugConfirmDialog";
 import { DebugView } from "./components/DebugView";
 import { CapsuleConfirmDialog } from "./components/CapsuleConfirmDialog";
@@ -66,6 +67,7 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [bugReportOpen, setBugReportOpen] = useState(false);
   const [KnownIssuessOpen, setKnownIssuessOpen] = useState(false);
+  const [guestbookOpen, setGuestbookOpen] = useState(false);
   const [showDebugConfirm, setShowDebugConfirm] = useState(false);
   const [showRefreshConfirm, setShowRefreshConfirm] = useState(false);
   const [pendingCapsule, setPendingCapsule] = useState<any>(null);
@@ -140,7 +142,7 @@ export default function App() {
   }, [viewport.h, page, settings.sidebarCollapsed]);
 
   useEffect(() => {
-    document.body.style.overflow = (settingsOpen || bugReportOpen || KnownIssuessOpen || showDebugConfirm || pendingCapsule) ? "hidden" : "";
+    document.body.style.overflow = (settingsOpen || bugReportOpen || KnownIssuessOpen || guestbookOpen || showDebugConfirm || pendingCapsule) ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [settingsOpen, bugReportOpen, KnownIssuessOpen, showDebugConfirm, pendingCapsule]);
 
@@ -404,7 +406,7 @@ export default function App() {
       <motion.main className={cn("flex-1 overflow-x-hidden page-container", (page === "readme" && settings.infoFullscreen) ? "p-0" : "p-6 md:p-12 lg:p-16", settings.forceDesktop || viewport.w >= 768 ? "pb-16" : "pb-40")}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div key={page + (blogPostId || "")} initial={settings.disableAnimations ? false : { opacity: 0, y: 15, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -15, scale: 0.98 }} transition={{ duration: settings.disableAnimations ? 0 : (settings.highHz ? 0.25 : 0.4), ease: [0.22, 1, 0.36, 1], scale: { type: "spring", stiffness: settings.highHz ? 600 : 300, damping: settings.highHz ? 35 : 25 } }}>
-            {page === "home" && <HomePage setPage={goto} settings={settings} />}
+            {page === "home" && <HomePage setPage={goto} settings={settings} onOpenGuestbook={() => setGuestbookOpen(true)} />}
             {page === "blog" && <BlogPage targetId={blogPostId} navigateTo={goto} />}
             {page === "lens" && <LensPage viewport={viewport} />}
             {page === "now" && <NowPage />}
@@ -469,6 +471,12 @@ export default function App() {
       <BugReportDialog
         isOpen={bugReportOpen}
         onClose={() => setBugReportOpen(false)}
+        setToast={setToast}
+        isMobile={is_mobile}
+      />
+      <GuestbookDialog
+        isOpen={guestbookOpen}
+        onClose={() => setGuestbookOpen(false)}
         setToast={setToast}
         isMobile={is_mobile}
       />

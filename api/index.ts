@@ -2,6 +2,7 @@ import express from 'express';
 import { randomBytes } from 'crypto';
 import dotenv from 'dotenv';
 import { vxshort, vxresolve, vxlistall, vxisreserved, vxpathexist } from './db.js';
+import { vxaddguestbook, vxlistguestbook, validateGuestbookMessage } from './guestbook_db.js';
 
 dotenv.config();
 
@@ -57,6 +58,33 @@ app.post('/api/shorten', (req, res) => {
 app.get('/api/urls', (req, res) => {
   try {
     res.json(vxlistall());
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/guestbook', (req, res) => {
+  try {
+    res.json(vxlistguestbook());
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/guestbook', (req, res) => {
+  try {
+    const { name, message } = req.body;
+    if (!message || typeof message !== 'string') {
+      return res.status(400).json({ error: 'message is required and must be a string!' });
+    }
+    if (!validateGuestbookMessage(message)) {
+      return res.status(400).json({ error: 'your message contains flagged content. please it clean! :(' });
+    }
+    if (name && typeof name === 'string' && !validateGuestbookMessage(name)) {
+      return res.status(400).json({ error: 'your alias contains flagged content. please it clean! :(' });
+    }
+    const entry = vxaddguestbook(name || 'anonymous', message);
+    res.status(201).json(entry);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }

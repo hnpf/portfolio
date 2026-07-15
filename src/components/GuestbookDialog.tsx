@@ -1,0 +1,280 @@
+// @ts-nocheck
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { MessageSquare, X, Loader2, CheckCircle, Send, Calendar } from "lucide-react";
+import { cn } from "../constants";
+
+interface GuestbookDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  setToast: (msg: string) => void;
+  isMobile: boolean;
+}
+
+export const GuestbookDialog = ({
+  isOpen,
+  onClose,
+  setToast,
+  isMobile,
+}: GuestbookDialogProps) => {
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const [entries, setEntries] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const fetchEntries = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/guestbook");
+      if (res.ok) {
+        const data = await res.json();
+        setEntries(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch guestbook:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      setName("");
+      setMessage("");
+      setIsSuccess(false);
+      fetchEntries();
+    }
+  }, [isOpen]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!message.trim()) {
+      setToast("Please write a message!");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/guestbook", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name.trim() || "anonymous",
+          message: message.trim(),
+        }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || "Failed to sign the guestbook.");
+      }
+
+      setIsSuccess(true);
+      setToast("Guestbook signed successfully!");
+      fetchEntries();
+      
+      // clear form but keep dialog open
+      setName("");
+      setMessage("");
+      setTimeout(() => setIsSuccess(false), 2000);
+    } catch (err: any) {
+      console.error(err);
+      setToast(err.message || "Something went wrong signing the guestbook!");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const dialogSpring = {
+    type: "spring" as const,
+    stiffness: 400,
+    damping: 30,
+    mass: 0.8,
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div 
+          className={cn(
+            "fixed inset-0 z-[110] flex items-center justify-center overflow-hidden",
+            isMobile ? "p-0 bg-black/20" : "p-4"
+          )}
+        >
+          {/* backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => !isSubmitting && onClose()}
+            className="absolute inset-0 bg-black/60 backdrop-blur-md motion-gpu"
+          />
+
+          {/* container */}
+          <motion.div
+            initial={isMobile ? { y: "100%" } : { opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={isMobile ? { y: "100%" } : { opacity: 0, scale: 0.9, y: 20, transition: { duration: 0.2 } }}
+            transition={isMobile ? { type: "spring", damping: 30, stiffness: 350, mass: 0.8 } : dialogSpring}
+            onClick={(e) => e.stopPropagation()}
+            className={cn(
+              "relative bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col motion-gpu border-[var(--outline-variant)]",
+              isMobile 
+                ? "w-full h-[100dvh] max-w-none max-h-none rounded-none border-none" 
+                : "w-full max-w-2xl rounded-[2rem] md:rounded-[2.5rem] h-[80vh] border"
+            )}
+          >
+            <div className="flex flex-col h-full overflow-hidden">
+              {/* handle drag for mobile */}
+              {isMobile && (
+                <div className="w-full flex justify-center pt-3 pb-1 shrink-0 bg-[var(--surface)]">
+                  <div className="w-12 h-1.5 bg-[var(--outline-variant)] rounded-full opacity-40" />
+                </div>
+              )}
+
+              {/* header */}
+              <div className={cn(
+                "flex justify-between items-center border-b border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10 shrink-0",
+                isMobile ? "p-4" : "p-6 md:p-8"
+              )}>
+                <div className="flex items-center gap-3">
+                  <MessageSquare size={24} className="text-[var(--primary)]" />
+                  <h2 className="font-black text-xl md:text-2xl font-expressive uppercase tracking-tight">
+                    Guestbook
+                  </h2>
+                </div>
+                {!isSubmitting && (
+                  <button
+                    onClick={onClose}
+                    className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors cursor-pointer text-[var(--on-surface)]"
+                  >
+                    <X size={24} />
+                  </button>
+                )}
+              </div>
+
+              {/* main split layout */}
+              <div className="flex-1 flex flex-col md:flex-row overflow-hidden min-h-0">
+                {/* entries */}
+                <div className="flex-1 overflow-y-auto p-6 space-y-4 border-r border-[var(--outline-variant)]/30 max-h-[50vh] md:max-h-none">
+                  <h3 className="text-md ml-1 font-black tracking-[0.2em] text-[var(--on-surface-variant)] opacity-60 mb-2">
+                    Recent signs ({entries.length})
+                  </h3>
+                  
+                  {isLoading ? (
+                    <div className="flex flex-col items-center justify-center py-12 opacity-40">
+                      <Loader2 size={32} className="animate-spin mb-2" />
+                      <span className="text-sm font-bold">Loading entries...</span>
+                    </div>
+                  ) : entries.length === 0 ? (
+                    <div className="text-center py-12 text-[var(--on-surface-variant)] opacity-40 italic font-medium">
+                      be the first person to sign the guestbook!
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {entries.map((entry) => (
+                        <div 
+                          key={entry.id} 
+                          className="p-4 rounded-2xl bg-[var(--surface-variant)]/30 border-4 border-[var(--outline-variant)]/30 space-y-2 hover:border-[var(--primary)]/30 transition-colors"
+                        >
+                          <div className="flex justify-between items-baseline gap-2">
+                            <span className="font-black text-sm text-[var(--primary)]">
+                              @{entry.name}
+                            </span>
+                            <span className="text-[10px] font-bold opacity-40 uppercase tracking-wider flex items-center gap-1">
+                              <Calendar size={10} />
+                              {new Date(entry.created_at).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <p className="text-sm text-[var(--on-surface)] font-medium break-all whitespace-pre-wrap">
+                            {entry.message}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* right side: form (desktop) / bottom part (mobile) */}
+                <div className="w-full md:w-80 p-6 bg-[var(--surface-variant)]/10 shrink-0 flex flex-col justify-between border-t md:border-t-0 md:border-l border-[var(--outline-variant)]/30">
+                  <form onSubmit={handleSubmit} className="space-y-4 flex-1 flex flex-col justify-between">
+                    <div className="space-y-4">
+                      <h3 className="text-[13px] font-black tracking-[0.1em] text-[var(--on-surface-variant)]">
+                        Sign the guestbook!
+                      </h3>
+                      
+                      {/* name input */}
+                      <div className="space-y-1">
+                        <label className="text-[12px] font-black tracking-[0.15em] text-[var(--on-surface-variant)] opacity-60">
+                          Alias/username
+                        </label>
+                        <input
+                          type="text"
+                          disabled={isSubmitting}
+                          placeholder="Enter alias"
+                          maxLength={30}
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="w-full bg-[var(--surface-variant)]/40 text-[var(--on-surface)] border-4 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-xl px-3 py-2 text-sm focus:outline-none transition-all duration-200"
+                        />
+                      </div>
+
+                      {/* msg input */}
+                      <div className="space-y-1">
+                        <label className="text-[12px] font-black tracking-[0.15em] text-[var(--on-surface-variant)] opacity-60">
+                          Message
+                        </label>
+                        <textarea
+                          required
+                          disabled={isSubmitting}
+                          maxLength={200}
+                          rows={4}
+                          placeholder="Leave a message or feedback..."
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                          className="w-full bg-[var(--surface-variant)]/40 text-[var(--on-surface)] border-4 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-xl px-3 py-2 text-sm focus:outline-none transition-all duration-200 resize-none min-h-[80px]"
+                        />
+                        <div className="text-[9px] text-right font-black opacity-30">
+                          {message.length}/200
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t border-[var(--outline-variant)]/20">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting || !message.trim()}
+                        className="w-full bg-[var(--primary)] text-[var(--on-primary)] disabled:bg-[var(--surface-variant)]/50 disabled:text-[var(--outline)] disabled:scale-100 disabled:opacity-50 py-3 rounded-xl hover:rounded-2xl active:scale-95 transition-all duration-300 ease-out flex items-center justify-center gap-2 cursor-pointer text-xs font-black uppercase tracking-wider shadow-sm disabled:shadow-none"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 size={14} className="animate-spin" />
+                            <span>Sending...</span>
+                          </>
+                        ) : isSuccess ? (
+                          <>
+                            <CheckCircle size={14} className="text-emerald-500" />
+                            <span>Signed!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Send size={14} />
+                            <span>Sign Book</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
