@@ -3,31 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Copy, Check, ExternalLink, Link as LinkIcon, Hash, Globe, AlertTriangle, Loader2, ArrowRight } from 'lucide-react';
 import { cn } from '../constants';
-
-const Uppercasecard = ({ children, className, delay = 0 }: any) => {
-  const [hasEntered, setHasEntered] = useState(false);
-  return (
-    <motion.div
-      initial={{
-        opacity: 0,
-        y: 15
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        transition: { 
-          duration: 0.4, 
-          delay: hasEntered ? 0 : delay, 
-          ease: [0.33, 1, 0.68, 1] 
-        }
-      }}
-      onAnimationComplete={() => setHasEntered(true)}
-      className={cn("bg-[var(--surface-variant)]/20 border-6 border-[var(--outline-variant)]/50 rounded-[2.5rem] p-8 md:p-12", className)}
-    >
-      {children}
-    </motion.div>
-  );
-};
+import { useTheme } from '../ThemeContext';
+import { Card } from '../components/Card';
 
 export default function DashPage() {
   const [url, setUrl] = useState('');
@@ -39,6 +16,8 @@ export default function DashPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  
+  const { settings } = useTheme();
 
   const weirdlinkpresets = [
     'https://virex.lol/lens',
@@ -110,29 +89,29 @@ export default function DashPage() {
       
       {/* hero input */}
       <div className="flex flex-col items-center justify-center px-4 md:px-0 relative z-20">
-        <div className="text-center space-y-4 mb-10 md:mb-16">
+        <header className="page-header space-y-4 text-center mb-10 md:mb-16 flex flex-col items-center">
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
+            initial={settings.disableAnimations ? false : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1, ease: [0.33, 1, 0.68, 1] }}
-            className="text-5xl md:text-7xl font-expressive-bold italic tracking-tight"
+            transition={{ duration: settings.disableAnimations ? 0 : 0.6, ease: [0.33, 1, 0.68, 1] }}
+            className="page-title !text-6xl md:!text-8xl leading-[0.9] text-balance font-expressive-bold italic"
           >
             Create short links.
           </motion.h1>
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+            initial={settings.disableAnimations ? false : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2, ease: [0.33, 1, 0.68, 1] }}
-            className="text-lg md:text-2xl text-[var(--on-surface-variant)] opacity-60 font-display font-medium"
+            transition={{ duration: settings.disableAnimations ? 0 : 0.6, delay: settings.disableAnimations ? 0 : 0.1, ease: [0.33, 1, 0.68, 1] }}
+            className="text-xl md:text-2xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-2xl leading-tight"
           >
             HTTPS is only a suggestion! <span className="italic opacity-40 ml-2">// quick and dirty.</span>
           </motion.p>
-        </div>
+        </header>
 
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+          initial={settings.disableAnimations ? false : { opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: [0.33, 1, 0.68, 1] }}
+          transition={{ duration: settings.disableAnimations ? 0 : 0.6, delay: settings.disableAnimations ? 0 : 0.2, ease: [0.33, 1, 0.68, 1] }}
           className="w-full max-w-5xl"
         >
           <form onSubmit={submitlinkhandler} className="relative group">
@@ -208,9 +187,9 @@ export default function DashPage() {
       <div className="grid grid-cols-1 gap-8 md:gap-16 px-4 md:px-0 mt-20 backdrop-blur-md relative z-10">
         <div className="space-y-8">
           <motion.div 
-            initial={{ opacity: 0 }}
+            initial={settings.disableAnimations ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
+            transition={{ delay: settings.disableAnimations ? 0 : 0.4, duration: 0.8 }}
             className="flex items-center justify-between px-4 md:px-8"
           >
             <h2 className="text-3xl md:text-4xl font-expressive-bold italic tracking-tight opacity-80">Recent Links</h2>
@@ -218,29 +197,29 @@ export default function DashPage() {
             <span className="text-[16px] font-black tracking-[0.2em] italic opacity-30">{links.length} total</span>
           </motion.div>
 
-          <Uppercasecard delay={0.6} className="p-0 overflow-hidden border-6 border-[var(--outline-variant)]/40 bg-[var(--surface-variant)]/10">
+          <Card delay={0.5} className="w-full" innerClassName="p-0 overflow-hidden bg-[var(--surface-variant)]/10">
             {/* desktop table view */}
             <div className="hidden md:block">
-              <table className="w-full text-left border-collapse table-fixed">
+              <table className="w-full text-left border-collapse table-auto">
                 <thead>
                   <tr className="border-b border-[var(--outline-variant)]/40 bg-[var(--surface)]/50">
-                    <th className="w-[15%] px-8 rounded-tl-[1.3rem] py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Path</th>
-                    <th className="w-[40%] px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Destination</th>
-                    <th className="w-[15%] px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-center">Visits</th>
-                    <th className="w-[15%] px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-right">Created</th>
-                    <th className="w-[15%] px-4 rounded-tr-[1.3rem] py-8"></th>
+                    <th className="px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Path</th>
+                    <th className="px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic w-[40%]">Destination</th>
+                    <th className="px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-center">Visits</th>
+                    <th className="px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-right">Created</th>
+                    <th className="px-4 py-8"></th>
                   </tr>
                 </thead>
-                <tbody className="">
+                <tbody className="divide-y divide-[var(--outline-variant)]/20">
                   {links.map((link) => (
                     <tr key={link.id} className="hover:bg-[var(--primary-container)]/10 transition-colors group">
-                      <td className="first:rounded-l-xl last:rounded-r-xl px-8 py-8 font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter truncate">/{link.path}</td>
-                      <td className="first:rounded-l-xl last:rounded-r-xl px-8 py-8 opacity-60 font-display font-medium text-xl truncate">{link.original_url}</td>
-                      <td className="first:rounded-l-xl last:rounded-r-xl px-8 py-8 font-black text-2xl text-center tabular-nums opacity-80">{link.visits}</td>
-                      <td className="first:rounded-l-xl last:rounded-r-xl px-8 py-8 opacity-40 text-sm font-bold text-right uppercase tracking-widest truncate">
+                      <td className="px-8 py-8 font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter break-all">/{link.path}</td>
+                      <td className="px-8 py-8 opacity-60 font-display font-medium text-xl break-all">{link.original_url}</td>
+                      <td className="px-8 py-8 font-black text-2xl text-center tabular-nums opacity-80">{link.visits}</td>
+                      <td className="px-8 py-8 opacity-40 text-sm font-bold text-right uppercase tracking-widest whitespace-nowrap">
                         {new Date(link.created_at).toLocaleDateString()}
                       </td>
-                      <td className="first:rounded-l-xl last:rounded-r-xl px-4 py-8 text-right">
+                      <td className="px-4 py-8 text-right">
                         <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
                             onClick={() => copylinkhandler(link.path)}
@@ -273,8 +252,8 @@ export default function DashPage() {
                   <div className="flex flex-col gap-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex flex-col gap-1.5 overflow-hidden">
-                        <div className="font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter truncate">/{link.path}</div>
-                        <div className="text-sm opacity-50 font-display truncate">
+                        <div className="font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter break-all">/{link.path}</div>
+                        <div className="text-sm opacity-50 font-display break-all">
                           {link.original_url}
                         </div>
                       </div>
@@ -315,7 +294,7 @@ export default function DashPage() {
                 database is quiet.. for now.
               </div>
             )}
-          </Uppercasecard>
+          </Card>
         </div>
       </div>
       
@@ -326,4 +305,3 @@ export default function DashPage() {
     </div>
   );
 }
-
