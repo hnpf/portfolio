@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useMotionValue, animate } from "motion/react";
-import { MessageSquare, X, Loader2, CheckCircle, Send, Calendar } from "lucide-react";
+import { MessageSquare, X, Loader2, CheckCircle, Send, Calendar, Share2 } from "lucide-react";
 import { cn } from "../constants";
 
 interface GuestbookDialogProps {
@@ -315,46 +315,67 @@ export const GuestbookDialog = ({
               {/* main split layout */}
               <div className="flex-1 flex flex-col md:flex-row overflow-hidden min-h-0">
                 {/* entries */}
-                <div 
-                  ref={scrollRef}
-                  className="flex-1 overflow-y-auto p-6 space-y-4 border-r border-[var(--outline-variant)]/30 max-h-[50vh] md:max-h-none"
-                >
-                  <h3 className="text-md ml-1 font-black tracking-[0.2em] text-[var(--on-surface-variant)] opacity-60 mb-2">
-                    Recent signs ({entries.length})
-                  </h3>
-                  
-                  {isLoading ? (
-                    <div className="flex flex-col items-center justify-center py-12 opacity-40">
-                      <Loader2 size={32} className="animate-spin mb-2" />
-                      <span className="text-sm font-bold">Loading entries...</span>
-                    </div>
-                  ) : entries.length === 0 ? (
-                    <div className="text-center py-12 text-[var(--on-surface-variant)] opacity-40 italic font-medium">
-                      be the first person to sign the guestbook!
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {entries.map((entry) => (
-                        <div 
-                          key={entry.id} 
-                          className="p-4 rounded-2xl bg-[var(--surface-variant)]/30 border-4 border-[var(--outline-variant)]/30 space-y-2 hover:border-[var(--primary)]/30 transition-colors"
-                        >
-                          <div className="flex justify-between items-baseline gap-2">
-                            <span className="font-black text-sm text-[var(--primary)]">
-                              @{entry.name}
-                            </span>
-                            <span className="text-[10px] font-bold opacity-40 uppercase tracking-wider flex items-center gap-1">
-                              <Calendar size={10} />
-                              {new Date(entry.created_at).toLocaleDateString()}
-                            </span>
+                <div className="flex-1 flex flex-col min-h-0 border-r border-[var(--outline-variant)]/30">
+                  <div 
+                    ref={scrollRef}
+                    className="flex-1 overflow-y-auto p-6 space-y-4 max-h-[45vh] md:max-h-none"
+                  >
+                    <h3 className="text-md ml-1 font-black tracking-[0.2em] text-[var(--on-surface-variant)] opacity-60 mb-2">
+                      Recent signs ({entries.length})
+                    </h3>
+                    
+                    {isLoading ? (
+                      <div className="flex flex-col items-center justify-center py-12 opacity-40">
+                        <Loader2 size={32} className="animate-spin mb-2" />
+                        <span className="text-sm font-bold">Loading entries...</span>
+                      </div>
+                    ) : entries.length === 0 ? (
+                      <div className="text-center py-12 text-[var(--on-surface-variant)] opacity-40 italic font-medium">
+                        be the first person to sign the guestbook!
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        {entries.map((entry) => (
+                          <div 
+                            key={entry.id} 
+                            className="p-4 rounded-2xl bg-[var(--surface-variant)]/30 border-4 border-[var(--outline-variant)]/30 space-y-2 hover:border-[var(--primary)]/30 transition-colors"
+                          >
+                            <div className="flex justify-between items-baseline gap-2">
+                              <span className="font-black text-sm text-[var(--primary)]">
+                                @{entry.name}
+                              </span>
+                              <span className="text-[10px] font-bold opacity-40 uppercase tracking-wider flex items-center gap-1">
+                                <Calendar size={10} />
+                                {new Date(entry.created_at).toLocaleDateString()}
+                              </span>
+                            </div>
+                            <p className="text-sm text-[var(--on-surface)] font-medium break-all whitespace-pre-wrap">
+                              {entry.message}
+                            </p>
                           </div>
-                          <p className="text-sm text-[var(--on-surface)] font-medium break-all whitespace-pre-wrap">
-                            {entry.message}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* share button at bottom left */}
+                  <div className="p-4 mb-2 border-t border-[var(--outline-variant)]/20 bg-[var(--surface-variant)]/5 flex justify-between items-center shrink-0">
+                    <span className="text-[10px] mt-1 font-black ml-3 uppercase tracking-wider opacity-45 italic">
+                      Share the guestbook!
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const shareUrl = `${window.location.origin}/guestbook`;
+                        navigator.clipboard.writeText(shareUrl);
+                        setToast("Guestbook link copied!");
+                      }}
+                      className="flex items-center gap-2 px-4 py-3 bg-[var(--surface)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] rounded-xl border border-[var(--outline-variant)]/40 transition-colors text-xs font-black uppercase tracking-wide cursor-pointer"
+                    >
+                      <Share2 size={12} />
+                      <span>Copy Link</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* right side: form (desktop) / bottom part (mobile) */}
@@ -402,11 +423,31 @@ export const GuestbookDialog = ({
                       </div>
                     </div>
 
-                    <div className="pt-4 border-t border-[var(--outline-variant)]/20">
+                    <div className="pt-4 border-t border-[var(--outline-variant)]/20 flex gap-3">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const shareUrl = `${window.location.origin}/guestbook`;
+                          if (navigator.share) {
+                            navigator.share({
+                              title: "virex.lol guestbook",
+                              text: "sign the virex.lol guestbook!",
+                              url: shareUrl
+                            }).catch(() => {});
+                          } else {
+                            navigator.clipboard.writeText(shareUrl);
+                            setToast("guestbook link copied!");
+                          }
+                        }}
+                        className="flex-1 bg-[var(--surface)] text-[var(--on-surface-variant)] py-3 rounded-xl hover:rounded-2xl active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer text-xs font-black uppercase tracking-wider border border-[var(--outline-variant)]/40"
+                      >
+                        <Share2 size={14} />
+                        <span>Share</span>
+                      </button>
                       <button
                         type="submit"
                         disabled={isSubmitting || !message.trim()}
-                        className="w-full bg-[var(--primary)] text-[var(--on-primary)] disabled:bg-[var(--surface-variant)]/50 disabled:text-[var(--outline)] disabled:scale-100 disabled:opacity-50 py-3 rounded-xl hover:rounded-2xl active:scale-95 transition-all duration-300 ease-out flex items-center justify-center gap-2 cursor-pointer text-xs font-black uppercase tracking-wider shadow-sm disabled:shadow-none"
+                        className="flex-[2] bg-[var(--primary)] text-[var(--on-primary)] disabled:bg-[var(--surface-variant)]/50 disabled:text-[var(--outline)] disabled:scale-100 disabled:opacity-50 py-3 rounded-xl hover:rounded-2xl active:scale-95 transition-all duration-300 ease-out flex items-center justify-center gap-2 cursor-pointer text-xs font-black uppercase tracking-wider shadow-sm disabled:shadow-none"
                       >
                         {isSubmitting ? (
                           <>

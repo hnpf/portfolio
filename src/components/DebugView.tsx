@@ -105,8 +105,6 @@ if (typeof window !== "undefined" && !(window as any).__console_hijacked__) {
 export const DebugView = ({ page, blogPostId, viewport }: any) => {
   const { settings, updateSettings, actualTheme, cycleTheme } = useTheme();
   
-  if (!settings.debugMode) return null;
-
   const BUILD_VERSION = "v2.8.6-stable (2026.07.14)";
   const dragControls = useDragControls();
 
@@ -149,40 +147,76 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
   // network connection metrics fallback
   const [networkInfo, setNetworkInfo] = useState({ effectiveType: "unknown", rtt: 0, downlink: 0, online: true });
 
+  // sync states when settings.debugMode changes to false
+  useEffect(() => {
+    if (!settings.debugMode) {
+      setShowGrid(false);
+      setShowOutlines(false);
+      setSlowAnimations(false);
+      setvinylMode(false);
+      setInspectorActive(false);
+      setEraserActive(false);
+      localStorage.setItem("virex-debug-grid", "false");
+      document.documentElement.classList.remove("debug-grid-active");
+      document.documentElement.classList.remove("debug-outlines-active");
+      document.documentElement.classList.remove("debug-slow-animations-active");
+      document.documentElement.classList.remove("debug-vinyl-mode-active");
+    }
+  }, [settings.debugMode]);
+
   // save collapse preference
   useEffect(() => {
+    if (!settings.debugMode) return;
     localStorage.setItem("virex-debug-collapsed", JSON.stringify(isCollapsed));
-  }, [isCollapsed]);
+  }, [isCollapsed, settings.debugMode]);
 
   // log page transitions
   useEffect(() => {
+    if (!settings.debugMode) return;
     addGlobalLog("info", `[Router] routed to /${page}${blogPostId ? `:${blogPostId}` : ""}`);
-  }, [page, blogPostId]);
+  }, [page, blogPostId, settings.debugMode]);
 
   // sync class toggles on HTML element
   useEffect(() => {
+    if (!settings.debugMode) {
+      document.documentElement.classList.remove("debug-grid-active");
+      return;
+    }
     document.documentElement.classList.toggle("debug-grid-active", showGrid);
     localStorage.setItem("virex-debug-grid", JSON.stringify(showGrid));
     return () => document.documentElement.classList.remove("debug-grid-active");
-  }, [showGrid]);
+  }, [showGrid, settings.debugMode]);
 
   useEffect(() => {
+    if (!settings.debugMode) {
+      document.documentElement.classList.remove("debug-outlines-active");
+      return;
+    }
     document.documentElement.classList.toggle("debug-outlines-active", showOutlines);
     return () => document.documentElement.classList.remove("debug-outlines-active");
-  }, [showOutlines]);
+  }, [showOutlines, settings.debugMode]);
 
   useEffect(() => {
+    if (!settings.debugMode) {
+      document.documentElement.classList.remove("debug-slow-animations-active");
+      return;
+    }
     document.documentElement.classList.toggle("debug-slow-animations-active", slowAnimations);
     return () => document.documentElement.classList.remove("debug-slow-animations-active");
-  }, [slowAnimations]);
+  }, [slowAnimations, settings.debugMode]);
 
   useEffect(() => {
+    if (!settings.debugMode) {
+      document.documentElement.classList.remove("debug-vinyl-mode-active");
+      return;
+    }
     document.documentElement.classList.toggle("debug-vinyl-mode-active", vinylMode);
     return () => document.documentElement.classList.remove("debug-vinyl-mode-active");
-  }, [vinylMode]);
+  }, [vinylMode, settings.debugMode]);
 
   // network info updates
   useEffect(() => {
+    if (!settings.debugMode) return;
     const updateConn = () => {
       const conn = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
       if (conn) {
@@ -208,10 +242,11 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
       window.removeEventListener("offline", updateConn);
       if (conn) conn.removeEventListener("change", updateConn);
     };
-  }, []);
+  }, [settings.debugMode]);
 
   // realtime fps monitor loop
   useEffect(() => {
+    if (!settings.debugMode) return;
     let frameCount = 0;
     let lastTime = performance.now();
     let animFrame: number;
@@ -228,24 +263,25 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
 
     animFrame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animFrame);
-  }, []);
+  }, [settings.debugMode]);
 
   // bind console listeners
   useEffect(() => {
+    if (!settings.debugMode) return;
     setLogs([...globalLogsHistory]);
     const listener = (newLogs: LogMessage[]) => setLogs(newLogs);
     globalLogListeners.add(listener);
     return () => {
       globalLogListeners.delete(listener);
     };
-  }, []);
-
+  }, [settings.debugMode]);
 
   useEffect(() => {
+    if (!settings.debugMode) return;
     if (activeTab === "console" && consoleBottomRef.current) {
       consoleBottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [logs, activeTab]);
+  }, [logs, activeTab, settings.debugMode]);
 
   // load storage list
   const refreshStorage = () => {
@@ -266,13 +302,15 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
   };
 
   useEffect(() => {
+    if (!settings.debugMode) return;
     if (activeTab === "storage") {
       refreshStorage();
     }
-  }, [activeTab]);
+  }, [activeTab, settings.debugMode]);
 
   // element inspector mouse / click hooks
   useEffect(() => {
+    if (!settings.debugMode) return;
     if (!inspectorActive) {
       setHoveredElement(null);
       return;
@@ -313,10 +351,11 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("click", handleClick, true);
     };
-  }, [inspectorActive]);
+  }, [inspectorActive, settings.debugMode]);
 
   // element eraser click / hover hooks
   useEffect(() => {
+    if (!settings.debugMode) return;
     if (!eraserActive) {
       setEraserHovered(null);
       return;
@@ -352,7 +391,7 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("click", handleClick, true);
     };
-  }, [eraserActive]);
+  }, [eraserActive, settings.debugMode]);
 
   const deleteStorageItem = (key: string, type: "local" | "session") => {
     if (type === "local") {
@@ -380,7 +419,7 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
     }
   };
 
-  // flash selected element to identify said elementnt
+  // flash selected element to identify said element
   const flashSelectedElement = () => {
     if (!selectedElement) return;
     selectedElement.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -408,6 +447,8 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
     if (logFilter === "all") return matchesSearch;
     return log.level === logFilter && matchesSearch;
   });
+
+  if (!settings.debugMode) return null;
 
   return (
     <>

@@ -67,7 +67,9 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [bugReportOpen, setBugReportOpen] = useState(false);
   const [KnownIssuessOpen, setKnownIssuessOpen] = useState(false);
-  const [guestbookOpen, setGuestbookOpen] = useState(false);
+  const [guestbookOpen, setGuestbookOpen] = useState(() => {
+    return window.location.pathname.replace("/", "").toLowerCase() === "guestbook";
+  });
   const [showDebugConfirm, setShowDebugConfirm] = useState(false);
   const [showRefreshConfirm, setShowRefreshConfirm] = useState(false);
   const [pendingCapsule, setPendingCapsule] = useState<any>(null);
@@ -88,6 +90,7 @@ export default function App() {
     const loc = window.location.pathname;
     const path = loc.replace("/", "").toLowerCase();
     if (path === "readme") return "home";
+    if (path === "guestbook") return "home";
     if (loc === "/" || loc === "") return "home";
     if (loc.startsWith("/blog/")) return "blog";
     const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "dash", "no"];
@@ -149,15 +152,22 @@ export default function App() {
   useEffect(() => {
     const sync_url = () => {
       const loc = window.location.pathname;
-      if (loc === "/" || loc === "") {
-        setPage("home"); setBlogPostId(null);
-      } else if (loc.startsWith("/blog/")) {
-        setPage("blog"); setBlogPostId(loc.split("/")[2]);
-      } else {
-        const path = loc.replace("/", "").toLowerCase();
-        const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "dash", "no"];
-        setPage(ALLOWED.includes(path) ? path : "404");
+      const path = loc.replace("/", "").toLowerCase();
+      if (path === "guestbook") {
+        setPage("home");
         setBlogPostId(null);
+        setGuestbookOpen(true);
+      } else {
+        setGuestbookOpen(false);
+        if (loc === "/" || loc === "") {
+          setPage("home"); setBlogPostId(null);
+        } else if (loc.startsWith("/blog/")) {
+          setPage("blog"); setBlogPostId(loc.split("/")[2]);
+        } else {
+          const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "dash", "no"];
+          setPage(ALLOWED.includes(path) ? path : "404");
+          setBlogPostId(null);
+        }
       }
     };
     window.addEventListener("popstate", sync_url);
@@ -188,8 +198,21 @@ export default function App() {
 
 
 
+  const handleOpenGuestbook = React.useCallback(() => {
+    setGuestbookOpen(true);
+    window.history.pushState({}, "", "/guestbook");
+  }, []);
+
+  const handleCloseGuestbook = React.useCallback(() => {
+    setGuestbookOpen(false);
+    if (window.location.pathname.replace("/", "").toLowerCase() === "guestbook") {
+      window.history.pushState({}, "", "/");
+    }
+  }, []);
+
   const goto = React.useCallback((newPage: string, postId: string | null = null) => {
     setSettingsOpen(false);
+    setGuestbookOpen(false);
     const url = newPage === "home" ? "/" : postId ? `/blog/${postId}` : `/${newPage}`;
     window.history.pushState({}, "", url);
     React.startTransition(() => {
@@ -406,7 +429,7 @@ export default function App() {
       <motion.main className={cn("flex-1 overflow-x-hidden page-container", (page === "readme" && settings.infoFullscreen) ? "p-0" : "p-6 md:p-12 lg:p-16", settings.forceDesktop || viewport.w >= 768 ? "pb-16" : "pb-40")}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div key={page + (blogPostId || "")} initial={settings.disableAnimations ? false : { opacity: 0, y: 15, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -15, scale: 0.98 }} transition={{ duration: settings.disableAnimations ? 0 : (settings.highHz ? 0.25 : 0.4), ease: [0.22, 1, 0.36, 1], scale: { type: "spring", stiffness: settings.highHz ? 600 : 300, damping: settings.highHz ? 35 : 25 } }}>
-            {page === "home" && <HomePage setPage={goto} settings={settings} onOpenGuestbook={() => setGuestbookOpen(true)} />}
+            {page === "home" && <HomePage setPage={goto} settings={settings} onOpenGuestbook={handleOpenGuestbook} />}
             {page === "blog" && <BlogPage targetId={blogPostId} navigateTo={goto} />}
             {page === "lens" && <LensPage viewport={viewport} />}
             {page === "now" && <NowPage />}
@@ -476,7 +499,7 @@ export default function App() {
       />
       <GuestbookDialog
         isOpen={guestbookOpen}
-        onClose={() => setGuestbookOpen(false)}
+        onClose={handleCloseGuestbook}
         setToast={setToast}
         isMobile={is_mobile}
       />
