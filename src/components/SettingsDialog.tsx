@@ -57,6 +57,24 @@ export const SettingsDialog = memo(({
   const dragStartModalY = React.useRef(0);
   const isDraggingSheet = React.useRef(false);
   const touchTimes = React.useRef<{ y: number; t: number }[]>([]);
+  React.useEffect(() => {
+    if (!is_mobile) return;
+    const handleResize = () => {
+      setDefaultY(window.innerHeight * 0.12);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [is_mobile]);
+
+  React.useEffect(() => {
+    if (settingsOpen && is_mobile) {
+      y.set(window.innerHeight);
+    }
+  }, [settingsOpen, is_mobile, y]);
+
+  const handleClose = React.useCallback(() => {
+    setSettingsOpen(false);
+  }, [setSettingsOpen]);
 
   const [activePage, setActivePage] = React.useState<string>(() => 
     is_mobile ? "menu" : "appearance"
