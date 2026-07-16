@@ -340,7 +340,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             <BounceButton
               icon={MessageSquare}
               label="Discord"
-              url="https://conspiracy.rip/discord"
+              url="https://discord.gg/TSZNYbjzF7"
               className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 w-64 h-16 rounded-3xl font-black tracking-[0.2em] text-sm active:scale-95 uppercase italic"
             />
           </div>

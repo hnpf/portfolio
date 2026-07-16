@@ -17,7 +17,7 @@ React 19, Vite, Tailwind CSS 4, TypeScript, Rust, Python, GoLang, Node.js, Expre
 ## contact
 
 - email: deprecated@virex.lol
-- vixen: https://discord.gg/vixencommunity
+- discord: https://discord.gg/TSZNYbjzF7
 - github: https://github.com/hnpf
 
 ## links
