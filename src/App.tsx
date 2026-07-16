@@ -488,6 +488,7 @@ export default function App() {
         setToast={setToast} 
         goto={goto} 
         is_mobile={is_mobile}
+        viewport={viewport}
         onReportBug={() => setBugReportOpen(true)}
         onOpenKnownIssuess={() => setKnownIssuessOpen(true)}
       />

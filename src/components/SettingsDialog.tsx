@@ -1,7 +1,7 @@
 // @ts-ignore
 // @ts-nocheck
 import React, { memo } from "react";
-import { motion, AnimatePresence, useMotionValue, animate } from "motion/react";
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "motion/react";
 import {
   Settings as SettingsIcon,
   X,
@@ -38,6 +38,7 @@ export const SettingsDialog = memo(({
   setToast, 
   goto,
   is_mobile,
+  viewport,
   onReportBug,
   onOpenKnownIssuess,
 }: any) => {
@@ -48,11 +49,12 @@ export const SettingsDialog = memo(({
     mass: 0.8
   };
 
-  // 12% from top = sheet sits near-fully open, tiny peek of backdrop at top
-  const [defaultY, setDefaultY] = React.useState(() =>
-    is_mobile ? window.innerHeight * 0.12 : 0
-  );
-  const y = useMotionValue(is_mobile ? window.innerHeight : 0);
+  // 5% from top = tiny sliver of backdrop, sheet is almost fully open by default
+  const defaultY = is_mobile && viewport ? viewport.h * 0.05 : 0;
+  const y = useMotionValue(is_mobile && viewport ? viewport.h : 0);
+  const modalHeight = useTransform(y, (latestY) => (viewport ? viewport.h : window.innerHeight) - latestY);
+
+  // Animate divider spacer: grows from 40→60px as sheet expands (y goes from defaultY→0)
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const modalRef = React.useRef<HTMLDivElement>(null);
 
@@ -61,20 +63,16 @@ export const SettingsDialog = memo(({
   const isDraggingSheet = React.useRef(false);
   const touchTimes = React.useRef<{ y: number; t: number }[]>([]);
 
-  React.useEffect(() => {
-    if (!is_mobile) return;
-    const handleResize = () => {
-      setDefaultY(window.innerHeight * 0.12);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [is_mobile]);
-
-  React.useEffect(() => {
-    if (settingsOpen && is_mobile) {
-      y.set(window.innerHeight);
+  // track settingsOpen transitions to reset y position synchronously during render
+  const prevSettingsOpen = React.useRef(settingsOpen);
+  if (settingsOpen && !prevSettingsOpen.current) {
+    if (is_mobile && viewport) {
+      y.set(viewport.h);
     }
-  }, [settingsOpen, is_mobile, y]);
+    prevSettingsOpen.current = true;
+  } else if (!settingsOpen && prevSettingsOpen.current) {
+    prevSettingsOpen.current = false;
+  }
 
   const handleClose = React.useCallback(() => {
     setSettingsOpen(false);
@@ -126,7 +124,7 @@ export const SettingsDialog = memo(({
   ] as const;
 
   const BOTTOM_PAGES = [
-    { id: "debug", title: "Debug Tools", desc: "System grid, inspection, console tools", icon: Cpu },
+    { id: "debug", title: "Debug Tools", desc: "DOM tools, inspection, console tools, etc", icon: Cpu },
     { id: "about", title: "Info & Feedback", desc: "Changelog, report bugs, known issues", icon: Terminal },
   ] as const;
 
@@ -985,10 +983,10 @@ export const SettingsDialog = memo(({
           />
           <motion.div
             ref={modalRef}
-            initial={is_mobile ? { y: window.innerHeight } : { opacity: 0, scale: 0.9, y: 20 }}
+            initial={is_mobile && viewport ? { y: viewport.h } : { opacity: 0, scale: 0.9, y: 20 }}
             animate={is_mobile ? { y: defaultY } : { opacity: 1, scale: 1, y: 0 }}
-            exit={is_mobile ? { 
-              y: window.innerHeight,
+            exit={is_mobile && viewport ? { 
+              y: viewport.h,
               transition: { type: "spring", damping: 30, stiffness: 300, mass: 0.8 }
             } : {
               opacity: 0,
@@ -1004,11 +1002,12 @@ export const SettingsDialog = memo(({
               "relative bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col motion-gpu settings-modal-content",
               is_mobile 
                 ? "w-full h-[100dvh] max-w-none max-h-none rounded-t-[2rem] border-none" 
-                : "w-full md:max-w-3xl md:h-[600px] rounded-[2rem] md:rounded-[2.5rem] border border-[var(--outline-variant)]"
+                : "w-full md:max-w-[700px] md:h-[780px] max-h-[90vh] rounded-[2rem] md:rounded-[2.5rem] border border-[var(--outline-variant)]"
             )}
             style={is_mobile ? { 
               y,
-              willChange: "transform",
+              height: modalHeight,
+              willChange: "transform, height",
               touchAction: "pan-y"
             } : { 
               willChange: "transform, opacity"
@@ -1064,7 +1063,7 @@ export const SettingsDialog = memo(({
               {is_mobile ? (
                 <div 
                   ref={scrollRef}
-                  className="space-y-10 overflow-y-auto scrollbar-hide flex-1 p-6 pb-32"
+                  className="flex flex-col overflow-y-auto scrollbar-hide flex-1 p-6 pb-8"
                 >
                   <AnimatePresence mode="wait" custom={direction}>
                     {activePage === "menu" ? (
@@ -1075,7 +1074,7 @@ export const SettingsDialog = memo(({
                         initial="initial"
                         animate="animate"
                         exit="exit"
-                        className="flex flex-col gap-4"
+                        className="flex flex-col justify-between flex-1"
                       >
                         {/* main pages group */}
                         <div className="flex flex-col gap-1">
@@ -1120,15 +1119,13 @@ export const SettingsDialog = memo(({
                           })}
                         </div>
 
-                        {/* divider */}
-                        <div className="flex items-center gap-7 mt-60 px-1">
-                          <div className="flex-1 h-px bg-[var(--outline-variant)]/50" />
-                          <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-30">More</span>
-                          <div className="flex-1 h-px bg-[var(--outline-variant)]/50" />
-                        </div>
-
-                        {/* bottom pages group */}
-                        <div className="flex flex-col gap-1">
+                        {/* divider + bottom pages — wrapped together so they stay anchored as a unit */}
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-center gap-4 px-1 pt-2 pb-2">
+                            <div className="flex-1 h-px bg-[var(--outline-variant)]/50" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-30">More</span>
+                            <div className="flex-1 h-px bg-[var(--outline-variant)]/50" />
+                          </div>
                           {BOTTOM_PAGES.map((page, index, arr) => {
                             const PageIcon = page.icon;
                             const isFirst = index === 0;
@@ -1186,66 +1183,111 @@ export const SettingsDialog = memo(({
                 </div>
               ) : (
                 <div className="flex flex-row flex-1 overflow-hidden min-h-0">
-                  {/* left nav sidebar */}
-                  <div className="w-[220px] border-r border-[var(--outline-variant)]/60 bg-[var(--surface-variant)]/20 py-4 px-3 flex flex-col overflow-y-auto shrink-0 select-none">
+                  {/* left nav sidebar — mobile-style card buttons, compact */}
+                  <div className="w-[230px] border-r border-[var(--outline-variant)]/60 bg-[var(--surface-variant)]/20 py-4 px-3 flex flex-col overflow-y-auto shrink-0 select-none">
                     {/* main nav items */}
-                    <div className="flex flex-col gap-1">
-                      {MAIN_PAGES.map((p) => {
+                    <div className="flex flex-col gap-[3px]">
+                      {MAIN_PAGES.map((p, index, arr) => {
                         const PageIcon = p.icon;
                         const isActive = activePage === p.id;
+                        const isSingle = arr.length === 1;
+                        const isFirst = index === 0;
+                        const isLast = index === arr.length - 1;
+                        const roundedClass = isSingle
+                          ? "rounded-[1.5rem]"
+                          : isFirst
+                            ? "rounded-t-[1.5rem] rounded-b-[0.6rem]"
+                            : isLast
+                              ? "rounded-b-[1.5rem] rounded-t-[0.6rem]"
+                              : "rounded-[0.6rem]";
                         return (
-                          <button
+                          <motion.button
                             key={p.id}
                             onClick={() => navigateTo(p.id)}
+                            whileHover={!isActive ? { scale: 1.02 } : {}}
+                            whileTap={{ scale: 0.96 }}
+                            animate={{
+                              backgroundColor: isActive ? "var(--primary-container)" : "transparent",
+                              borderColor: isActive ? "var(--primary-container)" : "var(--outline-variant)",
+                            }}
+                            transition={{ type: "spring", stiffness: 350, damping: 22 }}
                             className={cn(
-                              "flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all cursor-pointer w-full",
-                              isActive 
-                                ? "bg-[var(--primary-container)] text-[var(--on-primary-container)] font-bold" 
-                                : "text-[var(--on-surface-variant)] hover:bg-[var(--surface-variant)] hover:text-[var(--on-surface)]"
+                              "flex items-center justify-center gap-2.5 px-3 py-2.5 border-[5px] text-center cursor-pointer w-full group",
+                              roundedClass,
+                              isActive
+                                ? "text-[var(--on-primary-container)] font-bold"
+                                : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
                             )}
                           >
-                            <div className={cn(
-                              "w-8 h-8 flex items-center justify-center rounded-full shrink-0 transition-all",
-                              isActive
-                                ? "bg-[var(--primary)] text-[var(--on-primary)]"
-                                : "bg-[var(--surface-variant)] text-[var(--on-surface-variant)]"
-                            )}>
-                              <PageIcon size={16} />
-                            </div>
-                            <span className="text-sm font-semibold truncate">{p.title}</span>
-                          </button>
+                            <motion.div
+                              animate={{
+                                backgroundColor: isActive ? "var(--primary)" : "var(--surface)",
+                                borderColor: isActive ? "var(--primary)" : "var(--outline-variant)",
+                                color: isActive ? "var(--on-primary)" : "var(--primary)",
+                              }}
+                              transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                              className="w-7 h-7 flex items-center justify-center rounded-full border-[2px] shrink-0"
+                            >
+                              <PageIcon size={14} />
+                            </motion.div>
+                            <span className="text-[13px] font-semibold truncate">{p.title}</span>
+                          </motion.button>
                         );
                       })}
                     </div>
 
                     {/* spacer + divider */}
-                    <div className="mt-auto pt-4">
-                      <div className="h-px bg-[var(--outline-variant)]/40 mb-3 mx-1" />
-                      <div className="flex flex-col gap-1">
-                        {BOTTOM_PAGES.map((p) => {
+                    <div className="mt-auto pt-3">
+                      <div className="flex items-center gap-2 mb-2 px-1">
+                        <div className="flex-1 h-px bg-[var(--outline-variant)]/40" />
+                      </div>
+                      <div className="flex flex-col gap-[3px]">
+                        {BOTTOM_PAGES.map((p, index, arr) => {
                           const PageIcon = p.icon;
                           const isActive = activePage === p.id;
+                          const isSingle = arr.length === 1;
+                          const isFirst = index === 0;
+                          const isLast = index === arr.length - 1;
+                          const roundedClass = isSingle
+                            ? "rounded-[1.5rem]"
+                            : isFirst
+                              ? "rounded-t-[1.5rem] rounded-b-[0.6rem]"
+                              : isLast
+                                ? "rounded-b-[1.5rem] rounded-t-[0.6rem]"
+                                : "rounded-[0.6rem]";
                           return (
-                            <button
+                            <motion.button
                               key={p.id}
                               onClick={() => navigateTo(p.id)}
+                              whileHover={!isActive ? { scale: 1.02 } : {}}
+                              whileTap={{ scale: 0.96 }}
+                              animate={{
+                                backgroundColor: isActive ? "var(--primary-container)" : "transparent",
+                                borderColor: isActive ? "var(--primary-container)" : "var(--outline-variant)",
+                                opacity: isActive ? 1 : 0.7,
+                              }}
+                              transition={{ type: "spring", stiffness: 350, damping: 22 }}
                               className={cn(
-                                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all cursor-pointer w-full",
-                                isActive 
-                                  ? "bg-[var(--primary-container)] text-[var(--on-primary-container)] font-bold" 
-                                  : "text-[var(--on-surface-variant)]/70 hover:bg-[var(--surface-variant)] hover:text-[var(--on-surface)]"
+                                "flex items-center justify-center gap-2.5 px-3 py-2.5 border-[5px] text-center cursor-pointer w-full group hover:opacity-100",
+                                roundedClass,
+                                isActive
+                                  ? "text-[var(--on-primary-container)] font-bold"
+                                  : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
                               )}
                             >
-                              <div className={cn(
-                                "w-8 h-8 flex items-center justify-center rounded-full shrink-0 transition-all",
-                                isActive
-                                  ? "bg-[var(--primary)] text-[var(--on-primary)]"
-                                  : "bg-[var(--surface-variant)]/60 text-[var(--on-surface-variant)]/70"
-                              )}>
-                                <PageIcon size={16} />
-                              </div>
-                              <span className="text-sm font-semibold truncate">{p.title}</span>
-                            </button>
+                              <motion.div
+                                animate={{
+                                  backgroundColor: isActive ? "var(--primary)" : "var(--surface)",
+                                  borderColor: isActive ? "var(--primary)" : "var(--outline-variant)",
+                                  color: isActive ? "var(--on-primary)" : "var(--on-surface-variant)",
+                                }}
+                                transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                                className="w-7 h-7 flex items-center justify-center rounded-full border-[2px] shrink-0"
+                              >
+                                <PageIcon size={14} />
+                              </motion.div>
+                              <span className="text-[13px] font-semibold truncate">{p.title}</span>
+                            </motion.button>
                           );
                         })}
                       </div>
