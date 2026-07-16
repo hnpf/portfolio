@@ -90,8 +90,8 @@ const AdCard = () => {
 
 const HelloVirex = () => {
   const words = [
-    "вирекс",
     "virex",
+    "вирекс",
     "维雷克斯",
     "비렉스",
     "ڤيركس",
@@ -107,7 +107,7 @@ const HelloVirex = () => {
   }, [widx, words.length]);
 
   return (
-    <div className="h-[12rem] md:h-[14rem] flex items-center">
+    <div className="h-[3rem] md:h-[14rem] flex items-center">
       <AnimatePresence mode="wait">
         <motion.h1
           key={words[widx]}
@@ -133,7 +133,7 @@ const HelloVirex = () => {
             damping: settings.highHz ? 25 : 22,
             mass: 1,
           }}
-          className="text-7xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.7] text-balance flex items-baseline"
+          className="text-8xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.7] text-balance flex items-baseline"
         >
           {words[widx]}
           <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block ml-[0.05em]">
@@ -220,16 +220,29 @@ const RoleTicker = ({ settings }: { settings: any }) => {
       <AnimatePresence mode="wait">
         <motion.div
           key={roles[idx]}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 0.8, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 30,
-            mass: 0.8
+          initial={{
+            opacity: 0,
+            y: 40,
+            rotate: -2,
           }}
-          className="text-xl md:text-3xl font-display font-black text-[var(--on-surface-variant)] leading-none uppercase tracking-[0.1em]"
+          animate={{
+            opacity: 1,
+            y: 0,
+            rotate: 0,
+          }}
+          exit={{
+            opacity: 0,
+            y: -40,
+            rotate: 2,
+          }}
+          transition={{
+            type: settings.disableAnimations ? "tween" : "spring",
+            duration: settings.disableAnimations ? 0 : undefined,
+            stiffness: settings.highHz ? 600 : 400,
+            damping: settings.highHz ? 25 : 22,
+            mass: 1,
+          }}
+          className="text-xl md:text-3xl capitalize font-black text-[var(--on-surface-variant)] leading-none tracking-[0.1em] mt-4"
         >
           {roles[idx]}
         </motion.div>
@@ -414,7 +427,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
             transition={{ duration: settings.disableAnimations ? 0 : 0.6, ease: [0.33, 1, 0.68, 1] }}
             className="page-title !text-7xl sm:!text-8xl md:!text-9xl lg:!text-[12rem] xl:!text-[14rem] leading-[0.7] text-balance flex items-baseline font-expressive-bold italic tracking-[-0.08em]"
           >
-            вирекс
+            virex
             <motion.span 
               animate={IS_JUNE ? { 
                 color: ["#E40303", "#FF8C00", "#FFED00", "#008026", "#24408E", "#732982", "#E40303"] 
@@ -444,14 +457,14 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
               <h2 className="text-6xl md:text-[7rem] opacity-90 italic font-expressive-bold leading-[0.75] tracking-[-0.08em]">
                 software should <br /> be readable.
               </h2>
-              <h2 className="text-3xl md:text-6xl italic font-expressive-bold ml-15 leading-none tracking-[-0.05em] mt-8 opacity-40">
+              <h2 className="text-3xl md:text-6xl italic font-expressive-bold md:ml-15 ml-3 leading-none tracking-[-0.05em] mt-8 opacity-40">
                 period.
               </h2>
             </div>
           </div>
           <div className="flex flex-col md:flex-row items-end justify-between gap-8 mt-12 relative z-10">
             <p className="text-xl md:text-2xl opacity-80 font-display font-black italic max-w-xl leading-snug">
-              I make stuff that works the way it's supposed to. simple, efficient, and intentional.
+              i like simple, non-stressful setups and code that doesn't need a manual :)
             </p>
             <motion.button
               whileHover={{
