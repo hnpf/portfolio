@@ -940,6 +940,42 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "typography-and-info-rework",
+    version: "2026.07.16_2",
+    title: "Typography and info rework",
+    date: "Jul 16, 2026",
+    changes: [
+      {
+        category: "new readme text rework",
+        items: [
+          "revamped bio text",
+          "fully rewrore the backstory and sizing",
+          "fixed mission sizing and text size + rewrote main content",
+          "overhauled terminal typography and sizing for mobile and desktop",
+          "renamed 'the stack' to 'my stack' for clarity + fixed some typography",
+          "updated fingerprint and revamped archival text",
+        ],
+      },
+      {
+        category: "home changes",
+        items: [
+          "made virex show first again instead of вирекс",
+          "fixed hero sizing on mobile",
+          "improved RoleTicker animations and typography + capitalize instead of uppercase",
+          "rewrite 'I make stuff that works the way it's supposed to. simple, efficient, and intentional.' to a friendlier slogan 'i like simple, non-stressful setups and code that doesn't need a manual :)'",
+        ],
+      },
+      {
+        category: "sidebar changes",
+        items: [
+          "fixed independent dev sizing",
+          "improved virex user typography",
+          "renamed 'Directory navigation' to 'Endpoint navigation' and revamped both of their sizing and fonts",
+        ],
+      },
+    ],
+  },
+  {
     id: "settings-pages-sorting-and-more-user-experience",
     version: "2026.07.16",
     title: "Settings pages, sorting, and more user experience.",
