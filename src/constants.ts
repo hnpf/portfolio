@@ -940,6 +940,38 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "settings-pages-sorting-and-more-user-experience",
+    version: "2026.07.16",
+    title: "Settings pages, sorting, and more user experience.",
+    date: "Jul 16, 2026",
+    changes: [
+      {
+        category: "mobile settings",
+        items: [
+          "grouped everything into clean pages, and added nice transitions.",
+        ],
+      },
+      {
+        category: "desktop settings",
+        items: [
+          "added a sidebar for pages, with all buttons being motion.buttons.",
+        ],
+      },
+      {
+        category: "general settings changes",
+        items: [
+          "renamed titles, sorted everything into different categories, added clean transitions globally.",
+        ],
+      },
+      {
+        category: "other changes",
+        items: [
+          "fixed debug mode exit on close",
+        ],
+      },
+    ],
+  },
+  {
     id: "guestbook-addition-and-shorten-page-ux-fixes",
     version: "2026.07.14",
     title: "guestbook addition and shorten page ux fixes",
