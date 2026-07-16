@@ -365,15 +365,15 @@ export default function App() {
                 </motion.div>
                 {!settings.sidebarCollapsed && (
                   <div className="overflow-hidden whitespace-nowrap">
-                    <div className="font-display italic font-black text-2xl tracking-tighter uppercase leading-none">virex.</div>
-                    <div className="text-[10px] uppercase tracking-[0.2em] opacity-40 font-black mt-1">independent dev</div>
+                    <div className="font-black font-expressive text-2xl tracking-tight italic uppercase leading-none">virex.</div>
+                    <div className="text-[12px] capitalize tracking-[0.03em] opacity-60 font-black mt-1">independent dev</div>
                   </div>
                 )}
               </div>
               {!settings.sidebarCollapsed && !is_tiny && !is_short && (
                 <div className="flex flex-col mb-6 px-4">
-                  <div className="text-[11.8px] font-expressive uppercase tracking-[0.1em] opacity-30 mb-2">directory</div> 
-                  <h3 className="text-2xl font-display italic font-black tracking-tight text-[var(--on-surface-variant)] uppercase leading-none">Navigation</h3>
+                  <div className="text-[16px] font-expressive tracking-[0.1em] opacity-30 mb-2">Endpoint</div> 
+                  <h3 className="text-2xl font-expressive italic font-black tracking-[0.03em] text-[var(--on-surface-variant)] uppercase leading-none">Navigation</h3>
                 </div>
               )}
               <div className="flex-1 flex flex-col min-h-0 relative group/nav" onMouseMove={(e) => { const rect = e.currentTarget.getBoundingClientRect(); const y = e.clientY - rect.top; setNavHoverSide(y < rect.height / 2 ? "top" : "bottom"); }} onMouseLeave={() => setNavHoverSide(null)}>
