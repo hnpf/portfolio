@@ -124,8 +124,8 @@ export const SettingsDialog = memo(({
   ] as const;
 
   const BOTTOM_PAGES = [
-    { id: "debug", title: "Debug Tools", desc: "DOM tools, inspection, console tools, etc", icon: Cpu },
-    { id: "about", title: "Info & Feedback", desc: "Changelog, report bugs, known issues", icon: Terminal },
+    { id: "debug", title: "Info & Debug", desc: "DOM tools, inspection, console tools, etc", icon: Cpu },
+    { id: "about", title: "Bugs & Issues", desc: "Changelog, report bugs, known issues", icon: Terminal },
   ] as const;
 
   const PAGES = [...MAIN_PAGES, ...BOTTOM_PAGES] as const;
@@ -154,10 +154,10 @@ export const SettingsDialog = memo(({
       case "appearance":
         return (
           <section className="space-y-6">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 mb-7">
               <Palette size={20} className="text-[var(--primary)]" />
-              <h3 className="text-sm font-black uppercase tracking-[0.2em] text-[var(--on-surface-variant)]">
-                appearance mode
+              <h3 className="text-[17px] font-black tracking-[0.1em] text-[var(--on-surface-variant)]">
+                Theme settings
               </h3>
             </div>
             <div className="grid grid-cols-3 gap-2 w-full">
@@ -179,7 +179,7 @@ export const SettingsDialog = memo(({
                     whileTap={{ scale: 0.94 }}
                     animate={{
                       scale: isActive ? 1.04 : 1,
-                      borderColor: isActive ? "var(--primary)" : "var(--outline-variant)",
+                      borderColor: isActive ? "var(--outline-variant)" : "var(--outline-variant)",
                       color: isActive ? "var(--on-primary)" : "var(--on-surface-variant)"
                     }}
                     transition={{
@@ -188,7 +188,7 @@ export const SettingsDialog = memo(({
                       damping: 20
                     }}
                     className={cn(
-                      "relative overflow-hidden flex items-center justify-center gap-2.5 py-4 border-[3px] transition-colors capitalize text-sm font-black tracking-wide cursor-pointer select-none",
+                      "relative overflow-hidden flex items-center justify-center gap-2.5 py-4 border-[5px] transition-colors capitalize text-sm font-black tracking-wide cursor-pointer select-none",
                       roundedClass,
                       !isActive && "bg-[var(--surface-variant)]/30 hover:bg-black/5"
                     )}
@@ -257,8 +257,8 @@ export const SettingsDialog = memo(({
             </motion.div>
             
             <div className="space-y-4">
-              <div className="text-sm font-bold text-[var(--on-surface)]">
-                Accent Color
+              <div className="text-sm font-bold opacity-70 text-[var(--on-surface)]">
+                Theme Presets
               </div>
               <div className="flex flex-wrap gap-4">
                 {(
@@ -351,8 +351,8 @@ export const SettingsDialog = memo(({
                   }}
                   className="pt-2 space-y-3"
                 >
-                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] opacity-50 px-1">
-                    <span>Hue Shift</span>
+                  <div className="flex justify-between items-center text-[12px] font-black tracking-[0.1em] opacity-50 px-1">
+                    <span>Hue slider</span>
                   </div>
                   <Slider
                     value={settings.hue}
@@ -365,8 +365,8 @@ export const SettingsDialog = memo(({
                     format={(v: number) => `${v.toFixed(0)}°`}
                   />
 
-                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] opacity-50 px-1 pt-2">
-                    <span>Saturation</span>
+                  <div className="flex justify-between items-center text-[12px] font-black tracking-[0.1em] opacity-50 px-1 pt-2">
+                    <span>Saturation slider</span>
                   </div>
                   <Slider
                     value={settings.saturation}
@@ -387,10 +387,10 @@ export const SettingsDialog = memo(({
       case "customization":
         return (
           <section className="space-y-6">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4 mb-7">
               <SettingsIcon size={20} className="text-[var(--primary)]" />
-              <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)] uppercase">
-                customization settings
+              <h3 className="text-[17px] font-black tracking-[0.1em] text-[var(--on-surface-variant)]">
+                Customization settings
               </h3>
             </div>
             <div className="flex flex-col gap-1">
@@ -511,10 +511,10 @@ export const SettingsDialog = memo(({
             )}
 
             <section className="space-y-6">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mb-7">
                 <Layers size={20} className="text-[var(--primary)]" />
-                <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)] uppercase">
-                  sidebar & layout details
+                <h3 className="text-[17px] font-black tracking-[0.1em] text-[var(--on-surface-variant)]">
+                  Sidebar & Layout Options
                 </h3>
               </div>
               <div className="flex flex-col gap-1">
@@ -587,9 +587,9 @@ export const SettingsDialog = memo(({
       case "backup":
         return (
           <section className="space-y-6">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 mb-7">
               <Fingerprint size={20} className="text-[var(--primary)]" />
-              <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)] uppercase">
+              <h3 className="text-[17px] font-black tracking-[0.1em] text-[var(--on-surface-variant)]">
                 Share & Backup Config
               </h3>
             </div>
@@ -656,7 +656,7 @@ export const SettingsDialog = memo(({
                 <input
                   type="text"
                   placeholder="Paste your sharing link or code here..."
-                  className="flex-1 bg-[var(--surface)] text-[var(--on-surface)] border border-[var(--outline-variant)] rounded-xl px-4 py-2 text-[13px] font-display-bold focus:outline-none focus:border-[var(--primary)]"
+                  className="flex-1 bg-[var(--surface)] text-[var(--on-surface)] border-5 border-[var(--outline-variant)] rounded-xl px-4 py-2 text-[13px] font-black focus:outline-none focus:border-[var(--primary)]"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       const val = e.currentTarget.value.trim();
@@ -690,7 +690,7 @@ export const SettingsDialog = memo(({
                     }
                   }}
                 />
-                <label className="bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer">
+                <label className="bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] px-4 py-2 rounded-xl text-[10px] font-bold transition-all flex items-center justify-center cursor-pointer">
                   Upload File
                   <input
                     type="file"
@@ -736,11 +736,12 @@ export const SettingsDialog = memo(({
 
       case "debug":
         return (
+          <div className="space-y-8">
           <section className="space-y-6">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 mb-7">
               <Cpu size={20} className="text-[var(--primary)]" />
-              <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)] uppercase">
-                Debug settings & info
+              <h3 className="text-[17px] font-black tracking-[0.1em] text-[var(--on-surface-variant)]">
+                Debug Settings & Info
               </h3>
             </div>
             <div className="flex flex-col gap-1">
@@ -771,15 +772,10 @@ export const SettingsDialog = memo(({
               </label>
             </div>
           </section>
-        );
-
-      case "about":
-        return (
-          <div className="space-y-8">
             <section className="space-y-6">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mb-7">
                 <Terminal size={20} className="text-[var(--primary)]" />
-                <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)] uppercase">
+                <h3 className="text-[17px] font-black tracking-[0.1em] text-[var(--on-surface-variant)]">
                   Other Info
                 </h3>
               </div>
@@ -801,11 +797,18 @@ export const SettingsDialog = memo(({
                 />
               </button>
             </section>
+            </div>
+
+        );
+
+      case "about":
+        return (
+          <div className="space-y-8">
 
             <section className="space-y-6">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mb-7">
                 <Bug size={20} className="text-[var(--primary)]" />
-                <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)] uppercase">
+                <h3 className="text-[17px] font-black tracking-[0.1em] text-[var(--on-surface-variant)]">
                   Feedback
                 </h3>
               </div>
@@ -1212,7 +1215,7 @@ export const SettingsDialog = memo(({
                             }}
                             transition={{ type: "spring", stiffness: 350, damping: 22 }}
                             className={cn(
-                              "flex items-center justify-center gap-2.5 px-3 py-2.5 border-[5px] text-center cursor-pointer w-full group",
+                              "grid grid-cols-[28px_1fr_28px] items-center px-3 py-2.5 border-[5px] cursor-pointer w-full group",
                               roundedClass,
                               isActive
                                 ? "text-[var(--on-primary-container)] font-bold"
@@ -1230,7 +1233,8 @@ export const SettingsDialog = memo(({
                             >
                               <PageIcon size={14} />
                             </motion.div>
-                            <span className="text-[13px] font-semibold truncate">{p.title}</span>
+                            <span className="text-[13px] font-semibold text-center">{p.title}</span>
+                            <div />
                           </motion.button>
                         );
                       })}
@@ -1268,7 +1272,7 @@ export const SettingsDialog = memo(({
                               }}
                               transition={{ type: "spring", stiffness: 350, damping: 22 }}
                               className={cn(
-                                "flex items-center justify-center gap-2.5 px-3 py-2.5 border-[5px] text-center cursor-pointer w-full group hover:opacity-100",
+                                "grid grid-cols-[28px_1fr_28px] items-center px-3 py-2.5 border-[5px] cursor-pointer w-full group hover:opacity-100",
                                 roundedClass,
                                 isActive
                                   ? "text-[var(--on-primary-container)] font-bold"
@@ -1286,7 +1290,8 @@ export const SettingsDialog = memo(({
                               >
                                 <PageIcon size={14} />
                               </motion.div>
-                              <span className="text-[13px] font-semibold truncate">{p.title}</span>
+                              <span className="text-[13px] font-semibold text-center">{p.title}</span>
+                              <div />
                             </motion.button>
                           );
                         })}
