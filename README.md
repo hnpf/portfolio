@@ -152,15 +152,6 @@ src/
 
 ---
 
-## todo
-
-- [x] settings: import/export config as json [Added!! has way more than just json (includes link sharing and more!)]
-- [ ] rss/atom deep-linking & webmention skeleton
-- [ ] snapping & workspace tiling mode for custom panels
-- [ ] lazy-loading blurred placeholder matrix for lens
-
----
-
 <div align="center">
 
 [virex.lol](https://virex.lol) · [github.com/hnpf](https://github.com/hnpf) · gpl-3.0
