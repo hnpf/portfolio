@@ -411,7 +411,7 @@ export default function App() {
                   {!settings.sidebarCollapsed && (
                     <div className="grid grid-cols-2 gap-4 w-full">
                       <BounceButton icon={Github} label="GitHub" url="https://github.com/hnpf" className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-colors text-sm font-expressive-bold" />
-                      <BounceButton icon={MessageSquare} label="Discord" url="https://conspiracy.rip/discord" className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-colors text-sm font-expressive-bold" />
+                      <BounceButton icon={MessageSquare} label="Discord" url="https://discord.gg/TSZNYbjzF7" className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-colors text-sm font-expressive-bold" />
                     </div>
                   )}
                   <div className={cn("w-full flex justify-center", settings.sidebarCollapsed && "px-0")}>
