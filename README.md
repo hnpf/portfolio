@@ -21,6 +21,13 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 ## what's new?
 
 **recent changes**
+- [July 16, 2026]  settings and full typography overhaul + lots of text rewrites
+---
+- [July 14, 2026]  guestbook feature addition
+- [July 14, 2026]  /dash page consistency update
+---
+- [July 11, 2026]  github contribution addition
+---
 - [July 10, 2026]  Overhauled Short page
 - [July 10, 2026]  Remove tracker and add Now in it's place
 - [July 10, 2026]  Page header descriptions
@@ -31,15 +38,8 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 - [July 8, 2026]	 fix lens bento lag
 - [July 8, 2026]	 add a bump script helper
 - [July 8, 2026]	 overhauled "to top" and fix mobile focus mode
----
-- [July 7, 2026]	 fix crowding in blog topics dropdown
-- [July 7, 2026]     announcements bar
-- [July 7, 2026]     bring back old blog posts
----
-- [July 6, 2026] 	 overhauled material 3 expressive scrollbar
-- [July 6, 2026] 	 blog back to feed bug fix, and micro-animations update
 
-> last updated: July 10, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
+> last updated: July 16, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
 ---
 
 ## screenshots
