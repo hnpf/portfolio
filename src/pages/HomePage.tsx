@@ -88,7 +88,7 @@ const AdCard = () => {
   );
 };
 
-const HelloVirex = () => {
+const HelloVirex = ({ tickIndex }: { tickIndex: number }) => {
   const words = [
     "virex",
     "вирекс",
@@ -96,18 +96,11 @@ const HelloVirex = () => {
     "비렉스",
     "ڤيركس",
   ];
-  const [widx, setWidx] = useState(0);
+  const widx = tickIndex % words.length;
   const { settings } = useTheme();
   const containerRef = React.useRef<HTMLDivElement>(null);
   const textRef = React.useRef<HTMLHeadingElement>(null);
   const [scale, setScale] = useState(1);
-
-  useEffect(() => {
-    const ticker = setTimeout(() => {
-      setWidx((prev) => (prev + 1) % words.length);
-    }, 4000);
-    return () => clearTimeout(ticker);
-  }, [widx, words.length]);
 
   useEffect(() => {
     const checkSize = () => {
@@ -137,7 +130,7 @@ const HelloVirex = () => {
   }, [widx]);
 
   return (
-    <div ref={containerRef} className="w-full min-h-[4.5rem] sm:min-h-[7rem] md:h-[14rem] flex items-center overflow-hidden">
+    <div ref={containerRef} className="w-full min-h-[5.5rem] sm:min-h-[8.5rem] md:min-h-[15rem] flex items-center overflow-visible py-4">
       <AnimatePresence mode="wait">
         <motion.h1
           key={words[widx]}
@@ -168,7 +161,7 @@ const HelloVirex = () => {
             mass: 1,
           }}
           style={{ transformOrigin: "left center" }}
-          className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.7] whitespace-nowrap flex items-baseline origin-left"
+          className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.85] whitespace-nowrap flex items-baseline origin-left py-2"
         >
           {words[widx]}
           <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block ml-[0.05em]">
@@ -235,20 +228,13 @@ const YearProg = () => {
   );
 };
 
-const RoleTicker = ({ settings }: { settings: any }) => {
+const RoleTicker = ({ settings, tickIndex }: { settings: any; tickIndex: number }) => {
   const roles = [
     "independent software developer",
     "linux enthusiast",
     "cybersecurity student"
   ];
-  const [idx, setIdx] = useState(0);
-
-  useEffect(() => {
-    const ticker = setInterval(() => {
-      setIdx((prev) => (prev + 1) % roles.length);
-    }, 3000);
-    return () => clearInterval(ticker);
-  }, [roles.length]);
+  const idx = tickIndex % roles.length;
 
   return (
     <div className="h-12 flex items-center overflow-hidden">
@@ -431,6 +417,14 @@ const ScrollVisualPull = ({ setPage, settings }: { setPage: (page: string, postI
 
 export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
   const [latestEntry, setLatestEntry] = useState<any>(null);
+  const [tickIndex, setTickIndex] = useState(0);
+
+  useEffect(() => {
+    const ticker = setInterval(() => {
+      setTickIndex((prev) => prev + 1);
+    }, 4000);
+    return () => clearInterval(ticker);
+  }, []);
 
   useEffect(() => {
     fetch("/api/guestbook")
@@ -448,7 +442,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
     <div className="space-y-16 max-w-6xl mx-auto px-4 md:px-0 relative">
       <header className="page-header space-y-12">
         {settings.helloAnimation ? (
-          <HelloVirex />
+          <HelloVirex tickIndex={tickIndex} />
         ) : (
           <motion.h1
             initial={settings.disableAnimations ? false : {
@@ -474,7 +468,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
             </motion.span>
           </motion.h1>
         )}
-        <RoleTicker settings={settings} />
+        <RoleTicker settings={settings} tickIndex={tickIndex} />
         <FshBtn />
       </header>
 
