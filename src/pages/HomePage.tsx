@@ -98,6 +98,9 @@ const HelloVirex = () => {
   ];
   const [widx, setWidx] = useState(0);
   const { settings } = useTheme();
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const textRef = React.useRef<HTMLHeadingElement>(null);
+  const [scale, setScale] = useState(1);
 
   useEffect(() => {
     const ticker = setTimeout(() => {
@@ -106,25 +109,56 @@ const HelloVirex = () => {
     return () => clearTimeout(ticker);
   }, [widx, words.length]);
 
+  useEffect(() => {
+    const checkSize = () => {
+      if (!containerRef.current || !textRef.current) return;
+      const containerWidth = containerRef.current.clientWidth;
+      const textWidth = textRef.current.scrollWidth;
+      if (textWidth > 0 && containerWidth > 0) {
+        if (textWidth > containerWidth) {
+          const fitScale = Math.min(1, Math.max(0.35, containerWidth / textWidth));
+          setScale(fitScale);
+        } else {
+          setScale(1);
+        }
+      }
+    };
+
+    checkSize();
+    const timer = setTimeout(checkSize, 50);
+
+    const observer = new ResizeObserver(checkSize);
+    if (containerRef.current) observer.observe(containerRef.current);
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [widx]);
+
   return (
-    <div className="h-[3rem] md:h-[14rem] flex items-center">
+    <div ref={containerRef} className="w-full min-h-[4.5rem] sm:min-h-[7rem] md:h-[14rem] flex items-center overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.h1
           key={words[widx]}
+          ref={textRef}
           initial={{
             opacity: 0,
             y: 40,
             rotate: -2,
+            scale: scale,
           }}
           animate={{
             opacity: 1,
             y: 0,
             rotate: 0,
+            scale: scale,
           }}
           exit={{
             opacity: 0,
             y: -40,
             rotate: 2,
+            scale: scale,
           }}
           transition={{
             type: settings.disableAnimations ? "tween" : "spring",
@@ -133,7 +167,8 @@ const HelloVirex = () => {
             damping: settings.highHz ? 25 : 22,
             mass: 1,
           }}
-          className="text-8xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.7] text-balance flex items-baseline"
+          style={{ transformOrigin: "left center" }}
+          className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.7] whitespace-nowrap flex items-baseline origin-left"
         >
           {words[widx]}
           <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block ml-[0.05em]">
@@ -425,7 +460,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
               y: 0,
             }}
             transition={{ duration: settings.disableAnimations ? 0 : 0.6, ease: [0.33, 1, 0.68, 1] }}
-            className="page-title !text-7xl sm:!text-8xl md:!text-9xl lg:!text-[12rem] xl:!text-[14rem] leading-[0.7] text-balance flex items-baseline font-expressive-bold italic tracking-[-0.08em]"
+            className="page-title !text-6xl sm:!text-8xl md:!text-9xl lg:!text-[12rem] xl:!text-[14rem] leading-[0.7] text-balance flex items-baseline font-expressive-bold italic tracking-[-0.08em]"
           >
             virex
             <motion.span 
