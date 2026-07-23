@@ -9,6 +9,7 @@ interface GuestbookDialogProps {
   onClose: () => void;
   setToast: (msg: string) => void;
   isMobile: boolean;
+  viewport?: { w: number; h: number };
 }
 
 export const GuestbookDialog = ({
@@ -16,6 +17,7 @@ export const GuestbookDialog = ({
   onClose,
   setToast,
   isMobile,
+  viewport,
 }: GuestbookDialogProps) => {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -24,8 +26,8 @@ export const GuestbookDialog = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const [defaultY, setDefaultY] = useState(() => isMobile ? window.innerHeight * 0.12 : 0);
-  const y = useMotionValue(isMobile ? window.innerHeight : 0);
+  const [defaultY, setDefaultY] = useState(() => isMobile ? (viewport ? viewport.h * 0.05 : window.innerHeight * 0.05) : 0);
+  const y = useMotionValue(isMobile ? (viewport ? viewport.h : window.innerHeight) : 0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -37,11 +39,11 @@ export const GuestbookDialog = ({
   useEffect(() => {
     if (!isMobile) return;
     const handleResize = () => {
-      setDefaultY(window.innerHeight * 0.12);
+      setDefaultY(viewport ? viewport.h * 0.05 : window.innerHeight * 0.05);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [isMobile]);
+  }, [isMobile, viewport]);
 
   useEffect(() => {
     if (isOpen && isMobile) {

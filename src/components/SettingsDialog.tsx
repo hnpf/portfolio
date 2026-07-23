@@ -49,21 +49,16 @@ export const SettingsDialog = memo(({
     mass: 0.8
   };
 
-  // 5% from top = tiny sliver of backdrop, sheet is almost fully open by default
+  // 5% from top
   const defaultY = is_mobile && viewport ? viewport.h * 0.05 : 0;
   const y = useMotionValue(is_mobile && viewport ? viewport.h : 0);
   const modalHeight = useTransform(y, (latestY) => (viewport ? viewport.h : window.innerHeight) - latestY);
-
-  // Animate divider spacer: grows from 40→60px as sheet expands (y goes from defaultY→0)
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const modalRef = React.useRef<HTMLDivElement>(null);
-
   const dragStartY = React.useRef(0);
   const dragStartModalY = React.useRef(0);
   const isDraggingSheet = React.useRef(false);
   const touchTimes = React.useRef<{ y: number; t: number }[]>([]);
-
-  // track settingsOpen transitions to reset y position synchronously during render
   const prevSettingsOpen = React.useRef(settingsOpen);
   if (settingsOpen && !prevSettingsOpen.current) {
     if (is_mobile && viewport) {

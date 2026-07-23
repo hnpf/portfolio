@@ -461,17 +461,20 @@ export default function App() {
         onClose={() => setBugReportOpen(false)}
         setToast={setToast}
         isMobile={is_mobile}
+        viewport={viewport}
       />
       <GuestbookDialog
         isOpen={guestbookOpen}
         onClose={handleCloseGuestbook}
         setToast={setToast}
         isMobile={is_mobile}
+        viewport={viewport}
       />
       <KnownIssuesDialog
         isOpen={KnownIssuessOpen}
         onClose={() => setKnownIssuessOpen(false)}
         isMobile={is_mobile}
+        viewport={viewport}
       />
       <DebugConfirmDialog showDebugConfirm={showDebugConfirm} setShowDebugConfirm={setShowDebugConfirm} updateSettings={updateSettings} />
       <CapsuleConfirmDialog pendingCapsule={pendingCapsule} setPendingCapsule={setPendingCapsule} updateSettings={updateSettings} setToast={setToast} />

@@ -1,6 +1,6 @@
 // @ts-nocheck
-import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "motion/react";
 import { Bug, X, Image as ImageIcon, Trash2, Loader2, CheckCircle } from "lucide-react";
 import { cn } from "../constants";
 
@@ -9,6 +9,7 @@ interface BugReportDialogProps {
   onClose: () => void;
   setToast: (msg: string) => void;
   isMobile: boolean;
+  viewport?: { w: number; h: number };
 }
 
 export const BugReportDialog = ({
@@ -16,6 +17,7 @@ export const BugReportDialog = ({
   onClose,
   setToast,
   isMobile,
+  viewport,
 }: BugReportDialogProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -26,6 +28,143 @@ export const BugReportDialog = ({
   const [dragActive, setDragActive] = useState(false);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const defaultY = isMobile ? (viewport ? viewport.h * 0.05 : window.innerHeight * 0.05) : 0;
+  const y = useMotionValue(isMobile ? (viewport ? viewport.h : window.innerHeight) : 0);
+  const modalHeight = useTransform(y, (latestY) => (viewport ? viewport.h : window.innerHeight) - latestY);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const dragStartY = useRef(0);
+  const dragStartModalY = useRef(0);
+  const isDraggingSheet = useRef(false);
+  const touchTimes = useRef<{ y: number; t: number }[]>([]);
+
+  // track isOpen transitions to reset y position synchronously during render
+  const prevIsOpen = useRef(isOpen);
+  if (isOpen && !prevIsOpen.current) {
+    if (isMobile) {
+      y.set(viewport ? viewport.h : window.innerHeight);
+    }
+    prevIsOpen.current = true;
+  } else if (!isOpen && prevIsOpen.current) {
+    prevIsOpen.current = false;
+  }
+
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
+  useEffect(() => {
+    const modalEl = modalRef.current;
+    if (!modalEl || !isMobile) return;
+
+    const handleTouchStartRaw = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      dragStartY.current = touch.clientY;
+      dragStartModalY.current = y.get();
+      
+      const isInsideScroll = scrollRef.current && scrollRef.current.contains(e.target as Node);
+      const scrollTop = scrollRef.current ? scrollRef.current.scrollTop : 0;
+      
+      if (!isInsideScroll) {
+        isDraggingSheet.current = true;
+      } else if (dragStartModalY.current > 0) {
+        isDraggingSheet.current = true;
+      } else if (scrollTop <= 0) {
+        isDraggingSheet.current = false;
+      } else {
+        isDraggingSheet.current = false;
+      }
+      
+      touchTimes.current = [{ y: touch.clientY, t: Date.now() }];
+    };
+
+    const handleTouchMoveRaw = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      const clientY = touch.clientY;
+      const deltaY = clientY - dragStartY.current;
+      const scrollTop = scrollRef.current ? scrollRef.current.scrollTop : 0;
+      
+      touchTimes.current.push({ y: clientY, t: Date.now() });
+      if (touchTimes.current.length > 5) {
+        touchTimes.current.shift();
+      }
+
+      if (dragStartModalY.current === 0 && scrollTop <= 0 && !isDraggingSheet.current) {
+        if (deltaY > 0) {
+          isDraggingSheet.current = true;
+          dragStartY.current = clientY;
+          dragStartModalY.current = 0;
+        }
+      }
+
+      if (!isDraggingSheet.current && scrollTop <= 0 && deltaY > 0) {
+        isDraggingSheet.current = true;
+        dragStartY.current = clientY;
+        dragStartModalY.current = 0;
+      }
+
+      if (isDraggingSheet.current) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+        
+        let newY = dragStartModalY.current + deltaY;
+        if (newY < 0) {
+          newY = newY * 0.2; // pull resistance
+        }
+        y.set(newY);
+      }
+    };
+
+    const handleTouchEndRaw = (e: TouchEvent) => {
+      if (!isDraggingSheet.current) return;
+      isDraggingSheet.current = false;
+
+      const currentY = y.get();
+      let velocityY = 0;
+      if (touchTimes.current.length >= 2) {
+        const first = touchTimes.current[0];
+        const last = touchTimes.current[touchTimes.current.length - 1];
+        const dt = last.t - first.t;
+        if (dt > 0) {
+          velocityY = ((last.y - first.y) / dt) * 1000;
+        }
+      }
+
+      if (velocityY > 600 || currentY > defaultY + 150) {
+        handleClose();
+      } else if (velocityY < -400) {
+        animate(y, 0, {
+          type: "spring",
+          damping: 30,
+          stiffness: 300,
+          mass: 0.8
+        });
+      } else {
+        const midpoint = defaultY * 0.5;
+        const targetY = currentY < midpoint ? 0 : defaultY;
+        animate(y, targetY, {
+          type: "spring",
+          damping: 30,
+          stiffness: 300,
+          mass: 0.8
+        });
+      }
+    };
+
+    modalEl.addEventListener("touchstart", handleTouchStartRaw, { passive: false });
+    modalEl.addEventListener("touchmove", handleTouchMoveRaw, { passive: false });
+    modalEl.addEventListener("touchend", handleTouchEndRaw, { passive: false });
+
+    return () => {
+      modalEl.removeEventListener("touchstart", handleTouchStartRaw);
+      modalEl.removeEventListener("touchmove", handleTouchMoveRaw);
+      modalEl.removeEventListener("touchend", handleTouchEndRaw);
+    };
+  }, [isMobile, y, defaultY, handleClose, isOpen]);
 
   // reset fields when opening/closing
   useEffect(() => {
@@ -178,18 +317,34 @@ export const BugReportDialog = ({
 
           {/* container */}
           <motion.div
-            initial={isMobile ? { y: "100%" } : { opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={isMobile ? { y: "100%" } : { opacity: 0, scale: 0.9, y: 20, transition: { duration: 0.2 } }}
+            ref={modalRef}
+            initial={isMobile ? { y: viewport ? viewport.h : window.innerHeight } : { opacity: 0, scale: 0.9, y: 20 }}
+            animate={isMobile ? { y: defaultY } : { opacity: 1, scale: 1, y: 0 }}
+            exit={isMobile ? { 
+              y: viewport ? viewport.h : window.innerHeight,
+              transition: { type: "spring", damping: 30, stiffness: 300, mass: 0.8 }
+            } : { 
+              opacity: 0, 
+              scale: 0.9, 
+              y: 20, 
+              transition: { duration: 0.2 } 
+            }}
             transition={isMobile ? { type: "spring", damping: 30, stiffness: 350, mass: 0.8 } : dialogSpring}
             onClick={(e) => e.stopPropagation()}
             className={cn(
               "relative bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col motion-gpu border-[var(--outline-variant)]",
               isMobile 
-                ? "w-full h-[100dvh] max-w-none max-h-none rounded-none border-none" 
+                ? "w-full h-[100dvh] max-w-none max-h-none rounded-t-[2rem] border-none" 
                 : "w-full max-w-lg rounded-[2rem] md:rounded-[2.5rem] max-h-[85vh] border"
             )}
-            style={{ touchAction: "none" }}
+            style={isMobile ? { 
+              y,
+              height: modalHeight,
+              willChange: "transform, height",
+              touchAction: "pan-y"
+            } : { 
+              willChange: "transform, opacity"
+            }}
           >
             <div className="flex flex-col h-full overflow-hidden">
               {/* handle drag for mobile */}
@@ -221,10 +376,13 @@ export const BugReportDialog = ({
               </div>
 
               {/* form content */}
-              <div className={cn(
-                "space-y-6 overflow-y-auto scrollbar-hide flex-1",
-                isMobile ? "p-6 pb-32" : "p-6 md:p-8"
-              )}>
+              <div 
+                ref={scrollRef}
+                className={cn(
+                  "space-y-6 overflow-y-auto scrollbar-hide flex-1",
+                  isMobile ? "p-6 pb-32" : "p-6 md:p-8"
+                )}
+              >
                 {isSuccess ? (
                   <motion.div 
                     initial={{ scale: 0.8, opacity: 0 }}
