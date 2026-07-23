@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 
 import { useTheme } from "./ThemeContext";
+import { ScrollToTopButton } from "./components/ScrollToTopButton";
 import { cn } from "./constants";
 import { useAprilFools } from "./hooks/useAprilFools";
 import { useSettingsSync } from "./hooks/useSettingsSync";
@@ -282,51 +283,14 @@ export default function App() {
       </AnimatePresence>
 
 
-      <AnimatePresence>
-        {show_top && (
-          <motion.button
-            key={settings.sidebarFlipped ? "flipped" : "normal"}
-            layout
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            whileHover={{ scale: 1.15 }}
-            whileTap={{ scale: 0.92 }}
-            transition={{
-              type: "spring",
-              stiffness: 380,
-              damping: 26,
-            }}
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className={cn(
-              "fixed z-50 flex items-center justify-center bg-[var(--primary)] text-[var(--on-primary)] rounded-full shadow-2xl border-6 border-[var(--outline-variant)] backdrop-blur-md h-14 p-4",
-              is_mobile 
-                ? (showBottomNav ? "bottom-24" : "bottom-15") 
-                : "bottom-15 lg:bottom-12",
-              settings.sidebarFlipped ? "right-6 lg:right-auto lg:left-12" : "right-6 lg:right-12"
-            )}
-          >
-            <ArrowUpRight size={24} className="-rotate-45 shrink-0" />
-            <AnimatePresence>
-              {isExpanded && (
-                <motion.span
-                  initial={{ width: 0, opacity: 0, scale: 0.8 }}
-                  animate={{ width: "auto", opacity: 1, scale: 1 }}
-                  exit={{ width: 0, opacity: 0, scale: 0.8 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 25,
-                  }}
-                  className="font-expressive-bold text-xs uppercase tracking-widest overflow-hidden whitespace-nowrap pt-0.5 ml-2 block"
-                >
-                  Top
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </motion.button>
-        )}
-      </AnimatePresence>
+      <ScrollToTopButton
+        showTop={show_top}
+        isMobile={is_mobile}
+        showBottomNav={showBottomNav}
+        scrollDirection={scrollDirection}
+        settings={settings}
+        updateSettings={updateSettings}
+      />
 
       <AnimatePresence>
         {settings.focusMode && (

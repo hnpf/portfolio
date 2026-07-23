@@ -22,6 +22,7 @@ interface ThemeSettings {
   highHz: boolean;
   amoledMode: boolean;
   bentoTilt: boolean;
+  toTopShape: 'clover' | 'cookie' | 'squircle';
 }
 
 interface ThemeContextType {
@@ -50,6 +51,7 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   highHz: true,
   amoledMode: false,
   bentoTilt: false,
+  toTopShape: 'clover',
 };
 
 // lookup is cleaner than a ternary chain here

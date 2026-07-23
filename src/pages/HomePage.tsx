@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Activity, ChevronRight, ExternalLink, ArrowUpRight, Loader2, Download, Terminal, ArrowDown } from "lucide-react";
+import { Activity, ChevronRight, ExternalLink, ArrowUpRight, Loader2, Download, Terminal, ArrowDown, Tag, Folder } from "lucide-react";
 import { cn, PROJECTS, BLOG_POSTS } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { Card } from "../components/Card";
@@ -319,7 +319,7 @@ const WeatherWidget = () => {
   );
 };
 
-const ScrollVisualPull = ({ setPage, settings }: { setPage: (page: string, postId: string | null) => void, settings: any }) => {
+const AncBar = ({ setPage, settings }: { setPage: (page: string, postId: string | null) => void, settings: any }) => {
   const latestPost = BLOG_POSTS[0];
   const [shouldAnimate, setShouldAnimate] = useState(false);
 
@@ -334,12 +334,9 @@ const ScrollVisualPull = ({ setPage, settings }: { setPage: (page: string, postI
     return () => clearTimeout(timer);
   }, [settings.disableAnimations]);
 
-  const handleScrollDown = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    document.getElementById("projects-section")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   const initialValues = settings.disableAnimations ? false : { opacity: 0, y: 15 };
+
+  if (!latestPost) return null;
 
   return (
     <motion.div
@@ -356,59 +353,53 @@ const ScrollVisualPull = ({ setPage, settings }: { setPage: (page: string, postI
         mass: 0.8,
       }}
       whileHover={settings.disableAnimations ? {} : {
-        y: settings.bentoTilt ? -6 : -12,
-        scale: settings.bentoTilt ? 1.02 : 1.01,
-        rotate: settings.bentoTilt ? 0 : 0.01,
+        y: settings.bentoTilt ? -6 : -10,
+        scale: settings.bentoTilt ? 1.015 : 1.005,
         transition: { type: "spring", stiffness: 400, damping: 15 }
       }}
       whileTap={settings.disableAnimations ? {} : { scale: 0.98 }}
-      className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2 lg:gap-4 p-1.5 lg:p-2 border-6 border-[var(--outline-variant)] rounded-[2.5rem] bg-[var(--surface-variant)] hover:border-[var(--primary)] hover:shadow-2xl transition-[border-color,box-shadow] duration-150 relative overflow-hidden group/pull cursor-pointer"
+      onClick={() => setPage("blog", latestPost.id)}
+      className="flex flex-col sm:flex-row items-stretch justify-between gap-4 p-5 sm:p-6 border-6 border-[var(--outline-variant)] rounded-[2.5rem] bg-[var(--surface-variant)] hover:border-[var(--primary)] hover:shadow-2xl transition-[border-color,box-shadow] duration-200 relative overflow-hidden group cursor-pointer select-none"
     >
-      {/* left: latest blog post preview */}
-      {latestPost && (
-        <div 
-          onClick={() => setPage("blog", latestPost.id)}
-          className="flex-1 flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 rounded-[2rem] cursor-pointer group/blog select-none z-10"
-        >
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="px-3 py-1 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-full text-[12px] font-expressive italic tracking-widest border border-[var(--primary)]/25 shadow-sm">
-              New Post!
+      {/* left: badges, title, + snippet filling desktop wid */}
+      <div className="flex-1 min-w-0 flex flex-col justify-between space-y-2">
+        <div className="flex flex-wrap items-center gap-2 min-w-0">
+          <span className="px-3 py-1 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-full text-[11px] font-expressive italic font-bold tracking-widest border border-[var(--primary)]/30 shadow-xs flex items-center gap-1.5 shrink-0">
+            <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />
+            New Post!
+          </span>
+          {latestPost.category && (
+            <span className="px-2.5 py-1 bg-[var(--surface)]/80 text-[var(--on-surface-variant)] rounded-full text-[11px] font-expressive italic font-bold border border-[var(--outline-variant)]/30 shadow-2xs flex items-center gap-1.5 shrink-0 tracking-wider">
+              <Tag size={11} className="text-[var(--primary)] shrink-0 opacity-80" />
+              <span className="capitalize">{latestPost.category}</span>
             </span>
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-col xl:flex-row xl:items-baseline gap-1 xl:gap-3">
-              <h4 className="text-[16px] sm:text-[18px] font-display font-black italic text-[var(--on-surface-variant)] group-hover/blog:text-[var(--primary)] transition-colors duration-200 truncate">
-                {latestPost.title}
-              </h4>
-              <span className="text-[12px] font-sans opacity-50 font-medium shrink-0">
-                {latestPost.date}
-              </span>
-            </div>
-            <p className="text-[13px] opacity-70 font-sans truncate mt-1 max-w-[280px] sm:max-w-[450px] lg:max-w-[500px]">
-              {latestPost.snippet}
-            </p>
-          </div>
+          )}
+          {latestPost.readTime && (
+            <span className="text-[11px] font-display font-black opacity-50 shrink-0 hidden md:inline-block ml-1">
+              • {latestPost.readTime}
+            </span>
+          )}
         </div>
-      )}
 
-      {/* flat straight divider line for mobile view */}
-      {latestPost && <div className="h-px bg-[var(--outline-variant)]/40 mx-4 lg:hidden z-10" />}
-
-      {/* right: scroll anchor cta */}
-      <div 
-        onClick={handleScrollDown}
-        className="flex items-center justify-between lg:justify-end gap-4 p-3 rounded-[2rem] cursor-pointer group/scroll select-none shrink-0 z-10"
-      >
-        <div className="flex flex-col items-start lg:items-end -space-y-0.5">
-          <span className="text-[11px] font-expressive-bold italic tracking-widest uppercase opacity-40">
-            EXPLORE CONTENT
-          </span>
-          <span className="text-[15px] font-display font-black italic text-[var(--on-surface-variant)] group-hover/scroll:text-[var(--primary)] transition-colors duration-200">
-            scroll to projects
-          </span>
+        <div className="min-w-0 w-full space-y-1">
+          <h4 className="text-[18px] sm:text-[20px] md:text-[22px] font-display font-black italic text-[var(--on-surface-variant)] group-hover:text-[var(--primary)] transition-colors duration-200 truncate min-w-0 w-full leading-snug">
+            {latestPost.title}
+          </h4>
+          <p className="text-[13px] sm:text-[14px] opacity-70 font-sans line-clamp-1 sm:line-clamp-2 min-w-0 w-full leading-relaxed max-w-4xl">
+            {latestPost.snippet}
+          </p>
         </div>
-        <div className="w-10 h-10 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] group-hover/scroll:bg-[var(--primary)] group-hover/scroll:text-[var(--on-primary)] flex items-center justify-center border border-[var(--primary)]/20 group-hover/scroll:border-[var(--primary)] transition-all duration-300 shadow-sm shrink-0 group-hover/scroll:scale-110">
-          <ArrowDown size={18} strokeWidth={2.5} className="transition-transform duration-300" />
+      </div>
+
+      {/* date top right; post link bottom right */}
+      <div className="shrink-0 flex sm:flex-col justify-between items-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-[var(--outline-variant)]/20 sm:border-none">
+        <span className="text-[12px] font-display font-black opacity-60 shrink-0 bg-[var(--surface)]/50 px-3 py-0.5 rounded-full border border-[var(--outline-variant)]/20 self-start sm:self-end">
+          {latestPost.date}
+        </span>
+
+        <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-300 border border-[var(--primary)]/20 shadow-xs font-expressive-bold italic font-black text-[12px] uppercase tracking-wider shrink-0 self-end">
+          <span>Read Post</span>
+          <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
         </div>
       </div>
     </motion.div>
@@ -526,7 +517,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
 
         {/* anc bar / active site indicator (act 2 gate) */}
         <div className="md:col-span-2 lg:col-span-1 xl:col-span-2">
-          <ScrollVisualPull setPage={setPage} settings={settings} />
+          <AncBar setPage={setPage} settings={settings} />
         </div>
 
         <Card
