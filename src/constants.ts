@@ -940,6 +940,39 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "many-revamps-update",
+    version: "2026.07.22",
+    title: ""Many revamps!" Update",
+    date: "Jul 22, 2026",
+    changes: [
+      {
+        category: "To Top button overhaul",
+        items: [
+          "completely redesigned the button for mobile and desktop and added 3 cycling icon options to choose from!",
+        ],
+      },
+      {
+        category: "Announcement bar refresh",
+        items: [
+          "basically a whole overhaul. literally everything here changed for the better.",
+        ],
+      },
+      {
+        category: "other tweaks",
+        items: [
+          "added subtly contrasted button and modal icons and added spin microanimation for all modal close button hover interactions.",
+        ],
+      },
+      {
+        category: "Mobile fixes",
+        items: [
+          "added dynamic edge-detection scaling for mobile hero headers",
+          "made report + known issues pages use same settings 5% gap from top logic",
+        ],
+      },
+    ],
+  },
+  {
     id: "typography-and-info-rework",
     version: "2026.07.16_2",
     title: "Typography and info rework",

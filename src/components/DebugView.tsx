@@ -105,7 +105,7 @@ if (typeof window !== "undefined" && !(window as any).__console_hijacked__) {
 export const DebugView = ({ page, blogPostId, viewport }: any) => {
   const { settings, updateSettings, actualTheme, cycleTheme } = useTheme();
   
-  const BUILD_VERSION = "v2.9.1-stable (2026.07.16_2)";
+  const BUILD_VERSION = "v2.9.4-stable (2026.07.22)";
   const dragControls = useDragControls();
 
   // local debug console state
