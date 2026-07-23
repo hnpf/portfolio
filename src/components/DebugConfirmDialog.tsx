@@ -21,8 +21,8 @@ export const DebugConfirmDialog = ({ showDebugConfirm, setShowDebugConfirm, upda
             className="relative w-full max-w-md bg-[var(--surface)] border-6 border-[var(--primary)] p-8 rounded-[2.5rem] shadow-2xl space-y-8"
           >
             <div className="space-y-4">
-              <div className="w-16 h-16 bg-[var(--primary-container)] rounded-2xl flex items-center justify-center">
-                <Cpu size={32} className="text-[var(--primary)]" />
+              <div className="w-14 h-14 bg-[var(--primary-container)]/60 border border-[var(--primary)]/20 rounded-full flex items-center justify-center text-[var(--primary)] shadow-sm">
+                <Cpu size={26} />
               </div>
               <h3 className="text-3xl font-display font-black tracking-tight leading-tight">
                 enable developer tools?

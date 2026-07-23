@@ -1027,16 +1027,18 @@ export const SettingsDialog = memo(({
                   is_mobile ? "p-4" : "p-6 md:p-8"
                 )}
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                   {is_mobile && activePage !== "menu" && (
                     <button
                       onClick={() => navigateTo("menu")}
-                      className="p-2 -ml-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors cursor-pointer"
+                      className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                     >
-                      <ChevronLeft size={24} />
+                      <ChevronLeft size={20} className="transition-transform duration-300 ease-out group-hover:-translate-x-0.5 group-hover:scale-110" />
                     </button>
                   )}
-                  <SettingsIcon size={24} className="text-[var(--primary)]" />
+                  <div className="w-10 h-10 rounded-full bg-[var(--primary-container)]/60 border border-[var(--primary)]/20 flex items-center justify-center shrink-0 text-[var(--primary)] shadow-sm">
+                    <SettingsIcon size={20} />
+                  </div>
                   <h2 className={cn(
                     "font-bold flex items-center gap-3",
                     is_mobile ? "text-xl" : "text-2xl"
@@ -1052,9 +1054,9 @@ export const SettingsDialog = memo(({
                 </div>
                 <button
                   onClick={handleClose}
-                  className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors cursor-pointer"
+                  className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                 >
-                  <X size={24} />
+                  <X size={20} className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180 group-hover:scale-110" />
                 </button>
               </div>
 

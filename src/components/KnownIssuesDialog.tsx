@@ -275,16 +275,18 @@ export const KnownIssuesDialog = ({
                 isMobile ? "p-4" : "p-6 md:p-8"
               )}>
                 <div className="flex items-center gap-3">
-                  <Bug size={24} className="text-[var(--primary)]" />
+                  <div className="w-10 h-10 rounded-full bg-[var(--primary-container)]/60 border border-[var(--primary)]/20 flex items-center justify-center shrink-0 text-[var(--primary)] shadow-sm">
+                    <Bug size={20} />
+                  </div>
                   <h2 className="font-black text-xl md:text-2xl font-expressive uppercase tracking-tight">
                     Known Issues
                   </h2>
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-2 hover:bg-[var(--surface-variant)] rounded-full transition-colors cursor-pointer text-[var(--on-surface)]"
+                  className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                 >
-                  <X size={24} />
+                  <X size={20} className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180 group-hover:scale-110" />
                 </button>
               </div>
 

@@ -34,14 +34,14 @@ export const CapsuleConfirmDialog = ({
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <div className="w-16 h-16 bg-[var(--primary-container)] rounded-2xl flex items-center justify-center">
-                  <Palette size={32} className="text-[var(--primary)]" />
+                <div className="w-14 h-14 bg-[var(--primary-container)]/60 border border-[var(--primary)]/20 rounded-full flex items-center justify-center text-[var(--primary)] shadow-sm">
+                  <Palette size={26} />
                 </div>
                 <button 
                   onClick={() => setPendingCapsule(null)}
-                  className="p-3 hover:bg-[var(--surface-variant)] rounded-full transition-colors opacity-50 hover:opacity-100"
+                  className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                 >
-                  <X size={24} />
+                  <X size={20} className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180 group-hover:scale-110" />
                 </button>
               </div>
               <h3 className="text-3xl font-display font-black tracking-tight leading-tight uppercase italic">
