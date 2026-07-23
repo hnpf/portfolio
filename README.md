@@ -21,6 +21,10 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 ## what's new?
 
 **recent changes**
+- [July 22, 2026]  Modal actions refresh (icon containers and hover micro-animation)
+- [July 22, 2026]  Anc Bar Overhaul
+- [July 22, 2026]  To Top Overhaul
+--
 - [July 16, 2026]  settings and full typography overhaul + lots of text rewrites
 ---
 - [July 14, 2026]  guestbook feature addition
@@ -34,12 +38,7 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 - [July 10, 2026]  Removed loom
 - [July 10, 2026]  Lens pinning
 ---
-- [July 8, 2026]	 completely overhauled debug view
-- [July 8, 2026]	 fix lens bento lag
-- [July 8, 2026]	 add a bump script helper
-- [July 8, 2026]	 overhauled "to top" and fix mobile focus mode
-
-> last updated: July 16, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
+> last updated: July 22, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
 ---
 
 ## screenshots

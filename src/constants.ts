@@ -942,7 +942,7 @@ export const CHANGELOGS: ChangelogEntry[] = [
   {
     id: "many-revamps-update",
     version: "2026.07.22",
-    title: ""Many revamps!" Update",
+    title: "'Many revamps!' Update",
     date: "Jul 22, 2026",
     changes: [
       {
