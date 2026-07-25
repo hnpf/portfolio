@@ -247,6 +247,12 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                   const height = text.replace("SPACER_H_", "");
                   return <div style={{ height: height || "2rem" }} aria-hidden="true" />;
                 }
+                const hasFigure = React.Children.toArray(children).some(
+                  (child: any) => React.isValidElement(child) && child.type === "figure",
+                );
+                if (hasFigure) {
+                  return <div className="my-8">{children}</div>;
+                }
                 return (
                   <p className="text-lg md:text-xl leading-[1.9] opacity-80 mb-5 text-pretty">
                     {children}

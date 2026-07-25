@@ -33,6 +33,19 @@ const getElementClassName = (element: any): string => {
   return "";
 };
 
+const formatConsoleArg = (arg: any): string => {
+  if (typeof arg !== "object" || arg === null) return String(arg);
+  if (typeof Element !== "undefined" && arg instanceof Element) {
+    return `<${arg.tagName.toLowerCase()}>`;
+  }
+  try {
+    const serialized = JSON.stringify(arg);
+    return serialized === undefined ? String(arg) : serialized;
+  } catch {
+    return `[${arg.constructor?.name || "Object"}]`;
+  }
+};
+
 // global console logger store to persist logs across mounts and page navigations
 interface LogMessage {
   id: string;
@@ -72,24 +85,18 @@ if (typeof window !== "undefined" && !(window as any).__console_hijacked__) {
 
   console.log = (...args: any[]) => {
     originalLog.apply(console, args);
-    const msg = args
-      .map((arg) => (typeof arg === "object" ? JSON.stringify(arg) : String(arg)))
-      .join(" ");
+    const msg = args.map(formatConsoleArg).join(" ");
     addGlobalLog("info", msg);
   };
 
   console.warn = (...args: any[]) => {
     originalWarn.apply(console, args);
-    const msg = args
-      .map((arg) => (typeof arg === "object" ? JSON.stringify(arg) : String(arg)))
-      .join(" ");
+    const msg = args.map(formatConsoleArg).join(" ");
     addGlobalLog("warn", msg);
   };
   console.error = (...args: any[]) =>  {
     originalError.apply(console, args);
-    const msg = args
-      .map((arg) => (typeof arg === "object" ? JSON.stringify(arg) : String(arg)))
-      .join(" ");
+    const msg = args.map(formatConsoleArg).join(" ");
     addGlobalLog("error", msg);
   };
 
