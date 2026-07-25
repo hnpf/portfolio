@@ -120,7 +120,7 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
         className={cn(
           "fixed z-50 select-none pointer-events-auto",
           isMobile
-            ? (showBottomNav ? "bottom-24" : "bottom-15")
+            ? (showBottomNav ? "bottom-32" : "bottom-16")
             : "bottom-12 lg:bottom-12",
           isFlipped ? "left-6 lg:left-12" : "right-6 lg:right-12"
         )}
@@ -151,18 +151,18 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
         <motion.button
           layout
           initial={{ scale: 1, y: 0 }}
-          whileHover={{ scale: 1.03, y: -3 }}
+          whileHover={{ scale: 1.04, y: -3 }}
           whileTap={{ scale: 0.94, y: 1 }}
-          transition={{ type: "spring", stiffness: 450, damping: 24 }}
+          transition={{ type: "spring", stiffness: 450, damping: 25 }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onClick={handleClick}
           onContextMenu={cycleShape}
           className={cn(
-            "flex items-center rounded-full group cursor-pointer transition-colors duration-300 outline-none p-2 md:p-2.5 shadow-2xl",
+            "flex items-center justify-center rounded-full group cursor-pointer outline-none focus:outline-none select-none",
             isExpanded
-              ? "h-16 md:h-20 bg-[var(--surface-variant)]/95 border-4 border-[var(--outline-variant)]/60 backdrop-blur-xl hover:border-[var(--primary)]/60 hover:bg-[var(--surface-variant)]"
-              : "h-16 md:h-20 bg-transparent border-4 border-transparent backdrop-blur-none",
+              ? "p-1.5 md:p-2 bg-[var(--surface-variant)]/95 border-4 border-[var(--outline-variant)]/60 backdrop-blur-xl hover:border-[var(--primary)]/60 hover:bg-[var(--surface-variant)] shadow-2xl"
+              : "p-0 bg-transparent border-4 border-transparent shadow-none",
             isFlipped ? "flex-row" : "flex-row-reverse"
           )}
         >
@@ -170,8 +170,8 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
           <motion.div
             layout
             animate={{
-              scale: isClicked ? 1.08 : (isHovered ? 1.03 : 1),
-              rotate: isClicked ? 15 : 0,
+              scale: isClicked ? 0.95 : 1,
+              rotate: 0,
             }}
             transition={{
               type: "spring",
@@ -179,18 +179,16 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
               damping: 22,
             }}
             className={cn(
-              "relative flex items-center justify-center shrink-0 transition-all duration-300 overflow-hidden rounded-full p-1",
+              "relative flex items-center justify-center shrink-0 overflow-hidden rounded-full p-0 shadow-lg",
               isExpanded
-                ? "w-12 h-12 md:w-15 md:h-15"
-                : "w-16 h-16 md:w-20 md:h-20"
+                ? "w-11 h-11 md:w-13 md:h-13"
+                : "w-14 h-14 md:w-16 md:h-16"
             )}
           >
             {shape === "squircle" ? (
-              <motion.div
-                className="absolute inset-0 bg-[var(--primary)] rounded-2xl md:rounded-3xl shadow-md"
-              />
+              <div className="absolute inset-0 bg-[var(--primary)] rounded-2xl md:rounded-3xl shadow-md" />
             ) : (
-              <motion.svg
+              <svg
                 viewBox="0 0 380 380"
                 className="absolute inset-0 w-full h-full drop-shadow-md"
               >
@@ -200,29 +198,16 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
                   stroke="var(--outline-variant)"
                   strokeWidth="8"
                 />
-              </motion.svg>
+              </svg>
             )}
 
-            {/* arrow icon in shape vbadge (centered w/ small size change) */}
-            <motion.div
-              animate={{
-                scale: isClicked ? 1.12 : (isHovered ? 1.05 : 1),
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 450,
-                damping: 22,
-              }}
-              className="relative z-10 text-[var(--on-primary)] flex items-center justify-center pointer-events-none"
-            >
+            {/* arrow icon in shape badge */}
+            <div className="relative z-10 text-[var(--on-primary)] flex items-center justify-center pointer-events-none w-full h-full">
               <ArrowUp
-                className={cn(
-                  "text-[var(--on-primary)] transition-all duration-300 translate-y-0.5",
-                  isExpanded ? "w-6.5 h-6.5 md:w-7.5 md:h-7.5" : "w-7.5 h-7.5 md:w-8.5 md:h-8.5"
-                )}
+                className="text-[var(--on-primary)] w-6 h-6 md:w-7.5 md:h-7.5 shrink-0"
                 strokeWidth={3.5}
               />
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* expanding Label */}
@@ -230,7 +215,7 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
             layout
             initial={false}
             animate={{
-              maxWidth: isExpanded ? 220 : 0,
+              maxWidth: isExpanded ? 200 : 0,
               opacity: isExpanded ? 1 : 0,
             }}
             transition={{
@@ -242,8 +227,8 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
           >
             <span
               className={cn(
-                "font-expressive-bold font-black text-sm md:text-base tracking-[0.2em] md:tracking-[0.25em] pt-0.5 text-[var(--on-surface-variant)] group-hover:text-[var(--on-surface)] transition-colors duration-200",
-                isFlipped ? "pl-4 pr-5 md:pl-5 md:pr-6" : "pr-4 pl-5 md:pr-5 md:pl-6"
+                "font-expressive-bold font-black text-sm md:text-base tracking-[0.2em] md:tracking-[0.25em] text-[var(--on-surface-variant)] group-hover:text-[var(--on-surface)] transition-colors duration-200",
+                isFlipped ? "pl-3 pr-4 md:pl-4 md:pr-5" : "pr-3 pl-4 md:pr-4 md:pl-5"
               )}
             >
               To top!

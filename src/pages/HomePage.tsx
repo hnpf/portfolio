@@ -193,11 +193,11 @@ const YearProg = () => {
     <div className="flex flex-col h-full justify-between relative isolate">
       <div>
         <div className="flex flex-col -space-y-2">
-          <span className="text-7xl md:text-8xl font-expressive-bold italic font-black tracking-[-0.08em] mb-3 leading-none text-[var(--primary)]">
+          <span className="text-6xl md:text-8xl font-expressive-bold italic font-black tracking-[-0.08em] mb-3 leading-none text-[var(--primary)]">
             {year}
           </span>
           <div className="flex items-baseline gap-1">
-            <span className="text-3xl md:text-5xl font-display font-black italic tracking-tighter">
+            <span className="text-2xl sm:text-3xl md:text-5xl font-display font-black italic tracking-tighter">
               {pct.toFixed(2)}
             </span>
             <span className="text-xl font-expressive-bold italic opacity-40">%</span>
@@ -214,7 +214,7 @@ const YearProg = () => {
         />
       </div>
 
-      <div className="mt-4 flex items-center justify-between relative z-10  border-[var(--outline-variant)]/20">
+      <div className="mt-4 flex flex-col gap-1 relative z-10 border-[var(--outline-variant)]/20">
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-display font-black italic">{days_left}</span>
           <span className="text-[15px] ml-1 font-black font-sans italic font-display opacity-30 tracking-widest">days left</span>
@@ -237,7 +237,7 @@ const RoleTicker = ({ settings, tickIndex }: { settings: any; tickIndex: number 
   const idx = tickIndex % roles.length;
 
   return (
-    <div className="h-12 flex items-center overflow-hidden">
+    <div className="h-16 flex items-center overflow-hidden py-2">
       <AnimatePresence mode="wait">
         <motion.div
           key={roles[idx]}
@@ -478,7 +478,7 @@ const AncBar = ({ setPage, settings }: { setPage: (page: string, postId: string 
           {latestPost.date}
         </span>
 
-        <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-300 border border-[var(--primary)]/20 shadow-xs font-expressive-bold italic font-black text-[12px] uppercase tracking-wider shrink-0 self-end">
+        <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-300 border border-[var(--primary)]/20 shadow-xs font-expressive-bold italic font-black text-[12px] uppercase tracking-wider shrink-0 self-end whitespace-nowrap">
           <span>Read Post</span>
           <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
         </div>
@@ -548,23 +548,23 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
         <Card
           delay={0.7}
           className="md:col-span-2 lg:col-span-1 xl:col-span-2"
-          innerClassName="bg-[var(--primary)] text-[var(--on-primary)] border-none p-12 md:p-16 flex flex-col justify-between min-h-[500px] overflow-hidden group"
+          innerClassName="bg-[var(--primary)] text-[var(--on-primary)] border-none p-6 sm:p-12 md:p-16 flex flex-col justify-between min-h-0 md:min-h-[440px] overflow-hidden group"
         >
           <div className="relative isolate">
             <div className="absolute -top-20 -left-10 text-[20rem] font-expressive-bold italic opacity-10 pointer-events-none select-none tracking-tighter leading-none group-hover:scale-110 transition-transform duration-700">
               "
             </div>
-            <div className="flex flex-col gap-4 relative z-10">
-              <h2 className="text-6xl md:text-[7rem] opacity-90 italic font-expressive-bold leading-[0.75] tracking-[-0.08em]">
+            <div className="flex flex-col gap-2 relative z-10">
+              <h2 className="text-5xl sm:text-7xl md:text-[7rem] opacity-90 italic font-expressive-bold leading-[0.8] tracking-[-0.08em] pr-2">
                 software should <br /> be readable.
               </h2>
-              <h2 className="text-3xl md:text-6xl italic font-expressive-bold md:ml-15 ml-3 leading-none tracking-[-0.05em] mt-8 opacity-40">
+              <h2 className="text-3xl sm:text-4xl md:text-6xl italic font-expressive-bold md:ml-12 ml-2 leading-none tracking-[-0.05em] mt-4 sm:mt-6 opacity-40">
                 period.
               </h2>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row items-end justify-between gap-8 mt-12 relative z-10">
-            <p className="text-xl md:text-2xl opacity-80 font-display font-black italic max-w-xl leading-snug">
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 md:gap-8 mt-8 md:mt-12 relative z-10">
+            <p className="text-lg md:text-2xl opacity-80 font-display font-black italic max-w-xl leading-snug">
               i like simple, non-stressful setups and code that doesn't need a manual :)
             </p>
             <motion.button
@@ -585,7 +585,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
                 mass: 0.5,
               }}
               onClick={() => setPage("readme")}
-              className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[20px] font-expressive-bold italic font-black tracking-tight h-18 px-12 rounded-[24px] flex items-center gap-3 group shrink-0"
+              className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[18px] sm:text-[20px] font-expressive-bold italic font-black tracking-tight h-16 sm:h-18 px-8 sm:px-12 rounded-[24px] flex items-center gap-3 group shrink-0 w-full md:w-auto justify-center whitespace-nowrap"
             >
               explore more!
               <ChevronRight
@@ -650,22 +650,22 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
               key={project.id}
               delay={0.7 + i * 0.1}
               className=""
-              innerClassName="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-10 min-h-[350px] hover:border-[var(--primary)] transition-colors"
+              innerClassName="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-8 sm:p-10 min-h-[350px] hover:border-[var(--primary)] transition-colors"
             >
               <div>
-                <div className="flex justify-between items-start mb-6">
-                  <h4 className="text-[40px] font-bold font-black tracking-[0.04em] leading-tight italic">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-6">
+                  <h4 className="text-[28px] sm:text-[36px] font-bold font-black tracking-[0.04em] leading-tight italic flex-1 min-w-0 break-words">
                     {project.title}
                   </h4>
-                  <div className="flex flex-wrap gap-2 justify-end">
+                  <div className="flex flex-wrap gap-2 sm:justify-end shrink-0">
                     {project.tags.map((tag) => (
-                      <span key={tag} className="m3-chip uppercase italic tracking-widest font-black text-[10px]">
+                      <span key={tag} className="m3-chip uppercase italic tracking-widest font-black text-[10px] shrink-0">
                         {tag}
                       </span>
                     ))}
                   </div>
                 </div>
-                <p className="opacity-70 mt-13 mb-8 text-xl font-medium italic leading-snug">
+                <p className="opacity-70 mt-3 sm:mt-13 mb-8 text-lg sm:text-xl font-medium italic leading-snug">
                   {project.description}
                 </p>
               </div>
@@ -719,7 +719,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
           delay={0.8}
           onClick={onOpenGuestbook}
           className="w-full max-w-4xl cursor-pointer"
-          innerClassName="border-6 border-[var(--outline-variant)]/40 p-8 md:p-12 hover:border-[var(--primary)] hover:shadow-2xl transition-[border-color,box-shadow] duration-150 flex flex-col md:flex-row justify-between items-center gap-6 w-full"
+          innerClassName="border-6 border-[var(--outline-variant)]/40 p-6 sm:p-8 md:p-12 hover:border-[var(--primary)] hover:shadow-2xl transition-[border-color,box-shadow] duration-150 flex flex-col md:flex-row justify-between items-center gap-6 w-full"
         >
           <div className="space-y-4 text-center md:text-left flex-1 min-w-0">
             <h4 className="text-3xl font-display font-black italic">Leave a note!</h4>
@@ -727,15 +727,15 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
               Drop by and leave your thoughts, a greeting, or tell me what you think of this site. Click to view all entries and sign!
             </p>
             {latestEntry && (
-              <div className="inline-flex flex-col sm:flex-row sm:items-center gap-2 mt-2 p-3 bg-[var(--surface-variant)]/40 rounded-2xl border border-[var(--outline-variant)]/20 text-sm max-w-md w-full text-left">
+              <div className="inline-flex flex-col sm:flex-row sm:items-center gap-2 mt-2 p-3 bg-[var(--surface-variant)]/40 rounded-2xl border border-[var(--outline-variant)]/20 text-sm w-full text-left overflow-hidden">
                 <span className="font-black text-[var(--primary)] shrink-0">@{latestEntry.name}:</span>
-                <span className="opacity-85 truncate flex-1 font-medium italic">"{latestEntry.message}"</span>
+                <span className="opacity-85 truncate flex-1 font-medium italic min-w-0">"{latestEntry.message}"</span>
               </div>
             )}
           </div>
-          <div className="w-full md:w-16 h-14 md:h-16 rounded-2xl md:rounded-3xl shrink-0 flex items-center justify-center gap-2 bg-[var(--primary)] text-[var(--on-primary)] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[var(--primary)]/20">
-            <span className="md:hidden font-expressive text-sm tracking-wider pt-0.5">Open guestbook</span>
-            <ChevronRight size={24} className="md:w-8 md:h-8" />
+          <div className="w-full md:w-16 h-14 md:h-16 rounded-2xl md:rounded-3xl shrink-0 flex items-center justify-center bg-[var(--primary)] text-[var(--on-primary)] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[var(--primary)]/20">
+            <span className="md:hidden font-expressive text-sm tracking-wider pt-0.5 mr-2">Open guestbook</span>
+            <ChevronRight size={30} className="shrink-0 leading-none flex items-center justify-center" />
           </div>
         </Card>
       </section>

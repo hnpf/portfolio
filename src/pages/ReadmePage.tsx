@@ -11,10 +11,10 @@ import { BounceButton, TechChip } from "../components/TechStack";
 
 const Badge = ({ icon: Icon, children, className }: any) => (
   <span className={cn(
-    "px-6 py-3 bg-[var(--surface-variant)]/40 text-[var(--on-surface-variant)] rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] flex items-center gap-3 border-4 border-[var(--outline-variant)]/40 italic",
+    "px-4 sm:px-6 py-2 sm:py-3 bg-[var(--surface-variant)]/40 text-[var(--on-surface-variant)] rounded-2xl text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] flex items-center gap-2 sm:gap-3 border-4 border-[var(--outline-variant)]/40 italic whitespace-nowrap",
     className
   )}>
-    {Icon && <Icon size={16} />}
+    {Icon && <Icon size={14} />}
     {children}
   </span>
 );
@@ -107,13 +107,15 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="flex flex-wrap justify-center gap-4 mt-12 md:mt-4"
+            className="flex flex-col items-center gap-3 mt-12 md:mt-4"
           >
             <Badge icon={Activity} className="bg-[var(--primary-container)]/60 text-[var(--on-primary-container)] border-[var(--primary)]/20 shadow-lg">
               Researching
             </Badge>
-            <Badge icon={MapPin}>Nederland</Badge>
-            <Badge>He / They</Badge>
+            <div className="flex flex-row gap-3 justify-center">
+              <Badge icon={MapPin}>Nederland</Badge>
+              <Badge>He / They</Badge>
+            </div>
           </motion.div>
         </div>
 

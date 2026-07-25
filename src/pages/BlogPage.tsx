@@ -556,19 +556,19 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
               >
                 <div className="space-y-6 h-full flex flex-col justify-between">
                   <div className="space-y-6">
-                    <div className="flex justify-between items-start">
-                      <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-[var(--primary)] px-2 py-1 bg-[var(--primary-container)]/30 rounded-md border border-[var(--primary)]/20">
+                    <div className="flex justify-between items-start gap-3">
+                      <div className="flex flex-wrap items-center gap-2 min-w-0 flex-1">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-[var(--primary)] px-2 py-1 bg-[var(--primary-container)]/30 rounded-md border border-[var(--primary)]/20 whitespace-nowrap shrink-0">
                           {p.category}
                         </span>
-                        <span className="text-[10px] font-bold opacity-40 uppercase tracking-widest">
+                        <span className="text-[10px] font-bold opacity-40 uppercase tracking-widest whitespace-nowrap shrink-0">
                           {p.date}
                         </span>
                         {read.includes(p.id) && (
-                          <CheckCircle2 size={16} className="text-green-500" />
+                          <CheckCircle2 size={16} className="text-green-500 shrink-0" />
                         )}
                       </div>
-                      <div className="w-10 h-10 rounded-2xl bg-[var(--surface)] border border-[var(--outline-variant)] flex items-center justify-center group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-500">
+                      <div className="w-10 h-10 rounded-2xl bg-[var(--surface)] border border-[var(--outline-variant)] flex items-center justify-center group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-500 shrink-0">
                         <ChevronRight size={20} />
                       </div>
                     </div>

@@ -322,7 +322,7 @@ export const GuestbookDialog = ({
                 <div className="flex-1 flex flex-col min-h-0 border-r border-[var(--outline-variant)]/30">
                   <div 
                     ref={scrollRef}
-                    className="flex-1 overflow-y-auto p-6 space-y-4 max-h-[45vh] md:max-h-none"
+                    className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 max-h-[45vh] md:max-h-none"
                   >
                     <h3 className="text-md ml-1 font-black tracking-[0.2em] text-[var(--on-surface-variant)] opacity-60 mb-2">
                       Recent signs ({entries.length})
@@ -342,18 +342,18 @@ export const GuestbookDialog = ({
                         {entries.map((entry) => (
                           <div 
                             key={entry.id} 
-                            className="p-4 rounded-2xl bg-[var(--surface-variant)]/30 border-4 border-[var(--outline-variant)]/30 space-y-2 hover:border-[var(--primary)]/30 transition-colors"
+                            className="p-4 rounded-2xl bg-[var(--surface-variant)]/30 border-4 border-[var(--outline-variant)]/30 space-y-2 hover:border-[var(--primary)]/30 transition-colors overflow-hidden"
                           >
-                            <div className="flex justify-between items-baseline gap-2">
-                              <span className="font-black text-sm text-[var(--primary)]">
+                            <div className="flex justify-between items-baseline gap-2 min-w-0">
+                              <span className="font-black text-sm text-[var(--primary)] truncate shrink">
                                 @{entry.name}
                               </span>
-                              <span className="text-[10px] font-bold opacity-40 uppercase tracking-wider flex items-center gap-1">
+                              <span className="text-[10px] font-bold opacity-40 uppercase tracking-wider flex items-center gap-1 shrink-0">
                                 <Calendar size={10} />
                                 {new Date(entry.created_at).toLocaleDateString()}
                               </span>
                             </div>
-                            <p className="text-sm text-[var(--on-surface)] font-medium break-all whitespace-pre-wrap">
+                            <p className="text-sm text-[var(--on-surface)] font-medium break-words whitespace-pre-wrap min-w-0">
                               {entry.message}
                             </p>
                           </div>

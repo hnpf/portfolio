@@ -1,4 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&family=Bricolage+Grotesque:wght@700;800&family=Unbounded:wght@700;900&family=Noto+Sans+JP:wght@700&family=Noto+Sans+KR:wght@700&family=Noto+Sans+SC:wght@700&family=Noto+Sans+Arabic:wght@700&family=Noto+Sans+Hebrew:wght@700&family=Material+Symbols+Rounded:FILL,GRAD,opsz,wght@0..1,-25..200,20..48,100..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&family=Bricolage+Grotesque:wght@700;800&family=Unbounded:wght@700;900&family=Noto+Sans+JP:wght@700&family=Noto+Sans+KR:wght@700&family=Noto+Sans+SC:wght@700&family=Noto+Sans+Arabic:wght@700&family=Noto+Sans+Hebrew:wght@700&display=swap");
+
+/* Self-hosted Material Symbols Rounded variable font.
+   Same-origin = no network round-trip to Google, loads from browser cache
+   instantly. font-display: block prevents raw ligature text from flashing
+   (text is invisible for the brief block period instead of showing raw
+   ligature strings like "chevron_right"). */
+@font-face {
+    font-family: 'Material Symbols Rounded';
+    font-style: normal;
+    font-weight: 100 700;
+    font-display: block;
+    src: url('/fonts/MaterialSymbolsRounded.woff2') format('woff2');
+}
 @import "tailwindcss";
 
 @theme {
@@ -30,7 +43,6 @@
         align-items: center;
         justify-content: center;
         line-height: 1;
-        vertical-align: middle;
         letter-spacing: normal;
         text-transform: none;
         white-space: nowrap;
@@ -44,6 +56,11 @@
 
     :root {
         font-size: 90%;
+        /* safe area insets for Samsung/notched phones */
+        --safe-area-inset-top: env(safe-area-inset-top, 0px);
+        --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+        --safe-area-inset-left: env(safe-area-inset-left, 0px);
+        --safe-area-inset-right: env(safe-area-inset-right, 0px);
         --primary-hue: 220;
         --primary-chroma: 0.15;
         --secondary-hue: 220;
@@ -94,6 +111,9 @@
         text-rendering: optimizeLegibility;
         scroll-behavior: smooth;
         overflow-x: hidden;
+        /* prevent Samsung One UI browser from applying its own text-size scaling */
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
     }
 
     /* hide native document scrollbar, replaced by M3WindowScrollBar */
@@ -110,6 +130,13 @@
         transform: translateZ(0);
         backface-visibility: hidden;
         perspective: 1000px;
+    }
+
+    /* outline: none on all interactive elements to kill the Samsung focus ring */
+    button, a, input, textarea, select {
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
     }
 
     .m3-card,

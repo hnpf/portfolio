@@ -19,15 +19,19 @@ export function MaterialIcon({
   style,
   ...props
 }: MaterialIconProps) {
+  const sizePx = typeof size === "number" ? `${size}px` : size;
   const iconStyle = {
-    fontSize: typeof size === "number" ? `${size}px` : size,
+    fontSize: sizePx,
+    width: sizePx,
+    height: sizePx,
+    lineHeight: 1,
     fontVariationSettings: `'FILL' ${fill ? 1 : 0}, 'wght' ${weight}, 'GRAD' ${grade}, 'opsz' 24`,
     ...style,
   } as CSSProperties;
 
   return (
     <span
-      className={`material-symbols-rounded ${className}`.trim()}
+      className={`material-symbols-rounded shrink-0 leading-none select-none inline-flex items-center justify-center ${className}`.trim()}
       style={iconStyle}
       aria-hidden="true"
       {...props}
@@ -53,7 +57,9 @@ export const Monitor = materialIcon("desktop_windows");
 export const Pipette = materialIcon("colorize");
 export const Check = materialIcon("check");
 export const Layers = materialIcon("layers");
-export const Cpu = materialIcon("memory");
+import { Cpu as LucideCpu } from "lucide-react";
+
+export const Cpu = LucideCpu;
 export const Fingerprint = materialIcon("fingerprint");
 export const ExternalLink = materialIcon("open_in_new");
 export const Download = materialIcon("download");

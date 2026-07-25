@@ -17,6 +17,7 @@ import {
   CornerDownRight,
   Minimize2,
 } from "./MaterialIcon";
+import { X as LucideX, Minus as LucideMinus } from "lucide-react";
 import { useTheme } from "../ThemeContext";
 import { cn } from "../constants";
 import Switch from "./M3Switch";
@@ -548,20 +549,20 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
                   {BUILD_VERSION.split("-")[0]}
                 </span>
               </div>
-              <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                 <button
                   onClick={() => setIsCollapsed(true)}
                   title="Collapse to badge"
-                  className="p-1.5 rounded-xl hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)] border border-transparent hover:border-[var(--outline-variant)] transition-all cursor-pointer"
+                  className="w-7 h-7 rounded-full flex items-center justify-center bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)] border border-[var(--outline-variant)]/40 transition-all cursor-pointer shrink-0"
                 >
-                  <Minimize2 size={12} />
+                  <LucideMinus size={13} className="shrink-0" />
                 </button>
                 <button
                   onClick={() => updateSettings({ debugMode: false })}
                   title="Close and disable debug mode"
-                  className="p-1.5 rounded-xl hover:bg-red-500/10 text-red-500 hover:border-red-500/20 border border-transparent transition-all cursor-pointer"
+                  className="w-7 h-7 rounded-full flex items-center justify-center bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 transition-all cursor-pointer shrink-0"
                 >
-                  <X size={12} />
+                  <LucideX size={13} className="shrink-0" />
                 </button>
               </div>
             </div>

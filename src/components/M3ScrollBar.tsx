@@ -136,8 +136,8 @@ export const M3ScrollBar = forwardRef<HTMLDivElement, M3ScrollBarProps>(
     const track = `color-mix(in srgb, ${thumb} 25%, transparent)`;
 
     const active     = !thinOnly && (hovered || dragging);
-    const showBar    = alwaysVisible || (scrollable && (thinOnly ? scrolling : active));
-    const opacity    = showBar ? (thinOnly ? 0.5 : 0.85) : 0;
+    const showBar    = alwaysVisible || (scrollable && (thinOnly ? (scrolling || hovered) : active));
+    const opacity    = showBar ? (thinOnly ? 0.6 : 0.85) : 0;
 
     // geometry
     const thumbTopFrac = thumbOffset * (1 - thumbRatio);

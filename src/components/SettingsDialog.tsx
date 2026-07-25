@@ -335,16 +335,10 @@ export const SettingsDialog = memo(({
               </div>
               <div className="pt-3 space-y-3">
                 <div className="flex items-baseline justify-between gap-3">
-                  <div className="text-sm font-bold text-[var(--on-surface)]">
+                  <div className="text-sm font-bold opacity-70 text-[var(--on-surface)] mb-2">
                     Color palette
                   </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--on-surface-variant)] opacity-70">
-                    Material 3
-                  </span>
                 </div>
-                <p className="text-xs leading-relaxed text-[var(--on-surface-variant)] opacity-80">
-                  Changes how accent, supporting colors, and the softer dark surfaces are composed.
-                </p>
                 <div className="grid grid-cols-2 gap-2">
                   {[
                     ["tonal-spot", "Tonal spot", "linear-gradient(135deg, #7759d9 0 40%, #d8d1f4 40% 65%, #e7e0ed 65%)"],
@@ -1151,7 +1145,7 @@ export const SettingsDialog = memo(({
                               >
                                 <div className="flex items-center gap-4">
                                   <div className="w-10 h-10 flex items-center justify-center rounded-full border-[3px] border-[var(--outline-variant)] text-[var(--primary)] bg-[var(--surface)] group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] group-hover:border-[var(--primary)] transition-all shrink-0">
-                                    <PageIcon size={18} />
+                                    <PageIcon size={18} className={cn("shrink-0", page.id === "debug" && "-translate-x-[0.9px]")} />
                                   </div>
                                   <div>
                                     <div className="font-bold text-[15px]">{page.title}</div>
@@ -1199,7 +1193,7 @@ export const SettingsDialog = memo(({
                               >
                                 <div className="flex items-center gap-4">
                                   <div className="w-10 h-10 flex items-center justify-center rounded-full border-[3px] border-[var(--outline-variant)] text-[var(--on-surface-variant)] bg-[var(--surface)] group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] group-hover:border-[var(--primary)] transition-all shrink-0">
-                                    <PageIcon size={18} />
+                                    <PageIcon size={18} className={cn("shrink-0", page.id === "debug" && "-translate-x-[0.5px]")} />
                                   </div>
                                   <div>
                                     <div className="font-bold text-[15px]">{page.title}</div>
@@ -1335,7 +1329,7 @@ export const SettingsDialog = memo(({
                                 transition={{ type: "spring", stiffness: 350, damping: 22 }}
                                 className="w-7 h-7 flex items-center justify-center rounded-full border-[2px] shrink-0"
                               >
-                                <PageIcon size={14} />
+                                <PageIcon size={14} className={cn("shrink-0", (p.id === "debug" || p.id === "info") && "translate-x-[0.5px]")} />
                               </motion.div>
                               <span className="text-[13px] font-semibold text-center">{p.title}</span>
                               <div />
