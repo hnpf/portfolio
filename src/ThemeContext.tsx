@@ -2,12 +2,14 @@ import React, { createContext, useContext, useEffect, useState, useLayoutEffect,
 
 type ThemeMode = 'light' | 'dark' | 'system';
 type AccentColor = 'orange' | 'green' | 'red' | 'purple' | 'blue' | 'virex' | 'custom';
+type PaletteStyle = 'tonal-spot' | 'fidelity' | 'content' | 'neutral' | 'expressive' | 'fruit-salad';
 
 interface ThemeSettings {
   mode: ThemeMode;
   accent: AccentColor;
   hue: number;
   saturation: number;
+  palette: PaletteStyle;
   sidebarFlipped: boolean;
   sidebarCollapsed: boolean;
   profileContainer: boolean;
@@ -37,6 +39,7 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   accent: 'virex',
   hue: 360,
   saturation: 84,
+  palette: 'expressive',
   sidebarFlipped: false,
   sidebarCollapsed: false,
   profileContainer: false,
@@ -63,6 +66,15 @@ const ACCENT_HUES: Record<AccentColor, number> = {
   orange: 30,
   virex: 360,
   custom: 220, // overridden below when custom is active
+};
+
+const PALETTES: Record<PaletteStyle, { primaryHue: number; primaryChroma: number; secondaryHue: number; secondaryChroma: number; tertiaryHue: number; tertiaryChroma: number; neutralChroma: number }> = {
+  'tonal-spot': { primaryHue: 0, primaryChroma: 1, secondaryHue: 0, secondaryChroma: 0.34, tertiaryHue: 60, tertiaryChroma: 0.46, neutralChroma: 0.08 },
+  fidelity:     { primaryHue: 0, primaryChroma: 1.08, secondaryHue: 12, secondaryChroma: 0.56, tertiaryHue: 42, tertiaryChroma: 0.72, neutralChroma: 0.12 },
+  content:      { primaryHue: 0, primaryChroma: 0.92, secondaryHue: -18, secondaryChroma: 0.52, tertiaryHue: 34, tertiaryChroma: 0.62, neutralChroma: 0.11 },
+  neutral:      { primaryHue: 0, primaryChroma: 0.52, secondaryHue: 0, secondaryChroma: 0.15, tertiaryHue: 35, tertiaryChroma: 0.22, neutralChroma: 0.035 },
+  expressive:   { primaryHue: 0, primaryChroma: 0.9, secondaryHue: 80, secondaryChroma: 0.52, tertiaryHue: 155, tertiaryChroma: 0.7, neutralChroma: 0.16 },
+  'fruit-salad': { primaryHue: 125, primaryChroma: 0.82, secondaryHue: 205, secondaryChroma: 0.68, tertiaryHue: 280, tertiaryChroma: 0.74, neutralChroma: 0.12 },
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -128,9 +140,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const root = document.documentElement;
     const h = settings.accent === 'custom' ? settings.hue : ACCENT_HUES[settings.accent];
     const s = settings.accent === 'custom' ? settings.saturation : settings.accent === 'virex' ? 84 : 100;
+    const palette = PALETTES[settings.palette] ?? PALETTES.expressive;
+    const primaryHue = (h + palette.primaryHue + 360) % 360;
+    const chroma = s / 100 * 0.3;
     
-    root.style.setProperty('--primary-hue', h.toString());
-    root.style.setProperty('--primary-chroma', (s / 100 * 0.3).toFixed(3));
+    root.style.setProperty('--primary-hue', primaryHue.toString());
+    root.style.setProperty('--primary-chroma', (chroma * palette.primaryChroma).toFixed(3));
+    root.style.setProperty('--secondary-hue', ((h + palette.secondaryHue + 360) % 360).toString());
+    root.style.setProperty('--secondary-chroma', (chroma * palette.secondaryChroma).toFixed(3));
+    root.style.setProperty('--tertiary-hue', ((h + palette.tertiaryHue + 360) % 360).toString());
+    root.style.setProperty('--tertiary-chroma', (chroma * palette.tertiaryChroma).toFixed(3));
+    root.style.setProperty('--neutral-hue', h.toString());
+    root.style.setProperty('--neutral-chroma', (chroma * palette.neutralChroma).toFixed(3));
 
     root.classList.toggle('brutalist-mode', settings.brutalistMode);
     root.classList.toggle('developer-font', settings.developerFont);

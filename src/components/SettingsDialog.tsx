@@ -112,7 +112,7 @@ export const SettingsDialog = memo(({
   }, [activePage]);
 
   const MAIN_PAGES = [
-    { id: "appearance", title: "Appearance", desc: "Theme mode, AMOLED, accent color", icon: Palette },
+    { id: "appearance", title: "Appearance", desc: "Theme mode, softer dark colors, palettes", icon: Palette },
     { id: "customization", title: "Customization", desc: "Interface toggles, animations, brutalist", icon: SettingsIcon },
     { id: "layout", title: "Layout & Sidebar", desc: "Sidebar flipped, float profile, navigation", icon: Layers },
     { id: "backup", title: "Backup & Share", desc: "Export, import, share configs", icon: Fingerprint },
@@ -332,6 +332,51 @@ export const SettingsDialog = memo(({
                     )}
                   </button>
                 ))}
+              </div>
+              <div className="pt-3 space-y-3">
+                <div className="flex items-baseline justify-between gap-3">
+                  <div className="text-sm font-bold text-[var(--on-surface)]">
+                    Color palette
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--on-surface-variant)] opacity-70">
+                    Material 3
+                  </span>
+                </div>
+                <p className="text-xs leading-relaxed text-[var(--on-surface-variant)] opacity-80">
+                  Changes how accent, supporting colors, and the softer dark surfaces are composed.
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    ["tonal-spot", "Tonal spot", "linear-gradient(135deg, #7759d9 0 40%, #d8d1f4 40% 65%, #e7e0ed 65%)"],
+                    ["fidelity", "Fidelity", "linear-gradient(135deg, #d03c74 0 38%, #ed9567 38% 65%, #552544 65%)"],
+                    ["content", "Content", "linear-gradient(135deg, #076f9d 0 38%, #2e9b83 38% 65%, #193b52 65%)"],
+                    ["neutral", "Neutral", "linear-gradient(135deg, #777476 0 42%, #b0aaad 42% 67%, #e6e0e2 67%)"],
+                    ["expressive", "Expressive", "linear-gradient(135deg, #7651d4 0 35%, #d4519a 35% 64%, #ec8f57 64%)"],
+                    ["fruit-salad", "Fruit salad", "linear-gradient(135deg, #47a16a 0 34%, #57a7c6 34% 63%, #b868bd 63%)"],
+                  ].map(([id, label, preview]) => {
+                    const selected = settings.palette === id;
+                    return (
+                      <button
+                        key={id}
+                        onClick={() => updateSettings({ palette: id })}
+                        className={cn(
+                          "relative min-h-16 overflow-hidden rounded-[1.35rem] border-4 px-3 py-2 text-left transition-all",
+                          selected
+                            ? "border-[var(--on-surface)] scale-[1.02] shadow-md"
+                            : "border-[var(--outline-variant)] hover:border-[var(--primary)] hover:scale-[1.01]",
+                        )}
+                        style={{ background: preview }}
+                        aria-pressed={selected}
+                      >
+                        <span className="absolute inset-0 bg-black/20" />
+                        <span className="relative flex items-center justify-between gap-2 text-sm font-black text-white drop-shadow-sm">
+                          {label}
+                          {selected && <Check size={17} strokeWidth={3} />}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
               {settings.accent === "custom" && (
                 <motion.div
