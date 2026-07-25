@@ -316,40 +316,43 @@ const getImageThemeSeed = (url: string): Promise<{ hue: number; saturation: numb
 
         context.drawImage(image, 0, 0, canvas.width, canvas.height);
         const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
-        let red = 0;
-        let green = 0;
-        let blue = 0;
         let weightTotal = 0;
-
+        let sinSum = 0;
+        let cosSum = 0;
+        let maxSum = 0; // for avg saturation
+        
         for (let i = 0; i < pixels.length; i += 4) {
           const r = pixels[i] / 255;
           const g = pixels[i + 1] / 255;
           const b = pixels[i + 2] / 255;
           const max = Math.max(r, g, b);
           const min = Math.min(r, g, b);
-          const saturation = max === 0 ? 0 : (max - min) / max;
-          // prefer colorful well lit pixels so grey skies and deep shadows etc dont get chosen.
-          const weight = saturation * (0.35 + max * 0.65) * (pixels[i + 3] / 255);
-          red += r * weight;
-          green += g * weight;
-          blue += b * weight;
+          const delta = max - min;
+          const saturation = max === 0 ? 0 : delta / max;
+          const weight = saturation * (0.15 + max * 0.85) * (pixels[i + 3] / 255);
+        
+          if (weight < 0.001) continue; // skip near-black/gray pixels, they have no reliable hue
+        
+          let hue = 0;
+          if (delta > 0) {
+            if (max === r) hue = 60 * (((g - b) / delta) % 6);
+            else if (max === g) hue = 60 * ((b - r) / delta + 2);
+            else hue = 60 * ((r - g) / delta + 4);
+          }
+          const rad = (hue * Math.PI) / 180;
+          sinSum += Math.sin(rad) * weight;
+          cosSum += Math.cos(rad) * weight;
+          maxSum += saturation * weight;
           weightTotal += weight;
         }
-
+        
         if (weightTotal < 0.01) return resolve(null);
-        red /= weightTotal;
-        green /= weightTotal;
-        blue /= weightTotal;
-        const max = Math.max(red, green, blue);
-        const min = Math.min(red, green, blue);
-        const delta = max - min;
-        let hue = 0;
-        if (delta > 0) {
-          if (max === red) hue = 60 * (((green - blue) / delta) % 6);
-          else if (max === green) hue = 60 * ((blue - red) / delta + 2);
-          else hue = 60 * ((red - green) / delta + 4);
-        }
-        resolve({ hue: (hue + 360) % 360, saturation: Math.round(Math.min(96, Math.max(48, (max === 0 ? 0 : delta / max) * 100))) });
+        const hue = (Math.atan2(sinSum, cosSum) * 180) / Math.PI;
+        const avgSat = maxSum / weightTotal;
+        resolve({
+          hue: (hue + 360) % 360,
+          saturation: Math.round(Math.min(96, Math.max(48, avgSat * 100))),
+        });
       } catch {
         resolve(null);
       }
