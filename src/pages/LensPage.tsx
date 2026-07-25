@@ -300,6 +300,64 @@ const LENS_PHOTOS = [
   },
 ];
 
+// weighted canvas gives us an images most expressive color!
+// also without sending the photo anywhere or adding a color analysis dependency or whatever.
+const getImageThemeSeed = (url: string): Promise<{ hue: number; saturation: number } | null> =>
+  new Promise((resolve) => {
+    const image = new window.Image();
+    image.decoding = "async";
+    image.onload = () => {
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = 48;
+        canvas.height = 48;
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        if (!context) return resolve(null);
+
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        let red = 0;
+        let green = 0;
+        let blue = 0;
+        let weightTotal = 0;
+
+        for (let i = 0; i < pixels.length; i += 4) {
+          const r = pixels[i] / 255;
+          const g = pixels[i + 1] / 255;
+          const b = pixels[i + 2] / 255;
+          const max = Math.max(r, g, b);
+          const min = Math.min(r, g, b);
+          const saturation = max === 0 ? 0 : (max - min) / max;
+          // prefer colorful well lit pixels so grey skies and deep shadows etc dont get chosen.
+          const weight = saturation * (0.35 + max * 0.65) * (pixels[i + 3] / 255);
+          red += r * weight;
+          green += g * weight;
+          blue += b * weight;
+          weightTotal += weight;
+        }
+
+        if (weightTotal < 0.01) return resolve(null);
+        red /= weightTotal;
+        green /= weightTotal;
+        blue /= weightTotal;
+        const max = Math.max(red, green, blue);
+        const min = Math.min(red, green, blue);
+        const delta = max - min;
+        let hue = 0;
+        if (delta > 0) {
+          if (max === red) hue = 60 * (((green - blue) / delta) % 6);
+          else if (max === green) hue = 60 * ((blue - red) / delta + 2);
+          else hue = 60 * ((red - green) / delta + 4);
+        }
+        resolve({ hue: (hue + 360) % 360, saturation: Math.round(Math.min(96, Math.max(48, (max === 0 ? 0 : delta / max) * 100))) });
+      } catch {
+        resolve(null);
+      }
+    };
+    image.onerror = () => resolve(null);
+    image.src = url;
+  });
+
 const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(i < 4);
@@ -410,7 +468,22 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
 export const LensPage = memo(({ viewport }: { viewport: any }) => {
   const [idx, setIdx] = useState<number | null>(null);
   const [isExpandedLoaded, setIsExpandedLoaded] = useState(false);
-  const { settings } = useTheme();
+  const { settings, setDynamicTheme } = useTheme();
+
+  useEffect(() => {
+    if (!settings.lensDynamicTheming || idx === null) {
+      setDynamicTheme(null);
+      return;
+    }
+
+    let cancelled = false;
+    getImageThemeSeed(LENS_PHOTOS[idx].url).then((seed) => {
+      if (!cancelled) setDynamicTheme(seed);
+    });
+    return () => { cancelled = true; };
+  }, [idx, settings.lensDynamicTheming, setDynamicTheme]);
+
+  useEffect(() => () => setDynamicTheme(null), [setDynamicTheme]);
 
   const handlePhotoClick = React.useCallback((i: number) => {
     setIdx(i);
