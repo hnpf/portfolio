@@ -980,6 +980,12 @@ export const CHANGELOGS: ChangelogEntry[] = [
         ],
       },
       {
+        category: "lens dynamic theming",
+        items: [
+          "added fully-local lens dynamic theming, which expanding or browsing Lens photos dynamically recolors the theme from the images vivid dominant color."
+        ],
+      },
+      {
         category: "other changes",
         items: [
           "added reading progress indicator into blog and fixed other site-crashing bugs"
