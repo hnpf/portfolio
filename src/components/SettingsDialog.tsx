@@ -470,6 +470,11 @@ export const SettingsDialog = memo(({
                   label: "3D Bento Tilt",
                   desc: "cursor tracking parallax tilt effect",
                 },
+                {
+                  key: "lensDynamicTheming",
+                  label: "Lens Dynamic Theming",
+                  desc: "match the theme to an expanded Lens photo",
+                },
               ].map((tweak, index, array) => (
                 <label
                   key={tweak.key}

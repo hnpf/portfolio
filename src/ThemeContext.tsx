@@ -24,6 +24,7 @@ interface ThemeSettings {
   highHz: boolean;
   amoledMode: boolean;
   bentoTilt: boolean;
+  lensDynamicTheming: boolean;
   toTopShape: 'clover' | 'cookie' | 'squircle';
 }
 
@@ -32,6 +33,7 @@ interface ThemeContextType {
   updateSettings: (newSettings: Partial<ThemeSettings>) => void;
   actualTheme: 'light' | 'dark';
   cycleTheme: () => void;
+  setDynamicTheme: (seed: { hue: number; saturation: number } | null) => void;
 }
 
 const DEFAULT_SETTINGS: ThemeSettings = {
@@ -54,6 +56,7 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   highHz: true,
   amoledMode: false,
   bentoTilt: false,
+  lensDynamicTheming: false,
   toTopShape: 'clover',
 };
 
@@ -94,6 +97,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return base;
   });
   const [actualTheme, setActualTheme] = useState<'light' | 'dark'>('dark');
+  const [dynamicTheme, setDynamicTheme] = useState<{ hue: number; saturation: number } | null>(null);
 
   useLayoutEffect(() => {
     const root = document.documentElement;
@@ -138,8 +142,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useLayoutEffect(() => {
     console.log("applying theme settings... mode:", settings.mode, "accent:", settings.accent);
     const root = document.documentElement;
-    const h = settings.accent === 'custom' ? settings.hue : ACCENT_HUES[settings.accent];
-    const s = settings.accent === 'custom' ? settings.saturation : settings.accent === 'virex' ? 84 : 100;
+    const savedHue = settings.accent === 'custom' ? settings.hue : ACCENT_HUES[settings.accent];
+    const savedSaturation = settings.accent === 'custom' ? settings.saturation : settings.accent === 'virex' ? 84 : 100;
+    const h = dynamicTheme?.hue ?? savedHue;
+    const s = dynamicTheme?.saturation ?? savedSaturation;
     const palette = PALETTES[settings.palette] ?? PALETTES.expressive;
     const primaryHue = (h + palette.primaryHue + 360) % 360;
     const chroma = s / 100 * 0.3;
@@ -180,7 +186,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
     if (favicon) favicon.href = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
-  }, [settings, actualTheme]);
+  }, [settings, actualTheme, dynamicTheme]);
 
   const updateSettings = useCallback((newSettings: Partial<ThemeSettings>) => {
     console.log("updating settings with:", newSettings);
@@ -188,7 +194,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <ThemeContext.Provider value={{ settings, updateSettings, actualTheme, cycleTheme }}>
+    <ThemeContext.Provider value={{ settings, updateSettings, actualTheme, cycleTheme, setDynamicTheme }}>
       {children}
     </ThemeContext.Provider>
   );

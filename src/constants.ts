@@ -939,8 +939,24 @@ it's literally just people helping people for learning (and overall better code 
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [
+/* 
   {
-    id: "icon-overhaul-and-working-weather-update",
+    id: "",
+    version: "",
+    title: "",
+    date: "",
+    changes: [
+      {
+        category: "",
+        items: [
+          "",
+        ],
+      },
+    ],
+  }, 
+*/
+  {
+    id: "icon-overhaul-with-palettes-and-working-weather-update",
     version: "2026.07.24",
     title: "Icon Overhaul and Working Weather Update!",
     date: "Jul 24, 2026",
@@ -955,6 +971,18 @@ export const CHANGELOGS: ChangelogEntry[] = [
         category: "weather",
         items: [
           "The weather widget now works correctly, finally removing the placeholders and using openmeteo API, after some years.",
+        ],
+      },
+      {
+        category: "palettes",
+        items: [
+          "added color palletes (such as tonal spot, fidelity, content, neutral, expressive, and fruit salad) and options to switch between them. things are much lighter on dark mode, as well.",
+        ],
+      },
+      {
+        category: "other changes",
+        items: [
+          "added reading progress indicator into blog and fixed other site-crashing bugs"
         ],
       },
     ],
@@ -1225,23 +1253,6 @@ export const CHANGELOGS: ChangelogEntry[] = [
       },
     ],
   },
-/* 
-  {
-    id: "",
-    version: "",
-    title: "",
-    date: "",
-    changes: [
-      {
-        category: "",
-        items: [
-          "",
-        ],
-      },
-    ],
-  }, 
-*/
-
   {
     id: "home-page-announcement-bar-addition",
     version: "2026.07.07",
