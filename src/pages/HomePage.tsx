@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Activity, ChevronRight, ExternalLink, ArrowUpRight, Loader2, Download, Terminal, ArrowDown, Tag, Folder } from "../components/MaterialIcon";
+import { Activity, ChevronRight, ExternalLink, ArrowUpRight, Loader2, Download, Terminal, ArrowDown, Tag, Folder, MaterialIcon } from "../components/MaterialIcon";
 import { cn, PROJECTS, BLOG_POSTS } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { Card } from "../components/Card";
@@ -272,49 +272,130 @@ const RoleTicker = ({ settings, tickIndex }: { settings: any; tickIndex: number 
   );
 };
 
+type WeatherData = {
+  temperature: number;
+  humidity: number;
+  windSpeed: number;
+  weatherCode: number;
+};
+
+const WEATHER_LOCATION = {
+  label: "Nederland",
+  latitude: 52.1326,
+  longitude: 5.2913,
+};
+
+const weatherDescription = (code: number) => {
+  if (code === 0) return { title: "Clear", detail: "Skies", icon: "sunny" };
+  if (code <= 3) return { title: "Partly", detail: "Cloudy", icon: "partly_cloudy_day" };
+  if (code <= 48) return { title: "Misty", detail: "Fog", icon: "foggy" };
+  if (code <= 57) return { title: "Light", detail: "Drizzle", icon: "rainy" };
+  if (code <= 67 || code <= 82) return { title: "Rainy", detail: "Weather", icon: "rainy" };
+  if (code <= 86) return { title: "Snowy", detail: "Weather", icon: "weather_snowy" };
+  return { title: "Stormy", detail: "Weather", icon: "thunderstorm" };
+};
+
 const WeatherWidget = () => {
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const params = new URLSearchParams({
+      latitude: String(WEATHER_LOCATION.latitude),
+      longitude: String(WEATHER_LOCATION.longitude),
+      current: "temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m",
+      temperature_unit: "fahrenheit",
+      wind_speed_unit: "mph",
+      timezone: "auto",
+    });
+
+    fetch(`https://api.open-meteo.com/v1/forecast?${params}`, {
+      signal: controller.signal,
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error(`weather request failed: ${response.status}`);
+        return response.json();
+      })
+      .then((data) => {
+        const current = data.current;
+        if (!current) throw new Error("weather response had no current conditions");
+        setWeather({
+          temperature: Math.round(current.temperature_2m),
+          humidity: Math.round(current.relative_humidity_2m),
+          windSpeed: Math.round(current.wind_speed_10m),
+          weatherCode: current.weather_code,
+        });
+        setHasError(false);
+      })
+      .catch((error) => {
+        if (error.name !== "AbortError") setHasError(true);
+      })
+      .finally(() => setIsLoading(false));
+
+    return () => controller.abort();
+  }, []);
+
+  const condition = weatherDescription(weather?.weatherCode ?? 3);
+
   return (
     <div className="flex flex-col h-full justify-between relative isolate overflow-hidden">
-      <div className="absolute -bottom-10 -right-10 opacity-[0.03] pointer-events-none">
+      <div className="absolute bottom-2 right-5 opacity-[0.03]">
         <motion.div
+          key={condition.icon}
+          initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          whileHover={{ scale: 1.1 }}
           transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear"
+            type: "spring",
+            stiffness: 120,
+            damping: 18,
           }}
         >
-          <Activity size={260} />
+          <MaterialIcon name={condition.icon} size={180} fill />
         </motion.div>
       </div>
 
       <div className="relative z-10">
         <div className="flex items-baseline gap-1">
           <span className="text-8xl md:text-9xl font-expressive-bold italic font-black tracking-[-0.08em] leading-[0.7]">
-            74
+            {isLoading ? "--" : weather ? weather.temperature : "?"}
           </span>
-          <span className="text-4xl md:text-5xl font-expressive-bold italic opacity-30 ml-1">°</span>
+          <span className="text-4xl md:text-5xl font-expressive-bold italic opacity-30 ml-1">{weather ? "°" : ""}</span>
         </div>
       </div>
 
       <div className="mt-6 flex flex-col -space-y-1 relative z-10">
         <span className="text-4xl md:text-6xl font-expressive-bold italic font-black tracking-[-0.05em] uppercase leading-none text-[var(--primary)]">
-          Partly
+          {hasError ? "Unavailable" : condition.title}
         </span>
         <span className="text-3xl md:text-5xl font-display font-black italic uppercase tracking-[-0.02em] leading-none opacity-60">
-          Cloudy
+          {hasError ? "Right now" : condition.detail}
         </span>
       </div>
 
       <div className="mt-8 flex items-center gap-6 relative z-10 pt-6 border-t-4 border-[var(--outline-variant)]/20">
         <div className="flex items-baseline gap-1">
-          <span className="text-2xl font-display font-black italic">42</span>
+          <span className="text-2xl font-display font-black italic">{weather ? weather.humidity : "--"}</span>
           <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-30 tracking-widest">hum</span>
         </div>
         <div className="flex items-baseline gap-1">
-          <span className="text-2xl font-display font-black italic">12</span>
+          <span className="text-2xl font-display font-black italic">{weather ? weather.windSpeed : "--"}</span>
           <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-30 tracking-widest">mph</span>
         </div>
+        <div className="ml-auto flex items-center gap-1 opacity-40" title={WEATHER_LOCATION.label}>
+          <MaterialIcon name="location_on" size={16} fill />
+          <span className="text-[10px] font-black uppercase tracking-widest">{WEATHER_LOCATION.label}</span>
+        </div>
       </div>
+      <a
+        href="https://open-meteo.com/"
+        target="_blank"
+        rel="noreferrer"
+        className="relative z-10 mt-3 text-[9px] uppercase tracking-[0.18em] opacity-25 hover:opacity-70 transition-opacity w-fit"
+      >
+      </a>
     </div>
   );
 };
@@ -525,7 +606,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
           className="flex-1"
           innerClassName="flex flex-col border-6 border-[var(--outline-variant)] justify-center p-8 md:p-12 min-h-[450px] hover:border-[var(--primary)] group overflow-hidden relative items-start" /*no transitiopn-all cat*/
         >
-          <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+          <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-all duration-700 group-hover:rotate-12 group-hover:scale-110">
             <Activity size={120} className="-rotate-10" />
           </div>
           <div className="relative isolate flex flex-col -space-y-3 md:-space-y-4">

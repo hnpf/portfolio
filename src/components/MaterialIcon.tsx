@@ -105,6 +105,7 @@ export const Minimize2 = materialIcon("minimize");
 export const Tag = materialIcon("sell");
 export const Folder = materialIcon("folder");
 export const Home = materialIcon("home");
+export const Cloud = materialIcon("cloud");
 export const ImageIcon = materialIcon("image");
 export const Trash2 = materialIcon("delete");
 export const RefreshCw = materialIcon("refresh");
