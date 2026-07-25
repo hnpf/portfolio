@@ -3,6 +3,7 @@ import React, { useState, useEffect, memo, createContext, useContext } from "rea
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronRight, Calendar, CheckCircle2, ArrowUpRight, Filter } from "../components/MaterialIcon";
 import ReactMarkdown from "react-markdown";
+import { createPortal } from "react-dom";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import { cn, BLOG_POSTS } from "../constants";
@@ -10,12 +11,19 @@ import CopyLinkCapsule from "../components/CopyLinkCapsule";
 import { Card } from "../components/Card";
 import { Code } from "../components/Code";
 import { SplitButton } from "../components/SplitButton";
+import WavyProgress from "../components/WavyProgress";
 
 // context to pass nesting depth into list items
 const ListDepthContext = createContext(0);
 
 export const BlogPage = memo(({ targetId, navigateTo }: any) => {
   const [active_cat, setActiveCat] = useState<string | null>(null);
+  const [readingProgress, setReadingProgress] = useState(0);
+  const [showReadingProgress, setShowReadingProgress] = useState(false);
+  const [contentBounds, setContentBounds] = useState(() => ({
+    left: 0,
+    width: typeof window === "undefined" ? 0 : window.innerWidth,
+  }));
   const [read, setRead] = useState<string[]>(() => {
     const saved = localStorage.getItem("virex-read-posts");
     return saved ? JSON.parse(saved) : [];
@@ -28,11 +36,13 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
     }
 
     const on_scroll = () => {
-      const scrolled = document.documentElement.scrollTop;
+      const scrolled = window.scrollY;
       const height =
         document.documentElement.scrollHeight -
         document.documentElement.clientHeight;
-      const pct = (scrolled / height) * 100;
+      const pct = height > 0 ? Math.min(100, Math.max(0, (scrolled / height) * 100)) : 0;
+      setReadingProgress(pct);
+      setShowReadingProgress(scrolled > 96);
       if (pct > 95 && !read.includes(post.id)) {
         setRead((prev) => {
           const next = [...prev, post.id];
@@ -41,24 +51,99 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
         });
       }
     };
+    on_scroll();
     window.addEventListener("scroll", on_scroll);
     return () => window.removeEventListener("scroll", on_scroll);
   }, [targetId, read, post]);
 
+  useEffect(() => {
+    if (!post) return;
+
+    const sync_content_bounds = () => {
+      const main = document.querySelector("main.page-container");
+      if (!main) return;
+      const bounds = main.getBoundingClientRect();
+      setContentBounds({ left: bounds.left, width: bounds.width });
+    };
+
+    sync_content_bounds();
+    const resize_observer = new ResizeObserver(sync_content_bounds);
+    const main = document.querySelector("main.page-container");
+    if (main) resize_observer.observe(main);
+    window.addEventListener("resize", sync_content_bounds);
+    return () => {
+      resize_observer.disconnect();
+      window.removeEventListener("resize", sync_content_bounds);
+    };
+  }, [post]);
+
   if (post) {
     return (
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: 15,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        className="max-w-4xl mx-auto space-y-12 px-4 md:px-0 motion-gpu relative"
-      >
-        <div className="flex justify-between items-center sticky top-0 py-4 bg-[var(--surface)]/80 backdrop-blur-md z-40">
+      <>
+        {createPortal(
+          <AnimatePresence>
+            {showReadingProgress && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed z-[30] pointer-events-none"
+                style={{
+                  left: contentBounds.left + contentBounds.width / 2,
+                  width: `min(720px, ${Math.max(0, contentBounds.width - 48)}px)`,
+                  transform: "translateX(-50%)",
+                  top: window.innerWidth < 768 ? "0.75rem" : "auto",
+                  bottom: window.innerWidth < 768 ? "auto" : "1.25rem",
+                }}
+                role="progressbar"
+                aria-label={`Reading progress: ${Math.round(readingProgress)} percent`}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.round(readingProgress)}
+              >
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: window.innerWidth < 768 ? -14 : 14,
+                    scale: 0.92,
+                  }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{
+                    opacity: 0,
+                    y: window.innerWidth < 768 ? -14 : 14,
+                    scale: 0.92,
+                  }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  className="w-full"
+                >
+                  <div className="h-8 px-2.5 py-1.5 flex items-center rounded-full overflow-hidden bg-[var(--surface)]/90 border border-[var(--outline-variant)]/70 shadow-[0_4px_14px_rgba(0,0,0,0.18)] backdrop-blur-xl">
+                    <div className="w-full h-full px-2 rounded-full overflow-visible flex items-center">
+                      <WavyProgress
+                        percent={readingProgress}
+                        height={12}
+                        thickness={4}
+                        className="text-[var(--primary)] block self-center"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 15,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          className="max-w-4xl mx-auto space-y-12 px-4 md:px-0 motion-gpu relative"
+        >
+          <div className="flex justify-between items-center sticky top-0 py-4 bg-[var(--surface)]/80 backdrop-blur-md z-40">
           <motion.button
             onClick={() => navigateTo("blog")}
             className="m3-button-tonal w-fit group"
@@ -84,13 +169,13 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
             </motion.span>
             <span>Back to feed</span>
           </motion.button>
-          <div className="hidden md:flex items-center gap-3 opacity-50 text-xs font-black uppercase tracking-[0.2em]">
+          <div className="flex items-center gap-3 opacity-50 text-xs font-black uppercase tracking-[0.2em]">
             {read.includes(post.id) && (
               <CheckCircle2 size={14} className="text-green-500" />
             )}
-            <span>{post.readTime}</span>
+            <span className="hidden sm:inline opacity-50">{post.readTime}</span>
           </div>
-        </div>
+          </div>
         <header className="mb-16 space-y-8 pt-8">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
@@ -292,7 +377,8 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
           </div>
           <CopyLinkCapsule />
         </footer>
-      </motion.div>
+        </motion.div>
+      </>
     );
   }
 

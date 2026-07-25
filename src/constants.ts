@@ -940,6 +940,26 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "icon-overhaul-and-working-weather-update",
+    version: "2026.07.24",
+    title: "Icon Overhaul and Working Weather Update!",
+    date: "Jul 24, 2026",
+    changes: [
+      {
+        category: "icon update",
+        items: [
+          "Now using modified material symbols rounded, which are tweaked for the site.",
+        ],
+      },
+      {
+        category: "weather",
+        items: [
+          "The weather widget now works correctly, finally removing the placeholders and using openmeteo API, after some years.",
+        ],
+      },
+    ],
+  },
+  {
     id: "many-revamps-update",
     version: "2026.07.22",
     title: "'Many revamps!' Update",

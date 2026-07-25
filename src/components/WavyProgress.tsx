@@ -52,17 +52,16 @@ export default function WavyProgress({
   const smil_data = useMemo(() => {
     let paths: string[] = [];
     for (let x = 0; x <= 1000; x += 1000 / 20) {
-      paths.push(
-        linear(thickness / 2, height - thickness / 2, left, percentX, x),
-      );
+      paths.push(linear(thickness / 2, height - thickness / 2, left, right, x));
     }
-    return paths.join(";");
-  }, [height, left, percentX, thickness]);
+    return paths;
+  }, [height, left, right, thickness]);
 
   const track_x1 = percentX + thickness + 4;
   const track_opacity = trackOpacity(right, track_x1);
 
   const gradientId = useMemo(() => `pride-grad-${Math.random().toString(36).substr(2, 9)}`, []);
+  const clipId = useMemo(() => `wavy-progress-clip-${Math.random().toString(36).substr(2, 9)}`, []);
 
   return (
     <svg
@@ -95,21 +94,22 @@ export default function WavyProgress({
           </linearGradient>
         </defs>
       )}
+      <defs>
+        <clipPath id={clipId}>
+          <rect x="0" y="0" width={percentX} height={height} />
+        </clipPath>
+      </defs>
       <path
         fill="none"
         stroke={isPrideActive ? `url(#${gradientId})` : "currentColor"}
         strokeWidth={thickness}
         strokeLinecap="round"
         strokeLinejoin="round"
-        d={settings.disableAnimations ? smil_data.split(";")[0] : undefined}
+        clipPath={`url(#${clipId})`}
+        d={settings.disableAnimations ? smil_data[0] : undefined}
       >
         {!settings.disableAnimations && (
-          <animate
-            attributeName="d"
-            dur="1s"
-            repeatCount="indefinite"
-            values={smil_data}
-          />
+          <animate attributeName="d" dur="1s" repeatCount="indefinite" values={smil_data.join(";")} />
         )}
       </path>
       <line
