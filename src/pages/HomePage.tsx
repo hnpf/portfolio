@@ -375,7 +375,7 @@ const WeatherWidget = () => {
         </span>
       </div>
 
-      <div className="mt-8 flex items-center gap-6 relative z-10 pt-6 border-t-4 border-[var(--outline-variant)]/20">
+      <div className="mt-8 flex items-center gap-6 relative z-10 pt-6 before:absolute before:top-0 before:left-0 before:right-[200px] before:border-t-4 before:border-[var(--outline-variant)]/20">
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-display font-black italic">{weather ? weather.humidity : "--"}</span>
           <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-30 tracking-widest">hum</span>
