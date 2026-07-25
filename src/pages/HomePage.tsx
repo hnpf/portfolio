@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Activity, ChevronRight, ExternalLink, ArrowUpRight, Loader2, Download, Terminal, ArrowDown, Tag, Folder } from "lucide-react";
+import { Activity, ChevronRight, ExternalLink, ArrowUpRight, Loader2, Download, Terminal, ArrowDown, Tag, Folder } from "../components/MaterialIcon";
 import { cn, PROJECTS, BLOG_POSTS } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { Card } from "../components/Card";

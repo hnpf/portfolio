@@ -23,7 +23,7 @@ import {
   Activity,
   Link as LinkIcon,
   Compass,
-} from "lucide-react";
+} from "./MaterialIcon";
 import { cn } from "../constants";
 import Switch from "./M3Switch";
 import Slider from "./M3Slider";
@@ -321,10 +321,10 @@ export const SettingsDialog = memo(({
                     )}
                     {settings.accent === c && (
                       <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px]">
-                        <div className="bg-white rounded-full p-0.5 shadow-md">
+                        <div className="bg-white rounded-full p-0.5 shadow-md w-6 h-6 flex items-center justify-center leading-none">
                           <Check
                             size={14}
-                            className="text-black"
+                            className="text-black -translate-y-px"
                             strokeWidth={3}
                           />
                         </div>

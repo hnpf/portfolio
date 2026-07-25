@@ -16,7 +16,7 @@ import {
   Wifi,
   CornerDownRight,
   Minimize2,
-} from "lucide-react";
+} from "./MaterialIcon";
 import { useTheme } from "../ThemeContext";
 import { cn } from "../constants";
 import Switch from "./M3Switch";

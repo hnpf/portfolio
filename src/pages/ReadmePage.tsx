@@ -1,7 +1,8 @@
 // @ts-nocheck
 import React, { useState, useEffect, memo } from "react";
 import { motion } from "motion/react";
-import { Activity, MapPin, History, Target, SquareTerminal, Code2, Archive, Github, MessageSquare, Home } from "lucide-react";
+import { Activity, MapPin, History, Target, SquareTerminal, Code2, Archive, MessageSquare, Home } from "../components/MaterialIcon";
+import { Github } from "lucide-react";
 import { GitHubCalendar } from 'react-github-calendar';
 import { cn, TECH_STACK } from "../constants";
 import { useTheme } from "../ThemeContext";

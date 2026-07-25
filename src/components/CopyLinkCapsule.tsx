@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { Link2, Check } from 'lucide-react'
+import { Link2, Check } from './MaterialIcon'
 
 export default function CopyLinkCapsule() {
   const [copied, setCopied] = useState(false)

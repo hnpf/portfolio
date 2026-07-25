@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useSpring } from "motion/react";
-import { Check, X } from "lucide-react";
+import { Check, X } from "./MaterialIcon";
 
 interface SwitchProps {
   checked: boolean;

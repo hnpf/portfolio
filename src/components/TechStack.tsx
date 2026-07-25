@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "./MaterialIcon";
 import { cn } from "../constants";
 
 export const BounceButton = ({

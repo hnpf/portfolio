@@ -1,6 +1,14 @@
 // @ts-nocheck
 import React, { memo } from "react";
 import { Card } from "../components/Card";
+import { materialIcon } from "../components/MaterialIcon";
+
+const BuildIcon = materialIcon("terminal");
+const LearnIcon = materialIcon("school");
+const ListenIcon = materialIcon("headphones");
+const MusicIcon = materialIcon("music_note");
+const ArtistIcon = materialIcon("person");
+const ListIcon = materialIcon("chevron_right");
 
 export const NowPage = memo(() => {
   return (
@@ -22,22 +30,23 @@ export const NowPage = memo(() => {
         >
           <div className="space-y-10">
             <div className="space-y-6">
-              <h3 className="text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
+              <h3 className="flex items-center gap-4 text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
+                <BuildIcon size={42} fill className="text-[var(--primary)] shrink-0" />
                 Now Building
               </h3>
             </div>
             <div className="space-y-6 border-t border-[var(--outline-variant)]/90 pt-10">
               <ul className="space-y-4">
                 <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <span className="text-[var(--primary)] font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Helping the community and becoming more open to PR's and contributions
                 </li>
                 <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <span className="text-[var(--primary)] font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Tinkering with personal base workflows and tools/scripts.
                 </li>
                 <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <span className="text-[var(--primary)] font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Frequently updating and reworking virex.lol for the best user experience i can possibly make
                 </li>
               </ul>
@@ -51,22 +60,23 @@ export const NowPage = memo(() => {
         >
           <div className="space-y-10">
             <div className="space-y-6">
-              <h3 className="text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
+              <h3 className="flex items-center gap-4 text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
+                <LearnIcon size={42} fill className="text-[var(--primary)] shrink-0" />
                 Now Learning
               </h3>
             </div>
             <div className="space-y-6 border-t border-[var(--outline-variant)]/90 pt-10">
               <ul className="space-y-4">
                 <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <span className="text-[var(--primary)] font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Sound design & synthesis: wave architectures, fm synthesis basics, etc.
                 </li>
                 <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <span className="text-[var(--primary)] font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Hardware interfaces: managing low latency audio pipelines
                 </li>
                 <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <span className="text-[var(--primary)] font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Hyprland plug-ins: experimenting with plugins like "Infinite canvas" and Gloview in my primary configs along with quickshell.
                 </li>
               </ul>
@@ -81,7 +91,8 @@ export const NowPage = memo(() => {
         >
           <div className="space-y-10">
             <div className="space-y-6">
-              <h3 className="text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
+              <h3 className="flex items-center gap-4 text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
+                <ListenIcon size={42} fill className="text-[var(--on-primary)] shrink-0" />
                 Now Listening
               </h3>
             </div>
@@ -91,18 +102,18 @@ export const NowPage = memo(() => {
               
               {/* left column: genres / artists */}
               <div className="space-y-4">
-                <h4 className="text-xs text-[13px] tracking-widest font-bold opacity-60 mb-5">Genres on Rotation</h4>
+                <h4 className="flex items-center gap-2 text-xs text-[13px] tracking-widest font-bold opacity-60 mb-5"><MusicIcon size={18} fill /> Genres on Rotation</h4>
                 <ul className="space-y-4">
                   <li className="flex gap-3 text-[17px] opacity-90 leading-relaxed group/tip mb-7">
-                    <span className="font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                    <ListIcon size={18} fill className="mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                     Rotations of bm, screamo, etc.
                   </li>
                   <li className="flex gap-3 text-[17px] opacity-90 leading-relaxed group/tip mb-7">
-                    <span className="font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                    <ListIcon size={18} fill className="mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                     Digicore tracks, witch house, ambient pop
                   </li>
                   <li className="flex gap-3 text-[17px] opacity-90 leading-relaxed group/tip mb-7">
-                    <span className="font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                    <ListIcon size={18} fill className="mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                     Frequent rage, hip-hop, trap
                   </li>
                 </ul>
@@ -110,18 +121,18 @@ export const NowPage = memo(() => {
 
               {/* right column: artists */}
               <div className="space-y-4">
-                <h4 className="text-xs text-[13px] tracking-widest font-bold opacity-60 mb-5">Artists on Repeat</h4>
+                <h4 className="flex items-center gap-2 text-xs text-[13px] tracking-widest font-bold opacity-60 mb-5"><ArtistIcon size={18} fill /> Artists on Repeat</h4>
                 <ul className="space-y-4">
                   <li className="flex gap-3 text-[17px] opacity-90 leading-relaxed group/tip mb-7">
-                    <span className="font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                    <ListIcon size={18} fill className="mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                     Lifelover, Blade and Bath, Far From Forgiven
                   </li>
                   <li className="flex gap-3 text-[17px] opacity-90 leading-relaxed group/tip mb-7">
-                    <span className="font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                    <ListIcon size={18} fill className="mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                     Sensi Affect, Soft Blade, Chernoburkv
                   </li>
                   <li className="flex gap-3 text-[17px] opacity-90 leading-relaxed group/tip">
-                    <span className="font-black group-hover/tip:scale-125 transition-transform duration-200">/</span>
+                    <ListIcon size={18} fill className="mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                     OsamaSon, Che, skaiwater, Dani Kiyoko
                   </li>
                 </ul>

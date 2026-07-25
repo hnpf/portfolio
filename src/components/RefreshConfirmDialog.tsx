@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw } from "./MaterialIcon";
 
 export const RefreshConfirmDialog = ({ showRefreshConfirm, setShowRefreshConfirm }: any) => {
   return (

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown } from "./MaterialIcon";
 import { cn } from "../constants";
 import { M3ScrollBar } from "./M3ScrollBar";
 

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Copy, Check, ExternalLink, Link as LinkIcon, Hash, Globe, AlertTriangle, Loader2, ArrowRight } from 'lucide-react';
+import { Copy, Check, ExternalLink, Link as LinkIcon, Hash, Globe, AlertTriangle, Loader2, ArrowRight } from '../components/MaterialIcon';
 import { cn } from '../constants';
 import { useTheme } from '../ThemeContext';
 import { Card } from '../components/Card';

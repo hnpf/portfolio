@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, ChevronLeft, ChevronRight, ExternalLink, Pin } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ExternalLink, Pin } from "../components/MaterialIcon";
 import { cn } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { TiltContainer } from "../components/TiltContainer";

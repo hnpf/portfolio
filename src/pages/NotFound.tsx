@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Ghost, Terminal, Home } from 'lucide-react';
+import { ArrowLeft, Ghost, Terminal, Home } from '../components/MaterialIcon';
 
 // might be worth adding a search box here at some point but maybe useless??
 const NotFound = ({ go }: { go?: (page: string) => void }) => {

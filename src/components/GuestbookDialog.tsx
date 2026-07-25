@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useMotionValue, animate } from "motion/react";
-import { MessageSquare, X, Loader2, CheckCircle, Send, Calendar, Share2 } from "lucide-react";
+import { MessageSquare, X, Loader2, CheckCircle, Send, Calendar, Share2 } from "./MaterialIcon";
 import { cn } from "../constants";
 
 interface GuestbookDialogProps {

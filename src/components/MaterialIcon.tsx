@@ -1,0 +1,112 @@
+import type { CSSProperties, HTMLAttributes } from "react";
+
+type MaterialIconProps = Omit<HTMLAttributes<HTMLSpanElement>, "children"> & {
+  name: string;
+  size?: number | string;
+  fill?: boolean;
+  weight?: number;
+  grade?: number;
+};
+
+/** official material symbols rounded, tweaked for virex.lol! */
+export function MaterialIcon({
+  name,
+  size = 24,
+  fill = false,
+  weight = 650,
+  grade = 0,
+  className = "",
+  style,
+  ...props
+}: MaterialIconProps) {
+  const iconStyle = {
+    fontSize: typeof size === "number" ? `${size}px` : size,
+    fontVariationSettings: `'FILL' ${fill ? 1 : 0}, 'wght' ${weight}, 'GRAD' ${grade}, 'opsz' 24`,
+    ...style,
+  } as CSSProperties;
+
+  return (
+    <span
+      className={`material-symbols-rounded ${className}`.trim()}
+      style={iconStyle}
+      aria-hidden="true"
+      {...props}
+    >
+      {name}
+    </span>
+  );
+}
+
+export function materialIcon(name: string, defaults?: Omit<MaterialIconProps, "name">) {
+  return function MaterialIconGlyph(props: Omit<MaterialIconProps, "name">) {
+    return <MaterialIcon name={name} {...defaults} {...props} />;
+  };
+}
+
+// familiar component names make the remaining UI changes ez. still not a breeze to setup, however.
+export const X = materialIcon("close");
+export const Settings = materialIcon("settings");
+export const Palette = materialIcon("palette");
+export const Sun = materialIcon("light_mode");
+export const Moon = materialIcon("dark_mode");
+export const Monitor = materialIcon("desktop_windows");
+export const Pipette = materialIcon("colorize");
+export const Check = materialIcon("check");
+export const Layers = materialIcon("layers");
+export const Cpu = materialIcon("memory");
+export const Fingerprint = materialIcon("fingerprint");
+export const ExternalLink = materialIcon("open_in_new");
+export const Download = materialIcon("download");
+export const Terminal = materialIcon("terminal");
+export const ChevronRight = materialIcon("chevron_right");
+export const ChevronLeft = materialIcon("chevron_left");
+export const ChevronDown = materialIcon("keyboard_arrow_down");
+export const ChevronUp = materialIcon("keyboard_arrow_up");
+export const Bug = materialIcon("bug_report");
+export const AlertCircle = materialIcon("error");
+export const AlertTriangle = materialIcon("warning");
+export const CheckCircle = materialIcon("check_circle");
+export const CheckCircle2 = materialIcon("task_alt");
+export const Activity = materialIcon("monitor_heart");
+export const Link = materialIcon("link");
+export const Link2 = materialIcon("link");
+export const Compass = materialIcon("explore");
+export const MessageSquare = materialIcon("chat_bubble");
+export const Loader2 = materialIcon("progress_activity");
+export const Send = materialIcon("send");
+export const Calendar = materialIcon("calendar_month");
+export const Share2 = materialIcon("share");
+export const MapPin = materialIcon("location_on");
+export const History = materialIcon("history");
+export const Target = materialIcon("my_location");
+export const SquareTerminal = materialIcon("terminal");
+export const Code2 = materialIcon("code");
+export const Archive = materialIcon("archive");
+export const ArrowUpRight = materialIcon("north_east");
+export const ArrowRight = materialIcon("arrow_forward");
+export const ArrowLeft = materialIcon("arrow_back");
+export const ArrowUp = materialIcon("arrow_upward");
+export const ArrowDown = materialIcon("arrow_downward");
+export const Filter = materialIcon("filter_alt");
+export const Pin = materialIcon("push_pin");
+export const Copy = materialIcon("content_copy");
+export const Hash = materialIcon("tag");
+export const Globe = materialIcon("language");
+export const Construction = materialIcon("construction");
+export const Info = materialIcon("info");
+export const Zap = materialIcon("bolt");
+export const Database = materialIcon("database");
+export const Search = materialIcon("search");
+export const MousePointer = materialIcon("ads_click");
+export const HelpCircle = materialIcon("help");
+export const Wifi = materialIcon("wifi");
+export const CornerDownRight = materialIcon("subdirectory_arrow_right");
+export const Minimize2 = materialIcon("minimize");
+export const Tag = materialIcon("sell");
+export const Folder = materialIcon("folder");
+export const Home = materialIcon("home");
+export const ImageIcon = materialIcon("image");
+export const Trash2 = materialIcon("delete");
+export const RefreshCw = materialIcon("refresh");
+export const Sparkles = materialIcon("auto_awesome");
+export const Ghost = materialIcon("ghost");

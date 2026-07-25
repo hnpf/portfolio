@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy } from "./MaterialIcon";
 import { motion, AnimatePresence } from "motion/react";
 import hljs from "highlight.js";
 

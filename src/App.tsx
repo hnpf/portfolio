@@ -56,8 +56,21 @@ import { KnownIssuesDialog } from "./components/KnownIssuesDialog";
 import { FoolsPopup } from "./components/FoolsPopup";
 import { BounceButton } from "./components/TechStack";
 import { M3WindowScrollBar, M3ScrollBar } from "./components/M3ScrollBar";
+import { materialIcon } from "./components/MaterialIcon";
 
 import "./navigation/navigation-rail.css";
+
+const M3Home = materialIcon("home");
+const M3Info = materialIcon("fingerprint");
+const M3Blog = materialIcon("menu_book");
+const M3Lens = materialIcon("photo_camera");
+const M3Now = materialIcon("monitor_heart");
+const M3Short = materialIcon("link");
+const M3Settings = materialIcon("settings");
+const M3ChevronLeft = materialIcon("chevron_left");
+const M3ChevronRight = materialIcon("chevron_right");
+const M3FocusOff = materialIcon("visibility_off");
+const M3Chat = materialIcon("forum");
 
 export default function App() {
   const { settings, updateSettings, actualTheme, cycleTheme } = useTheme();
@@ -343,24 +356,24 @@ export default function App() {
               <div className="flex-1 flex flex-col min-h-0 relative group/nav" onMouseMove={(e) => { const rect = e.currentTarget.getBoundingClientRect(); const y = e.clientY - rect.top; setNavHoverSide(y < rect.height / 2 ? "top" : "bottom"); }} onMouseLeave={() => setNavHoverSide(null)}>
                 <nav id="sidebar-nav" className={cn("flex-1 flex flex-col overflow-y-auto min-h-0 py-12 scrollbar-hide scroll-smooth", canScrollUp && canScrollDown ? "mask-both" : (canScrollUp ? "mask-top" : (canScrollDown ? "mask-bottom" : "")), "gap-6", settings.sidebarCollapsed ? "items-center px-2" : "items-stretch px-4")} data-rail-state={settings.sidebarCollapsed ? "default" : "open"}>
                   <M3ScrollBar scrollEl={navRef} colorful thinOnly />
-                  <SideItem highHz={settings.highHz} isFirst glyph={Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
-                  <SideItem highHz={settings.highHz} glyph={Fingerprint} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
-                  <SideItem highHz={settings.highHz} glyph={BookText} text="Blog" isSelected={page === "blog"} onSelect={() => goto("blog")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
-                  <SideItem highHz={settings.highHz} glyph={Camera} text="Lens" isSelected={page === "lens"} onSelect={() => goto("lens")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
-                  <SideItem highHz={settings.highHz} glyph={Activity} text="Now" isSelected={page === "now"} onSelect={() => goto("now")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
-                  <SideItem highHz={settings.highHz} isLast glyph={LinkIcon} text="Short" isSelected={page === "dash"} onSelect={() => goto("dash")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
+                  <SideItem highHz={settings.highHz} isFirst glyph={M3Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
+                  <SideItem highHz={settings.highHz} glyph={M3Info} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
+                  <SideItem highHz={settings.highHz} glyph={M3Blog} text="Blog" isSelected={page === "blog"} onSelect={() => goto("blog")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
+                  <SideItem highHz={settings.highHz} glyph={M3Lens} text="Lens" isSelected={page === "lens"} onSelect={() => goto("lens")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
+                  <SideItem highHz={settings.highHz} glyph={M3Now} text="Now" isSelected={page === "now"} onSelect={() => goto("now")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
+                  <SideItem highHz={settings.highHz} isLast glyph={M3Short} text="Short" isSelected={page === "dash"} onSelect={() => goto("dash")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                 </nav>
                 <AnimatePresence>
                   {canScrollUp && navHoverSide === "top" && (
                     <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={squishySpring} className="absolute top-2 left-0 right-0 pointer-events-none flex flex-col items-center z-[50]">
-                      <button onClick={() => document.getElementById("sidebar-nav")?.scrollBy({ top: -150, behavior: "smooth" })} className="w-10 h-10 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-lg pointer-events-auto border-2 border-white/10 transition-transform active:scale-90"><ChevronLeft size={18} className="rotate-90 stroke-[3]" /></button>
+                      <button onClick={() => document.getElementById("sidebar-nav")?.scrollBy({ top: -150, behavior: "smooth" })} className="w-10 h-10 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-lg pointer-events-auto border-2 border-white/10 transition-transform active:scale-90"><M3ChevronLeft size={20} className="rotate-90" fill /></button>
                     </motion.div>
                   )}
                 </AnimatePresence>
                 <AnimatePresence>
                   {canScrollDown && navHoverSide === "bottom" && (
                     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={squishySpring} className="absolute bottom-2 left-0 right-0 pointer-events-none flex flex-col items-center z-[50]">
-                      <button onClick={() => document.getElementById("sidebar-nav")?.scrollBy({ top: 150, behavior: "smooth" })} className="w-10 h-10 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-lg pointer-events-auto border-2 border-white/10 transition-transform active:scale-90"><ChevronLeft size={18} className="-rotate-90 stroke-[3]" /></button>
+                      <button onClick={() => document.getElementById("sidebar-nav")?.scrollBy({ top: 150, behavior: "smooth" })} className="w-10 h-10 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-lg pointer-events-auto border-2 border-white/10 transition-transform active:scale-90"><M3ChevronLeft size={20} className="-rotate-90" fill /></button>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -371,16 +384,16 @@ export default function App() {
                 
                 <div className={cn("flex flex-col", settings.sidebarCollapsed ? "w-full items-center gap-6" : "gap-4")}>
                   
-                  <SideItem highHz={settings.highHz} glyph={SettingsIcon} text="Settings" onSelect={() => setSettingsOpen(true)} isMini={settings.sidebarCollapsed} isShort={is_short} isFirst isFloating={settings.floatingSidebar} layoutId="settings-expansion" />
+                  <SideItem highHz={settings.highHz} glyph={M3Settings} text="Settings" onSelect={() => setSettingsOpen(true)} isMini={settings.sidebarCollapsed} isShort={is_short} isFirst isFloating={settings.floatingSidebar} layoutId="settings-expansion" />
                   {!settings.sidebarCollapsed && (
                     <div className="grid grid-cols-2 gap-4 w-full">
                       <BounceButton icon={Github} label="GitHub" url="https://github.com/hnpf" className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-colors text-sm font-expressive-bold" />
-                      <BounceButton icon={MessageSquare} label="Discord" url="https://discord.gg/TSZNYbjzF7" className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-colors text-sm font-expressive-bold" />
+                      <BounceButton icon={M3Chat} label="Discord" url="https://discord.gg/TSZNYbjzF7" className="flex items-center justify-center gap-2 border-6 border-[var(--outline-variant)]/40 py-4 px-3 rounded-[20px] bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] text-[var(--on-surface-variant)] transition-colors text-sm font-expressive-bold" />
                     </div>
                   )}
                   <div className={cn("w-full flex justify-center", settings.sidebarCollapsed && "px-0")}>
                     <motion.button layout whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => updateSettings({ sidebarCollapsed: !settings.sidebarCollapsed })} className={cn("flex items-center justify-center ring-6 ring-[var(--outline-variant)]/80 outline-none cursor-pointer transition-all duration-300", settings.sidebarCollapsed ? "w-14 h-14 rounded-[18px] bg-[var(--surface-variant)] text-[var(--on-surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)]" : "w-full py-4 rounded-t-[15px] rounded-b-[28px] bg-[var(--surface-variant)]/30 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")} transition={springConfig}>
-                      {settings.sidebarCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+                      {settings.sidebarCollapsed ? <M3ChevronRight size={22} fill /> : <M3ChevronLeft size={22} fill />}
                     </motion.button>
                   </div>
                 </div>
@@ -415,7 +428,7 @@ export default function App() {
               onClick={() => updateSettings({ focusMode: false })}
               className="fixed bottom-15 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-[var(--primary)] text-[var(--on-primary)] rounded-full font-bold shadow-2xl flex items-center gap-3 border-2 border-white/20 backdrop-blur-md whitespace-nowrap"
             >
-              <EyeOff size={20} />
+              <M3FocusOff size={21} fill />
               {is_mobile ? (
                 <span className="font-expressive text-md tracking-widest pt-0.5">Exit Focus</span>
               ) : (
@@ -433,11 +446,11 @@ export default function App() {
       <AnimatePresence>
         {!settings.focusMode && page !== "no" && (page !== "readme" || !settings.infoFullscreen) && is_mobile && (
           <motion.nav initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} transition={{ type: "spring", damping: 25, stiffness: 120 }} className="fixed -bottom-4 left-0 right-0 bg-[var(--surface)] border-t border-[var(--outline-variant)] px-4 pt-1 pb-[calc(env(safe-area-inset-bottom,16px)+1.5rem)] flex justify-around z-40 shadow-[0_-8px_32px_rgba(0,0,0,0.06)] motion-gpu" style={{ willChange: "transform" }}>
-            <BotNav glyph={Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} />
-            <BotNav glyph={Fingerprint} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} />
-            <BotNav glyph={BookText} text="Blog" isSelected={page === "blog"} onSelect={() => goto("blog")} />
-            <BotNav glyph={Camera} text="Lens" isSelected={page === "lens"} onSelect={() => goto("lens")} />
-            <BotNav glyph={SettingsIcon} text="More" onSelect={() => setSettingsOpen(true)} layoutId="settings-expansion" />
+            <BotNav glyph={M3Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} />
+            <BotNav glyph={M3Info} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} />
+            <BotNav glyph={M3Blog} text="Blog" isSelected={page === "blog"} onSelect={() => goto("blog")} />
+            <BotNav glyph={M3Lens} text="Lens" isSelected={page === "lens"} onSelect={() => goto("lens")} />
+            <BotNav glyph={M3Settings} text="More" onSelect={() => setSettingsOpen(true)} layoutId="settings-expansion" />
           </motion.nav>
         )}
       </AnimatePresence>

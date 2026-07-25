@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowUp, Sparkles } from "lucide-react";
+import { ArrowUp, Sparkles } from "./MaterialIcon";
 import { cn } from "../constants";
 
 export type TopButtonShape = "clover" | "cookie" | "squircle";
@@ -217,7 +217,7 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
             >
               <ArrowUp
                 className={cn(
-                  "text-[var(--on-primary)] transition-all duration-300",
+                  "text-[var(--on-primary)] transition-all duration-300 translate-y-0.5",
                   isExpanded ? "w-6.5 h-6.5 md:w-7.5 md:h-7.5" : "w-7.5 h-7.5 md:w-8.5 md:h-8.5"
                 )}
                 strokeWidth={3.5}
@@ -254,5 +254,3 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
     </AnimatePresence>
   );
 };
-
-

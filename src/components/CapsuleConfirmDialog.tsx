@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Palette, X } from "lucide-react";
+import { Palette, X } from "./MaterialIcon";
 
 interface CapsuleConfirmDialogProps {
   pendingCapsule: any;

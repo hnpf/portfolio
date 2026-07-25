@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "motion/react";
-import { Bug, X, Image as ImageIcon, Trash2, Loader2, CheckCircle } from "lucide-react";
+import { Bug, X, ImageIcon, Trash2, Loader2, CheckCircle } from "./MaterialIcon";
 import { cn } from "../constants";
 
 interface BugReportDialogProps {
