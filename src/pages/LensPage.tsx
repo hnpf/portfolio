@@ -5,6 +5,7 @@ import { X, ChevronLeft, ChevronRight, ExternalLink, Pin } from "../components/M
 import { cn } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { TiltContainer } from "../components/TiltContainer";
+import { haptic } from "../haptics";
 
 const LENS_PHOTOS = [
   {
@@ -378,7 +379,10 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
   return (
     <TiltContainer
       settings={settings}
-      onClick={() => onClick(i)}
+      onClick={() => {
+         onClick(i)
+         haptic.light();
+      }}
       initial={settings.disableAnimations ? false : { opacity: 0, y: 10 }}
       whileInView={settings.disableAnimations ? false : { opacity: 1, y: 0 }}
       viewport={{ margin: "100px", once: true }}
@@ -583,10 +587,10 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
             {/* top islands - ungrouped capsule + circle */}
             <div className="z-[230] p-6 md:p-8 flex justify-center items-center gap-3 md:gap-4 pointer-events-none">
               <div className="bg-[var(--surface-variant)]/60 backdrop-blur-md px-6 py-3 md:px-8 md:py-4 rounded-[2.5rem] md:rounded-[2.5rem] border-6 border-[var(--outline-variant)]/40 flex flex-col shadow-2xl pointer-events-auto min-w-0 max-w-[240px] md:max-w-lg">
-                <div className="text-[9px] md:text-[18px] font-black tracking-[0.2em] text-[var(--primary)] mb-0.5 md:mb-1">
-                  description
+                <div className="text-[11px] md:text-[18px] font-black tracking-[0.14em] text-[var(--primary)] mb-0.5 md:mb-1">
+                  description:
                 </div>
-                <div className="text-[var(--on-surface)] font-display font-black text-lg md:text-2xl tracking-tight leading-tight truncate">
+                <div className="text-[var(--on-surface)] font-display font-black text-[14px] md:text-2xl tracking-tight leading-tight truncate">
                   {LENS_PHOTOS[idx].description}
                 </div>
                 {LENS_PHOTOS[idx].date && (
@@ -605,7 +609,10 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
                   damping: 15,
                   mass: 0.5
                 }}
-                onClick={() => setIdx(null)}
+                onClick={() => { 
+                  haptic.light();
+                  setIdx(null);
+                }}
                 className="w-14 h-14 md:w-18 md:h-18 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto cursor-pointer"
               >
                 <X size={viewport.w < 768 ? 28 : 36} />
@@ -659,9 +666,12 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
                 onDragEnd={(_, info) => {
                   if (info.offset.x > 50) prev();
                   else if (info.offset.x < -50) next();
+                  haptic.light();
                 }}
                 className="relative w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing z-[205]"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation()
+                }}
               >
                 {/* blur thing for expanded view */}
                 <img
@@ -696,19 +706,27 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
             </div>
 
             {/* bottom island - unified navigation, raw, and position */}
-            <div className="z-[230] p-6 md:p-12 flex flex-col items-center gap-6 pointer-events-none">
+            <div className="z-[230] p-6 md:p-12 flex flex-col items-center gap-6">
               <div className="flex items-center gap-1 md:gap-2 bg-[var(--surface-variant)]/60 backdrop-blur-md p-2 md:p-3 rounded-full border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto">
                 {/* mobile navigation buttons integrated into island */}
                 <div className="flex md:hidden items-center gap-1 pr-2 border-r-2 border-[var(--outline-variant)]/20">
                   <button
                     className="w-11 h-11 bg-transparent hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all active:scale-90"
-                    onClick={prev}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      haptic.light();
+                      next();
+                    }}
                   >
                     <ChevronLeft size={22} />
                   </button>
                   <button
                     className="w-11 h-11 bg-transparent hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-surface)] rounded-full flex items-center justify-center transition-all active:scale-90"
-                    onClick={next}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      haptic.light();
+                      next();
+                    }}
                   >
                     <ChevronRight size={22} />
                   </button>
@@ -732,7 +750,10 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
                 <div className="w-[2px] h-8 md:h-10 bg-[var(--outline-variant)]/30 rounded-full mx-1 md:mx-2" />
 
                 <button
-                  onClick={() => window.open(LENS_PHOTOS[idx].url, "_blank")}
+                  onClick={() => {
+                    haptic.light();
+                    window.open(LENS_PHOTOS[idx].url, "_blank");
+                  }}
                   className="w-11 h-11 md:w-14 md:h-14 bg-[var(--primary-container)] hover:bg-[var(--primary)] hover:text-[var(--on-primary)] text-[var(--on-primary-container)] rounded-full flex items-center justify-center transition-all border-4 md:border-6 border-[var(--outline-variant)]/20 active:scale-90 group relative"
                 >
                   <ExternalLink size={viewport.w < 768 ? 20 : 28} />
