@@ -538,6 +538,7 @@ export const SettingsDialog = memo(({
                   <button
                     onClick={() => {
                       handleClose();
+                      haptic.light();
                       goto("now");
                     }}
                     className="flex flex-col items-center justify-center gap-3 border-6 border-[var(--outline-variant)] py-6 bg-[var(--surface-variant)]/50 hover:bg-[var(--primary-container)] hover:border-[var(--primary)]/30 text-[var(--on-surface-variant)] hover:text-[var(--on-primary-container)] transition-all rounded-[1.5rem] group cursor-pointer"
@@ -548,6 +549,7 @@ export const SettingsDialog = memo(({
                   <button
                     onClick={() => {
                       handleClose();
+                      haptic.light();
                       goto("dash");
                     }}
                     className="flex flex-col items-center justify-center gap-3 border-6 border-[var(--outline-variant)] py-6 bg-[var(--surface-variant)]/50 hover:bg-[var(--primary-container)] hover:border-[var(--primary)]/30 text-[var(--on-surface-variant)] hover:text-[var(--on-primary-container)] transition-all rounded-[1.5rem] group cursor-pointer"
@@ -866,6 +868,7 @@ export const SettingsDialog = memo(({
                   onClick={() => {
                     handleClose();
                     onReportBug();
+                    haptic.light();
                   }}
                   className="w-full flex items-center justify-between border-6 border-[var(--outline-variant)] p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-t-[2rem] rounded-b-[0.9rem] group cursor-pointer"
                 >
@@ -884,6 +887,7 @@ export const SettingsDialog = memo(({
                   onClick={() => {
                     handleClose();
                     onOpenKnownIssuess();
+                    haptic.light();
                   }}
                   className="w-full flex items-center justify-between border-6 border-[var(--outline-variant)] p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-b-[2rem] rounded-t-[0.9rem] group cursor-pointer"
                 >

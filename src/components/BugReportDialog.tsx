@@ -507,7 +507,10 @@ export const BugReportDialog = ({
                       <button
                         type="button"
                         disabled={isSubmitting}
-                        onClick={onClose}
+                        onClick={() => {
+                          onClose();
+                          haptic.light();
+                        }}
                         className="flex-1 bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/40 text-[var(--on-surface-variant)] py-3.5 rounded-2xl hover:rounded-xl active:scale-95 text-sm font-black tracking-wide transition-all duration-200 cursor-pointer text-center"
                       >
                         Cancel

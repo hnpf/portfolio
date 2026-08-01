@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "motion/react";
 import { Bug, X, ChevronDown, ChevronUp, AlertCircle, CheckCircle, Info, Construction } from "./MaterialIcon";
 import { cn, KNOWN_ISSUES, KnownIssues } from "../constants";
+import { haptic } from "../haptics";
 
 interface KnownIssuesDialogProps {
   isOpen: boolean;
@@ -156,7 +157,8 @@ export const KnownIssuesDialog = ({
   }, [isMobile, y, defaultY, handleClose, isOpen]);
 
   const toggleExpand = (id: string) => {
-    setExpandedBugId(expandedBugId === id ? null : id);
+    haptic.light();
+    setExpandedBugId((prev) => (prev === id ? null : id));
   };
 
   const getStatusBadge = (status: KnownIssues["status"]) => {
@@ -283,7 +285,10 @@ export const KnownIssuesDialog = ({
                   </h2>
                 </div>
                 <button
-                  onClick={onClose}
+                  onClick={() => {
+                    haptic.light();
+                    onClose();
+                  }}
                   className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                 >
                   <X size={20} className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180 group-hover:scale-110" />
@@ -379,7 +384,10 @@ export const KnownIssuesDialog = ({
               {/* footer */}
               <div className="p-6 border-t border-[var(--outline-variant)] shrink-0">
                 <button
-                  onClick={onClose}
+                  onClick={() => {
+                    haptic.light();
+                    onClose();
+                  }}
                   className="w-full bg-[var(--primary)] text-[var(--on-primary)] py-4 pl-6 pr-4 rounded-2xl hover:rounded-xl active:rounded-3xl hover:bg-[var(--primary)]/95 active:scale-90 text-base font-black tracking-wide transition-all duration-300 ease-out cursor-pointer text-left shadow-[4px_4px_0px_0px_var(--md-sys-color-outline-variant,rgba(0,0,0,0.2))] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"                >
                   Close
                 </button>
