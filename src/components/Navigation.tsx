@@ -336,7 +336,10 @@ export const BotNav = memo(({
       whileTap={{ scale: 0.9, y: 5 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={onSelect}
+      onClick={() => {
+        haptic.light();
+        onSelect?.();
+      }}
       className={cn(
         "flex flex-col items-center gap-1 flex-1 pt-3 pb-2 transition-colors duration-200 relative z-10 bottom-nav-item outline-none",
         isSelected
