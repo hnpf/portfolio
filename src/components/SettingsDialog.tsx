@@ -114,7 +114,7 @@ export const SettingsDialog = memo(({
   const MAIN_PAGES = [
     { id: "appearance", title: "Appearance", desc: "Theme mode, softer dark colors, palettes", icon: Palette },
     { id: "customization", title: "Customization", desc: "Interface toggles, animations, brutalist", icon: SettingsIcon },
-    { id: "layout", title: "Layout & Sidebar", desc: "Sidebar flipped, float profile, navigation", icon: Layers },
+    { id: "layout", title: "Nav & Layout", desc: "Sidebar flipped, float profile, navigation", icon: Layers },
     { id: "backup", title: "Backup & Share", desc: "Export, import, share configs", icon: Fingerprint },
   ] as const;
 
