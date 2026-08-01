@@ -334,7 +334,14 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
         {/* foooootters */}
         <div className="flex flex-col items-center gap-12 w-full max-w-2xl">
           <div className="h-1 w-20 bg-[var(--primary)] rounded-full opacity-40" />
-          <div onClick={() => { haptic.light(); }} className="flex flex-wrap justify-center gap-10"> { /* janky but most effective onClick LMFAO */ }
+          <div 
+            onClick={(e) => { 
+              if ((e.target as HTMLElement).closest('button, a')) {
+                haptic.light(); 
+              }
+            }} 
+            className="flex flex-wrap justify-center gap-10"
+          > { /* ok ok no parent delegation jank shortcuts, found out the hard way */ }
             <BounceButton
               icon={Github}
               label="GitHub"
