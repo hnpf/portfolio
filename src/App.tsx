@@ -164,7 +164,13 @@ export default function App() {
   }, [settingsOpen, bugReportOpen, KnownIssuessOpen, showDebugConfirm, pendingCapsule]);
 
   useEffect(() => {
-    const sync_url = () => {
+    const sync_url = (e: PopStateEvent) => {
+      if (!e.state?.modal) {
+        setSettingsOpen(false);
+        setBugReportOpen(false);
+        setKnownIssuessOpen(false);
+      }
+      
       const loc = window.location.pathname;
       const path = loc.replace("/", "").toLowerCase();
       if (path === "guestbook") {
@@ -187,6 +193,15 @@ export default function App() {
     window.addEventListener("popstate", sync_url);
     return () => window.removeEventListener("popstate", sync_url);
   }, []);
+
+  useEffect(() => {
+    const isModalOpen = settingsOpen || bugReportOpen || KnownIssuessOpen;
+    if (isModalOpen && !window.history.state?.modal) {
+      window.history.pushState({ modal: true }, "");
+    } else if (!isModalOpen && window.history.state?.modal) {
+      window.history.back();
+    }
+  }, [settingsOpen, bugReportOpen, KnownIssuessOpen]);
 
   useEffect(() => {
     const on_scroll = () => {
