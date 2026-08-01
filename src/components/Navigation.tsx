@@ -4,6 +4,7 @@ import React, { useState, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../constants";
 import { useTheme } from "../ThemeContext";
+import { haptic } from "../haptics";
 
 export const SideItem = memo(
   ({
@@ -71,7 +72,10 @@ export const SideItem = memo(
           }}
           whileHover={{ scale: 1.08, rotate: 2 }}
           whileTap={{ scale: 0.92, rotate: -4 }}
-          onClick={onSelect}
+          onClick={(e) => {
+            haptic.light();
+            onSelect(e);
+          }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           className={cn(
@@ -162,7 +166,10 @@ export const SideItem = memo(
         }}
         whileHover={{ scale: 1.02, x: 6 }}
         whileTap={{ scale: 0.97, x: -2 }}
-        onClick={onSelect}
+        onClick={(e) => {
+          haptic.light();
+          onSelect(e);
+        }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={cn(
