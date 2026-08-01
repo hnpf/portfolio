@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUp, Sparkles } from "./MaterialIcon";
 import { cn } from "../constants";
+import { haptic } from "../haptics";
 
 export type TopButtonShape = "clover" | "cookie" | "squircle";
 
@@ -156,7 +157,10 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
           transition={{ type: "spring", stiffness: 450, damping: 25 }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          onClick={handleClick}
+          onClick={(e) => {
+            haptic.light();
+            handleClick?.(e);
+          }}
           onContextMenu={cycleShape}
           className={cn(
             "flex items-center justify-center rounded-full group cursor-pointer outline-none focus:outline-none select-none",

@@ -656,6 +656,7 @@ export const SettingsDialog = memo(({
                   } catch (e) {
                     setToast("Failed to generate sharing link! :(");
                   }
+                  haptic.light();
                 }}
                 className="flex items-center justify-between border-6 border-[var(--outline-variant)] p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group cursor-pointer"
               >
@@ -685,6 +686,7 @@ export const SettingsDialog = memo(({
                   } catch (e) {
                     setToast("failed to download backup. :(");
                   }
+                  haptic.light();
                 }}
                 className="flex items-center justify-between border-6 border-[var(--outline-variant)] p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group cursor-pointer"
               >
@@ -741,7 +743,14 @@ export const SettingsDialog = memo(({
                     }
                   }}
                 />
-                <label className="bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] px-4 py-2 rounded-xl text-[10px] font-bold transition-all flex items-center justify-center cursor-pointer">
+                <motion.label
+                  whileTap={{ scaleX: 1.08, scaleY: 0.88 }}
+                  transition={{ type: "spring", stiffness: 1200, damping: 10, mass: 0.02 }}
+                  onClick={() => {
+                    haptic.light();
+                  }}
+                  className="bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] px-4 py-2 rounded-xl text-[10px] font-bold transition-all flex items-center justify-center cursor-pointer select-none"
+                >
                   Upload File
                   <input
                     type="file"
@@ -776,7 +785,7 @@ export const SettingsDialog = memo(({
                       reader.readAsText(file);
                     }}
                   />
-                </label>
+                </motion.label>
               </div>
               <div className="text-[13px] opacity-50 font-medium">
                 Press Enter to apply pasted sharing link. Restoring settings updates your theme *immediately*.
