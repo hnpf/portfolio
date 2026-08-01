@@ -131,7 +131,11 @@ export default function DashPage() {
                   ref={inputRef}
                   type="url"
                   placeholder={placeholder}
-                  className="w-full bg-transparent py-4 text-2xl md:text-4xl outline-none font-display font-bold placeholder:opacity-20 placeholder:font-medium"
+                  className="w-full h-full bg-transparent text-2xl md:text-4xl outline-none font-sans placeholder:opacity-20 leading-loose"
+                  style={{ 
+                    fontVariationSettings: `"wght" ${Math.min(900, Math.max(400, 400 + url.length * 40))}`,
+                    fontWeight: Math.min(900, Math.max(400, 400 + url.length * 40))
+                  }}
                   value={url}
                   onChange={e => setUrl(e.target.value)}
                   onFocus={() => setIsFocused(true)}
@@ -146,7 +150,7 @@ export default function DashPage() {
                 <input
                   type="text"
                   placeholder="custom"
-                  className="w-full md:w-48 bg-transparent py-4 text-2xl font-mono outline-none placeholder:opacity-30 placeholder:font-medium"
+                  className="w-full h-full md:w-48 bg-transparent text-2xl font-mono outline-none placeholder:opacity-30 placeholder:font-medium leading-loose"
                   value={path}
                   onChange={e => setpath(e.target.value)}
                   onFocus={() => setIsFocused(true)}
@@ -184,7 +188,7 @@ export default function DashPage() {
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 md:gap-16 px-4 md:px-0 mt-20 backdrop-blur-md relative z-10">
+      <div className="grid grid-cols-1 gap-8 md:gap-16 px-4 md:px-0 mt-20 relative z-10">
         <div className="space-y-8">
           <motion.div 
             initial={settings.disableAnimations ? false : { opacity: 0 }}
@@ -197,7 +201,7 @@ export default function DashPage() {
             <span className="text-[16px] font-black tracking-[0.2em] italic opacity-30">{links.length} total</span>
           </motion.div>
 
-          <Card delay={0.5} className="w-full" innerClassName="p-0 overflow-hidden bg-[var(--surface-variant)]/10">
+          <Card delay={0.5} className="w-full" innerClassName="p-0 overflow-hidden bg-[var(--surface-variant)]/10 backdrop-blur-md">
             {/* desktop table view */}
             <div className="hidden md:block">
               <table className="w-full text-left border-collapse table-auto">
