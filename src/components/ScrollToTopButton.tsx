@@ -120,7 +120,7 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
         className={cn(
           "fixed z-50 select-none pointer-events-auto",
           isMobile
-            ? (showBottomNav ? "bottom-32" : "bottom-16")
+            ? (showBottomNav ? "bottom-32" : "bottom-20")
             : "bottom-12 lg:bottom-12",
           isFlipped ? "left-6 lg:left-12" : "right-6 lg:right-12"
         )}
@@ -161,8 +161,8 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
           className={cn(
             "flex items-center justify-center rounded-full group cursor-pointer outline-none focus:outline-none select-none",
             isExpanded
-              ? "p-1.5 md:p-2 bg-[var(--surface-variant)]/95 border-4 border-[var(--outline-variant)]/60 backdrop-blur-xl hover:border-[var(--primary)]/60 hover:bg-[var(--surface-variant)] shadow-2xl"
-              : "p-0 bg-transparent border-4 border-transparent shadow-none",
+              ? "p-1.5 md:p-2 bg-[var(--surface-variant)]/95 backdrop-blur-xl shadow-2xl"
+              : "p-0 bg-transparent shadow-none",
             isFlipped ? "flex-row" : "flex-row-reverse"
           )}
         >
@@ -179,18 +179,16 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
               damping: 22,
             }}
             className={cn(
-              "relative flex items-center justify-center shrink-0 overflow-hidden rounded-full p-0 shadow-lg",
-              isExpanded
-                ? "w-11 h-11 md:w-13 md:h-13"
-                : "w-14 h-14 md:w-16 md:h-16"
+              "relative flex items-center justify-center shrink-0 p-0",
+              "w-16 h-16 md:w-20 md:h-20"
             )}
           >
             {shape === "squircle" ? (
-              <div className="absolute inset-0 bg-[var(--primary)] rounded-2xl md:rounded-3xl shadow-md" />
+              <div className="absolute inset-0 bg-[var(--primary)] rounded-2xl md:rounded-[2rem] shadow-md" />
             ) : (
               <svg
                 viewBox="0 0 380 380"
-                className="absolute inset-0 w-full h-full drop-shadow-md"
+                className="absolute inset-0 w-full h-full"
               >
                 <path
                   d={currentSvgPath}
@@ -204,8 +202,8 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
             {/* arrow icon in shape badge */}
             <div className="relative z-10 text-[var(--on-primary)] flex items-center justify-center pointer-events-none w-full h-full">
               <ArrowUp
-                className="text-[var(--on-primary)] w-6 h-6 md:w-7.5 md:h-7.5 shrink-0"
-                strokeWidth={3.5}
+                className="text-[var(--on-primary)] w-8 h-8 md:w-10 md:h-10 shrink-0"
+                strokeWidth={3}
               />
             </div>
           </motion.div>
@@ -227,8 +225,8 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
           >
             <span
               className={cn(
-                "font-expressive-bold font-black text-sm md:text-base tracking-[0.2em] md:tracking-[0.25em] text-[var(--on-surface-variant)] group-hover:text-[var(--on-surface)] transition-colors duration-200",
-                isFlipped ? "pl-3 pr-4 md:pl-4 md:pr-5" : "pr-3 pl-4 md:pr-4 md:pl-5"
+                "font-expressive-bold font-black text-xs md:text-lg tracking-[0.15em] md:tracking-[0.25em] text-[var(--on-surface-variant)] group-hover:text-[var(--on-surface)] transition-colors duration-200",
+                isFlipped ? "pl-2 pr-3 md:pl-5 md:pr-6" : "pr-2 pl-3 md:pr-6 md:pl-5"
               )}
             >
               To top!

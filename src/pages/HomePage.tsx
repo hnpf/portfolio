@@ -340,13 +340,20 @@ const WeatherWidget = () => {
   const condition = weatherDescription(weather?.weatherCode ?? 3);
 
   return (
-    <div className="flex flex-col h-full justify-between relative isolate overflow-hidden">
+    <motion.div 
+      className="flex flex-col h-full justify-between relative isolate overflow-hidden"
+      whileHover="hover"
+      initial="initial"
+      animate="animate"
+    >
       <div className="absolute bottom-2 right-5 opacity-[0.03]">
         <motion.div
           key={condition.icon}
-          initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          whileHover={{ scale: 1.1 }}
+          variants={{
+            initial: { opacity: 0, scale: 0.8, rotate: -8 },
+            animate: { opacity: 1, scale: 1, rotate: 0 },
+            hover: { scale: 1.1 }
+          }}
           transition={{
             type: "spring",
             stiffness: 120,
@@ -396,7 +403,7 @@ const WeatherWidget = () => {
         className="relative z-10 mt-3 text-[9px] uppercase tracking-[0.18em] opacity-25 hover:opacity-70 transition-opacity w-fit"
       >
       </a>
-    </div>
+    </motion.div>
   );
 };
 
