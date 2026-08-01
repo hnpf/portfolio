@@ -7,6 +7,7 @@ import { cn, PROJECTS, BLOG_POSTS } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { Card } from "../components/Card";
 import WavyProgress from "../components/WavyProgress";
+import { haptic } from "../haptics";
 
 const IS_APR = (() => {
   const now = new Date();
@@ -485,7 +486,12 @@ const AncBar = ({ setPage, settings }: { setPage: (page: string, postId: string 
           {latestPost.date}
         </span>
 
-        <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-300 border border-[var(--primary)]/20 shadow-xs font-expressive-bold italic font-black text-[12px] uppercase tracking-wider shrink-0 self-end whitespace-nowrap">
+        <div 
+          onClick={() => {
+            haptic.light();
+          }}
+          className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-300 border border-[var(--primary)]/20 shadow-xs font-expressive-bold italic font-black text-[12px] uppercase tracking-wider shrink-0 self-end whitespace-nowrap cursor-pointer select-none active:scale-x-105 active:scale-y-90"
+        >
           <span>Read Post</span>
           <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
         </div>
@@ -591,7 +597,10 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
                 damping: 20,
                 mass: 0.5,
               }}
-              onClick={() => setPage("readme")}
+              onClick={() => {
+                setPage("readme")
+                haptic.light();
+              }}
               className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[18px] sm:text-[20px] font-expressive-bold italic font-black tracking-tight h-16 sm:h-18 px-8 sm:px-12 rounded-[24px] flex items-center gap-3 group shrink-0 w-full md:w-auto justify-center whitespace-nowrap"
             >
               explore more!
@@ -676,11 +685,14 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
                   {project.description}
                 </p>
               </div>
-              {project.link.startsWith("/") ? (
+              {project.link.startsWith("/") ? ( // outdated loom XD
                 <motion.button
                   whileHover={{ x: 5 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setPage(project.link.replace("/", ""))}
+                  onClick={() => {
+                    setPage(project.link.replace("/", ""));
+                    haptic.light();
+                  }}
                   className="inline-flex items-center gap-2 text-[var(--primary)] font-black tracking-widest text-[16px] w-fit group uppercase italic"
                 >
                   View project{" "}
@@ -696,6 +708,9 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
                 <motion.a
                   whileHover={{ x: 5 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    haptic.light();
+                  }}
                   href={project.link}
                   target="_blank"
                   className="inline-flex items-center gap-2 text-[var(--primary)] font-black italic tracking-widest text-[17px] group uppercase"
