@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "motion/react";
 import { Bug, X, ImageIcon, Trash2, Loader2, CheckCircle } from "./MaterialIcon";
 import { cn } from "../constants";
+import { haptic } from "../haptics";
 
 interface BugReportDialogProps {
   isOpen: boolean;
@@ -369,7 +370,10 @@ export const BugReportDialog = ({
                 </div>
                 {!isSubmitting && (
                   <button
-                    onClick={onClose}
+                    onClick={() => {
+                      haptic.medium();
+                      onClose();  
+                    }}
                     className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                   >
                     <X size={20} className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180 group-hover:scale-110" />
