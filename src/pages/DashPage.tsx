@@ -5,6 +5,7 @@ import { Copy, Check, ExternalLink, Link as LinkIcon, Hash, Globe, AlertTriangle
 import { cn } from '../constants';
 import { useTheme } from '../ThemeContext';
 import { Card } from '../components/Card';
+import { haptic } from '../haptics';
 
 export default function DashPage() {
   const [url, setUrl] = useState('');
@@ -62,15 +63,18 @@ export default function DashPage() {
 
       const data = await res.json();
       if (!res.ok) {
+        haptic.error();
         setError(data.error || 'failed to shorten url');
         setIsLoading(false);
         return;
       }
 
+      haptic.success();
       setUrl('');
       setpath('');
       loadlink();
     } catch (e: any) {
+      haptic.error();
       setError('backend is unreachable');
     } finally {
       setIsLoading(false);
@@ -78,6 +82,7 @@ export default function DashPage() {
   };
 
   const copylinkhandler = (p: string) => {
+    haptic.medium();
     const full = `${window.location.protocol}//${window.location.host}/r/${p}`;
     navigator.clipboard.writeText(full);
     setCopypath(p);
@@ -137,7 +142,10 @@ export default function DashPage() {
                     fontWeight: Math.min(900, Math.max(400, 400 + url.length * 40))
                   }}
                   value={url}
-                  onChange={e => setUrl(e.target.value)}
+                  onChange={e => {
+                    setUrl(e.target.value);
+                    haptic.light();
+                  }}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   required
@@ -152,7 +160,10 @@ export default function DashPage() {
                   placeholder="custom"
                   className="w-full h-full md:w-48 bg-transparent text-2xl font-mono outline-none placeholder:opacity-30 placeholder:font-medium leading-loose"
                   value={path}
-                  onChange={e => setpath(e.target.value)}
+                  onChange={e => {
+                    setpath(e.target.value);
+                    haptic.light();
+                  }}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                 />
