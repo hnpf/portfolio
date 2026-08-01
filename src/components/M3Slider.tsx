@@ -1,13 +1,8 @@
 import { useRef, useState, useEffect, useCallback, ReactNode } from "react";
 import { motion, useSpring, useTransform, animate, useMotionValue } from "motion/react";
+import { haptic } from "../haptics";
 
-const playNotch = () => {
-  try {
-    if (typeof navigator !== "undefined" && navigator.vibrate) {
-      navigator.vibrate(1);
-    }
-  } catch (e) {}
-};
+
 
 type SliderSize = "xs" | "s" | "m" | "l" | "xl";
 
@@ -57,7 +52,7 @@ export default function Slider({
   const handleInput = (val: number) => {
     const rounded = Math.round(val);
     if (rounded !== prevIntValRef.current) {
-      playNotch();
+      haptic.light();
       prevIntValRef.current = rounded;
     }
     onChange(val);
