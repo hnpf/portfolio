@@ -27,6 +27,7 @@ import {
 import { cn } from "../constants";
 import Switch from "./M3Switch";
 import Slider from "./M3Slider";
+import { haptic } from "../haptics";
 
 export const SettingsDialog = memo(({ 
   settingsOpen, 
@@ -170,7 +171,10 @@ export const SettingsDialog = memo(({
                 return (
                   <motion.button
                     key={m}
-                    onClick={() => updateSettings({ mode: m })}
+                    onClick={() => {
+                      haptic.light();
+                      updateSettings({ mode: m });
+                    }}
                     whileTap={{ scale: 0.94 }}
                     animate={{
                       scale: isActive ? 1.04 : 1,
@@ -268,7 +272,10 @@ export const SettingsDialog = memo(({
                 ).map((c) => (
                   <button
                     key={c}
-                    onClick={() => updateSettings({ accent: c })}
+                    onClick={() => {
+                      haptic.light();
+                      updateSettings({ accent: c });
+                    }}
                     className={cn(
                       "group relative w-12 h-12 rounded-[1rem] overflow-hidden transition-all duration-300 shadow-sm",
                       settings.accent === c
@@ -352,7 +359,10 @@ export const SettingsDialog = memo(({
                     return (
                       <button
                         key={id}
-                        onClick={() => updateSettings({ palette: id })}
+                        onClick={() => {
+                          haptic.light();
+                          updateSettings({ palette: id });
+                        }}
                         className={cn(
                           "relative min-h-16 overflow-hidden rounded-[1.35rem] border-4 px-3 py-2 text-left transition-all",
                           selected
@@ -1137,7 +1147,10 @@ export const SettingsDialog = memo(({
                             return (
                               <button
                                 key={page.id}
-                                onClick={() => navigateTo(page.id)}
+                                onClick={() => {
+                                  haptic.light();
+                                  navigateTo(page.id);
+                                }}
                                 className={cn(
                                   "w-full flex items-center justify-between border-6 border-[var(--outline-variant)] p-4 bg-[var(--surface-variant)]/50 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left group cursor-pointer",
                                   roundedClass
@@ -1185,7 +1198,10 @@ export const SettingsDialog = memo(({
                             return (
                               <button
                                 key={page.id}
-                                onClick={() => navigateTo(page.id)}
+                                onClick={() => {
+                                  haptic.light();
+                                  navigateTo(page.id);
+                                }}
                                 className={cn(
                                   "w-full flex items-center justify-between border-6 border-[var(--outline-variant)] p-4 bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left group cursor-pointer opacity-80 hover:opacity-100",
                                   roundedClass
@@ -1247,7 +1263,10 @@ export const SettingsDialog = memo(({
                         return (
                           <motion.button
                             key={p.id}
-                            onClick={() => navigateTo(p.id)}
+                            onClick={() => {
+                              haptic.light();
+                              navigateTo(p.id);
+                            }}
                             whileHover={!isActive ? { scale: 1.02 } : {}}
                             whileTap={{ scale: 0.96 }}
                             animate={{
@@ -1303,7 +1322,10 @@ export const SettingsDialog = memo(({
                           return (
                             <motion.button
                               key={p.id}
-                              onClick={() => navigateTo(p.id)}
+                              onClick={() => {
+                                haptic.light();
+                                navigateTo(p.id);
+                              }}
                               whileHover={!isActive ? { scale: 1.02 } : {}}
                               whileTap={{ scale: 0.96 }}
                               animate={{
