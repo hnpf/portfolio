@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { Link2, Check } from './MaterialIcon'
+import { haptic } from '../haptics'
 
 export default function CopyLinkCapsule() {
   const [copied, setCopied] = useState(false)
@@ -11,10 +12,12 @@ export default function CopyLinkCapsule() {
     try {
       await navigator.clipboard.writeText(window.location.href)
       console.log("link copied lol:", window.location.href)
+      haptic.medium()
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       console.error("oh shit, clipboard write failed:", err)
+      haptic.error()
     }
   }
 

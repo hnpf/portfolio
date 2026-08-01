@@ -146,7 +146,10 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
         >
           <div className="flex justify-between items-center sticky top-0 py-4 bg-[var(--surface)]/80 backdrop-blur-md z-40">
           <motion.button
-            onClick={() => navigateTo("blog")}
+            onClick={() => {
+              haptic.light();
+              navigateTo("blog");
+            }}
             className="m3-button-tonal w-fit group"
             initial="rest"
             whileHover="hover"
