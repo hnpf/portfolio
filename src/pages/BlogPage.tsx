@@ -12,6 +12,7 @@ import { Card } from "../components/Card";
 import { Code } from "../components/Code";
 import { SplitButton } from "../components/SplitButton";
 import WavyProgress from "../components/WavyProgress";
+import { haptic } from "../haptics";
 
 // context to pass nesting depth into list items
 const ListDepthContext = createContext(0);
@@ -410,7 +411,10 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
         <motion.button
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => setActiveCat(null)}
+          onClick={() => {
+            haptic.light();
+            setActiveCat(null);
+          }}
           className={cn(
             "h-11 px-8 text-[13px] font-expressive font-black tracking-[0.3em] border-4 shadow-sm transition-none duration-200 block pt-0.5",
             !active_cat
@@ -429,7 +433,10 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
           menu={categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setActiveCat(cat)}
+              onClick={() => {
+                haptic.light();
+                setActiveCat(cat);
+              }}
               className={cn(
                 "w-full text-left px-5 py-3 text-[13px] font-black tracking-[0.03em] rounded-xl transition-all duration-200",
                 active_cat === cat
@@ -461,7 +468,10 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                 scale: 1,
               }}
               className="relative rounded-[3.5rem] overflow-hidden bg-[var(--primary-container)] text-[var(--on-primary-container)] border-6 border-[var(--outline-variant)] shadow-2xl group cursor-pointer hover:border-[var(--primary)] transition-colors"
-              onClick={() => navigateTo("blog", featured.link)}
+              onClick={() => {
+                haptic.medium();
+                navigateTo("blog", featured.link);
+              }}
             >
               <div className="p-8 md:p-16 space-y-8 relative z-10">
                 <div className="flex items-center gap-4">
@@ -552,7 +562,10 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                 delay={i * 0.05}
                 className="h-full"
                 innerClassName="cursor-pointer group h-full relative overflow-hidden bg-[var(--surface-variant)]/30 hover:bg-[var(--primary-container)]/20 border-6 border-[var(--outline-variant)]/50 hover:border-[var(--primary)] transition-colors p-10"
-                onClick={() => navigateTo("blog", p.link)}
+                onClick={() => {
+                  haptic.medium();
+                  navigateTo("blog", p.link);
+                }}
               >
                 <div className="space-y-6 h-full flex flex-col justify-between">
                   <div className="space-y-6">
