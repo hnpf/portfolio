@@ -27,16 +27,9 @@ export default function Switch({
   const [isHovered, setIsHovered] = useState(false);
 
 
-  const playNotch = () => {
-    try {
-      if (typeof navigator !== "undefined" && navigator.vibrate)
-        navigator.vibrate(1);
-    } catch (e) {}
-  };
-
   const handleChange = (val: boolean) => {
     if (val !== checked) {
-      playNotch();
+      haptic.light();
       onChange(val);
     }
   };
