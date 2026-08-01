@@ -939,6 +939,34 @@ it's literally just people helping people for learning (and overall better code 
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [
+  {
+    id: "hello-haptics-and-variable-dash-font-better-recent-links-view-back-gestures-and-more",
+    version: "2026.07.31",
+    title: "hello, haptics! (..and variable /dash font, better recent links view, back gestures, and more!)",
+    date: "Jul 31, 2026",
+    changes: [
+      {
+        category: "complete haptics system!",
+        items: [
+          "finalized the haptics system and added tons of haptics across the whole site!",
+        ],
+      },
+      {
+        category: "/dash changes",
+        items: [
+          "added a variable font that grows/bolds as you type!",
+          "fixed blur container not being on the correct card",
+        ],
+      },
+      {
+        category: "other changes",
+        items: [
+          "made 'to top' even better: it is now bigger on desktop and the circular container around the shape on mobile is gone as well.",
+          "better back gestures: added a better back gesturing system to prevent accidental site closing (based on window.history and modal states.)",
+        ],
+      },
+    ],
+  },
 /* 
   {
     id: "",
