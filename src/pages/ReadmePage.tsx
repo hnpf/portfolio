@@ -8,6 +8,7 @@ import { cn, TECH_STACK } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { Card } from "../components/Card";
 import { BounceButton, TechChip } from "../components/TechStack";
+import { haptic } from "../haptics";
 
 const Badge = ({ icon: Icon, children, className }: any) => (
   <span className={cn(
@@ -333,7 +334,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
         {/* foooootters */}
         <div className="flex flex-col items-center gap-12 w-full max-w-2xl">
           <div className="h-1 w-20 bg-[var(--primary)] rounded-full opacity-40" />
-          <div className="flex flex-wrap justify-center gap-10">
+          <div onClick={() => { haptic.light(); }} className="flex flex-wrap justify-center gap-10"> { /* janky but most effective onClick LMFAO */ }
             <BounceButton
               icon={Github}
               label="GitHub"
@@ -361,7 +362,10 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
               damping: 15,
               mass: 1
             }}
-            onClick={onBack}
+            onClick={() => {
+              onBack();
+              haptic.light();
+            }}
             className="m3-button-filled ring-6 ring-[var(--primary)]/10 !bg-[var(--on-surface)] !text-[var(--surface)] h-18 px-12 rounded-[28px] tracking-[0.12em] text-2xl font-expressive font-sans font-black flex items-center gap-4 transition-colors "
           >
             <Home size={28} />
