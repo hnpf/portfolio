@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Ghost, Terminal, Home } from '../components/MaterialIcon';
+import { ArrowLeft, AlertTriangle, Terminal, Home } from '../components/MaterialIcon';
 
 // might be worth adding a search box here at some point but maybe useless??
 const NotFound = ({ go }: { go?: (page: string) => void }) => {
@@ -27,13 +27,14 @@ const NotFound = ({ go }: { go?: (page: string) => void }) => {
       <div className="relative z-10 flex flex-col items-center justify-between h-full flex-1 w-full max-w-6xl mx-auto gap-16 md:gap-0">
         {/* little floating banner at the top */}
         <motion.div
+          whileHover={{ scale: 1.02, y: -10 }}
+          transition={{ duration: 0.2, ease: [0.33, 1, 0.68, 1] }} 
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
           className="mt-6 md:mt-0"
         >
           <div className="inline-flex items-center gap-6 px-8 py-4 rounded-full bg-[var(--surface-variant)]/60 backdrop-blur-xl text-[var(--primary)] shadow-2xl border-4 border-[var(--outline-variant)]/50 group cursor-default">
-            <Ghost className="w-6 h-6 md:w-10 md:h-10 shrink-0 opacity-80 group-hover:scale-110 transition-transform duration-500" strokeWidth={1.5} />
+            <AlertTriangle className="w-6 h-6 md:w-10 md:h-10 shrink-0 opacity-80 transition-transform duration-500" strokeWidth={1.5} />
             <span className="text-[11px] md:text-xl font-expressive font-black tracking-[0.2em] opacity-80 border-l-4 border-[var(--outline-variant)] pl-6 italic">
               how did we get here?
             </span>
@@ -53,7 +54,7 @@ const NotFound = ({ go }: { go?: (page: string) => void }) => {
           <p className="text-xl md:text-3xl text-[var(--on-surface-variant)] opacity-50 font-medium max-w-2xl mx-auto leading-tight px-6 text-pretty italic">
             {missing 
               ? `/${missing} is missing to our knowledge.`
-              : `the link requested is missing up to our knowledge.`}
+              : `That link doesn't exist here, sorry :(`}
           </p>
         </motion.div>
 
@@ -65,7 +66,8 @@ const NotFound = ({ go }: { go?: (page: string) => void }) => {
           className="w-full flex flex-col sm:flex-row gap-6 justify-center items-center pb-12 md:pb-0"
         >
           <motion.button 
-            whileHover={{ scale: 1.03, y: -6 }}
+            whileHover={{ scale: 1.02, y: -10 }}
+            transition={{ duration: 0.05, ease: [0.33, 1, 0.68, 1] }} 
             whileTap={{ scale: 0.97 }}
             onClick={() => missing ? go?.('dash') : window.history.back()}
             className="w-full sm:w-80 py-6 md:py-10 rounded-[2.5rem] font-expressive font-black text-xl md:text-3xl bg-[var(--surface-variant)] text-[var(--on-surface-variant)] border-4 border-[var(--outline-variant)] flex items-center justify-center gap-4 transition-all hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] hover:border-[var(--primary)]/30 group shadow-xl"
