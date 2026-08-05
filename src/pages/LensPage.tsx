@@ -458,8 +458,8 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
             )}
           </div>
           {photo.pinned && (
-            <div className="bg-[var(--primary)] text-[var(--on-primary)] mr-1 p-2.5 rounded-full shadow-xl">
-              <Pin size={20} fill="currentColor" strokeWidth={1.5} />
+            <div className="bg-[var(--primary)] text-[var(--on-primary)] px-3 py-2 rounded-full shadow-xl">
+              <Pin size={20} fill="currentColor" className="pt-1" strokeWidth={1.5} />
             </div>
           )}
         </div>
