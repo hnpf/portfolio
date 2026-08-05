@@ -29,7 +29,7 @@ export const BounceButton = ({
     <motion.button
       whileHover={{
         scale: 1.08,
-        y: -5,
+        y: -3,
         borderRadius: "40px",
       }}
       whileTap={{ scale: 0.9, rotate: -2 }}
