@@ -16,9 +16,9 @@ My personal website. Uses a Material 3 Expressive styled shell, photo gallery, u
 
 </div>
 
----
 
 ## what's new?
+---
 
 **recent changes**
 
