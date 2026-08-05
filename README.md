@@ -17,9 +17,9 @@ My personal website. Uses a Material 3 Expressive styled shell, photo gallery, u
 </div>
 
 
-## what's new?
+## What's new?
 
-**recent changes**
+**New changes!**
 
 - [Aug 5, 2026]  Sidewheel scrolling to lens, project rewording, pin icon fix, and sidebar collapse button speedup.
 
@@ -27,9 +27,9 @@ My personal website. Uses a Material 3 Expressive styled shell, photo gallery, u
 
 ---
 
-## screenshots
+## Site Screenshots
 
-**desktop**
+**Desktop**
 <table>
   <tr>
     <td><img src="github/demo/virex.png" width="220"/></td>
@@ -45,7 +45,7 @@ My personal website. Uses a Material 3 Expressive styled shell, photo gallery, u
   </tr>
 </table>
 
-**mobile**
+**Mobile**
 <table>
   <tr>
     <td><img src="github/demo/mobilevirex.png" width="160"/></td>
@@ -63,33 +63,33 @@ My personal website. Uses a Material 3 Expressive styled shell, photo gallery, u
 
 ---
 
-## stack
+## Stack
 
-| layer | tech |
+| Layer | Tech |
 |---|---|
-| front | react 19 + vite 6, tailwind 4, motion (liquid physics), lucide |
-| back | express on vercel, sqlite via `better-sqlite3` |
-| assets | webp via `sharp`, custom noise engine |
+| Frontend | React 19 + Vite 6, Tailwind 4, Motion (physics, advanced animation), Custom MaterialSymbolsRounded icons |
+| Backend | Cloudflare, SQLite via `better-sqlite3` |
+| Assets | webp via `sharp`, noise engine |
 
 ---
 
-## features
+## Site Features
 
-> **lens** — bento-grid photo gallery. swipe/drag, keyboard nav, high-refresh animations. assets compressed ~200mb → ~40mb.
+> **lens** — Bento-grid photo gallery. Swipe/drag, keyboard nav, and mobile friendly.
 
-> **blog** — linux, e-waste, dev rants. read-tracking + rss at `/rss.xml` (actually updated now. no really.)
+> **blog** — Updates, Devlogs, Cybersec, and more. Read-tracking + RSS at `/rss.xml` (not always updated!)
 
-> **virex dash** — url shortener at `/r/:slug`. sqlite-backed, dash-managed, route shadow protection included.
+> **virex dash** — URL shortener at `/r/:slug`. sqlite-backed, dash-managed, route shadow protection included.
 
-> **lore** — interactive bio with a cool ass animation and more.
+> **readme** — Clean bio and lore with animations with dedicated settings options.
 
-> **now** — what i'm actively building, reading, and learning right now.
+> **now** — What I'm actively building, reading, and learning right now.
 
-> **settings** — accent hue, light/dark/system, highHz mode, brutalist mode (0px radii), zen mode, jetbrains mono override, and more.
+> **settings** — Accent hue, light/dark/system, highHz mode, brutalist mode (0px radii), zen mode, Jetbrains Mono override, and more.
 
 ---
 
-## getting started
+## Getting Started
 
 ```bash
 # clone + install
@@ -104,11 +104,11 @@ npm run dev        # vite + local api server
 npm run build      # output to dist/
 ```
 
-> you'll need node 18+ and a sqlite-compatible env for the api routes. vercel handles this automatically on deploy.
+> You will need node 18+ and a sqlite-compatible env for the API routes. Your deployment method sometimes handles this automatically.
 
 ---
 
-## some of the site's layout
+## Site Layout Snippet (updated ~v2.9.8-stable)
 
 ```
 api/
@@ -148,6 +148,6 @@ src/
 
 <div align="center">
 
-[virex.lol](https://virex.lol) · [github.com/hnpf](https://github.com/hnpf) · gpl-3.0
+[virex.lol](https://virex.lol) · [github.com/hnpf](https://github.com/hnpf) · GPL-3.0
 
 </div>
