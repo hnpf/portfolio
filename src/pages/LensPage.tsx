@@ -531,7 +531,26 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
         setIdx(null);
       }
     };
+    
+    let last_scroll = 0
+    const on_wheel = (e: WheelEvent) => {
+      if (idx === null) return
+      
+      if (Math.abs(e.deltaX) < 15) return
+      
+      const now = Date.now()
+      if (now - last_scroll < 350) return
+      last_scroll = now
+
+      if (e.deltaX > 0) {
+        next()
+      } else {
+        prev()
+      }
+    }
+    
     window.addEventListener("keydown", on_key);
+    window.addEventListener("wheel", on_wheel, { passive: true })
 
     let timeout: any;
     if (idx !== null) {
@@ -551,6 +570,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
 
     return () => {
       window.removeEventListener("keydown", on_key);
+      window.removeEventListener("wheel", on_wheel)
       document.body.style.overflow = "";
       if (timeout) clearTimeout(timeout);
     };
