@@ -144,7 +144,6 @@ src/
   M3Switch.tsx          material 3 toggle switch
   CopyLinkCapsule.tsx   clipboard copy ui
   NotFound.tsx          404 page
-  No.tsx                no
   index.css
   main.tsx
 ```

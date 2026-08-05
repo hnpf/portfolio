@@ -106,7 +106,7 @@ export default function App() {
     if (path === "guestbook") return "home";
     if (loc === "/" || loc === "") return "home";
     if (loc.startsWith("/blog/")) return "blog";
-    const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "dash", "no"];
+    const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "dash"];
     return ALLOWED.includes(path) ? path : "404";
   });
 
@@ -183,7 +183,7 @@ export default function App() {
         } else if (loc.startsWith("/blog/")) {
           setPage("blog"); setBlogPostId(loc.split("/")[2]);
         } else {
-          const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "dash", "no"];
+          const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "dash"];
           setPage(ALLOWED.includes(path) ? path : "404");
           setBlogPostId(null);
         }
@@ -254,7 +254,7 @@ export default function App() {
   const is_tiny = viewport.h < 550;
   const is_mobile = viewport.w < 768 && !settings.forceDesktop;
   const is_tablet = viewport.w >= 768 && viewport.w < 1024 && !settings.forceDesktop;
-  const showBottomNav = !settings.focusMode && page !== "no" && (page !== "readme" || !settings.infoFullscreen) && is_mobile;
+  const showBottomNav = !settings.focusMode && (page !== "readme" || !settings.infoFullscreen) && is_mobile;
   const isExpanded = is_mobile && scrollDirection === "up" && !settings.focusMode;
   const show_pfp_container = settings.profileContainer && viewport.h > 720;
 
@@ -329,7 +329,7 @@ export default function App() {
       </AnimatePresence>
 
       <AnimatePresence>
-        {!settings.focusMode && page !== "no" && (page !== "readme" || !settings.infoFullscreen) && !is_mobile && (
+        {!settings.focusMode && (page !== "readme" || !settings.infoFullscreen) && !is_mobile && (
           <motion.aside
             initial={{ x: settings.sidebarFlipped ? 60 : -60, opacity: 0 }}
             animate={{ x: 0, opacity: 1, width: settings.sidebarCollapsed ? (settings.floatingSidebar ? 144 : 96) : (settings.floatingSidebar ? (is_tablet ? 280 : 350) : (is_tablet ? 260 : 320)), paddingTop: settings.floatingSidebar ? "1.5rem" : "12px", paddingBottom: settings.floatingSidebar ? "1.5rem" : "12px", paddingLeft: settings.sidebarFlipped ? (settings.floatingSidebar ? "1.5rem" : "12px") : (settings.floatingSidebar ? "1.5rem" : "0px"), paddingRight: settings.sidebarFlipped ? (settings.floatingSidebar ? "1.5rem" : "0px") : (settings.floatingSidebar ? "1.5rem" : "12px"), borderTopLeftRadius: settings.floatingSidebar || settings.sidebarFlipped ? "3rem" : "0rem", borderBottomLeftRadius: settings.floatingSidebar || settings.sidebarFlipped ? "3rem" : "0rem", borderTopRightRadius: settings.floatingSidebar || !settings.sidebarFlipped ? "3rem" : "0rem", borderBottomRightRadius: settings.floatingSidebar || !settings.sidebarFlipped ? "3rem" : "0rem" }}
@@ -457,7 +457,7 @@ export default function App() {
       </motion.main>
 
       <AnimatePresence>
-        {!settings.focusMode && page !== "no" && (page !== "readme" || !settings.infoFullscreen) && is_mobile && (
+        {!settings.focusMode && (page !== "readme" || !settings.infoFullscreen) && is_mobile && (
           <motion.nav initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} transition={{ type: "spring", damping: 25, stiffness: 120 }} className="fixed -bottom-4 left-0 right-0 bg-[var(--surface)] border-t border-[var(--outline-variant)] px-4 pt-1 pb-[calc(env(safe-area-inset-bottom,16px)+1.5rem)] flex justify-around z-40 shadow-[0_-8px_32px_rgba(0,0,0,0.06)] motion-gpu" style={{ willChange: "transform" }}>
             <BotNav glyph={M3Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} />
             <BotNav glyph={M3Info} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} />

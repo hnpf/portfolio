@@ -22,9 +22,7 @@ export const useAprilFools = () => {
 
     const gamble = () => {
       const r = Math.random();
-      if (r < 0.2) {
-        window.location.href = "/no";
-      } else if (r < 0.5) {
+      if (r < 0.5) {
         setFihMode(true);
         setTimeout(() => setFihMode(false), 15000);
       } else {
