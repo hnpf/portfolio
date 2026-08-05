@@ -441,7 +441,8 @@
     }
 
     .page-title {
-        @apply text-7xl md:text-9xl font-black tracking-tighter leading-none;
+        @apply text-7xl md:text-9xl font-black tracking-tighter;
+        line-height: 1.05;
     }
 
     /* april fools lol */
