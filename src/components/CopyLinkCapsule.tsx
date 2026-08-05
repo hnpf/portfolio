@@ -81,7 +81,7 @@ export default function CopyLinkCapsule() {
           transition={{ type: "spring", stiffness: 500, damping: 22, mass: 0.5 }}
           className="min-w-[110px] tracking-wider"
         >
-          {copied ? 'link copied!' : 'copy link'}
+          {copied ? 'Link copied!' : 'Copy link'}
         </motion.span>
       </AnimatePresence>
     </motion.button>

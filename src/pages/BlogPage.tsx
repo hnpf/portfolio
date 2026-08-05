@@ -183,7 +183,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
         <header className="mb-16 space-y-8 pt-8">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <span className="px-5 py-2 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-2xl text-md font-black tracking-widest shadow-sm">
+              <span className="px-5 py-2 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-2xl capitalize text-md font-black tracking-widest shadow-sm">
                 {post.category}
               </span>
               <div className="flex items-center gap-2 opacity-50 text-sm font-bold">
@@ -379,10 +379,10 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
         <footer className="pt-16 pb-24 border-t border-[var(--outline-variant)] flex flex-col items-center gap-8">
           <div className="text-center space-y-2">
             <h4 className="text-3xl font-display font-black">
-              enjoyed the deep dive?
+              Enjoyed this blog post?
             </h4>
             <p className="opacity-60 font-medium">
-              share this post with your friends!
+              Feel free to share this post!
             </p>
           </div>
           <CopyLinkCapsule />
