@@ -40,7 +40,6 @@ import { LensPage } from "./pages/LensPage";
 import { ReadmePage } from "./pages/ReadmePage";
 import { NowPage } from "./pages/NowPage";
 import DashPage from "./pages/DashPage";
-import NoPage from "./pages/NoPage";
 import NotFound from "./pages/NotFound";
 
 // components
@@ -428,8 +427,7 @@ export default function App() {
             {page === "readme" && <ReadmePage setPage={goto} is_mobile={is_mobile} />}
             {page === "changelog" && <ChangelogPage />}
             {page === "dash" && <DashPage />}
-            {page === "no" && <NoPage />}
-            {![ "home", "blog", "lens", "now", "readme", "changelog", "dash", "no" ].includes(page) && <NotFound go={goto} />}
+            {![ "home", "blog", "lens", "now", "readme", "changelog", "dash" ].includes(page) && <NotFound go={goto} />}
           </motion.div>
         </AnimatePresence>
         <AnimatePresence>
