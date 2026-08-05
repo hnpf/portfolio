@@ -105,11 +105,11 @@ export default function DashPage() {
           </motion.h1>
           <motion.p 
             initial={settings.disableAnimations ? false : { opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 0.5, y: 0 }}
             transition={{ duration: settings.disableAnimations ? 0 : 0.6, delay: settings.disableAnimations ? 0 : 0.1, ease: [0.33, 1, 0.68, 1] }}
             className="text-xl md:text-2xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-2xl leading-tight"
           >
-            HTTPS is only a suggestion! <span className="italic opacity-40 ml-2">// quick and dirty.</span>
+            HTTPS is only a suggestion!
           </motion.p>
         </header>
 
@@ -218,10 +218,10 @@ export default function DashPage() {
               <table className="w-full text-left border-collapse table-auto">
                 <thead>
                   <tr className="border-b border-[var(--outline-variant)]/40 bg-[var(--surface)]/50">
-                    <th className="px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic">Path</th>
-                    <th className="px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic w-[40%]">Destination</th>
-                    <th className="px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-center">Visits</th>
-                    <th className="px-8 py-8 text-[11px] font-black tracking-[0.4em] opacity-50 uppercase italic text-right">Created</th>
+                    <th className="px-8 py-8 text-[15px] border-r border-[var(--surface-variant)]/50 font-black tracking-[0.4em] opacity-50">Path</th>
+                    <th className="px-8 py-8 text-[15px] border-r border-[var(--surface-variant)]/50 font-black tracking-[0.4em] opacity-50 w-[40%]">Destination</th>
+                    <th className="px-8 py-8 text-[15px] border-r border-[var(--surface-variant)]/50 font-black tracking-[0.4em] opacity-50 text-center">Visits</th>
+                    <th className="px-8 py-8 text-[15px]font-black tracking-[0.4em] opacity-50 text-right">Created</th>
                     <th className="px-4 py-8"></th>
                   </tr>
                 </thead>
@@ -306,7 +306,7 @@ export default function DashPage() {
 
             {links.length === 0 && (
               <div className="px-10 py-32 text-center opacity-30 font-display text-3xl font-black italic tracking-tighter">
-                database is quiet.. for now.
+                Db is quiet, for now :(
               </div>
             )}
           </Card>

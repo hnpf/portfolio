@@ -406,7 +406,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
       <header className="page-header font-expressive-bold space-y-4">
         <h2 className="page-title !text-6xl md:!text-9xl font-expressive-bold italic">Blog</h2>
           <p className="text-xl md:text-2xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-2xl leading-tight">
-            a page for my unsolicited thoughts, updates, and opinions.
+            A page for my unsolicited thoughts, updates, and opinions.
           </p>
       </header>
 

@@ -197,11 +197,11 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
                 <span className="text-xl font-black font-expressive tracking-[0.2em] opacity-60 italic uppercase">A Mission...</span>
               </div>
               <p className="text-2xl md:text-4xl leading-[0.95] tracking-tighter font-expressive font-black italic text-balance">
-                "good code can be used as a form of <span className="text-[var(--primary)]">protest.</span>"
+                "Code can be used as a form of <span className="text-[var(--primary)]">protest.</span>"
               </p>
             </div>
             <p className="text-md md:text-2xl opacity-80 font-bold leading-tight relative z-10">
-              proprietary tech thrives on unnecessary <br></br> complexity to lock you in. fighting back means <br></br> writing code that is lightweight, transparent, <br></br> and built to last, not to sell.
+              Big tech appreciates <br></br> complexity in order to lock you in. <br></br> <br></br> Fighting against that can include writing code that is lightweight, <br></br> transparent, and built to last.
             </p>
             <div className="absolute -right-8 -top-8 opacity-10 group-hover:scale-125 transition-transform duration-700 pointer-events-none">
               <Target size={180} />
@@ -222,8 +222,8 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             <div className="md:space-y-4 space-y-3 ml-3 md:ml-2">
               {[
                 { k: "OS:", v: "Arch Linux" },
-                { k: "Shell:", v: "fish 4.7.1" },
-                { k: "Kernel:", v: "Linux 7.0.9" },
+                { k: "Shell:", v: "fish 4.8.1" },
+                { k: "Kernel:", v: "Linux 7.1.5" },
                 { k: "CPU:", v: "i5-14600K" },
                 { k: "GPU:", v: "RX 6800 XT" },
               ].map(s => (
@@ -279,7 +279,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
                 <Archive className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" /> Archival
               </h4>
               <p className="text-xl opacity-70 font-medium max-w-2xl group-hover:opacity-100 transition-opacity italic">
-                simply one of my hobbies. I love collecting old software, music plug-ins, old documentation, and keeping backups of everything of interest that I find.
+                Hands down one of my most peculiar hobbies. I enjoy archiving old software, audio plug-ins, old manuals and docs, and keeping backups of everything of interest that I find.
               </p>
             </div>
             <div className="flex flex-col items-center md:items-end gap-2 shrink-0">

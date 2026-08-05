@@ -408,7 +408,7 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
               ? "md:row-span-2"
               : "",
       )}
-      innerClassName="rounded-[2.5rem] cursor-pointer relative group lens-item bg-[var(--surface-variant)]/20 overflow-hidden"
+      innerClassName="rounded-[2.5rem] cursor-pointer relative group lens-item capitalize bg-[var(--surface-variant)]/20 overflow-hidden"
     >
       <div className="absolute inset-0 rounded-[1.8rem] overflow-hidden m-0.5">
         {/* blur thing p */}
@@ -561,7 +561,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
       <header className="page-header font-expressive-bold space-y-4">
         <h2 className="page-title !text-6xl md:!text-9xl font-expressive-bold italic">Lens</h2>
           <p className="text-xl md:text-2xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-2xl leading-tight">
-            my personal gallery for my personal photo dumps &lt;3
+            My personal gallery for my personal photo dumps &lt;3
           </p>
       </header>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 auto-rows-[280px] md:auto-rows-[380px] px-4 md:px-0 grid-flow-dense">
@@ -588,9 +588,9 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
             <div className="z-[230] p-6 md:p-8 flex justify-center items-center gap-3 md:gap-4 pointer-events-none">
               <div className="bg-[var(--surface-variant)]/60 backdrop-blur-md px-6 py-3 md:px-8 md:py-4 rounded-[2.5rem] md:rounded-[2.5rem] border-6 border-[var(--outline-variant)]/40 flex flex-col shadow-2xl pointer-events-auto min-w-0 max-w-[240px] md:max-w-lg">
                 <div className="text-[11px] md:text-[18px] font-black tracking-[0.14em] text-[var(--primary)] mb-0.5 md:mb-1">
-                  description:
+                  Description:
                 </div>
-                <div className="text-[var(--on-surface)] font-display font-black text-[14px] md:text-2xl tracking-tight leading-tight truncate">
+                <div className="text-[var(--on-surface)] font-display font-black text-[14px] first-letter:uppercase md:text-2xl tracking-tight leading-tight truncate">
                   {LENS_PHOTOS[idx].description}
                 </div>
                 {LENS_PHOTOS[idx].date && (
@@ -733,7 +733,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
                 </div>
 
                 <div className="px-4 md:px-8 py-1 md:py-2 flex flex-col items-center">
-                  <span className="text-[11px] md:text-[16px] font-black text-[var(--on-surface-variant)] opacity-60">
+                  <span className="text-[11px] md:text-[16px] capitalize font-black text-[var(--on-surface-variant)] opacity-60">
                     image position:
                   </span>
                   <div className="flex items-center gap-1 md:gap-2 text-[var(--on-surface)] font-mono font-bold text-xs md:text-base">

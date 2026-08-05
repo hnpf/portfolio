@@ -218,7 +218,7 @@ const YearProg = () => {
       <div className="mt-4 flex flex-col gap-1 relative z-10 border-[var(--outline-variant)]/20">
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-display font-black italic">{days_left}</span>
-          <span className="text-[15px] ml-1 font-black font-sans italic font-display opacity-30 tracking-widest">days left</span>
+          <span className="text-[15px] ml-1 font-black font-sans italic font-display opacity-30 tracking-widest">more days to go!</span>
         </div>
         <div className="text-[13px] font-black font-display font-sans opacity-40
           tracking-widest">
@@ -386,15 +386,15 @@ const WeatherWidget = () => {
       <div className="mt-8 flex items-center gap-6 relative z-10 pt-6 before:absolute before:top-0 before:left-0 before:right-[200px] before:border-t-4 before:border-[var(--outline-variant)]/20">
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-display font-black italic">{weather ? weather.humidity : "--"}</span>
-          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-30 tracking-widest">hum</span>
+          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-30 tracking-widest">Hum</span>
         </div>
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-display font-black italic">{weather ? weather.windSpeed : "--"}</span>
-          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-30 tracking-widest">mph</span>
+          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-30 tracking-widest">Mph</span>
         </div>
         <div className="ml-auto flex items-center gap-1 opacity-40" title={WEATHER_LOCATION.label}>
-          <MaterialIcon name="location_on" size={16} fill />
-          <span className="text-[10px] font-black uppercase tracking-widest">{WEATHER_LOCATION.label}</span>
+          <MaterialIcon name="location_on" className="pr-1" size={19} fill />
+          <span className="text-[15px] font-black tracking-widest">{WEATHER_LOCATION.label}</span>
         </div>
       </div>
       <a
@@ -569,7 +569,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
             </div>
             <div className="flex flex-col gap-2 relative z-10">
               <h2 className="text-5xl sm:text-7xl md:text-[7rem] opacity-90 italic font-expressive-bold leading-[0.8] tracking-[-0.08em] pr-2">
-                software should <br /> be readable.
+                Software should <br /> be readable,
               </h2>
               <h2 className="text-3xl sm:text-4xl md:text-6xl italic font-expressive-bold md:ml-12 ml-2 leading-none tracking-[-0.05em] mt-4 sm:mt-6 opacity-40">
                 period.
@@ -578,7 +578,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
           </div>
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 md:gap-8 mt-8 md:mt-12 relative z-10">
             <p className="text-lg md:text-2xl opacity-80 font-display font-black italic max-w-xl leading-snug">
-              i like simple, non-stressful setups and code that doesn't need a manual :)
+              I love simple, non-stressful setups and code that doesn't need a constant manual :)
             </p>
             <motion.button
               whileHover={{
@@ -603,7 +603,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
               }}
               className="m3-button-filled ring-6 ring-[var(--on-primary-container)] !transition-none bg-white text-black text-[18px] sm:text-[20px] font-expressive-bold italic font-black tracking-tight h-16 sm:h-18 px-8 sm:px-12 rounded-[24px] flex items-center gap-3 group shrink-0 w-full md:w-auto justify-center whitespace-nowrap"
             >
-              explore more!
+              Read more!
               <ChevronRight
                 size={28}
                 className="group-hover:translate-x-1 transition-transform"
@@ -652,7 +652,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
         </div>
 
         <div id="projects-section" className="md:col-span-2 lg:col-span-1 xl:col-span-2 mt-16 mb-8 flex flex-col items-center gap-2">
-          <div className="text-[15px] font-black font-display font-sans italic tracking-[0.2em] opacity-30">index / select works</div>
+          <div className="text-[15px] font-black font-display font-sans italic tracking-[0.2em] opacity-30">Index / Select works</div>
           <h3 className="text-4xl md:text-6xl font-expressive-bold italic font-black tracking-[-0.05em] uppercase text-center">
             Projects & Research
           </h3>
@@ -732,7 +732,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
 
       {/* guestbook */}
       <section className="mt-20 flex flex-col items-center gap-6">
-        <div className="text-[15px] font-black font-display font-sans italic tracking-[0.2em] opacity-30">community / more feedback</div>
+        <div className="text-[15px] font-black font-display font-sans italic tracking-[0.1em] opacity-30">Community / Extra feedback</div>
         <h3 className="text-4xl md:text-6xl font-expressive-bold italic font-black tracking-[-0.05em] uppercase text-center">
           The Guestbook
         </h3>

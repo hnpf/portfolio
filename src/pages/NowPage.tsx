@@ -17,7 +17,7 @@ export const NowPage = memo(() => {
         <div className="space-y-4">
           <h2 className="page-title !text-6xl md:!text-9xl font-expressive-bold italic">Now</h2>
           <p className="text-xl md:text-2xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-2xl leading-tight">
-            what i'm actively building, learning, reading, and listening to right now.
+            What I'm currently building, learning, and listening to right now.
           </p>
         </div>
       </header>

@@ -243,7 +243,7 @@ export const SettingsDialog = memo(({
                 <div>
                   <div className="font-bold">AMOLED Mode</div>
                   <div className="text-xs opacity-60 font-medium">
-                    pure black backgrounds for OLED screens
+                    Total black backgrounds for OLED screens
                   </div>
                 </div>
                 <Switch
@@ -442,42 +442,42 @@ export const SettingsDialog = memo(({
                 {
                   key: "helloAnimation",
                   label: "Hello Animation",
-                  desc: "fluent language-cycling virex header",
+                  desc: "Fluent language cycling home hero",
                 },
                 {
                   key: "brutalistMode",
                   label: "Brutalist Mode",
-                  desc: "sharp edges only",
+                  desc: "Sharp edges only",
                 },
                 {
                   key: "developerFont",
                   label: "Developer Font",
-                  desc: "use JetBrains Mono!",
+                  desc: "Use JetBrains Mono",
                 },
                 {
                   key: "focusMode",
                   label: "Focus Mode",
-                  desc: "a minimal zen layout",
+                  desc: "A minimal zen layout",
                 },
                 {
                   key: "highHz",
                   label: "120Hz Animations",
-                  desc: "high-refresh snappiness",
+                  desc: "Replicates 120hz-level snappiness",
                 },
                 {
                   key: "disableAnimations",
                   label: "Disable Animations",
-                  desc: "turn off motion & transition effects",
+                  desc: "Turn off motion & transition effects",
                 },
                 {
                   key: "bentoTilt",
                   label: "3D Bento Tilt",
-                  desc: "cursor tracking parallax tilt effect",
+                  desc: "Cursor tracking parallax tilt effect on cards",
                 },
                 {
                   key: "lensDynamicTheming",
                   label: "Lens Dynamic Theming",
-                  desc: "match the theme to an expanded Lens photo",
+                  desc: "Match the theme to an expanded Lens photo",
                 },
               ].map((tweak, index, array) => (
                 <label
@@ -573,27 +573,27 @@ export const SettingsDialog = memo(({
                   {
                     key: "sidebarFlipped",
                     label: "Flip Sidebar",
-                    desc: "changes desktop sidebar orientation to the right",
+                    desc: "Changes desktop sidebar orientation to the right",
                   },
                   {
                     key: "floatingSidebar",
                     label: "Floating Sidebar",
-                    desc: "undock the sidebar with rounded corners",
+                    desc: "Undock the sidebar with rounded corners",
                   },
                   {
                     key: "profileContainer",
                     label: "Profile Container",
-                    desc: "show the ring and background around your profile",
+                    desc: "Shows a clean background around the profile header",
                   },
                   {
                     key: "forceDesktop",
                     label: "Force Desktop",
-                    desc: "prevent switching to mobile layout on small screens",
+                    desc: "Prevents switching to mobile layout on small screens",
                   },
                   {
                     key: "infoFullscreen",
                     label: "Info Page Fullscreen",
-                    desc: "hide navigation bars when on the info page",
+                    desc: "Hides navbars when on the /info page",
                   },
                 ].map((tweak, index, array) => (
                   <label
@@ -652,7 +652,7 @@ export const SettingsDialog = memo(({
                     const str = btoa(JSON.stringify(settings));
                     const shareUrl = `${window.location.origin}/?theme=${str}`;
                     navigator.clipboard.writeText(shareUrl);
-                    setToast("sharing link copied to clipboard!");
+                    setToast("Sharing link copied to clipboard!");
                   } catch (e) {
                     setToast("Failed to generate sharing link! :(");
                   }
@@ -663,7 +663,7 @@ export const SettingsDialog = memo(({
                 <div>
                   <div className="font-bold">Copy theme link</div>
                   <div className="text-xs opacity-60 font-medium">
-                    share your config as a link
+                    Share your config as a link
                   </div>
                 </div>
                 <ExternalLink
@@ -684,7 +684,7 @@ export const SettingsDialog = memo(({
                     downloadAnchor.remove();
                     setToast("backup downloaded!");
                   } catch (e) {
-                    setToast("failed to download backup. :(");
+                    setToast("failed to download backup :(");
                   }
                   haptic.light();
                 }}
@@ -693,7 +693,7 @@ export const SettingsDialog = memo(({
                 <div>
                   <div className="font-bold">Export config file</div>
                   <div className="text-xs opacity-60 font-medium">
-                    download backup as JSON
+                    Download config as JSON
                   </div>
                 </div>
                 <Download
@@ -816,7 +816,7 @@ export const SettingsDialog = memo(({
                 <div>
                   <div className="font-bold">Debug Mode</div>
                   <div className="text-xs opacity-60 font-medium">
-                    show layout grid and build info
+                    Show layout grid and build info
                   </div>
                 </div>
                 <Switch

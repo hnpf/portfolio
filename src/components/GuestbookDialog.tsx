@@ -324,7 +324,7 @@ export const GuestbookDialog = ({
                     ref={scrollRef}
                     className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 max-h-[45vh] md:max-h-none"
                   >
-                    <h3 className="text-md ml-1 font-black tracking-[0.2em] text-[var(--on-surface-variant)] opacity-60 mb-2">
+                    <h3 className="text-md ml-1 font-bold tracking-[0.1em] text-[var(--on-surface-variant)] opacity-60 mb-2">
                       Recent signs ({entries.length})
                     </h3>
                     
@@ -335,7 +335,7 @@ export const GuestbookDialog = ({
                       </div>
                     ) : entries.length === 0 ? (
                       <div className="text-center py-12 text-[var(--on-surface-variant)] opacity-40 italic font-medium">
-                        be the first person to sign the guestbook!
+                        Be the first person to sign! :)
                       </div>
                     ) : (
                       <div className="space-y-4">
@@ -364,7 +364,7 @@ export const GuestbookDialog = ({
                   
                   {/* share button at bottom left */}
                   <div className="p-4 mb-2 border-t border-[var(--outline-variant)]/20 bg-[var(--surface-variant)]/5 flex justify-between items-center shrink-0">
-                    <span className="text-[10px] mt-1 font-black ml-3 uppercase tracking-wider opacity-45 italic">
+                    <span className="text-[10px] mt-1 font-bold tracking-[0.05em] ml-3 uppercase opacity-45">
                       Share the guestbook!
                     </span>
                     <button
@@ -387,18 +387,18 @@ export const GuestbookDialog = ({
                   <form onSubmit={handleSubmit} className="space-y-4 flex-1 flex flex-col justify-between">
                     <div className="space-y-4">
                       <h3 className="text-[13px] font-black tracking-[0.1em] text-[var(--on-surface-variant)]">
-                        Sign the guestbook!
+                        Sign guestbook here!
                       </h3>
                       
                       {/* name input */}
                       <div className="space-y-1">
                         <label className="text-[12px] font-black tracking-[0.15em] text-[var(--on-surface-variant)] opacity-60">
-                          Alias/username
+                          Your Alias
                         </label>
                         <input
                           type="text"
                           disabled={isSubmitting}
-                          placeholder="Enter alias"
+                          placeholder="Enter an alias here..."
                           maxLength={30}
                           value={name}
                           onChange={(e) => setName(e.target.value)}
@@ -409,14 +409,14 @@ export const GuestbookDialog = ({
                       {/* msg input */}
                       <div className="space-y-1">
                         <label className="text-[12px] font-black tracking-[0.15em] text-[var(--on-surface-variant)] opacity-60">
-                          Message
+                         Your Message
                         </label>
                         <textarea
                           required
                           disabled={isSubmitting}
                           maxLength={200}
                           rows={4}
-                          placeholder="Leave a message or feedback..."
+                          placeholder="Leave your message or drop some feedback..."
                           value={message}
                           onChange={(e) => setMessage(e.target.value)}
                           className="w-full bg-[var(--surface-variant)]/40 text-[var(--on-surface)] border-4 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-xl px-3 py-2 text-sm focus:outline-none transition-all duration-200 resize-none min-h-[80px]"
@@ -435,12 +435,12 @@ export const GuestbookDialog = ({
                           if (navigator.share) {
                             navigator.share({
                               title: "virex.lol guestbook",
-                              text: "sign the virex.lol guestbook!",
+                              text: "Sign the virex.lol guestbook!",
                               url: shareUrl
                             }).catch(() => {});
                           } else {
                             navigator.clipboard.writeText(shareUrl);
-                            setToast("guestbook link copied!");
+                            setToast("Guestbook link copied!");
                           }
                         }}
                         className="flex-1 bg-[var(--surface)] text-[var(--on-surface-variant)] py-3 rounded-xl hover:rounded-2xl active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer text-xs font-black uppercase tracking-wider border border-[var(--outline-variant)]/40"
