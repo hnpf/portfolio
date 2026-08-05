@@ -12,7 +12,7 @@
 <img src="https://img.shields.io/badge/vercel-000?style=for-the-badge&logo=vercel&logoColor=white&labelColor=1C1B1F" />
 <img src="https://img.shields.io/badge/gpl--3.0-EF5350?style=for-the-badge&logo=gnu&logoColor=white&labelColor=1C1B1F" />
 
-personal hub and experimental site. material 3 ui, custom android-like shell, built on react 19. research, photography, rants.
+My personal website. Uses a Material 3 Expressive styled shell, photo gallery, url shortener, blog, and features tons of customization options. Built on React 19. Research, photography, blog posts.
 
 </div>
 
@@ -21,24 +21,9 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 ## what's new?
 
 **recent changes**
-- [July 22, 2026]  Modal actions refresh (icon containers and hover micro-animation)
-- [July 22, 2026]  Anc Bar Overhaul
-- [July 22, 2026]  To Top Overhaul
---
-- [July 16, 2026]  settings and full typography overhaul + lots of text rewrites
+- [Aug 5, 2026]  Sidewheel scrolling to lens, project rewording, pin icon fix, and sidebar collapse button speedup.
 ---
-- [July 14, 2026]  guestbook feature addition
-- [July 14, 2026]  /dash page consistency update
----
-- [July 11, 2026]  github contribution addition
----
-- [July 10, 2026]  Overhauled Short page
-- [July 10, 2026]  Remove tracker and add Now in it's place
-- [July 10, 2026]  Page header descriptions
-- [July 10, 2026]  Removed loom
-- [July 10, 2026]  Lens pinning
----
-> last updated: July 22, 2026 — [full changelog](https://github.com/hnpf/virex.lol/commits/main)
+> last updated: Aug 5, 2026 — [full commit history](https://github.com/hnpf/virex.lol/commits/main)
 ---
 
 ## screenshots
@@ -93,7 +78,7 @@ personal hub and experimental site. material 3 ui, custom android-like shell, bu
 
 > **blog** — linux, e-waste, dev rants. read-tracking + rss at `/rss.xml` (actually updated now. no really.)
 
-> **virex shorten** — url shortener at `/r/:slug`. sqlite-backed, dash-managed, route shadow protection included.
+> **virex dash** — url shortener at `/r/:slug`. sqlite-backed, dash-managed, route shadow protection included.
 
 > **lore** — interactive bio with a cool ass animation and more.
 
@@ -122,30 +107,40 @@ npm run build      # output to dist/
 
 ---
 
-## layout
+## some of the site's layout
 
 ```
 api/
   index.ts              express handlers (shortener, rss, etc.)
   db.ts                 sqlite read/write logic
+  guestbook_db.ts       guestbook backend, features banned_roots and leet map
 
 public/
+  fonts/                all locally stored and self-hosted material 3 symbols
   photography/          webp archive (compressed via sharp)
+  _routes.json
+  2.svg                 site favicon
+  llms-full.txt
+  llms.txt
+  manifest.json
   robots.txt
   rss.xml
   sitemap.xml
 
 src/
-  App.tsx               router + top-level page logic
-  Dash.tsx              shortener dashboard
-  constants.ts          data source (bio, links, projects, etc.)
-  ThemeContext.tsx       accent / mode / settings state (context api)
-  M3Slider.tsx          material 3 slider component
-  M3Switch.tsx          material 3 toggle switch
-  CopyLinkCapsule.tsx   clipboard copy ui
-  NotFound.tsx          404 page
-  index.css
-  main.tsx
+  components/           site components such as cards, copylinkcapsule, wavyprogress, etc.
+  hooks/                site hooks such as useAprilFools, useViewport, and useSettingsSync.
+  navigation/           nav components such as NavigationRail (and NavigationRailItem), and FAB
+  pages/                site pages like blog, changelog, dash, home, lens, 404, /now, and readme.
+  wavy.ts               wavy progress logic helper
+  app.ts                core/root application class
+  constants.ts          static info such as bug reports, projects, blog posts, and changelogs.
+  haptics.ts            haptics for mobile; self explanatory
+  index.css             also quite self-explanatory, holds some core styling logic and font data.
+  main.tsx              main site entrypoint
+  ThemeContext.tsx
+
+
 ```
 
 ---
