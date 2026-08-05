@@ -25,8 +25,6 @@ My personal website. Uses a Material 3 Expressive styled shell, photo gallery, u
 
 > last updated: Aug 5, 2026 — [full commit history](https://github.com/hnpf/virex.lol/commits/main)
 
----
-
 ## screenshots
 
 **desktop**
