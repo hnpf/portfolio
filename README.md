@@ -21,9 +21,11 @@ My personal website. Uses a Material 3 Expressive styled shell, photo gallery, u
 ## what's new?
 
 **recent changes**
+
 - [Aug 5, 2026]  Sidewheel scrolling to lens, project rewording, pin icon fix, and sidebar collapse button speedup.
----
+
 > last updated: Aug 5, 2026 — [full commit history](https://github.com/hnpf/virex.lol/commits/main)
+
 ---
 
 ## screenshots
