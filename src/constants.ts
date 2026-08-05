@@ -45,17 +45,17 @@ export interface Photo {
 
 export const PROJECTS: Project[] = [
   {
-    id: "cons blog",
-    title: "cons blog",
+    id: "Cons blog",
+    title: "Cons blog",
     description:
-      "a simple react/tsx blog site. follows material design expressive guidelines without being overly bloated and confusing.",
+      "Simply stunning m3e-inspired react/tsx blog site. Follows Material 3 Expressive guidelines without being overly bloated and confusing.",
     link: "https://github.com/hnpf/conspiracy.blog",
     tags: ["react", "typescript"],
   },
   {
     id: "mixtapes",
     title: "Mixtapes",
-    description: "a modern Linux LibAdwaita-themed YT Music player.",
+    description: "A modern Linux LibAdwaita-themed YT Music player.",
     link: "https://github.com/hnpf/Mixtapes",
     tags: ["python", "yt-music"],
   },
@@ -63,7 +63,7 @@ export const PROJECTS: Project[] = [
     id: "beetrap",
     title: "Beetrap",
     description:
-      "a honeypot written in Go, it mimics common network services (SSH, FTP, HTTP) and logs connection attempts in a real-time TUI",
+      "Linux honeypot written in Go, mimics common network services (SSH, FTP, HTTP) and logs connection attempts in real-time with a clean TUI",
     link: "https://github.com/hnpf/beetrap",
     tags: ["GoLang", "honeypot"],
   },
@@ -71,7 +71,7 @@ export const PROJECTS: Project[] = [
     id: "sniffcli",
     title: "SniffCLI",
     description:
-      "a lightweight TUI packet sniffer and network sentry built in Go. features live protocol visualization, SSH brute-force detection, and outbound device monitoring.",
+      "Lightweight TUI packet sniffer and network sentry built in Go. Features live protocol visualization, SSH brute-force detection, and outbound device monitoring",
     link: "https://github.com/hnpf/sniffcli",
     tags: ["GoLang", "Terminal"],
   },
@@ -79,7 +79,7 @@ export const PROJECTS: Project[] = [
     id: "sysdupd",
     title: "SYSDUPD",
     description:
-      "have you wanted to just update your linux system and forgot how, or just too scared to? I never have, but this could be the solution for you!",
+      "A simple GUI manager for updating (primarily) Arch-based systems. Can be somewhat useful for new users who love the GUI, but would rather have something clean.",
     link: "https://github.com/hnpf/sysdupd",
     tags: ["Gtk4", "Python"],
   },
@@ -87,15 +87,15 @@ export const PROJECTS: Project[] = [
     id: "automate",
     title: "Automate",
     description:
-      "a simple wayland autoclicker for linux, made using Python, and gtk4/libadwaita",
+      "Cross-WM (built GNOME-first) Wayland autoclicker for Linux, made using Python, GTK4, and LibAdwaita. First of this kind that actually still works!",
     link: "https://github.com/hnpf/automate",
     tags: ["Gtk4", "Python"],
   },
   {
     id: "google-pixel-plymouth",
-    title: "Google Pixel Plymouth Theme",
+    title: "Pixel Boot Animation",
     description:
-      "a pixel-accurate gemini boot animation for Linux, also optimized for speed-demon machines.",
+      "Pixel-accurate (no pun intended) Gemini boot animation for Linux (Plymouth). Comes primarily optimized and leaned more towards machines that boot faster.",
     link: "https://github.com/hnpf/google-pixel-plymouth-theme",
     tags: ["Linux", "Design"],
   },
@@ -103,7 +103,7 @@ export const PROJECTS: Project[] = [
     id: "rust-projects",
     title: "Rust projects",
     description:
-      "my collection of low level tools made for speed and reliability, you can find various projects on my GitHub!",
+      "My personal collection of mid-level (mostly beginner stuff, be warned!) tools made for speed and reliability, you can find various projects on my GitHub!",
     link: "https://github.com/hnpf",
     tags: ["Rust", "Misc"],
   },
@@ -2132,8 +2132,8 @@ export interface KnownIssues {
 export const KNOWN_ISSUES: KnownIssues[] = [
   {
     id: "desktop-photo-bento-lag",
-    title: "desktop photo bento lag",
-    description: "scrolling down on the bento and hovering over other photos causes immense lag. not sure why, but it's been on my watch for about a month now.",
+    title: "Desktop Photo Bento Lag",
+    description: "Scrolling down on the bento and hovering over other photos causes immense lag. Not sure how to exactly fix, but it's been an issue for about a month now.",
     status: "resolved",
     date: "2026-07-05",
     severity: "medium",
