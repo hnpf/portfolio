@@ -940,6 +940,20 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "floating-navbar-for-mobile-mode",
+    version: "2026.08.06",
+    title: "Floating navbar for mobile mode!",
+    date: "Aug 6, 2026",
+    changes: [
+      {
+        category: "Navbar changes",
+        items: [
+          "completely dropped the old navbar, replaced it with a floating capsule + squircle styled floating navbar",
+        ],
+      },
+    ],
+  },
+  {
     id: "typography-and-text-cleanup-update",
     version: "2026.08.05",
     title: "Typography and Text Cleanup Update",
