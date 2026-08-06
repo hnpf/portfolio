@@ -940,6 +940,51 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "typography-and-text-cleanup-update",
+    version: "2026.08.05",
+    title: "Typography and Text Cleanup Update",
+    date: "Aug 5, 2026",
+    changes: [
+      {
+        category: "Update info",
+        items: [
+          "Hi! This isn't really normal for me to put a info section, but I have to warn; this update is HUGE. Virex.lol 3.0.0 is here and it's brining quite a bit to the site :)",
+        ],
+      },
+      {
+        category: "Typography changes",
+        items: [
+          "This is the big one, the site now uses Google Sans Flex which is self-hosted. (variable font, GRAD,ROND,opsz,slnt,wdth,wght all of it.)",
+          "This also comes with changes like dropping non-latin names for HelloVirex and using other extended-latin language/pronounciation instead.",
+        ],
+      },
+      {
+        category: "Text changes",
+        items: [
+          "The site now uses generally proper grammar, since I had some time to work on the polishing there.",
+        ],
+      },
+      {
+        category: "/No page drop",
+        items: [
+          "Retired the /No page, as it never really served much of a purpose to the site.",
+        ],
+      },
+      {
+        category: "Other changes",
+        items: [
+          "Refactored 404 page (now uses a proper icon, better animation logic, and better cases that actually makes sense instead of duplicates)",
+          "Rephrased all /home page project descriptions",
+          "Added borders for /dash recent links view",
+          "Added sidewheel scrolling to the Lens page expanded view",
+          "Fixed Pin icon container not being sized correctly",
+          "Fixed sidebar collapse button and revamped it's animation logic",
+          "Full M3Scrollbar overhaul (overdrag, track logic, all revamped 300+ lines changed alone)",
+        ],
+      },
+    ],
+  },
+  {
     id: "hello-haptics-and-variable-dash-font-better-recent-links-view-back-gestures-and-more",
     version: "2026.07.31",
     title: "hello, haptics! (..and variable /dash font, better recent links view, back gestures, and more!)",
