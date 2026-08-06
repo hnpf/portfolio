@@ -336,7 +336,7 @@ export const BugReportDialog = ({
               "relative bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col motion-gpu border-[var(--outline-variant)]",
               isMobile 
                 ? "w-full h-[100dvh] max-w-none max-h-none rounded-t-[2rem] border-none" 
-                : "w-full max-w-lg rounded-[2rem] md:rounded-[2.5rem] max-h-[85vh] border"
+                : "w-full max-w-lg rounded-[2rem] md:rounded-[2.5rem] max-h-[85vh] border-3"
             )}
             style={isMobile ? { 
               y,
@@ -350,18 +350,18 @@ export const BugReportDialog = ({
             <div className="flex flex-col h-full overflow-hidden">
               {/* handle drag for mobile */}
               {isMobile && (
-                <div className="w-full flex justify-center pt-3 pb-1 shrink-0 bg-[var(--surface)]">
+                <div className="w-full flex justify-center pt-3 pb-1shrink-0 bg-[var(--surface)]">
                   <div className="w-12 h-1.5 bg-[var(--outline-variant)] rounded-full opacity-40" />
                 </div>
               )}
 
-              {/* headre */}
+              {/* header */}
               <div className={cn(
-                "flex justify-between items-center border-b border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10 shrink-0",
+                "flex justify-between items-center border-b-3 border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10 shrink-0",
                 isMobile ? "p-4" : "p-6 md:p-8"
               )}>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[var(--primary-container)]/60 border border-[var(--primary)]/20 flex items-center justify-center shrink-0 text-[var(--primary)] shadow-sm">
+                  <div className="w-10 h-10 rounded-full bg-[var(--primary-container)]/60 border-3 border-[var(--primary)]/20 flex items-center justify-center shrink-0 text-[var(--primary)] shadow-sm">
                     <Bug size={20} />
                   </div>
                   <h2 className="font-black text-xl md:text-2xl font-expressive uppercase tracking-tight">
@@ -374,7 +374,7 @@ export const BugReportDialog = ({
                       haptic.medium();
                       onClose();  
                     }}
-                    className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
+                    className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border-3 border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                   >
                     <X size={20} className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180 group-hover:scale-110" />
                   </button>
@@ -511,14 +511,14 @@ export const BugReportDialog = ({
                           onClose();
                           haptic.light();
                         }}
-                        className="flex-1 bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/40 text-[var(--on-surface-variant)] py-3.5 rounded-2xl hover:rounded-xl active:scale-95 text-sm font-black tracking-wide transition-all duration-200 cursor-pointer text-center"
+                        className="flex-1 bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/40 text-[var(--on-surface-variant)] py-3.5 rounded-2xl hover:rounded-xl active:scale-95 text-sm font-black tracking-wide border-3 border-[var(--outline-variant)] transition-all duration-200 cursor-pointer text-center"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
                         disabled={isSubmitting || !title.trim() || !description.trim()}
-                        className="flex-[1.5] bg-[var(--primary)] text-[var(--on-primary)] disabled:bg-[var(--surface-variant)]/50 disabled:text-[var(--outline)] disabled:scale-100 disabled:opacity-50 py-3.5 rounded-xl hover:rounded-2xl active:scale-95 transition-all duration-300 ease-out flex items-center justify-center gap-2 cursor-pointer text-sm font-black tracking-wide shadow-sm disabled:shadow-none"
+                        className="flex-1 bg-[var(--primary)] text-[var(--on-primary)] disabled:bg-[var(--surface-variant)]/50 disabled:text-[var(--outline)] disabled:scale-100 disabled:opacity-50 py-3.5 rounded-xl hover:rounded-2xl active:scale-95 transition-all duration-300 ease-out flex items-center justify-center gap-2 cursor-pointer text-sm font-black tracking-wide border-3 border-[var(--outline-variant)] shadow-sm disabled:shadow-none"
                       >
                         {isSubmitting ? (
                           <>

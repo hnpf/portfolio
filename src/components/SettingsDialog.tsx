@@ -1067,7 +1067,7 @@ export const SettingsDialog = memo(({
               "relative bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col motion-gpu settings-modal-content",
               is_mobile 
                 ? "w-full h-[100dvh] max-w-none max-h-none rounded-t-[2rem] border-none" 
-                : "w-full md:max-w-[700px] md:h-[780px] max-h-[90vh] rounded-[2rem] md:rounded-[2.5rem] border border-[var(--outline-variant)]"
+                : "w-full md:max-w-[700px] md:h-[780px] max-h-[90vh] rounded-[2rem] md:rounded-[2.8rem] border-3 border-[var(--outline-variant)]"
             )}
             style={is_mobile ? { 
               y,
@@ -1090,7 +1090,7 @@ export const SettingsDialog = memo(({
 
               <div 
                 className={cn(
-                  "flex justify-between items-center border-b border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10 shrink-0",
+                  "flex justify-between items-center border-b-3 border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10 shrink-0",
                   is_mobile ? "p-4" : "p-6 md:p-8"
                 )}
               >
@@ -1103,7 +1103,7 @@ export const SettingsDialog = memo(({
                       <ChevronLeft size={20} className="transition-transform duration-300 ease-out group-hover:-translate-x-0.5 group-hover:scale-110" />
                     </button>
                   )}
-                  <div className="w-10 h-10 rounded-full bg-[var(--primary-container)]/60 border border-[var(--primary)]/20 flex items-center justify-center shrink-0 text-[var(--primary)] shadow-sm">
+                  <div className="w-10 h-10 rounded-full bg-[var(--primary-container)]/60 border-3 border-[var(--primary)]/20 flex items-center justify-center shrink-0 text-[var(--primary)] shadow-sm">
                     <SettingsIcon size={20} />
                   </div>
                   <h2 className={cn(
@@ -1124,7 +1124,7 @@ export const SettingsDialog = memo(({
                     haptic.medium();
                     handleClose();
                   }}
-                  className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
+                  className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border-3 border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                 >
                   <X size={20} className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180 group-hover:scale-110" />
                 </button>

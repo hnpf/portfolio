@@ -252,7 +252,7 @@ export const KnownIssuesDialog = ({
               "relative bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col motion-gpu border-[var(--outline-variant)]",
               isMobile 
                 ? "w-full h-[100dvh] max-w-none max-h-none rounded-t-[2rem] border-none" 
-                : "w-full max-w-lg rounded-[2rem] md:rounded-[2.5rem] max-h-[85vh] border"
+                : "w-full max-w-lg rounded-[2rem] md:rounded-[2.5rem] max-h-[85vh] border-3"
             )}
             style={isMobile ? { 
               y,
@@ -273,11 +273,11 @@ export const KnownIssuesDialog = ({
 
               {/* header */}
               <div className={cn(
-                "flex justify-between items-center border-b border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10 shrink-0",
+                "flex justify-between items-center border-b-3 border-[var(--outline-variant)] bg-[var(--surface)] sticky top-0 z-10 shrink-0",
                 isMobile ? "p-4" : "p-6 md:p-8"
               )}>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[var(--primary-container)]/60 border border-[var(--primary)]/20 flex items-center justify-center shrink-0 text-[var(--primary)] shadow-sm">
+                  <div className="w-10 h-10 rounded-full bg-[var(--primary-container)]/60 border-3 border-[var(--primary)]/20 flex items-center justify-center shrink-0 text-[var(--primary)] shadow-sm">
                     <Bug size={20} />
                   </div>
                   <h2 className="font-black text-xl md:text-2xl font-expressive uppercase tracking-tight">
@@ -289,7 +289,7 @@ export const KnownIssuesDialog = ({
                     haptic.light();
                     onClose();
                   }}
-                  className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
+                  className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border-3 border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                 >
                   <X size={20} className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180 group-hover:scale-110" />
                 </button>
@@ -320,7 +320,7 @@ export const KnownIssuesDialog = ({
                         onClick={() => toggleExpand(bug.id)}
                         className={cn(
                           "border-6 border-[var(--outline-variant)] bg-[var(--surface-variant)]/40 hover:bg-[var(--surface-variant)]/70 transition-all rounded-[1.5rem] overflow-hidden cursor-pointer",
-                          isExpanded && "bg-[var(--surface-variant)]/80 ring-2 ring-[var(--primary)]/20"
+                          isExpanded && "bg-[var(--surface-variant)]/80 ring-1 ring-[var(--primary)]/20"
                         )}
                       >
                         {/* bug header sum */}
@@ -367,7 +367,7 @@ export const KnownIssuesDialog = ({
                               animate={{ height: "auto" }}
                               exit={{ height: 0 }}
                               transition={{ duration: 0.2, ease: "easeInOut" }}
-                              className="overflow-hidden bg-[var(--surface)] border-t border-[var(--outline-variant)]/50"
+                              className="overflow-hidden bg-[var(--surface)] border-t-3 border-[var(--primary)]/20"
                             >
                               <div className="p-4 text-xs text-[var(--on-surface-variant)] leading-relaxed space-y-2">
                                 <p className="font-medium">{bug.description}</p>
@@ -388,7 +388,7 @@ export const KnownIssuesDialog = ({
                     haptic.light();
                     onClose();
                   }}
-                  className="w-full bg-[var(--primary)] text-[var(--on-primary)] py-4 pl-6 pr-4 rounded-2xl hover:rounded-xl active:rounded-3xl hover:bg-[var(--primary)]/95 active:scale-90 text-base font-black tracking-wide transition-all duration-300 ease-out cursor-pointer text-left shadow-[4px_4px_0px_0px_var(--md-sys-color-outline-variant,rgba(0,0,0,0.2))] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"                >
+                  className="flex-1 w-full bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/40 text-[var(--on-surface-variant)] py-3.5 rounded-2xl hover:rounded-xl active:scale-95 text-sm font-black tracking-wide border-3 border-[var(--outline-variant)] transition-all duration-200 cursor-pointer text-center"                >
                   Close
                 </button>
               </div>
