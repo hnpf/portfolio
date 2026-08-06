@@ -85,7 +85,7 @@ const NavPillItem = React.memo(
         transition={pressed ? { duration: 0.08 } : spring}
         className={cn(
           "relative flex items-center justify-center outline-none cursor-pointer shrink-0 select-none",
-          isActive ? "gap-2 px-4 py-2 rounded-full" : "w-10 h-10 rounded-full",
+          isActive ? "gap-2 px-4 py-2.5 rounded-full" : "w-10 h-10 rounded-full",
         )}
         aria-label={item.label}
         aria-pressed={isActive}
@@ -224,7 +224,7 @@ export const MobileFloatingNav = React.memo(
     const highHz = settings.highHz;
 
     /* pill height driving squircle size */
-    const PILL_H = 56;
+    const PILL_H = 60;
     const SQUIRCLE_SIZE = Math.round(PILL_H * 0.88);
     const SIDE_PAD = Math.round(PILL_H * 0.5);
 
