@@ -386,16 +386,16 @@ const WeatherWidget = () => {
 
       <div className="mt-8 flex items-center gap-6 relative z-10 pt-6 before:absolute before:top-0 before:left-0 before:right-[200px] before:border-t-4 before:border-[var(--outline-variant)]/20">
         <div className="flex items-baseline gap-1">
-          <span className="text-2xl font-display font-black italic">{weather ? weather.humidity : "--"}</span>
-          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-50 tracking-widest">Hum</span>
+          <span className="text-1xl md:text-2xl font-display font-black italic">{weather ? weather.humidity : "--"}</span>
+          <span className="text-[10px] md:text-[15px] font-black ml-1 italic font-display font-sans opacity-50 tracking-widest">Hum</span>
         </div>
         <div className="flex items-baseline gap-1">
-          <span className="text-2xl font-display font-black italic">{weather ? weather.windSpeed : "--"}</span>
-          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-50 tracking-widest">Mph</span>
+          <span className="text-1xl md:text-2xl font-display font-black italic">{weather ? weather.windSpeed : "--"}</span>
+          <span className="text-[10px] md:text-[15px] font-black ml-1 italic font-display font-sans opacity-50 tracking-widest">Mph</span>
         </div>
         <div className="ml-auto flex items-center gap-1 opacity-40" title={WEATHER_LOCATION.label}>
           <MaterialIcon name="location_on" className="pr-1" size={19} fill />
-          <span className="text-[15px] font-black tracking-widest">{WEATHER_LOCATION.label}</span>
+          <span className="text-[11px] italic md:text-[15px] font-black tracking-widest">{WEATHER_LOCATION.label}</span>
         </div>
       </div>
       <a
@@ -565,11 +565,11 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
           innerClassName="bg-[var(--primary)] text-[var(--on-primary)] border-none p-6 sm:p-12 md:p-16 flex flex-col justify-between min-h-0 md:min-h-[440px] overflow-hidden group"
         >
           <div className="relative isolate">
-            <div className="absolute -top-20 -left-10 text-[20rem] font-expressive-bold italic opacity-10 pointer-events-none select-none tracking-tighter leading-none group-hover:scale-110 transition-transform duration-700">
+            <div className="absolute md:-top-20 -top-10  -left-10 text-[20rem] font-expressive-bold italic opacity-10 pointer-events-none select-none tracking-tighter leading-none group-hover:scale-110 transition-transform duration-700">
               "
             </div>
             <div className="flex flex-col gap-2 relative z-10">
-              <h2 className="text-5xl sm:text-7xl md:text-[7rem] opacity-82 italic font-expressive-bold leading-[0.8] tracking-[-0.08em] pr-2">
+              <h2 className="text-5xl sm:text-7xl md:text-[7rem] mt-5 md:mt-2 opacity-82 italic font-expressive-bold leading-[0.8] tracking-[-0.08em] pr-2">
                 Software should <br /> be readable,
               </h2>
               <h2 className="text-3xl sm:text-4xl md:text-6xl italic font-expressive-bold md:ml-12 ml-2 leading-none tracking-[-0.05em] mt-4 sm:mt-6 opacity-40">
@@ -624,14 +624,14 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
           innerClassName="flex flex-col border-6 border-[var(--outline-variant)] justify-center p-8 md:p-12 min-h-[450px] hover:border-[var(--primary)] group overflow-hidden relative items-start" /*no transitiopn-all cat*/
         >
           <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-all duration-700 group-hover:rotate-12 group-hover:scale-110">
-            <Activity size={120} className="-rotate-10" />
+            <Activity size={130} className="-rotate-175 md:mr-6 md:mt-3" />
           </div>
           <div className="isolate flex flex-col -space-y-3 md:-space-y-4">
-            <span className="text-2xl md:text-3xl font-display font-black italic uppercase tracking-tight opacity-40">I don't</span>
-            <span className="text-6xl mt-2 md:text-[6.5rem] font-expressive-bold italic font-black tracking-[-0.08em] leading-none uppercase">Ship</span>
-            <span className="text-4xl mt-2 md:text-5xl font-display font-black italic uppercase tracking-[-0.02em] mt-2">Things</span>
-            <span className="text-xl mt-2 md:text-2xl font-display font-black italic uppercase tracking-[0.1em] opacity-40 mt-4">I wouldn't</span>
-            <span className="text-6xl mt-2 md:text-[7rem] font-expressive-bold italic md:gap-0.5 tracking-[-0.008em] leading-none uppercase text-[var(--primary)]">Use.</span>
+            <span className="text-4xl md:text-5xl font-display font-black italic uppercase tracking-tight opacity-40">I don't</span>
+            <span className="text-8xl mt-2 md:text-[8.5rem] font-expressive-bold italic font-black tracking-[-0.08em] leading-none uppercase">Ship</span>
+            <span className="text-6xl mt-2 md:text-7xl font-display font-black italic uppercase tracking-[-0.02em] mt-2">Things</span>
+            <span className="text-2xl mt-2 md:text-4xl font-display font-black italic uppercase tracking-[0.1em] opacity-40 mt-4">I wouldn't</span>
+            <span className="text-8xl mt-2 md:text-[9rem] font-expressive-bold italic md:gap-0.5 tracking-[-0.008em] leading-none uppercase text-[var(--primary)]">Use.</span>
           </div>
         </Card>
 

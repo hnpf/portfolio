@@ -727,7 +727,7 @@ export const LensPage = memo(({ viewport }: { viewport: any }) => {
 
             {/* bottom island - unified navigation, raw, and position */}
             <div className="z-[230] p-6 md:p-12 flex flex-col items-center gap-6">
-              <div className="flex items-center gap-1 md:gap-2 bg-[var(--surface-variant)]/60 backdrop-blur-md p-2 md:p-3 rounded-full border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto">
+              <div className="flex items-center gap-1 md:mb-0 mb-4 md:gap-2 bg-[var(--surface-variant)]/60 backdrop-blur-md p-2 md:p-3 rounded-full border-6 border-[var(--outline-variant)]/40 shadow-2xl pointer-events-auto">
                 {/* mobile navigation buttons integrated into island */}
                 <div className="flex md:hidden items-center gap-1 pr-2 border-r-2 border-[var(--outline-variant)]/20">
                   <button
