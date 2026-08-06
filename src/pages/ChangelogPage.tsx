@@ -6,7 +6,7 @@ export const ChangelogPage = memo(() => {
   return (
     <div className="max-w-4xl mx-auto space-y-16 px-4 md:px-0 mb-32">
       <header className="page-header space-y-4">
-        <h2 className="page-title">Changelog</h2>
+        <h2 className="page-title tracking-[0.01em] italic">Changelog</h2>
         <p className="text-2xl opacity-60 font-medium">
           Tracking virex changes.
         </p>
