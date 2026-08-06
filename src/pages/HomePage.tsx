@@ -91,11 +91,11 @@ const AdCard = () => {
 
 const HelloVirex = ({ tickIndex }: { tickIndex: number }) => {
   const words = [
-    "virex",         // Global / English
-    "víreks",        // Slavic/Cyrillic Romanization
-    "wéiléikèsí",    // REPLACED: Changed the final 'ī' to a font-safe 'í'
-    "bìrégseù",      // Stylized Korean Romanization
+    "virex",         // Global / English 
     "fáyráks",       // Stylized Arabic Romanization
+    "víreks",        // Slavic/Cyrillic Romanization 
+    "vìréx",         // Catalan / Western European 
+    "vïrëx",         // Albanian / European Stylized 
   ];
 
   const widx = tickIndex % words.length;
@@ -163,7 +163,7 @@ const HelloVirex = ({ tickIndex }: { tickIndex: number }) => {
             mass: 1,
           }}
           style={{ transformOrigin: "left center" }}
-          className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.85] whitespace-nowrap flex items-baseline origin-left py-2"
+          className="text-8xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-expressive italic tracking-[-0.08em] leading-[0.85] whitespace-nowrap flex items-baseline origin-left py-2"
         >
           {words[widx]}
           <motion.span className="text-[var(--primary)] select-none relative z-[60] inline-block ml-[0.05em]">
