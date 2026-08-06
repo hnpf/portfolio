@@ -21,7 +21,7 @@ My personal website. Uses a Material 3 Expressive styled shell, photo gallery, u
 
 **New changes!**
 
-- [Aug 5, 2026]  Sidewheel scrolling to lens, project rewording, pin icon fix, and sidebar collapse button speedup.
+- [Aug 5, 2026]  Full font overhaul: The site now uses Google Sans Flex which is also self-hosted here. (variable font, GRAD,ROND,opsz,slnt,wdth,wght all of it.)
 
 > last updated: Aug 5, 2026 — [full commit history](https://github.com/hnpf/virex.lol/commits/main)
 
