@@ -495,7 +495,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                   <h3 className="text-4xl md:text-7xl font-expressive font-black tracking-tighter leading-[0.95] group-hover:translate-x-2 transition-transform duration-500 italic">
                     {featured.title}
                   </h3>
-                  <p className="text-lg md:text-2xl opacity-80 leading-relaxed font-medium text-pretty">
+                  <p className="text-lg md:text-2xl opacity-50 leading-relaxed font-medium text-pretty">
                     {featured.snippet}
                   </p>
                 </div>
@@ -592,7 +592,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                       <h4 className="text-2xl md:text-3xl font-expressive font-black leading-tight group-hover:translate-x-1 transition-transform italic">
                         {p.title}
                       </h4>
-                      <p className="text-lg opacity-60 leading-relaxed line-clamp-2 text-pretty">
+                      <p className="text-lg opacity-50 leading-relaxed line-clamp-2 text-pretty">
                         {p.snippet}
                       </p>
                     </div>

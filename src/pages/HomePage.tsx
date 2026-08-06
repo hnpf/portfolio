@@ -91,12 +91,13 @@ const AdCard = () => {
 
 const HelloVirex = ({ tickIndex }: { tickIndex: number }) => {
   const words = [
-    "virex",
-    "вирекс",
-    "维雷克斯",
-    "비렉스",
-    "ڤيركس",
+    "virex",         // Global / English
+    "víreks",        // Slavic/Cyrillic Romanization
+    "wéiléikèsí",    // REPLACED: Changed the final 'ī' to a font-safe 'í'
+    "bìrégseù",      // Stylized Korean Romanization
+    "fáyráks",       // Stylized Arabic Romanization
   ];
+
   const widx = tickIndex % words.length;
   const { settings } = useTheme();
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -218,9 +219,9 @@ const YearProg = () => {
       <div className="mt-4 flex flex-col gap-1 relative z-10 border-[var(--outline-variant)]/20">
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-display font-black italic">{days_left}</span>
-          <span className="text-[15px] ml-1 font-black font-sans italic font-display opacity-30 tracking-widest">more days to go!</span>
+          <span className="text-[15px] ml-1 font-black font-sans italic font-display opacity-50 tracking-widest">more days to go!</span>
         </div>
-        <div className="text-[13px] font-black font-display font-sans opacity-40
+        <div className="text-[13px] font-black font-display font-sans opacity-50
           tracking-widest">
           {now.toLocaleTimeString().toLowerCase()}
         </div>
@@ -370,7 +371,7 @@ const WeatherWidget = () => {
           <span className="text-8xl md:text-9xl mt-1.5 font-expressive-bold italic font-black tracking-[-0.08em] leading-[0.7]">
             {isLoading ? "--" : weather ? weather.temperature : "?"}
           </span>
-          <span className="text-4xl md:text-5xl font-expressive-bold italic opacity-30 ml-1">{weather ? "°" : ""}</span>
+          <span className="text-4xl md:text-5xl font-expressive-bold italic opacity-40 ml-1">{weather ? "°" : ""}</span>
         </div>
       </div>
 
@@ -386,11 +387,11 @@ const WeatherWidget = () => {
       <div className="mt-8 flex items-center gap-6 relative z-10 pt-6 before:absolute before:top-0 before:left-0 before:right-[200px] before:border-t-4 before:border-[var(--outline-variant)]/20">
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-display font-black italic">{weather ? weather.humidity : "--"}</span>
-          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-30 tracking-widest">Hum</span>
+          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-50 tracking-widest">Hum</span>
         </div>
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-display font-black italic">{weather ? weather.windSpeed : "--"}</span>
-          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-30 tracking-widest">Mph</span>
+          <span className="text-[15px] font-black ml-1 italic font-display font-sans opacity-50 tracking-widest">Mph</span>
         </div>
         <div className="ml-auto flex items-center gap-1 opacity-40" title={WEATHER_LOCATION.label}>
           <MaterialIcon name="location_on" className="pr-1" size={19} fill />
@@ -474,7 +475,7 @@ const AncBar = ({ setPage, settings }: { setPage: (page: string, postId: string 
           <h4 className="text-[18px] sm:text-[20px] md:text-[22px] font-display font-black italic text-[var(--on-surface-variant)] group-hover:text-[var(--primary)] transition-colors duration-200 truncate min-w-0 w-full leading-snug">
             {latestPost.title}
           </h4>
-          <p className="text-[13px] sm:text-[14px] opacity-70 font-sans line-clamp-1 sm:line-clamp-2 min-w-0 w-full leading-relaxed max-w-4xl">
+          <p className="text-[13px] sm:text-[14px] opacity-50 font-sans line-clamp-1 sm:line-clamp-2 min-w-0 w-full leading-relaxed max-w-4xl">
             {latestPost.snippet}
           </p>
         </div>
@@ -568,7 +569,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
               "
             </div>
             <div className="flex flex-col gap-2 relative z-10">
-              <h2 className="text-5xl sm:text-7xl md:text-[7rem] opacity-90 italic font-expressive-bold leading-[0.8] tracking-[-0.08em] pr-2">
+              <h2 className="text-5xl sm:text-7xl md:text-[7rem] opacity-82 italic font-expressive-bold leading-[0.8] tracking-[-0.08em] pr-2">
                 Software should <br /> be readable,
               </h2>
               <h2 className="text-3xl sm:text-4xl md:text-6xl italic font-expressive-bold md:ml-12 ml-2 leading-none tracking-[-0.05em] mt-4 sm:mt-6 opacity-40">
@@ -681,7 +682,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
                     ))}
                   </div>
                 </div>
-                <p className="opacity-70 mt-3 sm:mt-13 mb-8 text-lg sm:text-xl font-medium italic leading-snug">
+                <p className="opacity-50 mt-3 sm:mt-13 mb-8 text-lg sm:text-xl font-medium italic leading-snug">
                   {project.description}
                 </p>
               </div>
@@ -745,7 +746,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
         >
           <div className="space-y-4 text-center md:text-left flex-1 min-w-0">
             <h4 className="text-3xl font-display font-black italic">Leave a note!</h4>
-            <p className="opacity-70 text-lg max-w-xl font-medium leading-relaxed">
+            <p className="opacity-50 text-lg max-w-xl font-medium leading-relaxed">
               Drop by and leave your thoughts, a greeting, or tell me what you think of this site. Click to view all entries and sign!
             </p>
             {latestEntry && (

@@ -275,7 +275,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
               <h4 className="text-2xl md:text-3xl font-display font-black tracking-tight flex items-center justify-center md:justify-start gap-3 transition-colors group-hover:text-[var(--primary)] italic">
                 <Archive className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" /> Archival
               </h4>
-              <p className="text-xl opacity-70 font-medium max-w-2xl group-hover:opacity-100 transition-opacity italic">
+              <p className="text-xl opacity-50 font-medium max-w-2xl group-hover:opacity-100 transition-opacity italic">
                 Hands down one of my most peculiar hobbies. I enjoy archiving old software, audio plug-ins, old manuals and docs, and keeping backups of everything of interest that I find.
               </p>
             </div>
