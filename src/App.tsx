@@ -43,7 +43,8 @@ import DashPage from "./pages/DashPage";
 import NotFound from "./pages/NotFound";
 
 // components
-import { SideItem, BotNav } from "./components/Navigation";
+import { SideItem } from "./components/Navigation";
+import { MobileFloatingNav } from "./components/MobileFloatingNav";
 import { SettingsDialog } from "./components/SettingsDialog";
 import { GuestbookDialog } from "./components/GuestbookDialog";
 import { DebugConfirmDialog } from "./components/DebugConfirmDialog";
@@ -470,13 +471,20 @@ export default function App() {
 
       <AnimatePresence>
         {!settings.focusMode && (page !== "readme" || !settings.infoFullscreen) && is_mobile && (
-          <motion.nav initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} transition={{ type: "spring", damping: 25, stiffness: 120 }} className="fixed -bottom-4 left-0 right-0 bg-[var(--surface)] border-t border-[var(--outline-variant)] px-4 pt-1 pb-[calc(env(safe-area-inset-bottom,16px)+1.5rem)] flex justify-around z-40 shadow-[0_-8px_32px_rgba(0,0,0,0.06)] motion-gpu" style={{ willChange: "transform" }}>
-            <BotNav glyph={M3Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} />
-            <BotNav glyph={M3Info} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} />
-            <BotNav glyph={M3Blog} text="Blog" isSelected={page === "blog"} onSelect={() => goto("blog")} />
-            <BotNav glyph={M3Lens} text="Lens" isSelected={page === "lens"} onSelect={() => goto("lens")} />
-            <BotNav glyph={M3Settings} text="More" onSelect={() => setSettingsOpen(true)} layoutId="settings-expansion" />
-          </motion.nav>
+          <MobileFloatingNav
+            items={[
+              { key: "home",     glyph: M3Home, label: "Home" },
+              { key: "readme",   glyph: M3Info, label: "Info" },
+              { key: "blog",     glyph: M3Blog, label: "Blog" },
+              { key: "lens",     glyph: M3Lens, label: "Lens" },
+              { key: "now",      glyph: M3Now,  label: "Now" },
+            ]}
+            activePage={page}
+            onSelect={goto}
+            onSettings={() => setSettingsOpen(true)}
+            settingsGlyph={M3Settings}
+            settingsLayoutId="settings-expansion"
+          />
         )}
       </AnimatePresence>
 

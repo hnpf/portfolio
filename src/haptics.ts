@@ -24,4 +24,10 @@ export const haptic = {
       if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate([50, 50, 50]);
     } catch (e) {}
   },
+  /** light ripple */
+  ripple: () => {
+    try {
+      if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate([8, 40, 8]);
+    } catch (e) {}
+  },
 };

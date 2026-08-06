@@ -168,6 +168,7 @@ body, .gsf-global {
         --tertiary: oklch(0.56 var(--tertiary-chroma) var(--tertiary-hue));
         --surface: oklch(0.98 var(--neutral-chroma) var(--neutral-hue));
         --on-surface: oklch(0.14 var(--neutral-chroma) var(--neutral-hue));
+        --surface-container: oklch(0.95 calc(var(--neutral-chroma) * 1.2) var(--neutral-hue));
         --surface-variant: oklch(0.92 calc(var(--neutral-chroma) * 1.8) var(--neutral-hue));
         --on-surface-variant: oklch(0.32 calc(var(--neutral-chroma) * 1.4) var(--neutral-hue));
 
@@ -186,6 +187,7 @@ body, .gsf-global {
         --tertiary: oklch(0.79 var(--tertiary-chroma) var(--tertiary-hue));
         --surface: oklch(0.23 var(--neutral-chroma) var(--neutral-hue));
         --on-surface: oklch(0.94 var(--neutral-chroma) var(--neutral-hue));
+        --surface-container: oklch(0.26 calc(var(--neutral-chroma) * 1.2) var(--neutral-hue));
         --surface-variant: oklch(0.29 calc(var(--neutral-chroma) * 1.8) var(--neutral-hue));
         --on-surface-variant: oklch(0.84 calc(var(--neutral-chroma) * 1.4) var(--neutral-hue));
 
