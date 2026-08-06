@@ -367,7 +367,7 @@ const WeatherWidget = () => {
 
       <div className="relative z-10">
         <div className="flex items-baseline gap-1">
-          <span className="text-8xl md:text-9xl font-expressive-bold italic font-black tracking-[-0.08em] leading-[0.7]">
+          <span className="text-8xl md:text-9xl mt-1.5 font-expressive-bold italic font-black tracking-[-0.08em] leading-[0.7]">
             {isLoading ? "--" : weather ? weather.temperature : "?"}
           </span>
           <span className="text-4xl md:text-5xl font-expressive-bold italic opacity-30 ml-1">{weather ? "°" : ""}</span>
@@ -625,12 +625,12 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
           <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-all duration-700 group-hover:rotate-12 group-hover:scale-110">
             <Activity size={120} className="-rotate-10" />
           </div>
-          <div className="relative isolate flex flex-col -space-y-3 md:-space-y-4">
+          <div className="isolate flex flex-col -space-y-3 md:-space-y-4">
             <span className="text-2xl md:text-3xl font-display font-black italic uppercase tracking-tight opacity-40">I don't</span>
             <span className="text-6xl mt-2 md:text-[6.5rem] font-expressive-bold italic font-black tracking-[-0.08em] leading-none uppercase">Ship</span>
             <span className="text-4xl mt-2 md:text-5xl font-display font-black italic uppercase tracking-[-0.02em] mt-2">Things</span>
             <span className="text-xl mt-2 md:text-2xl font-display font-black italic uppercase tracking-[0.1em] opacity-40 mt-4">I wouldn't</span>
-            <span className="text-6xl mt-2 md:text-[6.5rem] font-expressive-bold italic font-black tracking-[-0.08em] leading-none uppercase text-[var(--primary)]">Use .</span>
+            <span className="text-6xl mt-2 md:text-[7rem] font-expressive-bold italic md:gap-0.5 tracking-[-0.008em] leading-none uppercase text-[var(--primary)]">Use.</span>
           </div>
         </Card>
 

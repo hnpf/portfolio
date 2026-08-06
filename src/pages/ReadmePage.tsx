@@ -29,9 +29,6 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
   const glass_class = is_mobile ? "" : "backdrop-blur-md";
 
   useEffect(() => {
-    if (is_mobile) {
-      console.log("you're on mobile, now cutting non-useful blurs, filters and anims to save battery");
-    }
   }, [is_mobile]);
 
   useEffect(() => {
@@ -78,7 +75,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
       <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-20 flex flex-col items-center">
         {/* hero */}
         <div className="flex flex-col items-center mb-32 w-full">
-          <div className="flex gap-1 md:gap-6 mb-8 flex-wrap justify-center">
+          <div className="flex gap-0.5 md:gap-2 mb-8 flex-wrap justify-center">
             {letters.map((char, i) => (
               <motion.span
                 key={i}
@@ -95,8 +92,8 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
                   mass: 0.8
                 }}
                 className={cn(
-                  "text-6xl sm:text-8xl md:text-9xl lg:text-[11rem] tracking-[0.01em] transition-all duration-150 select-none font-expressive font-black",
-                  flickering.includes(i) ? "text-[var(--primary)] scale-105" : "text-[var(--on-surface)]"
+                  "text-6xl sm:text-8xl md:text-9xl lg:text-[11rem] transition-all duration-150 select-none font-expressive font-black",
+                  flickering.includes(i) ? "text-[var(--primary)] scale-105" : "text-[var(--on-surface)]",
                 )}
               >
                 {flickering.includes(i) ? String.fromCharCode(33 + Math.floor(Math.random() * 94)) : char}

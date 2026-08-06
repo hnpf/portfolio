@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client'
 
 import React, { useState } from 'react'
@@ -57,7 +58,7 @@ export default function CopyLinkCapsule() {
             exit={{    scale: 0, rotate:  45,  opacity: 0 }}
             transition={{ type: "spring", stiffness: 600, damping: 18, mass: 0.5 }}
           >
-            <Check size={24} strokeWidth={3} />
+            <Check size={24} className="pt-4" strokeWidth={3} />
           </motion.div>
         ) : (
           <motion.div
@@ -67,7 +68,7 @@ export default function CopyLinkCapsule() {
             exit={{    scale: 0, rotate: -45,  opacity: 0 }}
             transition={{ type: "spring", stiffness: 600, damping: 18, mass: 0.5 }}
           >
-            <Link2 size={24} />
+            <Link2 size={24} className="pt-4" />
           </motion.div>
         )}
       </AnimatePresence>

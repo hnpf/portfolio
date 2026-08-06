@@ -1,4 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&family=Bricolage+Grotesque:wght@700;800&family=Unbounded:wght@700;900&family=Noto+Sans+JP:wght@700&family=Noto+Sans+KR:wght@700&family=Noto+Sans+SC:wght@700&family=Noto+Sans+Arabic:wght@700&family=Noto+Sans+Hebrew:wght@700&display=swap");
+/* Use Roboto Flex (self-hosted). Google Sans Flex imports removed in favor of local VF. */
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght,GRAD,wdth,slnt&display=swap");
+
+/* Fallback explicit @font-face for Latin: point directly to Google Fonts woff2 so
+   the browser definitely fetches a variable font file for Latin glyphs. */
+@font-face {
+    font-family: 'Google Sans Flex';
+    font-style: normal;
+    font-weight: 1 1000;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/googlesansflex/v22/t5sJIQcYNIWbFgDgAAzZ34auoVyXkJCOvp3SFWJbN5hF8Ju1x6sKCyp0l9sI40swNJwInycYAJzz0m7kJ4qFQOJBOjLvDSndo0SKMpKSTzwliVdHAy4bxTDHg_ugnAakp8ub-cxgUg.woff2') format('woff2');
+    unicode-range: U+0000-00FF;
+}
+
+/* Local self-hosting fallback: place GoogleSansFlex-Latin.woff2 in /public/fonts/ and
+   this @font-face will be used instead of remote files (better control over variable axes). */
+@font-face {
+    font-family: 'Google Sans Flex';
+    font-style: normal;
+    font-weight: 1 1000;
+    font-display: swap;
+    src: url('/fonts/GoogleSansFlex-Latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF;
+}
 
 /* Self-hosted Material Symbols Rounded variable font.
    Same-origin = no network round-trip to Google, loads from browser cache
@@ -15,23 +39,89 @@
 @import "tailwindcss";
 
 @theme {
-    --font-sans:
-        "Outfit", "Inter", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC",
-        "Noto Sans Arabic", "Noto Sans Hebrew", ui-sans-serif, system-ui,
-        sans-serif;
-    --font-display:
-        "Space Grotesk", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC",
-        "Noto Sans Arabic", "Noto Sans Hebrew", sans-serif;
-    --font-expressive:
-        "Bricolage Grotesque", "Unbounded", "Syne", sans-serif;
-    --font-expressive-bold:
-        "Syne", "Space Grotesk", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC",
-        "Noto Sans Arabic", "Noto Sans Hebrew", sans-serif;
+    /* Minimal: prefer self-hosted Google Sans Flex local variable font for UI text. */
+    --font-sans: "Google Sans Flex Local", ui-sans-serif, system-ui, sans-serif;
+    --font-display: "Google Sans Flex Local", sans-serif;
+    --font-expressive: "Google Sans Flex Local", sans-serif;
+    --font-expressive-bold: "Google Sans Flex Local", sans-serif;
 
     --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
     --border-6: 6px;
     --ring-6: 6px;
+}
+
+/* Variable-font helpers: tweak these to change weight/width/roundness/slant globally
+   Notes:
+   - Axis tags are 4-letter and font-specific: common tags are "wght", "wdth", "slnt", "GRAD", "ROND".
+   - If an axis does not exist, setting it has no effect. Use DevTools Fonts panel or network @font-face to confirm available axes.
+*/
+:root {
+    --gsf-wght: 820;   /* weight */
+    --gsf-wdth: 80;    /* width */
+    --gsf-slnt: 0;     /* slant/italic angle */
+    --gsf-grad: 0;     /* grad axis */
+    --gsf-rond: 100;   /* roundness axis (ROND) - default baked to 100 for maximum roundness */
+
+    --font-expressive-wght: 760;
+    --font-expressive-wdth: 86;
+    --font-expressive-slnt: 0;
+    --font-expressive-grad: 0;
+    --font-expressive-rond: 100;
+    --font-expressive-tracking: 0.01em;
+
+    --font-expressive-bold-wght: 900;
+    --font-expressive-bold-wdth: 92;
+    --font-expressive-bold-slnt: 0;
+    --font-expressive-bold-grad: 0;
+    --font-expressive-bold-rond: 100;
+    --font-expressive-bold-tracking: 0em;
+}
+
+/* Apply Google Sans Flex globally and expose variation axes via CSS variables */
+body, .gsf-global {
+    font-family: var(--font-sans);
+    font-variation-settings: "wght" var(--gsf-wght), "wdth" var(--gsf-wdth), "slnt" var(--gsf-slnt), "GRAD" var(--gsf-grad), "ROND" var(--gsf-rond);
+    font-weight: var(--gsf-wght);
+    font-stretch: calc(var(--gsf-wdth) * 1%);
+}
+
+/* Strong expressive variant */
+.gsf-expressive-strong {
+    font-family: var(--font-expressive-bold);
+    font-variation-settings: "wght" 900, "wdth" 92, "GRAD" 0, "ROND" 100;
+    font-weight: 900;
+}
+
+/* Expressive font role defaults */
+.font-expressive,
+.font-expressive-strong,
+.font-expressive-bold,
+.font-display,
+.font-sans {
+    font-family: var(--font-sans);
+}
+
+.font-expressive {
+    font-family: var(--font-expressive);
+    font-variation-settings: "wght" var(--font-expressive-wght), "wdth" var(--font-expressive-wdth), "slnt" var(--font-expressive-slnt), "GRAD" var(--font-expressive-grad), "ROND" var(--font-expressive-rond);
+    font-weight: var(--font-expressive-wght);
+    font-stretch: calc(var(--font-expressive-wdth) * 1%);
+    letter-spacing: var(--font-expressive-tracking);
+}
+
+.font-expressive-bold {
+    font-family: var(--font-expressive-bold);
+    font-variation-settings: "wght" var(--font-expressive-bold-wght), "wdth" var(--font-expressive-bold-wdth), "slnt" var(--font-expressive-bold-slnt), "GRAD" var(--font-expressive-bold-grad), "ROND" var(--font-expressive-bold-rond);
+    font-weight: var(--font-expressive-bold-wght);
+    font-stretch: calc(var(--font-expressive-bold-wdth) * 1%);
+    letter-spacing: var(--font-expressive-bold-tracking);
+}
+
+/* Utility to override axes on any element */
+.gsf-axes-override {
+    /* set custom properties on the element to override global values */
+    font-variation-settings: "wght" var(--gsf-wght), "wdth" var(--gsf-wdth), "slnt" var(--gsf-slnt), "GRAD" var(--gsf-grad), "ROND" var(--gsf-rond);
 }
 
 @layer base {
@@ -114,6 +204,12 @@
         /* prevent Samsung One UI browser from applying its own text-size scaling */
         -webkit-text-size-adjust: 100%;
         text-size-adjust: 100%;
+            /* ensure Roboto Flex variable axes apply and cannot be easily overridden by later @apply rules */
+            font-family: var(--font-sans);
+            /* baked numeric variation values so the site uses them by default */
+            font-variation-settings: "wght" 820, "wdth" 80, "slnt" 0, "ROND" 100;
+            font-weight: 820;
+            font-stretch: 80%;
     }
 
     /* hide native document scrollbar, replaced by M3WindowScrollBar */
@@ -161,12 +257,11 @@
     }
 
     .developer-font {
-        --font-sans:
-            "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
-        --font-display:
-            "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+        --font-sans: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+        --font-display: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+        --font-expressive: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+       --font-expressive-bold: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
     }
-
     .amoled-mode.dark {
         --surface: #000000 !important;
         --surface-variant: #0a0a0a !important;
@@ -1105,4 +1200,12 @@
 }
 .active-pill-animate {
     animation: activePillFadeIn 0.2s cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+/* Strong global override to ensure Roboto Flex variable axes apply everywhere */
+html, body, #root, .app-root {
+    font-family: var(--font-sans), system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-variation-settings: "wght" var(--gsf-wght, 820), "wdth" var(--gsf-wdth, 80), "slnt" var(--gsf-slnt, 0), "GRAD" var(--gsf-grad, 0), "ROND" var(--gsf-rond, 0);
+    font-weight: var(--gsf-wght, 820);
+    font-stretch: calc(var(--gsf-wdth, 80) * 1%);
 }

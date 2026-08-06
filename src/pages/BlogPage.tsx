@@ -402,9 +402,9 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
   const filtered_rest = filtered_posts.filter((p) => p.id !== featured.id);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12 px-4 md:px-0 pb-32">
-      <header className="page-header space-y-4">
-        <h2 className="page-title !text-6xl md:!text-9xl font-expressive-bold italic">Blog</h2>
+    <div className="max-w-6xl mx-auto space-y-10 px-4 md:px-0 pb-32">
+      <header className="page-header space-y-12">
+        <h2 className="page-title !text-6xl md:!text-[110px] font-expressive-bold italic">Virex blog</h2>
           <p className="text-xl md:text-2xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-2xl leading-tight">
             A page for my unsolicited thoughts, updates, and opinions.
           </p>
@@ -430,7 +430,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
 
         <SplitButton
           variant={active_cat ? "filled" : "tonal"}
-          icon={<Filter size={16} />}
+          icon={<Filter size={16} className="pt-3"  />}
           label={<span className="block pt-0.5">{active_cat ? `Topic: ${active_cat}` : "Browse Topics"}</span>}
           onClick={() => {}}
           menu={categories.map((cat) => (

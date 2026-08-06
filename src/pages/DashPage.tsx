@@ -218,10 +218,10 @@ export default function DashPage() {
               <table className="w-full text-left border-collapse table-auto">
                 <thead>
                   <tr className="border-b border-[var(--outline-variant)]/40 bg-[var(--surface)]/50">
-                    <th className="px-8 py-8 text-[15px] border-r border-[var(--surface-variant)]/50 font-black tracking-[0.4em] opacity-50">Path</th>
-                    <th className="px-8 py-8 text-[15px] border-r border-[var(--surface-variant)]/50 font-black tracking-[0.4em] opacity-50 w-[40%]">Destination</th>
-                    <th className="px-8 py-8 text-[15px] border-r border-[var(--surface-variant)]/50 font-black tracking-[0.4em] opacity-50 text-center">Visits</th>
-                    <th className="px-8 py-8 text-[15px]font-black tracking-[0.4em] opacity-50 text-right">Created</th>
+                    <th className="px-8 py-8 text-[15px] border-r border-[var(--surface-variant)]/50 font-black tracking-[0.2em] opacity-50">Path</th>
+                    <th className="px-8 py-8 text-[15px] border-r border-[var(--surface-variant)]/50 font-black tracking-[0.2em] opacity-50 w-[40%]">Destination</th>
+                    <th className="px-8 py-8 text-[15px] border-r border-[var(--surface-variant)]/50 font-black tracking-[0.2em] opacity-50 text-center">Visits</th>
+                    <th className="px-8 py-8 text-[15px]font-black tracking-[0.2em] opacity-50 text-right">Created</th>
                     <th className="px-4 py-8"></th>
                   </tr>
                 </thead>

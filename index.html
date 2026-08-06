@@ -47,9 +47,30 @@
         } catch (e) {}
       })();
     </script>
+    
+    <style id="critical-roboto-flex">
+      /* Critical inline @font-face to force use of the self-hosted Roboto Flex variable TTF
+         and bake default variation axes at page load. This is high-specificity but safe. */
+      @font-face {
+        font-family: 'Google Sans Flex Local';
+        font-style: normal;
+        font-weight: 1 1000;
+        font-display: swap;
+        src: url('/fonts/GoogleSansFlex-Variable.woff2') format('woff2');
+        unicode-range: U+0000-00FF;
+      }
+      html, body, #root, .app-root {
+        font-family: 'Google Sans Flex Local', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif !important;
+        /* Use CSS variables so runtime updates can modify axes */
+        font-variation-settings: "wght" var(--gsf-wght, 820), "wdth" var(--gsf-wdth, 80), "slnt" var(--gsf-slnt, 0), "GRAD" var(--gsf-grad, 0), "ROND" var(--gsf-rond, 0);
+        font-weight: var(--gsf-wght, 820);
+        font-stretch: calc(var(--gsf-wdth, 80) * 1%);
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+
+<script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
