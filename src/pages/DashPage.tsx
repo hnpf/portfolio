@@ -212,7 +212,7 @@ export default function DashPage() {
             <span className="text-[14px] sm:text-[16px] font-black tracking-[0.2em] italic opacity-30 whitespace-nowrap">{links.length} total</span>
           </motion.div>
 
-          <Card delay={0.5} className="w-full" innerClassName="p-0 overflow-hidden bg-[var(--surface-variant)]/10 backdrop-blur-md">
+          <Card delay={0.5} className="w-full" innerClassName="!p-0 overflow-hidden bg-[var(--surface-variant)]/10 backdrop-blur-md">
             {/* desktop table view */}
             <div className="hidden md:block">
               <table className="w-full text-left border-collapse table-auto">
@@ -261,7 +261,7 @@ export default function DashPage() {
             </div>
 
             {/* mobile view */}
-            <div className="md:hidden px-3 py-4 flex flex-col">
+            <div className="md:hidden px-3 pt-4 flex flex-col space-y-4 -mb-25">
               {links.map((link) => (
                 <div key={link.id} className="rounded-[2rem] bg-[var(--surface)]/70 border border-[var(--outline-variant)]/30 shadow-sm shadow-[var(--surface)]/40 overflow-hidden">
                   <div className="p-5 flex flex-col gap-4">
