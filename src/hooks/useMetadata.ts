@@ -10,14 +10,24 @@ export const useMetadata = (page: string, blogPostId: string | null, isApr: bool
       page === "blog" && blogPostId
         ? `Virex | ${BLOG_POSTS.find((p) => p.id === blogPostId || p.link === blogPostId)?.title || "Post"}`
         : page === "home"
-          ? "Virex"
+          ? "Virex | Portfolio"
           : `Virex | ${name}`;
     document.title = title;
 
     let desc =
-      "i am virex. a software researcher and problem solver, i explore systems and programming, UI/UX, and security research.";
+      page === "home"
+        ? "virex portfolio: an independent software developer and systems researcher showcasing projects, UI/UX, security research, and photography."
+        : "virex software researcher and problem solver, who explores systems and programming, UI/UX, and security research.";
     let og_title = title;
-    let og_img = "https://virex.lol/photography/pfp/main.png";
+    const og_img = "https://virex.lol/photography/pfp/main.png";
+    const pageUrl =
+      page === "home"
+        ? "https://virex.lol"
+        : page === "blog" && blogPostId
+        ? `https://virex.lol/blog/${blogPostId}`
+        : `https://virex.lol/${page}`;
+    const og_type = page === "blog" && blogPostId ? "article" : "website";
+
     if (page === "blog" && blogPostId) {
       const p = BLOG_POSTS.find(
         (p) => p.id === blogPostId || p.link === blogPostId,
@@ -45,12 +55,28 @@ export const useMetadata = (page: string, blogPostId: string | null, isApr: bool
       }
       el.setAttribute("content", val);
     };
+
+    const set_link = (rel: string, href: string) => {
+      let el = document.querySelector(`link[rel="${rel}"]`);
+      if (!el) {
+        el = document.createElement("link");
+        el.setAttribute("rel", rel);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("href", href);
+    };
+
     set_meta("description", desc);
     set_meta("og:title", og_title, true);
     set_meta("og:description", desc, true);
     set_meta("og:image", og_img, true);
+    set_meta("og:url", pageUrl, true);
+    set_meta("og:type", og_type, true);
+    set_meta("twitter:card", "summary_large_image");
     set_meta("twitter:title", og_title);
     set_meta("twitter:description", desc);
+    set_meta("twitter:image", og_img);
+    set_link("canonical", pageUrl);
 
     const old_ld = document.getElementById("json-ld-structured-data");
     if (old_ld) old_ld.remove();
@@ -75,8 +101,19 @@ export const useMetadata = (page: string, blogPostId: string | null, isApr: bool
         ld["headline"] = p.title;
         ld["description"] = p.snippet;
         ld["datePublished"] = new Date(p.date).toISOString();
+        ld["mainEntityOfPage"] = {
+          "@type": "WebPage",
+          "@id": pageUrl,
+        };
+        ld["image"] = og_img;
         ld["author"] = { "@type": "Person", name: "Virex" };
       }
+    } else {
+      ld["mainEntityOfPage"] = {
+        "@type": "WebPage",
+        "@id": pageUrl,
+      };
+      ld["image"] = og_img;
     }
 
     const script = document.createElement("script");
