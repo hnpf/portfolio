@@ -169,7 +169,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
               }}
               transition={{ type: "spring", stiffness: 700, damping: 18, mass: 0.5 }}
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={20} className="py-4" />
             </motion.span>
             <span>Back to feed</span>
           </motion.button>
