@@ -130,13 +130,13 @@ export default function DashPage() {
               isFocused ? "border-[var(--primary)]/50 scale-[1.01]" : "hover:border-[var(--primary)]/30"
             )}>
               
-              <div className="flex-1 w-full flex items-center bg-[var(--surface-variant)]/40 rounded-[2rem] px-6 py-2 border-4 border-transparent focus-within:bg-[var(--surface-variant)] focus-within:border-[var(--primary)]/20 transition-all h-20 md:h-24">
-                <Globe className={cn("transition-colors duration-300 mr-4 md:mr-6", isFocused ? "text-[var(--primary)]" : "text-[var(--primary)] opacity-40")} size={28} />
+              <div className="flex-1 w-full flex items-center bg-[var(--surface-variant)]/40 rounded-[2rem] px-4 sm:px-6 py-3 sm:py-4 border-4 border-transparent focus-within:bg-[var(--surface-variant)] focus-within:border-[var(--primary)]/20 transition-all min-h-[5rem]">
+                <Globe className={cn("transition-colors duration-300 mr-3 sm:mr-4", isFocused ? "text-[var(--primary)]" : "text-[var(--primary)] opacity-40")} size={24} />
                 <input
                   ref={inputRef}
                   type="url"
                   placeholder={placeholder}
-                  className="w-full h-full bg-transparent text-2xl md:text-4xl outline-none font-sans placeholder:opacity-20 leading-loose"
+                  className="w-full h-full bg-transparent text-xl sm:text-2xl md:text-4xl outline-none font-sans placeholder:opacity-20 leading-loose"
                   style={{ 
                     fontVariationSettings: `"wght" ${Math.min(900, Math.max(400, 400 + url.length * 40))}`,
                     fontWeight: Math.min(900, Math.max(400, 400 + url.length * 40))
@@ -152,13 +152,13 @@ export default function DashPage() {
                 />
               </div>
 
-              <div className="w-full md:w-auto flex items-center bg-[var(--surface-variant)]/40 rounded-[2rem] px-6 py-2 border-4 border-transparent focus-within:bg-[var(--surface-variant)] focus-within:border-[var(--primary)]/20 transition-all h-20 md:h-24">
-                <Hash className="text-[var(--primary)] opacity-40 mr-2 md:mr-3" size={24} />
-                <span className="text-2xl font-mono opacity-30 mr-1">/</span>
+              <div className="w-full md:w-auto flex items-center bg-[var(--surface-variant)]/40 rounded-[2rem] px-4 sm:px-6 py-3 sm:py-4 border-4 border-transparent focus-within:bg-[var(--surface-variant)] focus-within:border-[var(--primary)]/20 transition-all min-h-[5rem]">
+                <Hash className="text-[var(--primary)] opacity-40 mr-2 md:mr-3" size={22} />
+                <span className="text-xl sm:text-2xl font-mono opacity-30 mr-1">/</span>
                 <input
                   type="text"
                   placeholder="custom"
-                  className="w-full h-full md:w-48 bg-transparent text-2xl font-mono outline-none placeholder:opacity-30 placeholder:font-medium leading-loose"
+                  className="w-full h-full bg-transparent text-xl sm:text-2xl font-mono outline-none placeholder:opacity-30 placeholder:font-medium leading-loose"
                   value={path}
                   onChange={e => {
                     setpath(e.target.value);
@@ -172,7 +172,7 @@ export default function DashPage() {
               <button
                 type="submit"
                 disabled={isLoading || !url}
-                className="w-full md:w-auto h-20 md:h-24 bg-[var(--primary)] text-[var(--on-primary)] px-10 rounded-[2rem] flex items-center justify-center hover:scale-[1.02] active:scale-[0.95] disabled:opacity-50 disabled:scale-100 transition-all shadow-xl shadow-[var(--primary)]/20 group/btn"
+                className="w-full md:w-auto min-h-[5rem] h-auto bg-[var(--primary)] text-[var(--on-primary)] px-10 py-4 rounded-[2rem] flex items-center justify-center hover:scale-[1.02] active:scale-[0.95] disabled:opacity-50 disabled:scale-100 transition-all shadow-xl shadow-[var(--primary)]/20 group/btn"
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin" size={32} />
