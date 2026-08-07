@@ -261,7 +261,7 @@ export default function DashPage() {
             </div>
 
             {/* mobile view */}
-            <div className="md:hidden space-y-4 px-3 py-3">
+            <div className="md:hidden px-3 py-4 flex flex-col">
               {links.map((link) => (
                 <div key={link.id} className="rounded-[2rem] bg-[var(--surface)]/70 border border-[var(--outline-variant)]/30 shadow-sm shadow-[var(--surface)]/40 overflow-hidden">
                   <div className="p-5 flex flex-col gap-4">
@@ -276,23 +276,23 @@ export default function DashPage() {
                         <button
                           onClick={() => copylinkhandler(link.path)}
                           className={cn(
-                            "p-3 bg-[var(--surface)] rounded-xl active:scale-90 transition-all border-4 border-[var(--outline-variant)]/30",
+                            "p-1.5 px-2.5 bg-[var(--surface)] rounded-xl active:scale-90 transition-all border-4 border-[var(--outline-variant)]/30",
                             copypath === link.path && "bg-green-500 text-white border-transparent"
                           )}
                         >
-                          {copypath === link.path ? <Check size={20} /> : <Copy size={20} />}
+                          {copypath === link.path ? <Check size={20} className="py-4" /> : <Copy size={20} className="py-4" />}
                         </button>
                         <a
                           href={`/r/${link.path}`}
                           target="_blank"
-                          className="p-3 bg-[var(--surface)] rounded-xl active:scale-90 transition-all border-4 border-[var(--outline-variant)]/30"
+                          className="p-1.5 px-2.5 bg-[var(--surface)] rounded-xl active:scale-90 transition-all border-4 border-[var(--outline-variant)]/30"
                         >
-                          <ExternalLink size={20} />
+                          <ExternalLink size={20} className="py-4" />
                         </a>
                       </div>
                     </div>
                     <div className="flex flex-col gap-2 pt-4 border-t border-[var(--outline-variant)]/20 sm:flex-row sm:items-center sm:justify-between">
-                      <div className="text-sm font-bold opacity-60 bg-[var(--surface)] px-3 py-2 rounded-lg inline-block">
+                      <div className="text-sm font-bold opacity-60 bg-[var(--surface)] px-1 py-2 rounded-lg inline-block">
                         {link.visits} visits
                       </div>
                       <div className="text-xs font-bold opacity-40 uppercase tracking-widest">
