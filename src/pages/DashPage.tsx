@@ -215,7 +215,7 @@ export default function DashPage() {
           <Card delay={0.5} className="w-full" innerClassName="!p-0 overflow-hidden bg-[var(--surface-variant)]/10 backdrop-blur-md">
             {/* desktop table view */}
             <div className="hidden md:block">
-              <table className="w-full text-left border-collapse table-auto">
+              <table className="w-full text-left border-collapse table-auto -mb-15">
                 <thead>
                   <tr className="border-b border-[var(--outline-variant)]/40 bg-[var(--surface)]/50">
                     <th className="px-8 py-8 text-[15px] border-r border-[var(--surface-variant)]/50 font-black tracking-[0.2em] opacity-50">Path</th>
@@ -239,18 +239,18 @@ export default function DashPage() {
                           <button
                             onClick={() => copylinkhandler(link.path)}
                             className={cn(
-                              "p-3 bg-[var(--surface)] rounded-xl hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all active:scale-90 border-4 border-[var(--outline-variant)]/30 hover:border-[var(--primary)]/20",
+                              "py-3 px-4 bg-[var(--surface)] rounded-xl hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all active:scale-90 border-4 border-[var(--outline-variant)]/30 hover:border-[var(--primary)]/20",
                               copypath === link.path && "bg-green-500 text-white border-green-500/20 hover:bg-green-600 hover:text-white"
                             )}
                           >
-                            {copypath === link.path ? <Check size={18} /> : <Copy size={18} />}
+                            {copypath === link.path ? <Check size={20} className="py-4" /> : <Copy size={20} className="py-4" />}
                           </button>
                           <a
                             href={`/r/${link.path}`}
                             target="_blank"
-                            className="p-3 bg-[var(--surface)] rounded-xl hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all active:scale-90 border-4 border-[var(--outline-variant)]/30 hover:border-[var(--primary-container)]/20"
+                            className="py-3 px-4 bg-[var(--surface)] rounded-xl hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all active:scale-90 border-4 border-[var(--outline-variant)]/30 hover:border-[var(--primary-container)]/20"
                           >
-                            <ExternalLink size={18} />
+                            <ExternalLink size={20} className="py-4" />
                           </a>
                         </div>
                       </td>
