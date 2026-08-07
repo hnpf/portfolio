@@ -205,11 +205,11 @@ export default function DashPage() {
             initial={settings.disableAnimations ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: settings.disableAnimations ? 0 : 0.4, duration: 0.8 }}
-            className="flex items-center justify-between px-4 md:px-8"
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 md:px-8 gap-4"
           >
             <h2 className="text-3xl md:text-4xl font-expressive-bold italic tracking-tight opacity-80">Recent Links</h2>
-            <div className="h-px flex-1 mx-8 bg-[var(--outline-variant)]/30" />
-            <span className="text-[16px] font-black tracking-[0.2em] italic opacity-30">{links.length} total</span>
+            <div className="h-px w-full sm:flex-1 sm:w-auto bg-[var(--outline-variant)]/30" />
+            <span className="text-[14px] sm:text-[16px] font-black tracking-[0.2em] italic opacity-30 whitespace-nowrap">{links.length} total</span>
           </motion.div>
 
           <Card delay={0.5} className="w-full" innerClassName="p-0 overflow-hidden bg-[var(--surface-variant)]/10 backdrop-blur-md">
@@ -261,14 +261,17 @@ export default function DashPage() {
             </div>
 
             {/* mobile view */}
-            <div className="md:hidden divide-y divide-[var(--outline-variant)]/20">
-              {links.map((link) => (
-                <div key={link.id} className="p-6">
-                  <div className="flex flex-col gap-4">
+            <div className="md:hidden">
+              {links.map((link, index) => (
+                <div key={link.id} className={cn(
+                  "px-5 py-5",
+                  index === links.length - 1 ? "pb-6" : "pb-0"
+                )}>
+                  <div className="flex flex-col gap-4 rounded-[2rem] bg-[var(--surface)]/70 border border-[var(--outline-variant)]/30 p-5 shadow-sm shadow-[var(--surface)]/40">
                     <div className="flex items-start justify-between gap-4">
-                      <div className="flex flex-col gap-1.5 overflow-hidden">
-                        <div className="font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter break-all">/{link.path}</div>
-                        <div className="text-sm opacity-50 font-display break-all">
+                      <div className="flex-1 min-w-0 flex flex-col gap-1.5 overflow-hidden">
+                        <div className="font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter break-words">/{link.path}</div>
+                        <div className="text-sm opacity-70 font-display break-words leading-6">
                           {link.original_url}
                         </div>
                       </div>
@@ -291,8 +294,8 @@ export default function DashPage() {
                         </a>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between pt-4 border-t border-[var(--outline-variant)]/20">
-                      <div className="text-sm font-bold opacity-60 bg-[var(--surface)] px-3 py-1 rounded-lg">
+                    <div className="flex flex-col gap-2 pt-4 border-t border-[var(--outline-variant)]/20 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="text-sm font-bold opacity-60 bg-[var(--surface)] px-3 py-2 rounded-lg inline-block">
                         {link.visits} visits
                       </div>
                       <div className="text-xs font-bold opacity-40 uppercase tracking-widest">
