@@ -37,6 +37,27 @@ const BOUNCE_SPRING = {
   mass: 0.5,
 };
 
+const ACTIVE_PILL_SPRING = {
+  type: "spring" as const,
+  stiffness: 520,
+  damping: 36,
+  mass: 0.5,
+};
+
+const ICON_SPRING = {
+  type: "spring" as const,
+  stiffness: 520,
+  damping: 38,
+  mass: 0.45,
+};
+
+const LABEL_SPRING = {
+  type: "spring" as const,
+  stiffness: 480,
+  damping: 38,
+  mass: 0.45,
+};
+
 const SETTINGS_SPRING = {
   type: "spring" as const,
   stiffness: 420,
@@ -81,7 +102,7 @@ const NavPillItem = React.memo(
         onPointerDown={() => setPressed(true)}
         onPointerUp={() => setPressed(false)}
         onPointerLeave={() => setPressed(false)}
-        animate={pressed ? { scale: 0.88, y: 2 } : { scale: 1, y: 0 }}
+        animate={pressed ? { scale: 0.92, y: 1 } : { scale: 1, y: 0 }}
         transition={pressed ? { duration: 0.08 } : spring}
         className={cn(
           "relative flex items-center justify-center outline-none cursor-pointer shrink-0 select-none",
@@ -90,30 +111,32 @@ const NavPillItem = React.memo(
         aria-label={item.label}
         aria-pressed={isActive}
       >
-        {/*
-          this is always mounted, animates opacity/scale.
-          also avoid AnimatePresence here: it was causing bg to briefly
-          exit/re-enter on every single re-render triggered by pressed changes,
-          making the capsule disappear on tap.
-        */}
-        <motion.div
-          animate={{
-            opacity: isActive ? 1 : 0,
-            scaleX: isActive ? 1 : 0.5,
-            scaleY: isActive ? 1 : 0.7,
-          }}
-          transition={bounceSpring}
-          className="absolute inset-0 rounded-full z-0 pointer-events-none"
-          style={{ backgroundColor: "var(--primary)" }}
-        />
+        {isActive && (
+          <motion.div
+            layout
+            layoutId="mobile-nav-active-pill"
+            initial={false}
+            animate={{
+              opacity: 1,
+              scaleX: 1,
+              scaleY: 1,
+            }}
+            transition={ACTIVE_PILL_SPRING}
+            className="absolute inset-0 rounded-full z-0 pointer-events-none"
+            style={{
+              backgroundColor: "var(--primary)",
+              boxShadow: "0 16px 32px -18px rgba(79, 70, 229, 0.85)",
+            }}
+          />
+        )}
 
         {/* icon */}
         <motion.div
           animate={{
-            scale: isActive ? 1.12 : 1,
-            rotate: isActive ? -5 : 0,
+            scale: isActive ? 1.18 : 1,
+            rotate: isActive ? -8 : 0,
           }}
-          transition={spring}
+          transition={ICON_SPRING}
           style={{
             color: isActive
               ? "var(--on-primary)"
@@ -121,26 +144,29 @@ const NavPillItem = React.memo(
           }}
           className="relative z-[1] shrink-0 flex items-center justify-center"
         >
-          <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+          <Icon size={20} strokeWidth={isActive ? 2.8 : 2} />
         </motion.div>
 
         {/* this still uses AnimatePresence, safe here tho since it
             doesnt interfere w the buttons layout anim */}
-        <AnimatePresence mode="popLayout">
-          {isActive && (
-            <motion.span
-              key="label"
-              initial={{ opacity: 0, width: 0, x: -6 }}
-              animate={{ opacity: 1, width: "auto", x: 0 }}
-              exit={{ opacity: 0, width: 0, x: -6 }}
-              transition={{ ...spring, duration: 0.2 }}
-              className="relative z-[1] text-[11px] font-expressive font-black uppercase tracking-widest italic whitespace-nowrap overflow-hidden"
-              style={{ color: "var(--on-primary)" }}
-            >
-              {item.label}
-            </motion.span>
-          )}
-        </AnimatePresence>
+        <motion.span
+          layout
+          initial={false}
+          animate={{
+            opacity: isActive ? 1 : 0,
+            maxWidth: isActive ? 128 : 0,
+            x: isActive ? 0 : -8,
+          }}
+          transition={{ ...LABEL_SPRING, duration: 0.24 }}
+          className="relative z-[1] inline-block text-[11px] font-expressive font-black uppercase tracking-widest italic whitespace-nowrap overflow-hidden"
+          style={{
+            color: "var(--on-primary)",
+          }}
+        >
+          <span className="inline-block px-0">
+            {item.label}
+          </span>
+        </motion.span>
       </motion.button>
     );
   },

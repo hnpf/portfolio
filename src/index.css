@@ -539,7 +539,7 @@ body, .gsf-global {
 
     .page-title {
         @apply text-7xl md:text-9xl font-black tracking-tighter;
-        line-height: 1.05;
+        line-height: 1.08;
     }
 
     /* april fools lol */
