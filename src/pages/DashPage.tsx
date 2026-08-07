@@ -261,13 +261,10 @@ export default function DashPage() {
             </div>
 
             {/* mobile view */}
-            <div className="md:hidden">
-              {links.map((link, index) => (
-                <div key={link.id} className={cn(
-                  "px-5 py-5",
-                  index === links.length - 1 ? "pb-6" : "pb-0"
-                )}>
-                  <div className="flex flex-col gap-4 rounded-[2rem] bg-[var(--surface)]/70 border border-[var(--outline-variant)]/30 p-5 shadow-sm shadow-[var(--surface)]/40">
+            <div className="md:hidden space-y-4 px-3 py-3">
+              {links.map((link) => (
+                <div key={link.id} className="rounded-[2rem] bg-[var(--surface)]/70 border border-[var(--outline-variant)]/30 shadow-sm shadow-[var(--surface)]/40 overflow-hidden">
+                  <div className="p-5 flex flex-col gap-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0 flex flex-col gap-1.5 overflow-hidden">
                         <div className="font-mono font-bold text-2xl text-[var(--primary)] tracking-tighter break-words">/{link.path}</div>
