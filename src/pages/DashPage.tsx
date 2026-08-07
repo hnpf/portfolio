@@ -315,7 +315,7 @@ export default function DashPage() {
       
       {/* some extra bg decor :) */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center opacity-[0.02] dark:opacity-[0.03]">
-        <LinkIcon size={800} className="text-[var(--primary)] -rotate-12 scale-150" />
+        <LinkIcon size="clamp(320px, 55vw, 720px)" className="text-[var(--primary)] -rotate-12 scale-[1.15]" />
       </div>
     </div>
   );
