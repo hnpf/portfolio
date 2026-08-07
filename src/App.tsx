@@ -477,7 +477,7 @@ export default function App() {
               { key: "readme",   glyph: M3Info, label: "Info" },
               { key: "blog",     glyph: M3Blog, label: "Blog" },
               { key: "lens",     glyph: M3Lens, label: "Lens" },
-              { key: "now",      glyph: M3Now,  label: "Now" },
+              { key: "dash",      glyph: M3Short,  label: "Short" },
             ]}
             activePage={page}
             onSelect={goto}
