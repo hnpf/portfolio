@@ -533,7 +533,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                     >
                       <ArrowUpRight
                         size={28}
-                        className="w-6 h-6 md:w-8 md:h-8 group-hover/btn:translate-x-1 transition-transform"
+                        className="w-6 h-6 md:w-8 md:h-8 py-7 group-hover/btn:translate-x-1 transition-transform"
                       />
                     </motion.span>
                   </motion.div>
