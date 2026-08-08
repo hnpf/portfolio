@@ -477,17 +477,17 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
               }}
             >
               <div className="p-8 md:p-16 space-y-8 relative z-10">
-                <div className="flex items-center gap-4">
-                  <span className="px-4 py-1.5 bg-[var(--primary)] text-[var(--on-primary)] rounded-full text-[12px] font-black tracking-widest shadow-lg">
+                <div className="flex items-center gap-4 flex-nowrap">
+                  <span className="shrink-0 px-4 py-1.5 bg-[var(--primary)] text-[var(--on-primary)] rounded-full text-[12px] font-black tracking-widest shadow-lg">
                     Featured post!
                   </span>
-                  <span className="text-sm font-bold opacity-60 flex items-center gap-2">
-                    <Calendar size={14} /> {featured.date}
+                  <span className="min-w-0 text-sm font-bold opacity-60 flex items-center gap-2">
+                    <Calendar size={14} /> <span className="truncate">{featured.date}</span>
                   </span>
                   {read.includes(featured.id) && (
                     <CheckCircle2
                       size={20}
-                      className="text-green-500 shadow-xl"
+                      className="text-green-500 shadow-xl shrink-0"
                     />
                   )}
                 </div>
@@ -573,11 +573,11 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                 <div className="space-y-6 h-full flex flex-col justify-between">
                   <div className="space-y-6">
                     <div className="flex justify-between items-start gap-3">
-                      <div className="flex flex-wrap items-center gap-2 min-w-0 flex-1">
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
                         <span className="text-[10px] font-black uppercase tracking-widest text-[var(--primary)] px-2 py-1 bg-[var(--primary-container)]/30 rounded-md border border-[var(--primary)]/20 whitespace-nowrap shrink-0">
                           {p.category}
                         </span>
-                        <span className="text-[10px] font-bold opacity-40 uppercase tracking-widest whitespace-nowrap shrink-0">
+                        <span className="text-[10px] font-bold opacity-40 uppercase tracking-widest whitespace-nowrap">
                           {p.date}
                         </span>
                         {read.includes(p.id) && (
