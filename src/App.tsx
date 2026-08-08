@@ -94,6 +94,7 @@ export default function App() {
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
+  const sidebarScrollEnabled = false;
 
   // modular logic hooks
   useSettingsSync(setPendingCapsule);
@@ -142,17 +143,34 @@ export default function App() {
     if (!nav) return;
     navRef.current = nav;
     const check = () => {
-      setCanScrollUp(nav.scrollTop > 5);
-      setCanScrollDown(nav.scrollHeight - nav.scrollTop - nav.clientHeight > 5);
+      setCanScrollUp(nav.scrollTop > 1);
+      setCanScrollDown(nav.scrollHeight - nav.scrollTop - nav.clientHeight > 1);
     };
     check();
+
     const timeout = setTimeout(check, 100);
     nav.addEventListener("scroll", check);
     window.addEventListener("resize", check);
+
+    let resizeObserver: ResizeObserver | null = null;
+    let mutationObserver: MutationObserver | null = null;
+
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(check);
+      resizeObserver.observe(nav);
+    }
+
+    if (typeof MutationObserver !== "undefined") {
+      mutationObserver = new MutationObserver(check);
+      mutationObserver.observe(nav, { subtree: true, childList: true, characterData: true });
+    }
+
     return () => {
       clearTimeout(timeout);
       nav.removeEventListener("scroll", check);
       window.removeEventListener("resize", check);
+      if (resizeObserver) resizeObserver.disconnect();
+      if (mutationObserver) mutationObserver.disconnect();
     };
   }, [viewport.h, page, settings.sidebarCollapsed]);
 
@@ -384,7 +402,7 @@ export default function App() {
                 </div>
               )}
               <div className="flex-1 flex flex-col min-h-0 relative group/nav" onMouseMove={(e) => { const rect = e.currentTarget.getBoundingClientRect(); const y = e.clientY - rect.top; setNavHoverSide(y < rect.height / 2 ? "top" : "bottom"); }} onMouseLeave={() => setNavHoverSide(null)}>
-                <nav id="sidebar-nav" className={cn("flex-1 flex flex-col overflow-y-auto min-h-0 py-12 scrollbar-hide", canScrollUp && canScrollDown ? "mask-both" : (canScrollUp ? "mask-top" : (canScrollDown ? "mask-bottom" : "")), "gap-6", settings.sidebarCollapsed ? "items-center px-2" : "items-stretch px-4")} data-rail-state={settings.sidebarCollapsed ? "default" : "open"}>
+                <nav id="sidebar-nav" className={cn("flex-1 flex flex-col min-h-0 py-12 scrollbar-hide overflow-y-hidden gap-6", settings.sidebarCollapsed ? "items-center px-2" : "items-stretch px-4")} data-rail-state={settings.sidebarCollapsed ? "default" : "open"} style={{ overflowY: "hidden", overscrollBehavior: "contain" }}>
                   <M3ScrollBar scrollEl={navRef} colorful thinOnly />
                   <SideItem highHz={settings.highHz} isFirst glyph={M3Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={M3Info} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
@@ -393,14 +411,14 @@ export default function App() {
                   <SideItem highHz={settings.highHz} glyph={M3Now} text="Now" isSelected={page === "now"} onSelect={() => goto("now")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} isLast />
                 </nav>
                 <AnimatePresence>
-                  {canScrollUp && navHoverSide === "top" && (
+                  {false && canScrollUp && navHoverSide === "top" && (
                     <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={squishySpring} className="absolute top-2 left-0 right-0 pointer-events-none flex flex-col items-center z-[50]">
                       <button onClick={() => document.getElementById("sidebar-nav")?.scrollBy({ top: -150, behavior: "smooth" })} className="w-10 h-10 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-lg pointer-events-auto border-2 border-white/10 transition-transform active:scale-90"><M3ChevronLeft size={20} className="rotate-90" fill /></button>
                     </motion.div>
                   )}
                 </AnimatePresence>
                 <AnimatePresence>
-                  {canScrollDown && navHoverSide === "bottom" && (
+                  {false && canScrollDown && navHoverSide === "bottom" && (
                     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={squishySpring} className="absolute bottom-2 left-0 right-0 pointer-events-none flex flex-col items-center z-[50]">
                       <button onClick={() => document.getElementById("sidebar-nav")?.scrollBy({ top: 150, behavior: "smooth" })} className="w-10 h-10 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-lg pointer-events-auto border-2 border-white/10 transition-transform active:scale-90"><M3ChevronLeft size={20} className="-rotate-90" fill /></button>
                     </motion.div>
