@@ -49,8 +49,6 @@
     </script>
     
     <style id="critical-roboto-flex">
-      /* Critical inline @font-face to force use of the self-hosted Roboto Flex variable TTF
-         and bake default variation axes at page load. This is high-specificity but safe. */
       @font-face {
         font-family: 'Google Sans Flex Local';
         font-style: normal;
@@ -61,7 +59,6 @@
       }
       html, body, #root, .app-root {
         font-family: 'Google Sans Flex Local', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif !important;
-        /* Use CSS variables so runtime updates can modify axes */
         font-variation-settings: "wght" var(--gsf-wght, 820), "wdth" var(--gsf-wdth, 80), "slnt" var(--gsf-slnt, 0), "GRAD" var(--gsf-grad, 0), "ROND" var(--gsf-rond, 0);
         font-weight: var(--gsf-wght, 820);
         font-stretch: calc(var(--gsf-wdth, 80) * 1%);

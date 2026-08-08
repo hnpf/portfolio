@@ -1,9 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&family=Bricolage+Grotesque:wght@700;800&family=Unbounded:wght@700;900&family=Noto+Sans+JP:wght@700&family=Noto+Sans+KR:wght@700&family=Noto+Sans+SC:wght@700&family=Noto+Sans+Arabic:wght@700&family=Noto+Sans+Hebrew:wght@700&display=swap");
-/* Use Roboto Flex (self-hosted). Google Sans Flex imports removed in favor of local VF. */
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght,GRAD,wdth,slnt&display=swap");
-
-/* Fallback explicit @font-face for Latin: point directly to Google Fonts woff2 so
-   the browser definitely fetches a variable font file for Latin glyphs. */
 @font-face {
     font-family: 'Google Sans Flex';
     font-style: normal;
@@ -13,8 +9,6 @@
     unicode-range: U+0000-00FF;
 }
 
-/* Local self-hosting fallback: place GoogleSansFlex-Latin.woff2 in /public/fonts/ and
-   this @font-face will be used instead of remote files (better control over variable axes). */
 @font-face {
     font-family: 'Google Sans Flex';
     font-style: normal;
@@ -24,11 +18,6 @@
     unicode-range: U+0000-00FF;
 }
 
-/* Self-hosted Material Symbols Rounded variable font.
-   Same-origin = no network round-trip to Google, loads from browser cache
-   instantly. font-display: block prevents raw ligature text from flashing
-   (text is invisible for the brief block period instead of showing raw
-   ligature strings like "chevron_right"). */
 @font-face {
     font-family: 'Material Symbols Rounded';
     font-style: normal;
@@ -39,7 +28,6 @@
 @import "tailwindcss";
 
 @theme {
-    /* Minimal: prefer self-hosted Google Sans Flex local variable font for UI text. */
     --font-sans: "Google Sans Flex Local", ui-sans-serif, system-ui, sans-serif;
     --font-display: "Google Sans Flex Local", sans-serif;
     --font-expressive: "Google Sans Flex Local", sans-serif;
@@ -51,17 +39,12 @@
     --ring-6: 6px;
 }
 
-/* Variable-font helpers: tweak these to change weight/width/roundness/slant globally
-   Notes:
-   - Axis tags are 4-letter and font-specific: common tags are "wght", "wdth", "slnt", "GRAD", "ROND".
-   - If an axis does not exist, setting it has no effect. Use DevTools Fonts panel or network @font-face to confirm available axes.
-*/
 :root {
     --gsf-wght: 820;   /* weight */
     --gsf-wdth: 80;    /* width */
     --gsf-slnt: 0;     /* slant/italic angle */
     --gsf-grad: 0;     /* grad axis */
-    --gsf-rond: 100;   /* roundness axis (ROND) - default baked to 100 for maximum roundness */
+    --gsf-rond: 100;   /* roundness axis */
 
     --font-expressive-wght: 760;
     --font-expressive-wdth: 86;
@@ -78,7 +61,6 @@
     --font-expressive-bold-tracking: 0em;
 }
 
-/* Apply Google Sans Flex globally and expose variation axes via CSS variables */
 body, .gsf-global {
     font-family: var(--font-sans);
     font-variation-settings: "wght" var(--gsf-wght), "wdth" var(--gsf-wdth), "slnt" var(--gsf-slnt), "GRAD" var(--gsf-grad), "ROND" var(--gsf-rond);
@@ -86,14 +68,14 @@ body, .gsf-global {
     font-stretch: calc(var(--gsf-wdth) * 1%);
 }
 
-/* Strong expressive variant */
+/* strong expressive variant */
 .gsf-expressive-strong {
     font-family: var(--font-expressive-bold);
     font-variation-settings: "wght" 900, "wdth" 92, "GRAD" 0, "ROND" 100;
     font-weight: 900;
 }
 
-/* Expressive font role defaults */
+/* expressive font role defaults */
 .font-expressive,
 .font-expressive-strong,
 .font-expressive-bold,
