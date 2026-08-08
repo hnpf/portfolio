@@ -650,9 +650,6 @@ body, .gsf-global {
         @apply scale-[0.98];
     }
 
-    /* grain effect - simplified for performance */
-    /* removed for performance, was causing massive lag on scroll due to blend mode */
-
     /* debug mode */
     :root {
         --debug-grid-color: rgba(0, 0, 0, 0.05);
@@ -703,7 +700,6 @@ body, .gsf-global {
     }
 }
 
-/* M3 Slider — port of the Svelte component */
 :root {
     --m3-slider-track-out-shape: 1rem;
     --m3-slider-track-in-shape: 0.25rem;
@@ -959,7 +955,7 @@ body, .gsf-global {
     translate: -50% -8px;
 }
 
-/* M3 Switch — full port with icons */
+/* m3 switch */
 :root {
     --m3-switch-track-shape: 9999px;
     --m3-switch-handle-shape: 9999px;
@@ -1186,7 +1182,6 @@ body, .gsf-global {
     animation: activePillFadeIn 0.2s cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
-/* Strong global override to ensure Roboto Flex variable axes apply everywhere */
 html, body, #root, .app-root {
     font-family: var(--font-sans), system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
     font-variation-settings: "wght" var(--gsf-wght, 820), "wdth" var(--gsf-wdth, 80), "slnt" var(--gsf-slnt, 0), "GRAD" var(--gsf-grad, 0), "ROND" var(--gsf-rond, 0);
