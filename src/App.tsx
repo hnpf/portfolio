@@ -80,6 +80,8 @@ export default function App() {
   const [bugReportOpen, setBugReportOpen] = useState(false);
   const [KnownIssuessOpen, setKnownIssuessOpen] = useState(false);
 
+  const normalizeRoute = (pathname: string) => pathname.replace(/^\/+/, "").replace(/\/+$/, "").toLowerCase();
+
   const [guestbookOpen, setGuestbookOpen] = useState(() => {
     return normalizeRoute(window.location.pathname) === "guestbook";
   });
@@ -100,7 +102,6 @@ export default function App() {
   // modular logic hooks
   useSettingsSync(setPendingCapsule);
 
-  const normalizeRoute = (pathname: string) => pathname.replace(/^\/+/g, "").replace(/\/+$/g, "").toLowerCase();
   const getPageFromPath = (pathname: string) => {
     const loc = pathname;
     const path = normalizeRoute(loc);
