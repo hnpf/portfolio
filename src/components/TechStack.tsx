@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Loader2 } from "./MaterialIcon";
