@@ -129,10 +129,10 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             <span className="text-2xl font-black tracking-[0.2em] text-[var(--primary)] italic">Bio</span>
             <div className="-ml-2 h-px w-22 bg-[var(--primary)] opacity-30" />
           </div>
-          <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter leading-[1.05] max-w-4xl mx-auto italic">
-            I am a <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">Cybersecurity Student</span> <br></br> behind virex.lol <br/> <br/> <span className="text-[var(--primary)]">I design</span> sexy, complex, and beautiful <span className="text-[var(--primary)]">user experiences</span>.
+          <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter leading-[1.05] max-w-4xl mx-auto italic">
+            I am a <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">Cybersecurity Student</span> <br></br> behind virex.lol <br/> <br/> <span className="text-[var(--primary)]">I design</span> sexy, straightforward, and beautiful <span className="text-[var(--primary)]">user experiences</span>.
           </h2>
-          <p className="text-xl md:text-3xl opacity-60 font-medium max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl opacity-60 font-medium max-w-4xl mx-auto leading-relaxed">
             Running on Arch + Hyprland + Quickshell, and lots of caffeine!! <br></br>
 
             <span className="relative inline-block mt-4 md:mt-0">
@@ -199,7 +199,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
               </p>
             </div>
             <p className="text-md md:text-2xl opacity-80 font-bold leading-tight relative z-10">
-              Big tech appreciates <br></br> complexity in order to lock you in. <br></br> <br></br> Fighting against that can include writing code that is lightweight, <br></br> transparent, and built to last.
+              Modern tech uses <br></br> complexity in order to lock you in. <br></br> <br></br> Fighting against that can include writing code that is lightweight, <br></br> transparent, and built to last.
             </p>
             <div className="absolute -right-8 -top-8 opacity-10 group-hover:scale-125 transition-transform duration-700 pointer-events-none">
               <Target size={180} />

@@ -628,7 +628,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
           </div>
           <div className="isolate flex flex-col -space-y-3 md:-space-y-4">
             <span className="text-4xl md:text-5xl font-display font-black italic uppercase tracking-tight opacity-40">I don't</span>
-            <span className="text-8xl mt-2 md:text-[8.5rem] font-expressive-bold italic font-black tracking-[-0.08em] leading-none uppercase">Ship</span>
+            <span className="text-7xl mt-2 md:text-8xl font-expressive-bold italic font-black tracking-[-0.08em] leading-none uppercase">Design</span>
             <span className="text-6xl mt-2 md:text-7xl font-display font-black italic uppercase tracking-[-0.02em] mt-2">Things</span>
             <span className="text-2xl mt-2 md:text-4xl font-display font-black italic uppercase tracking-[0.1em] opacity-40 mt-4">I wouldn't</span>
             <span className="text-8xl mt-2 md:text-[9rem] font-expressive-bold italic md:gap-0.5 tracking-[-0.008em] leading-none uppercase text-[var(--primary)]">Use.</span>
