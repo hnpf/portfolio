@@ -156,9 +156,9 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           {/* lore */}
           <Card noDefaultStyles
             delay={1.1}
-            whileHover={{ y: -12, scale: 1.01 }}
+            /* whileHover={{ y: -12, scale: 1.01 }} */
             className="col-span-2 md:col-span-8"
-            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 relative overflow-hidden group hover:border-[var(--primary)] transition-colors duration-200", glass_class)}
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 relative overflow-hidden group transition-colors duration-200", glass_class)}
           >
             <h3 className="text-2xl md:text-4xl font-display font-black mb-8 md:mb-10 tracking-tight transition-colors group-hover:text-[var(--primary)] flex items-center gap-3 italic">
               <History className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" /> Virex.lol backstory...
@@ -185,9 +185,9 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           {/* mission */}
           <Card noDefaultStyles
             delay={1.2}
-            whileHover={{ y: -12, scale: 1.02 }}
+            /*whileHover={{ y: -12, scale: 1.02 }}*/
             className="col-span-2 md:col-span-4"
-            innerClassName={cn("px-8 py-10 bg-gradient-to-br from-[var(--primary-container)]/90 to-[var(--primary)]/10 text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/30 flex flex-col justify-between gap-8 group hover:border-[var(--primary)] transition-colors duration-200 relative overflow-hidden", glass_class)}
+            innerClassName={cn("px-8 py-10 bg-gradient-to-br from-[var(--primary-container)]/90 to-[var(--primary)]/10 text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/30 flex flex-col justify-between gap-8 group transition-colors duration-200 relative overflow-hidden", glass_class)}
           >
             <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-3">
@@ -209,9 +209,9 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           {/* terminal specs card idk */}
           <Card noDefaultStyles
             delay={1.3}
-            whileHover={{ y: -12, scale: 1.01 }}
+            /*whileHover={{ y: -12, scale: 1.01 }}*/
             className="col-span-2 md:col-span-12 lg:col-span-6"
-            innerClassName="bg-[#0a0a0a] text-white/90 px-5 py-8 md:p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden hover:border-[var(--primary)] transition-colors duration-200 flex flex-col gap-6"
+            innerClassName="bg-[#0a0a0a] text-white/90 px-5 py-8 md:p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden transition-colors duration-200 flex flex-col gap-6"
           >
             <div className="flex items-center ml-2 gap-3 transition-opacity group-hover:opacity-100 mb-4">
               <SquareTerminal className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
@@ -237,9 +237,9 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           {/* tech stack */}
           <Card noDefaultStyles
             delay={1.4}
-            whileHover={{ y: -12, scale: 1.01 }}
+            /*whileHover={{ y: -12, scale: 1.01 }}*/
             className="col-span-2 md:col-span-12 lg:col-span-6"
-            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 hover:border-[var(--primary)] transition-colors duration-200 group flex flex-col gap-8", glass_class)}
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 transition-colors duration-200 group flex flex-col gap-8", glass_class)}
           >
             <div className="flex items-center gap-3">
               <Code2 className="text-[var(--primary)] w-5 h-5 md:w-6 md:h-6" />
@@ -268,7 +268,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           {/* archive shit. */}
           <Card noDefaultStyles
             delay={1.5}
-            whileHover={{ y: -12, scale: 1.01 }}
+            /*whileHover={{ y: -12, scale: 1.01 }}*/
             className="col-span-2 md:col-span-12"
             innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200", glass_class)}
           >
@@ -291,9 +291,9 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           {/* contrib gh heatmap */}
           <Card noDefaultStyles
             delay={1.6}
-            whileHover={{ y: -8, scale: 1.01 }}
+            /*whileHover={{ y: -8, scale: 1.01 }}*/
             className="col-span-2 md:col-span-12"
-            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 flex flex-col gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200 overflow-hidden", glass_class)}
+            innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 flex flex-col gap-8 group transition-colors duration-200 overflow-hidden", glass_class)}
           >
             <div className="flex items-center gap-3">
               <Github className="text-[var(--primary)] w-6 h-6 md:w-8 md:h-8" />

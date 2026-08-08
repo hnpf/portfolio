@@ -442,11 +442,7 @@ const AncBar = ({ setPage, settings }: { setPage: (page: string, postId: string 
         damping: settings.highHz ? 30 : 28,
         mass: 0.8,
       }}
-      whileHover={settings.disableAnimations ? {} : {
-        y: settings.bentoTilt ? -6 : -10,
-        scale: settings.bentoTilt ? 1.015 : 1.005,
-        transition: { type: "spring", stiffness: 400, damping: 15 }
-      }}
+      
       whileTap={settings.disableAnimations ? {} : { scale: 0.98 }}
       onClick={() => setPage("blog", latestPost.id)}
       className="flex flex-col sm:flex-row items-stretch justify-between gap-4 p-5 sm:p-6 border-6 border-[var(--outline-variant)] rounded-[2.5rem] bg-[var(--surface-variant)] hover:border-[var(--primary)] hover:shadow-2xl transition-[border-color,box-shadow] duration-200 relative overflow-hidden group cursor-pointer select-none"
@@ -454,18 +450,18 @@ const AncBar = ({ setPage, settings }: { setPage: (page: string, postId: string 
       {/* left: badges, title, + snippet filling desktop wid */}
       <div className="flex-1 min-w-0 flex flex-col justify-between space-y-2">
         <div className="flex flex-wrap items-center gap-2 min-w-0">
-          <span className="px-3 py-1 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-full text-[11px] font-expressive italic font-bold tracking-widest border border-[var(--primary)]/30 shadow-xs flex items-center gap-1.5 shrink-0">
-            <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />
+          <span className="px-3 py-1 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-full text-[11px] font-expressive italic font-bold tracking-widest border-3 border-[var(--primary)]/30 shadow-xs flex items-center gap-1.5 shrink-0">
+            <span className="w-2 h-2 rounded-full bg-[var(--primary)]" />
             New Post!
           </span>
           {latestPost.category && (
-            <span className="px-2.5 py-1 bg-[var(--surface)]/80 text-[var(--on-surface-variant)] rounded-full text-[11px] font-expressive italic font-bold border border-[var(--outline-variant)]/30 shadow-2xs flex items-center gap-1.5 shrink-0 tracking-wider">
+            <span className="px-2.5 py-1 bg-[var(--surface)]/80 text-[var(--on-surface-variant)] rounded-full text-[11px] font-expressive italic font-bold border-3 border-[var(--outline-variant)]/60 shadow-2xs flex items-center gap-1.5 shrink-0 tracking-wider">
               <Tag size={11} className="text-[var(--primary)] shrink-0 opacity-80" />
               <span className="capitalize">{latestPost.category}</span>
             </span>
           )}
           {latestPost.readTime && (
-            <span className="text-[11px] font-display font-black opacity-50 shrink-0 hidden md:inline-block ml-1">
+            <span className="text-[11px] font-display font-black opacity-50 shrink-0 hidden md:inline-block ml-2">
               • {latestPost.readTime}
             </span>
           )}
@@ -483,7 +479,7 @@ const AncBar = ({ setPage, settings }: { setPage: (page: string, postId: string 
 
       {/* date top right; post link bottom right */}
       <div className="shrink-0 flex sm:flex-col justify-between items-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-[var(--outline-variant)]/20 sm:border-none">
-        <span className="text-[12px] font-display font-black opacity-60 shrink-0 bg-[var(--surface)]/50 px-3 py-0.5 rounded-full border border-[var(--outline-variant)]/20 self-start sm:self-end">
+        <span className="text-[12px] font-display font-black opacity-60 shrink-0 bg-[var(--surface)]/50 px-3 py-0.5 rounded-full border-3 border-[var(--outline-variant)] self-start sm:self-end">
           {latestPost.date}
         </span>
 
@@ -491,7 +487,7 @@ const AncBar = ({ setPage, settings }: { setPage: (page: string, postId: string 
           onClick={() => {
             haptic.light();
           }}
-          className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-300 border border-[var(--primary)]/20 shadow-xs font-expressive-bold italic font-black text-[12px] uppercase tracking-wider shrink-0 self-end whitespace-nowrap cursor-pointer select-none active:scale-x-105 active:scale-y-90"
+          className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-300 border-3 border-[var(--primary)]/20 shadow-xs font-expressive-bold italic font-black text-[12px] uppercase tracking-wider shrink-0 self-end whitespace-nowrap cursor-pointer select-none active:scale-x-105 active:scale-y-90"
         >
           <span>Read Post</span>
           <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -621,7 +617,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
         <Card
           delay={0.6}
           className="flex-1"
-          innerClassName="flex flex-col border-6 border-[var(--outline-variant)] justify-center p-8 md:p-12 min-h-[450px] hover:border-[var(--primary)] group overflow-hidden relative items-start" /*no transitiopn-all cat*/
+          innerClassName="flex flex-col border-6 border-[var(--outline-variant)] justify-center p-8 md:p-12 min-h-[450px] group overflow-hidden relative items-start" /*no transitiopn-all cat*/
         >
           <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-all duration-700 group-hover:rotate-12 group-hover:scale-110">
             <Activity size={130} className="-rotate-175 md:mr-6 md:mt-3" />
@@ -639,14 +635,14 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
           <Card
             delay={0.6}
             className="flex-1"
-            innerClassName="border-6 border-[var(--outline-variant)]/40 flex flex-col justify-center p-10 min-h-[250px] hover:border-[var(--primary)] transition-colors"
+            innerClassName="border-6 border-[var(--outline-variant)]/40 flex flex-col justify-center p-10 min-h-[250px] transition-colors"
           >
             <YearProg />
           </Card>
           <Card
             delay={0.7}
             className="flex-1"
-            innerClassName="border-6 border-[var(--outline-variant)]/40 p-10 min-h-[200px] hover:border-[var(--primary)] transition-colors"
+            innerClassName="border-6 border-[var(--outline-variant)]/40 p-10 min-h-[200px] transition-colors"
           >
             <WeatherWidget />
           </Card>
@@ -667,7 +663,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
               key={project.id}
               delay={0.7 + i * 0.1}
               className=""
-              innerClassName="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-8 sm:p-10 min-h-[350px] hover:border-[var(--primary)] transition-colors"
+              innerClassName="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-8 sm:p-10 min-h-[350px] transition-colors"
             >
               <div>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-6">

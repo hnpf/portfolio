@@ -24,6 +24,12 @@ export const Card = memo(({ children, className, innerClassName, delay = 0, onCl
     scale: 0.95,
   };
 
+  const defaultWhileHover = {
+    transition: { type: "spring", stiffness: 400, damping: 18 },
+  };
+
+  const whileHoverValue = whileHover ?? (onClick ? defaultWhileHover : undefined);
+
   return (
     <TiltContainer
       settings={settings}
@@ -46,12 +52,7 @@ export const Card = memo(({ children, className, innerClassName, delay = 0, onCl
         damping: settings.highHz ? 30 : 28,
         mass: 0.8,
       }}
-      whileHover={whileHover || {
-        y: settings.bentoTilt ? -6 : -12,
-        scale: settings.bentoTilt ? 1.02 : 1.01,
-        rotate: settings.bentoTilt ? 0 : 0.01, // tiny rotation hack to try and force clean antialiased edges
-        transition: { type: "spring", stiffness: 400, damping: 15 }
-      }}
+      whileHover={whileHoverValue}
       whileTap={whileTap || { scale: 0.98 }}
     >
       {children}

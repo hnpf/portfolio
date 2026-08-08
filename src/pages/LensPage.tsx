@@ -390,8 +390,6 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
       whileHover={settings.disableAnimations ? undefined : "hover"}
       variants={{
         hover: {
-          y: -8,
-          scale: 1.01,
         }
       }}
       whileTap={settings.disableAnimations ? undefined : { scale: 0.98 }}

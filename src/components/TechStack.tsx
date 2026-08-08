@@ -101,7 +101,7 @@ export const TechChip = ({ label, key }: { label: string; key?: any }) => { // y
           ? `radial-gradient(ellipse 80% 80% at ${pos.x}% ${pos.y}%, color-mix(in srgb, var(--primary) 20%, transparent), var(--primary-container) 0%) , color-mix(in srgb, var(--primary-container) 30%, transparent)`
           : undefined,
       }}
-      className="px-2 py-1 md:px-4 md:py-2 bg-[var(--primary-container)]/30 text-[var(--on-surface)] rounded-lg md:rounded-xl text-[10px] md:text-sm font-bold border-6 border-[var(--outline-variant)] hover:scale-110 active:scale-95 hover:border-[var(--primary)]/60 transition-all duration-150 ease-out cursor-default select-none will-change-transform"
+      className="px-2 py-1 md:px-4 md:py-2 bg-[var(--primary-container)]/30 text-[var(--on-surface)] rounded-lg md:rounded-xl text-[10px] md:text-sm font-bold border-6 border-[var(--outline-variant)] active:scale-95 hover:border-[var(--primary)]/40 transition-all duration-150 ease-out cursor-default select-none will-change-transform"
     >
       {label}
     </span>
