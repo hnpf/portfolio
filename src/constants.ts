@@ -940,6 +940,30 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "accessibility-update-dash-page-drop",
+    version: "2026.08.07",
+    title: "Accessibility update & /dash page drop",
+    date: "Aug 7, 2026",
+    changes: [
+      {
+        category: "Accessibility",
+        items: [
+          "Added keyboard accessibility to the site",
+          "Added proper ARIA semantics",
+          "Added meaningful labels on close/back buttons",
+          "Improved accessibility globally including settings modal so overlay blocks background interaction and screen readers get a clear dialog context",
+        ],
+      },
+      {
+        category: "Routing",
+        items: [
+          "Removed /dash and cleaned up its sidebar/navigation references.",
+          "Marked /now as the last sidebar item so the nav end state behaves right",
+        ],
+      },
+    ],
+  },
+  {
     id: "floating-navbar-for-mobile-mode",
     version: "2026.08.06",
     title: "Floating navbar for mobile mode!",

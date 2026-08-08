@@ -930,7 +930,7 @@ export const SettingsDialog = memo(({
                 <div>
                   <div className="font-bold">View changelog</div>
                   <div className="text-xs opacity-60 font-medium">
-                    See what's new in 2026.08.06-stable
+                    See what's new in 2026.08.07-stable
                   </div>                </div>
                 <ChevronRight
                   size={20}
