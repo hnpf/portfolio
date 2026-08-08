@@ -368,9 +368,14 @@ export const BugReportDialog = ({
                   <div className="w-10 h-10 rounded-full bg-[var(--primary-container)]/60 border-3 border-[var(--primary)]/20 flex items-center justify-center shrink-0 text-[var(--primary)] shadow-sm">
                     <Bug size={20} />
                   </div>
-                  <h2 className="font-black text-xl md:text-2xl font-expressive uppercase tracking-tight">
-                    Report a Bug
-                  </h2>
+                  <div>
+                    <h2 id="bug-report-title" className="font-black text-xl md:text-2xl font-expressive uppercase tracking-tight">
+                      Report a Bug
+                    </h2>
+                    <p id="bug-report-description" className="text-xs uppercase tracking-[0.2em] opacity-60 mt-1">
+                      Share details and optional screenshot for the issue you found.
+                    </p>
+                  </div>
                 </div>
                 {!isSubmitting && (
                   <button
