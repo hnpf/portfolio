@@ -130,7 +130,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             <div className="-ml-2 h-px w-22 bg-[var(--primary)] opacity-30" />
           </div>
           <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter leading-[1.05] max-w-4xl mx-auto italic">
-            I am a <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">Cybersecurity Student</span> <br></br> behind virex.lol <br/> <br/> <span className="text-[var(--primary)]">I design</span> sexy, straightforward, and beautiful <span className="text-[var(--primary)]">user experiences</span>.
+            I am a <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">Cybersecurity student.</span> <br></br> <br></br>  <span className="text-[var(--primary)]">I design</span> sexy, straightforward, and beautiful <span className="text-[var(--primary)]">user experiences</span>.
           </h2>
           <p className="text-xl md:text-2xl opacity-60 font-medium max-w-4xl mx-auto leading-relaxed">
             Running on Arch + Hyprland + Quickshell, and lots of caffeine!! <br></br>

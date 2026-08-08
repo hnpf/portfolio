@@ -294,6 +294,18 @@ body, .gsf-global {
         transform: translateZ(0);
     }
 
+    .m3-card:focus-visible,
+    .readme-card:focus-visible,
+    .lens-item:focus-visible,
+    .cursor-pointer:focus-visible,
+    .group\/now:focus-visible,
+    .group\/tilt:focus-visible,
+    .group\/btn:focus-visible {
+        outline: 3px solid var(--primary);
+        outline-offset: 4px;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+    }
+
     .brutalist-mode * {
         border-radius: 0 !important;
     }

@@ -68,6 +68,16 @@ export const TiltContainer = memo(({ children, className, innerClassName, onClic
 
   const useTilt = settings?.bentoTilt && window.innerWidth >= 768;
   
+  const isInteractive = !!onClick;
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!isInteractive) return;
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick?.(e as any);
+    }
+  };
+
   return (
     <div 
       ref={wrapperRef}
@@ -79,6 +89,9 @@ export const TiltContainer = memo(({ children, className, innerClassName, onClic
       <motion.div
         ref={cardRef}
         onClick={onClick}
+        tabIndex={isInteractive ? 0 : undefined}
+        role={isInteractive ? "button" : undefined}
+        onKeyDown={handleKeyDown}
         whileHover={settings?.disableAnimations ? undefined : whileHover}
         whileTap={settings?.disableAnimations ? undefined : whileTap}
         {...props}

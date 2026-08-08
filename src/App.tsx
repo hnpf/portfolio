@@ -349,7 +349,23 @@ export default function App() {
               className={cn("flex flex-col h-full w-full motion-gpu border-[var(--outline-variant)] transition-colors duration-300", scrolled && !settings.floatingSidebar && "border-b-[var(--outline-variant)]/30")}
             >
               <div className={cn("flex items-center isolate", settings.sidebarCollapsed ? cn("justify-center px-0", is_short ? "mb-4 py-4" : "mb-10 py-10") : show_pfp_container ? cn("bg-[var(--surface-variant)]/20 ring-6 ring-[var(--outline-variant)]/30 rounded-[2.5rem] px-4 mx-2 gap-4", is_short ? "mb-4 py-3" : "mb-10 py-6") : cn("px-4 mx-2 gap-4", is_short ? "mb-4 py-1" : "mb-8 py-2"))}>
-                <motion.div whileHover={{ scale: 1.1, rotate: -2, y: -2 }} whileTap={{ scale: 0.92, rotate: 5 }} animate={{ rotate: do_wiggle ? [0, -10, 10, -10, 10, 0] : 0 }} transition={{ type: "spring", stiffness: 400, damping: 22, mass: 0.6 }} onClick={() => goto("readme")} className={cn("flex items-center justify-center shrink-0 relative group/pfp cursor-pointer isolate", show_pfp_container ? "w-24 h-24 rounded-[40px] shadow-xl" : cn("w-24 h-24 rounded-[40px] shadow-none", !settings.sidebarCollapsed && "-ml-5"), settings.sidebarCollapsed && "w-16 h-16 rounded-[24px]")}>
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: -2, y: -2 }}
+                  whileTap={{ scale: 0.92, rotate: 5 }}
+                  animate={{ rotate: do_wiggle ? [0, -10, 10, -10, 10, 0] : 0 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 22, mass: 0.6 }}
+                  onClick={() => goto("readme")}
+                  tabIndex={0}
+                  role="button"
+                  aria-label="Go to info"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      goto("readme");
+                    }
+                  }}
+                  className={cn("flex items-center justify-center shrink-0 relative group/pfp cursor-pointer isolate", show_pfp_container ? "w-24 h-24 rounded-[40px] shadow-xl" : cn("w-24 h-24 rounded-[40px] shadow-none", !settings.sidebarCollapsed && "-ml-5"), settings.sidebarCollapsed && "w-16 h-16 rounded-[24px]")}
+                >
                   <div className="absolute inset-0 rounded-[inherit] overflow-hidden">
                     <div className={cn("absolute inset-0 z-20 rounded-[inherit] ring-inset overflow-hidden transition-colors duration-250 pointer-events-none", show_pfp_container ? "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]" : "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]", settings.sidebarCollapsed && "ring-6")} />
                     <div className="absolute inset-0 bg-[var(--surface-variant)]/50 -z-10" />
