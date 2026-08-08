@@ -79,7 +79,6 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [bugReportOpen, setBugReportOpen] = useState(false);
   const [KnownIssuessOpen, setKnownIssuessOpen] = useState(false);
-  const normalizeRoute = (pathname: string) => pathname.replace(/^\/+/, "").replace(/\/+$/, "").toLowerCase();
 
   const [guestbookOpen, setGuestbookOpen] = useState(() => {
     return normalizeRoute(window.location.pathname) === "guestbook";
