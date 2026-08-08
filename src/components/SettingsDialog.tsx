@@ -29,6 +29,37 @@ import Switch from "./M3Switch";
 import Slider from "./M3Slider";
 import { haptic } from "../haptics";
 
+const FOCUSABLE_SELECTORS = [
+  'a[href]',
+  'area[href]',
+  'button:not([disabled])',
+  'input:not([disabled]):not([type="hidden"])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  'iframe',
+  'object',
+  'embed',
+  '[contenteditable]',
+  '[tabindex]:not([tabindex="-1"])',
+].join(", ");
+
+const getFocusableElements = (container: HTMLElement | null): HTMLElement[] => {
+  if (!container) {
+    return [];
+  }
+
+  return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS)).filter(
+    (element) => {
+      return (
+        element.tabIndex !== -1 &&
+        !element.hasAttribute("disabled") &&
+        element.getAttribute("aria-hidden") !== "true" &&
+        element.offsetParent !== null
+      );
+    }
+  );
+};
+
 export const SettingsDialog = memo(({ 
   settingsOpen, 
   setSettingsOpen, 
@@ -56,6 +87,7 @@ export const SettingsDialog = memo(({
   const modalHeight = useTransform(y, (latestY) => (viewport ? viewport.h : window.innerHeight) - latestY);
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const modalRef = React.useRef<HTMLDivElement>(null);
+  const previouslyFocusedElementRef = React.useRef<HTMLElement | null>(null);
   const dragStartY = React.useRef(0);
   const dragStartModalY = React.useRef(0);
   const isDraggingSheet = React.useRef(false);
@@ -73,6 +105,66 @@ export const SettingsDialog = memo(({
   const handleClose = React.useCallback(() => {
     setSettingsOpen(false);
   }, [setSettingsOpen]);
+
+  const handleDialogKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        handleClose();
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const modal = modalRef.current;
+      if (!modal) {
+        return;
+      }
+
+      const focusable = getFocusableElements(modal);
+      if (focusable.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const firstElement = focusable[0];
+      const lastElement = focusable[focusable.length - 1];
+      const activeElement = document.activeElement as HTMLElement | null;
+
+      if (event.shiftKey) {
+        if (!activeElement || activeElement === firstElement || activeElement === modal) {
+          event.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        if (!activeElement || activeElement === lastElement || activeElement === modal) {
+          event.preventDefault();
+          firstElement.focus();
+        }
+      }
+    },
+    [handleClose]
+  );
+
+  React.useEffect(() => {
+    if (settingsOpen) {
+      previouslyFocusedElementRef.current =
+        document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+      window.requestAnimationFrame(() => {
+        const focusable = getFocusableElements(modalRef.current);
+        if (focusable.length) {
+          focusable[0].focus();
+        } else {
+          modalRef.current?.focus();
+        }
+      });
+    } else {
+      previouslyFocusedElementRef.current?.focus?.();
+    }
+  }, [settingsOpen]);
 
   const [activePage, setActivePage] = React.useState<string>(() => 
     is_mobile ? "menu" : "appearance"
@@ -650,9 +742,9 @@ export const SettingsDialog = memo(({
                 className="flex items-center justify-between border-6 border-[var(--outline-variant)] p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group cursor-pointer"
               >
                 <div>
-                  <div className="font-bold">Copy theme link</div>
+                  <div className="font-bold">Copy config link</div>
                   <div className="text-xs opacity-60 font-medium">
-                    Share your config as a link
+                    Get config as link
                   </div>
                 </div>
                 <ExternalLink
@@ -682,7 +774,7 @@ export const SettingsDialog = memo(({
                 <div>
                   <div className="font-bold">Export config file</div>
                   <div className="text-xs opacity-60 font-medium">
-                    Download config as JSON
+                    Get config as JSON
                   </div>
                 </div>
                 <Download
@@ -1037,6 +1129,11 @@ export const SettingsDialog = memo(({
           />
           <motion.div
             ref={modalRef}
+            tabIndex={-1}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="settings-dialog-title"
+            onKeyDown={handleDialogKeyDown}
             initial={is_mobile && viewport ? { y: viewport.h } : { opacity: 0, scale: 0.9, y: 20 }}
             animate={is_mobile ? { y: defaultY } : { opacity: 1, scale: 1, y: 0 }}
             exit={is_mobile && viewport ? { 
@@ -1087,6 +1184,7 @@ export const SettingsDialog = memo(({
                   {is_mobile && activePage !== "menu" && (
                     <button
                       onClick={() => navigateTo("menu")}
+                      aria-label="Back to settings menu"
                       className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                     >
                       <ChevronLeft size={20} className="transition-transform duration-300 ease-out group-hover:-translate-x-0.5 group-hover:scale-110" />
@@ -1095,10 +1193,13 @@ export const SettingsDialog = memo(({
                   <div className="w-10 h-10 rounded-full bg-[var(--primary-container)]/60 border-3 border-[var(--primary)]/20 flex items-center justify-center shrink-0 text-[var(--primary)] shadow-sm">
                     <SettingsIcon size={20} />
                   </div>
-                  <h2 className={cn(
-                    "font-bold flex items-center gap-3",
-                    is_mobile ? "text-xl" : "text-2xl"
-                  )}>
+                  <h2
+                    id="settings-dialog-title"
+                    className={cn(
+                      "font-bold flex items-center gap-3",
+                      is_mobile ? "text-xl" : "text-2xl"
+                    )}
+                  >
                     {is_mobile ? (
                       <span className="text-2xl font-expressive italic font-black uppercase tracking-tight">
                         {activePage === "menu" ? "Settings" : currentPageTitle}
@@ -1113,6 +1214,7 @@ export const SettingsDialog = memo(({
                     haptic.medium();
                     handleClose();
                   }}
+                  aria-label="Close settings dialog"
                   className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border-3 border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                 >
                   <X size={20} className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180 group-hover:scale-110" />
@@ -1286,6 +1388,7 @@ export const SettingsDialog = memo(({
                                 ? "text-[var(--on-primary-container)] font-bold"
                                 : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
                             )}
+                            aria-current={isActive ? "page" : undefined}
                           >
                             <motion.div
                               animate={{
