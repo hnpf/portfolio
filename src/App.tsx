@@ -409,7 +409,6 @@ export default function App() {
               )}
               <div className="flex-1 flex flex-col min-h-0 relative group/nav" onMouseMove={(e) => { const rect = e.currentTarget.getBoundingClientRect(); const y = e.clientY - rect.top; setNavHoverSide(y < rect.height / 2 ? "top" : "bottom"); }} onMouseLeave={() => setNavHoverSide(null)}>
                 <nav id="sidebar-nav" className={cn("flex-1 flex flex-col min-h-0 py-12 scrollbar-hide overflow-y-hidden gap-6", settings.sidebarCollapsed ? "items-center px-2" : "items-stretch px-4")} data-rail-state={settings.sidebarCollapsed ? "default" : "open"} style={{ overflowY: "hidden", overscrollBehavior: "contain" }}>
-                  <M3ScrollBar scrollEl={navRef} colorful thinOnly />
                   <SideItem highHz={settings.highHz} isFirst glyph={M3Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={M3Info} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={M3Blog} text="Blog" isSelected={page === "blog"} onSelect={() => goto("blog")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
