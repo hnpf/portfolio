@@ -431,7 +431,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
         <SplitButton
           variant={active_cat ? "filled" : "tonal"}
           icon={<Filter size={16} className="pt-3"  />}
-          label={<span className="block pt-0.5">{active_cat ? `Topic: ${active_cat}` : "Browse Topics"}</span>}
+          label={<span className="block pt-0.5">{active_cat ? `Topic: ${active_cat}` : "Topics"}</span>}
           onClick={() => {}}
           menu={categories.map((cat) => (
             <button
