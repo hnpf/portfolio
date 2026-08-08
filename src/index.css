@@ -219,6 +219,51 @@ body, .gsf-global {
         touch-action: manipulation;
     }
 
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible,
+    .sidebar-item:focus-visible,
+    .bottom-nav-item:focus-visible,
+    .m3-button-filled:focus-visible,
+    .m3-button-tonal:focus-visible,
+    .m3-switch:focus-visible,
+    .m3-slider:focus-visible {
+        outline: 3px solid var(--primary);
+        outline-offset: 3px;
+    }
+
+    .skip-link {
+        position: absolute;
+        left: -999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+    }
+
+    .skip-link:focus,
+    .skip-link:focus-visible {
+        position: fixed;
+        left: 1rem;
+        top: 1rem;
+        width: auto;
+        height: auto;
+        padding: 0.75rem 1rem;
+        background: var(--surface);
+        border: 2px solid var(--primary);
+        color: var(--on-surface);
+        z-index: 9999;
+        clip: auto;
+        overflow: visible;
+        white-space: normal;
+        border-radius: 999px;
+        text-decoration: none;
+    }
+
     .m3-card,
     .m3-chip,
     .m3-button-filled,

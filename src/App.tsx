@@ -282,6 +282,7 @@ export default function App() {
         settings.debugMode && "debug-mode",
       )}
     >
+      <a href="#primary-content" className="skip-link">Skip to main content</a>
       <MotionConfig reducedMotion={settings.disableAnimations ? "always" : "user"} transition={settings.disableAnimations ? { duration: 0 } : undefined}>
         {IS_APR && <div className="fsh-tiled-bg" />}
 
@@ -431,6 +432,7 @@ export default function App() {
       </AnimatePresence>
 
       <motion.main
+        id="primary-content"
         className={cn("flex-1 overflow-x-hidden page-container", (page === "readme" && settings.infoFullscreen) ? "p-0" : "p-6 md:p-12 lg:p-16", settings.forceDesktop || viewport.w >= 768 ? "pb-16" : "pb-40")}
         style={
           !settings.forceDesktop && viewport.w < 768

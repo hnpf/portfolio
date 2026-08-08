@@ -70,6 +70,7 @@ export function NavigationRail({
                 className="rail-toggle m3-layer"
                 type="button"
                 aria-label={open ? "Close navigation" : "Open navigation"}
+                aria-controls="m3-navigation-items"
                 onClick={() => setOpen(!open)}
               >
                 <span className="hamburger" />
@@ -80,8 +81,9 @@ export function NavigationRail({
         )}
         <div
           className="items"
-          role="menu"
-          aria-labelledby="m3-navigationtoggle"
+          role="navigation"
+          aria-label="Primary navigation"
+          id="m3-navigation-items"
           data-rail-state={railState}
         >
           {children}

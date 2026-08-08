@@ -15,6 +15,10 @@ export const RefreshConfirmDialog = ({ showRefreshConfirm, setShowRefreshConfirm
             className="absolute inset-0 backdrop-blur-[10px]"
           />
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="refresh-confirm-title"
+            aria-describedby="refresh-confirm-description"
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -24,10 +28,10 @@ export const RefreshConfirmDialog = ({ showRefreshConfirm, setShowRefreshConfirm
               <div className="w-14 h-14 bg-[var(--primary-container)]/60 border border-[var(--primary)]/20 rounded-full flex items-center justify-center text-[var(--primary)] shadow-sm">
                 <RefreshCw size={26} className="animate-spin-slow" />
               </div>
-              <h3 className="text-3xl font-display font-black tracking-tight leading-tight">
+              <h3 id="refresh-confirm-title" className="text-3xl font-display font-black tracking-tight leading-tight">
                 refresh required
               </h3>
-              <p className="text-xl opacity-70 font-medium leading-relaxed">
+              <p id="refresh-confirm-description" className="text-xl opacity-70 font-medium leading-relaxed">
                 enabling/disabling this setting needs a refresh. do now?
               </p>
             </div>

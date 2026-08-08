@@ -27,6 +27,10 @@ export const CapsuleConfirmDialog = ({
             className="absolute inset-0 backdrop-blur-[10px]"
           />
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="capsule-confirm-title"
+            aria-describedby="capsule-confirm-description"
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -39,15 +43,16 @@ export const CapsuleConfirmDialog = ({
                 </div>
                 <button 
                   onClick={() => setPendingCapsule(null)}
+                  aria-label="Close theme share dialog"
                   className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                 >
                   <X size={20} className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180 group-hover:scale-110" />
                 </button>
               </div>
-              <h3 className="text-3xl font-display font-black tracking-tight leading-tight uppercase italic">
+              <h3 id="capsule-confirm-title" className="text-3xl font-display font-black tracking-tight leading-tight uppercase italic">
                 Hold on!
               </h3>
-              <p className="text-xl opacity-70 font-medium leading-relaxed">
+              <p id="capsule-confirm-description" className="text-xl opacity-70 font-medium leading-relaxed">
                 someone shared a theme link with you. do you want to apply these 
                 settings to your current session?
               </p>

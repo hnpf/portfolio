@@ -48,6 +48,7 @@ export default function CopyLinkCapsule() {
       className={`inline-flex items-center gap-3 px-10 py-5 rounded-full font-black text-[17px] border border-[var(--outline)]/15 shadow-xl transition-colors duration-300 ${
         copied ? 'text-[var(--on-primary-container)]' : 'text-[var(--on-surface)]'
       }`}
+      aria-live="polite"
     >
       <AnimatePresence mode="wait">
         {copied ? (
