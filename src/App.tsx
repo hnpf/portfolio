@@ -39,7 +39,6 @@ import { ChangelogPage } from "./pages/ChangelogPage";
 import { LensPage } from "./pages/LensPage";
 import { ReadmePage } from "./pages/ReadmePage";
 import { NowPage } from "./pages/NowPage";
-import DashPage from "./pages/DashPage";
 import NotFound from "./pages/NotFound";
 
 // components
@@ -65,7 +64,6 @@ const M3Info = materialIcon("fingerprint");
 const M3Blog = materialIcon("menu_book");
 const M3Lens = materialIcon("photo_camera");
 const M3Now = materialIcon("monitor_heart");
-const M3Short = materialIcon("link");
 const M3Settings = materialIcon("settings");
 const M3ChevronLeft = materialIcon("chevron_left");
 const M3ChevronRight = materialIcon("chevron_right");
@@ -107,7 +105,7 @@ export default function App() {
     if (path === "guestbook") return "home";
     if (loc === "/" || loc === "") return "home";
     if (loc.startsWith("/blog/")) return "blog";
-    const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "dash"];
+    const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog"];
     return ALLOWED.includes(path) ? path : "404";
   });
 
@@ -184,7 +182,7 @@ export default function App() {
         } else if (loc.startsWith("/blog/")) {
           setPage("blog"); setBlogPostId(loc.split("/")[2]);
         } else {
-          const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "dash"];
+          const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog"];
           setPage(ALLOWED.includes(path) ? path : "404");
           setBlogPostId(null);
         }
@@ -392,8 +390,7 @@ export default function App() {
                   <SideItem highHz={settings.highHz} glyph={M3Info} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={M3Blog} text="Blog" isSelected={page === "blog"} onSelect={() => goto("blog")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={M3Lens} text="Lens" isSelected={page === "lens"} onSelect={() => goto("lens")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
-                  <SideItem highHz={settings.highHz} glyph={M3Now} text="Now" isSelected={page === "now"} onSelect={() => goto("now")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
-                  <SideItem highHz={settings.highHz} isLast glyph={M3Short} text="Short" isSelected={page === "dash"} onSelect={() => goto("dash")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
+                  <SideItem highHz={settings.highHz} glyph={M3Now} text="Now" isSelected={page === "now"} onSelect={() => goto("now")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} isLast />
                 </nav>
                 <AnimatePresence>
                   {canScrollUp && navHoverSide === "top" && (
@@ -464,8 +461,7 @@ export default function App() {
             {page === "now" && <NowPage />}
             {page === "readme" && <ReadmePage setPage={goto} is_mobile={is_mobile} />}
             {page === "changelog" && <ChangelogPage />}
-            {page === "dash" && <DashPage />}
-            {![ "home", "blog", "lens", "now", "readme", "changelog", "dash" ].includes(page) && <NotFound go={goto} />}
+            {![ "home", "blog", "lens", "now", "readme", "changelog" ].includes(page) && <NotFound go={goto} />}
           </motion.div>
         </AnimatePresence>
         <AnimatePresence>
@@ -502,7 +498,7 @@ export default function App() {
               { key: "readme",   glyph: M3Info, label: "Info" },
               { key: "blog",     glyph: M3Blog, label: "Blog" },
               { key: "lens",     glyph: M3Lens, label: "Lens" },
-              { key: "dash",      glyph: M3Short,  label: "Short" },
+              { key: "now",      glyph: M3Now,  label: "Now" }
             ]}
             activePage={page}
             onSelect={goto}

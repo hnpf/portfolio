@@ -546,17 +546,6 @@ export const SettingsDialog = memo(({
                     <Activity size={28} className="text-[var(--primary)] group-hover:scale-110 transition-transform" />
                     <span className="font-bold text-sm tracking-wide">Now</span>
                   </button>
-                  <button
-                    onClick={() => {
-                      handleClose();
-                      haptic.light();
-                      goto("dash");
-                    }}
-                    className="flex flex-col items-center justify-center gap-3 border-6 border-[var(--outline-variant)] py-6 bg-[var(--surface-variant)]/50 hover:bg-[var(--primary-container)] hover:border-[var(--primary)]/30 text-[var(--on-surface-variant)] hover:text-[var(--on-primary-container)] transition-all rounded-[1.5rem] group cursor-pointer"
-                  >
-                    <LinkIcon size={28} className="text-[var(--primary)] group-hover:scale-110 transition-transform" />
-                    <span className="font-bold text-sm tracking-wide">Short</span>
-                  </button>
                 </div>
               </section>
             )}

@@ -372,7 +372,7 @@ export const BugReportDialog = ({
                     <h2 id="bug-report-title" className="font-black text-xl md:text-2xl font-expressive uppercase tracking-tight">
                       Report a Bug
                     </h2>
-                    <p id="bug-report-description" className="text-xs uppercase tracking-[0.2em] opacity-60 mt-1">
+                    <p id="bug-report-description" className="text-xs tracking-[0.09em] opacity-60 mt-1">
                       Share details and optional screenshot for the issue you found.
                     </p>
                   </div>
