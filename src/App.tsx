@@ -102,7 +102,6 @@ export default function App() {
   const [page, setPage] = useState(() => {
     const loc = window.location.pathname;
     const path = loc.replace("/", "").toLowerCase();
-    if (path === "readme") return "home";
     if (path === "guestbook") return "home";
     if (loc === "/" || loc === "") return "home";
     if (loc.startsWith("/blog/")) return "blog";
