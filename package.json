@@ -4,7 +4,7 @@
   "version": "1.6.3",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=3000 --host=0.0.0.0",
+    "dev": "vite --port=6767 --host=0.0.0.0",
     "dev:server": "tsx api/index.ts",
     "dev:all": "pnpm run dev:server & pnpm run dev",
     "build": "vite build",
@@ -30,7 +30,6 @@
     "remark-gfm": "^4.0.1",
     "sharp": "^0.34.5",
     "tailwind-merge": "^3.5.0",
-    "vercel": "^50.32.3",
     "vite": "^6.2.0",
     "wrangler": "^4.95.0"
   },

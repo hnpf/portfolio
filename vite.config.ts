@@ -6,12 +6,6 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   return {
     plugins: [react(), tailwindcss()],
-    server: {
-      proxy: {
-        '/api': 'http://localhost:6767',
-        '/r': 'http://localhost:6767',
-      },
-    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
