@@ -2175,8 +2175,8 @@ export const CHANGELOGS: ChangelogEntry[] = [
 
 
 export const TECH_STACK = {
-  web: ["React", "TypeScript", "TailwindCSS", "Next.js", "Node", "Javascript"],
-  technical: ["Rust", "Golang", "Java", "Python", "C", "Docker", "Bash"],
+  web: ["React", "TS", "Tailwind", "Next.js", "SQLite", "Framer Motion", "Svelte"],
+  technical: ["Rust", "Golang", "Java", "Python", "C", "Kotlin", "C++", "Bash"],
 };
 
 export interface KnownIssues {

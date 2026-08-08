@@ -125,24 +125,25 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           className="w-full mb-32 text-center space-y-8"
         >
           <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="h-px w-12 bg-[var(--primary)] opacity-30" />
-            <span className="text-2xl font-black tracking-[0.4em] text-[var(--primary)] italic">Bio</span>
-            <div className="-ml-2 h-px w-12 bg-[var(--primary)] opacity-30" />
+            <div className="h-px w-22 bg-[var(--primary)] opacity-30" />
+            <span className="text-2xl font-black tracking-[0.2em] text-[var(--primary)] italic">Bio</span>
+            <div className="-ml-2 h-px w-22 bg-[var(--primary)] opacity-30" />
           </div>
           <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter leading-[1.05] max-w-4xl mx-auto italic">
-            <br /> Semi <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">Cybersecurity Student</span> building things at virex.lol <br /> <br /> I do what I know best. <br /> <br /> Simple, clean, and beautiful user experiences.
+            I am a <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">Cybersecurity Student</span> <br></br> behind virex.lol <br/> <br/> <span className="text-[var(--primary)]">I design</span> sexy, complex, and beautiful <span className="text-[var(--primary)]">user experiences</span>.
           </h2>
-          <p className="text-xl md:text-3xl opacity-60 font-medium max-w-4xl mx-auto leading-relaxed italic">
-            Running on Arch (btw), Hyprland, and way too much caffeine!! <br className="hidden md:block" />
+          <p className="text-xl md:text-3xl opacity-60 font-medium max-w-4xl mx-auto leading-relaxed">
+            Running on Arch + Hyprland + Quickshell, and lots of caffeine!! <br></br>
+
             <span className="relative inline-block mt-4 md:mt-0">
               <span className="text-[var(--primary)] font-bold relative z-10">
-                breaking things locally,
+                writing code today,
               </span>
               <span className="absolute bottom-1 left-0 w-full h-1.5 bg-[var(--primary)]/20 -rotate-1" />
             </span>{" "}
             <span className="relative inline-block">
               <span className="text-[var(--primary)] font-bold relative z-10">
-                to fix them in production
+                rewriting it all tomorrow.
               </span>
               <span className="absolute bottom-1 left-0 w-full h-1.5 bg-[var(--primary)]/20 rotate-1" />
             </span>{" "}
