@@ -232,6 +232,23 @@ body, .gsf-global {
     .m3-slider:focus-visible {
         outline: 3px solid var(--primary);
         outline-offset: 3px;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.35);
+    }
+
+    button.sidebar-item:focus-visible,
+    a.sidebar-item:focus-visible,
+    .sidebar-item:focus-visible {
+        outline: 3px solid var(--primary) !important;
+        outline-offset: 4px;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.35);
+    }
+
+    button.bottom-nav-item:focus-visible,
+    a.bottom-nav-item:focus-visible,
+    .bottom-nav-item:focus-visible {
+        outline: 3px solid var(--primary) !important;
+        outline-offset: 4px;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.35);
     }
 
     .skip-link {
