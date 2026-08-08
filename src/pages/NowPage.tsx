@@ -26,7 +26,7 @@ export const NowPage = memo(() => {
         {/* SECTION 1: BUILDING */}
         <Card
           delay={0.1}
-          innerClassName="p-8 md:p-12 border-6 border-[var(--outline-variant)]/90 hover:border-[var(--primary)] transition-colors flex flex-col justify-between min-h-[400px] md:min-h-[450px] group/now"
+          innerClassName="p-8 md:p-12 border-6 border-[var(--outline-variant)]/90 transition-colors flex flex-col justify-between min-h-[400px] md:min-h-[450px] group/now"
         >
           <div className="space-y-10">
             <div className="space-y-6">
@@ -56,7 +56,7 @@ export const NowPage = memo(() => {
 
         <Card
           delay={0.2}
-          innerClassName="p-8 md:p-12 border-6 border-[var(--outline-variant)]/90 hover:border-[var(--primary)] transition-colors flex flex-col justify-between min-h-[400px] md:min-h-[450px] group/now"
+          innerClassName="p-8 md:p-12 border-6 border-[var(--outline-variant)]/90 transition-colors flex flex-col justify-between min-h-[400px] md:min-h-[450px] group/now"
         >
           <div className="space-y-10">
             <div className="space-y-6">
@@ -87,7 +87,7 @@ export const NowPage = memo(() => {
         <Card
           delay={0.4}
           className="md:col-span-2"
-          innerClassName="bg-[var(--primary)] text-[var(--on-primary)] p-8 md:p-12 border-6 border-[var(--outline-variant)]/40 hover:border-[var(--surface-variant)] transition-colors flex flex-col justify-between min-h-[400px] md:min-h-[450px] group/now"
+          innerClassName="bg-[var(--primary)] text-[var(--on-primary)] p-8 md:p-12 border-6 border-[var(--outline-variant)]/40 transition-colors flex flex-col justify-between min-h-[400px] md:min-h-[450px] group/now"
         >
           <div className="space-y-10">
             <div className="space-y-6">
