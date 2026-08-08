@@ -79,8 +79,10 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [bugReportOpen, setBugReportOpen] = useState(false);
   const [KnownIssuessOpen, setKnownIssuessOpen] = useState(false);
+  const normalizeRoute = (pathname: string) => pathname.replace(/^\/+/, "").replace(/\/+$/, "").toLowerCase();
+
   const [guestbookOpen, setGuestbookOpen] = useState(() => {
-    return window.location.pathname.replace("/", "").toLowerCase() === "guestbook";
+    return normalizeRoute(window.location.pathname) === "guestbook";
   });
   const [showDebugConfirm, setShowDebugConfirm] = useState(false);
   const [showRefreshConfirm, setShowRefreshConfirm] = useState(false);
@@ -99,15 +101,20 @@ export default function App() {
   // modular logic hooks
   useSettingsSync(setPendingCapsule);
 
-  const [page, setPage] = useState(() => {
-    const loc = window.location.pathname;
-    const path = loc.replace("/", "").toLowerCase();
+  const normalizeRoute = (pathname: string) => pathname.replace(/^\/+/g, "").replace(/\/+$/g, "").toLowerCase();
+  const getPageFromPath = (pathname: string) => {
+    const loc = pathname;
+    const path = normalizeRoute(loc);
+
     if (path === "guestbook") return "home";
     if (loc === "/" || loc === "") return "home";
     if (loc.startsWith("/blog/")) return "blog";
+
     const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog"];
     return ALLOWED.includes(path) ? path : "404";
-  });
+  };
+
+  const [page, setPage] = useState(() => getPageFromPath(window.location.pathname));
 
   const [blogPostId, setBlogPostId] = useState<string | null>(() => {
     const loc = window.location.pathname;
@@ -187,7 +194,7 @@ export default function App() {
       }
       
       const loc = window.location.pathname;
-      const path = loc.replace("/", "").toLowerCase();
+      const path = normalizeRoute(loc);
       if (path === "guestbook") {
         setPage("home");
         setBlogPostId(null);
@@ -249,7 +256,7 @@ export default function App() {
 
   const handleCloseGuestbook = React.useCallback(() => {
     setGuestbookOpen(false);
-    if (window.location.pathname.replace("/", "").toLowerCase() === "guestbook") {
+    if (normalizeRoute(window.location.pathname) === "guestbook") {
       window.history.pushState({}, "", "/");
     }
   }, []);
