@@ -27,7 +27,7 @@ export function NavigationRailItem({ label, icon: Icon, active = false, ...props
   if ("href" in props && props.href != undefined) {
     const { href, ...rest } = props as AnchorProps;
     return (
-      <a className={cls} href={href} role="menuitem" {...rest}>
+      <a className={cls} href={href} aria-current={active ? "page" : undefined} {...rest}>
         {inner}
       </a>
     );
@@ -35,7 +35,7 @@ export function NavigationRailItem({ label, icon: Icon, active = false, ...props
 
   const { ...rest } = props as ButtonProps;
   return (
-    <button className={cls} role="menuitem" type="button" {...rest}>
+    <button className={cls} type="button" aria-current={active ? "page" : undefined} {...rest}>
       {inner}
     </button>
   );

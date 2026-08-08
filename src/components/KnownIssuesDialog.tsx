@@ -235,6 +235,10 @@ export const KnownIssuesDialog = ({
           {/* modal container */}
           <motion.div
             ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="known-issues-title"
+            aria-describedby="known-issues-description"
             initial={isMobile ? { y: viewport ? viewport.h : window.innerHeight } : { opacity: 0, scale: 0.9, y: 20 }}
             animate={isMobile ? { y: defaultY } : { opacity: 1, scale: 1, y: 0 }}
             exit={isMobile ? { 
@@ -289,6 +293,7 @@ export const KnownIssuesDialog = ({
                     haptic.light();
                     onClose();
                   }}
+                  aria-label="Close known issues dialog"
                   className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border-3 border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                 >
                   <X size={20} className="transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180 group-hover:scale-110" />
