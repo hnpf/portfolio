@@ -19,7 +19,11 @@ export interface SearchItem {
 /**
  * extract all settings into searchable items
  */
-export const getSettingsSearchItems = (settings: any, updateSettings: any): SearchItem[] => {
+export const getSettingsSearchItems = (
+  settings: any,
+  updateSettings: any,
+  openSettings: () => void
+): SearchItem[] => {
   const items: SearchItem[] = [];
 
   // theme settings
@@ -29,7 +33,7 @@ export const getSettingsSearchItems = (settings: any, updateSettings: any): Sear
     description: "Switch between light, dark, or system theme",
     category: "Settings",
     icon: Palette,
-    action: () => {},
+    action: openSettings,
     tags: ["theme", "appearance", "light", "dark", "mode"],
   });
 
@@ -79,7 +83,7 @@ export const getSettingsSearchItems = (settings: any, updateSettings: any): Sear
     description: `Current: ${settings.accent}. Choose between orange, blue, green, red, purple, or custom`,
     category: "Settings",
     icon: Palette,
-    action: () => {},
+    action: openSettings,
     tags: ["accent", "color", "palette", settings.accent],
   });
 
@@ -89,7 +93,7 @@ export const getSettingsSearchItems = (settings: any, updateSettings: any): Sear
     description: `Current: ${settings.palette}. Choose tonal-spot, fidelity, content, neutral, expressive, or fruit-salad`,
     category: "Settings",
     icon: Palette,
-    action: () => {},
+    action: openSettings,
     tags: ["palette", "colors", settings.palette],
   });
 
@@ -144,7 +148,7 @@ export const getSettingsSearchItems = (settings: any, updateSettings: any): Sear
     description: `Current: ${settings.paletteHotkey}. Choose Ctrl+K, ⌘K, or Ctrl+Shift+P`,
     category: "Settings",
     icon: SettingsIcon,
-    action: () => {},
+    action: openSettings,
     tags: ["hotkey", "shortcut", "palette", "keyboard"],
   });
 
@@ -164,7 +168,7 @@ export const getSettingsSearchItems = (settings: any, updateSettings: any): Sear
     description: `Current: ${settings.paletteSearchScope}. Limit search to pages, commands, blog, or everything`,
     category: "Settings",
     icon: Search,
-    action: () => {},
+    action: openSettings,
     tags: ["scope", "palette", "search", "filter"],
   });
 
@@ -174,7 +178,7 @@ export const getSettingsSearchItems = (settings: any, updateSettings: any): Sear
     description: `Current: ${settings.paletteResultsLimit}. Control how many items appear before scrolling`,
     category: "Settings",
     icon: SettingsIcon,
-    action: () => {},
+    action: openSettings,
     tags: ["results", "limit", "palette"],
   });
 
@@ -194,7 +198,7 @@ export const getSettingsSearchItems = (settings: any, updateSettings: any): Sear
     description: `Current: ${settings.paletteKeyboardNavBehavior}. Choose standard, wrap, or 2D grid`,
     category: "Settings",
     icon: SettingsIcon,
-    action: () => {},
+    action: openSettings,
     tags: ["keyboard", "navigation", "palette", "arrows"],
   });
 
@@ -312,11 +316,12 @@ export const getLinksSearchItems = (): SearchItem[] => {
 export const getAllSearchItems = (
   settings: any,
   updateSettings: any,
+  openSettings: () => void,
   goto: (page: string, link?: string) => void,
   navigateTo: (page: string) => void
 ): SearchItem[] => {
   return [
-    ...getSettingsSearchItems(settings, updateSettings),
+    ...getSettingsSearchItems(settings, updateSettings, openSettings),
     ...getBlogSearchItems(goto),
     ...getProjectsSearchItems(navigateTo),
     ...getLinksSearchItems(),

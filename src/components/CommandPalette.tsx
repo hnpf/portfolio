@@ -147,7 +147,13 @@ export function CommandPalette({
     ];
 
     // dynamically get all searchable items (settings, blog, projects, links)
-    const searchableItems = getAllSearchItems(settings, updateSettings, goto, () => goto("home"));
+    const searchableItems = getAllSearchItems(
+      settings,
+      updateSettings,
+      onOpenSettings,
+      goto,
+      () => goto("home")
+    );
 
     return [...pageActions, ...searchableItems];
   }, [goto, settings, cycleTheme, updateSettings, onOpenSettings, onOpenGuestbook]);
