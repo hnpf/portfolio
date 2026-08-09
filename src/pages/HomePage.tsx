@@ -479,7 +479,7 @@ const AncBar = ({ setPage, settings }: { setPage: (page: string, postId: string 
 
       {/* date top right; post link bottom right */}
       <div className="shrink-0 flex sm:flex-col justify-between items-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-[var(--outline-variant)]/20 sm:border-none">
-        <span className="text-[12px] font-display font-black opacity-60 shrink-0 bg-[var(--surface)]/50 px-3 py-0.5 rounded-full border-3 border-[var(--outline-variant)] self-start sm:self-end">
+        <span className="text-[12px] font-display font-black opacity-60 shrink-0 bg-[var(--surface)]/50 px-4 py-1.5 rounded-full border-3 border-[var(--outline-variant)] self-start sm:self-end">
           {latestPost.date}
         </span>
 
@@ -622,12 +622,12 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
           <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-all duration-700 group-hover:rotate-12 group-hover:scale-110">
             <Activity size={130} className="-rotate-175 md:mr-6 md:mt-3" />
           </div>
-<div className="isolate flex flex-col -space-y-3 md:-space-y-4">
-  <span className="text-4xl md:text-5xl font-display mb-1 font-black italic uppercase tracking-tight opacity-40">I NEVER</span>
-  <span className="text-7xl md:text-8xl font-expressive-bold mb-1 italic font-black tracking-[-0.08em] leading-none uppercase">SHIP</span>
-  <span className="text-4xl md:text-5xl font-display mb-1 font-black italic uppercase tracking-[-0.02em] opacity-40">WHAT I DON'T</span>
-  <span className="text-8xl md:text-[9rem] font-expressive-bold italic tracking-[-0.08em] leading-none uppercase text-[var(--primary)]">USE.</span>
-</div>
+          <div className="isolate flex flex-col -space-y-3 md:-space-y-4">
+            <span className="text-4xl md:text-5xl font-display mb-1 font-black italic uppercase tracking-tight opacity-40">I NEVER</span>
+            <span className="text-7xl md:text-8xl font-expressive-bold mb-1 italic font-black tracking-[-0.08em] leading-none uppercase">SHIP</span>
+            <span className="text-4xl md:text-5xl font-display mb-1 font-black italic uppercase tracking-[-0.02em] opacity-40">WHAT I DON'T</span>
+            <span className="text-8xl md:text-[9rem] font-expressive-bold italic tracking-[-0.08em] leading-none uppercase text-[var(--primary)]">USE.</span>
+          </div>
         </Card>
 
         <div className="flex flex-col gap-8">
