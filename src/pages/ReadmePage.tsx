@@ -26,7 +26,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
   const [swoopDone, setSwoopDone] = useState(false);
   const { settings, actualTheme } = useTheme();
 
-  const glass_class = is_mobile ? "" : "backdrop-blur-md";
+  const glass_class = "backdrop-blur-sm md:backdrop-blur-md";
 
   useEffect(() => {
   }, [is_mobile]);
@@ -55,21 +55,10 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           : "relative w-full overflow-x-hidden z-10"
       )}
     >
-      {/* bg effecting stuff*/}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className={cn("absolute inset-0 z-[-1]", !is_mobile && !settings.disableAnimations)}>
-          {/* bigg star */}
-          <motion.div
-            initial={{ opacity: 0.1 }}
-            animate={(!is_mobile && !settings.disableAnimations) ? {
-              scale: [100],
-              opacity: [0.04]
-            } : {}}
-            className="relative w-[600px] h-[600px] bg-[var(--primary)] rounded-full blur-[10px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          />
-        </div>
+      {/* for now removed bg blur - was pretty unpleasing to view on mobile */}
 
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,var(--surface)_90%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,var(--surface)_92%)]" />
       </div>
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-20 flex flex-col items-center">
@@ -187,7 +176,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             delay={1.2}
             /*whileHover={{ y: -12, scale: 1.02 }}*/
             className="col-span-2 md:col-span-4"
-            innerClassName={cn("px-8 py-10 bg-gradient-to-br from-[var(--primary-container)]/90 to-[var(--primary)]/10 text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/30 flex flex-col justify-between gap-8 group transition-colors duration-200 relative overflow-hidden", glass_class)}
+            innerClassName={cn("px-8 py-10 bg-[var(--primary-container)]/90 text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/30 flex flex-col justify-between gap-8 group transition-colors duration-200 relative overflow-hidden", glass_class)}
           >
             <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-3">
