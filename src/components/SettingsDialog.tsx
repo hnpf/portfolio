@@ -212,6 +212,10 @@ export const SettingsDialog = memo(({
     { id: "backup", title: "Backup & Share", desc: "Export, import, share configs", icon: Fingerprint },
   ] as const;
 
+  const visibleMainPages = is_mobile
+    ? MAIN_PAGES.filter((page) => page.id !== "commandPalette")
+    : MAIN_PAGES;
+
   const BOTTOM_PAGES = [
     { id: "debug", title: "Info & Debug", desc: "DOM tools, inspection, console tools, etc", icon: Cpu },
     { id: "about", title: "Bugs & Issues", desc: "Changelog, report bugs, known issues", icon: Terminal },
@@ -1486,7 +1490,7 @@ export const SettingsDialog = memo(({
                       >
                         {/* main pages group */}
                         <div className="flex flex-col gap-1">
-                          {MAIN_PAGES.map((page, index, arr) => {
+                          {visibleMainPages.map((page, index, arr) => {
                             const PageIcon = page.icon;
                             const isFirst = index === 0;
                             const isLast = index === arr.length - 1;
