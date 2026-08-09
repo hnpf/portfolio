@@ -745,7 +745,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
               Drop by and leave your thoughts, a greeting, or tell me what you think of this site. Click to view all entries and sign!
             </p>
             {latestEntry && (
-              <div className="inline-flex flex-col sm:flex-row sm:items-center gap-2 mt-2 p-3 bg-[var(--surface-variant)]/40 rounded-2xl border border-[var(--outline-variant)]/20 text-sm w-full text-left overflow-hidden">
+              <div className="inline-flex flex-col sm:flex-row sm:items-center gap-2 mt-2 p-3 bg-[var(--surface-variant)]/40 rounded-2xl border-4 border-[var(--outline-variant)]/40 text-sm w-full text-left overflow-hidden">
                 <span className="font-black text-[var(--primary)] shrink-0">@{latestEntry.name}:</span>
                 <span className="opacity-85 truncate flex-1 font-medium italic min-w-0">"{latestEntry.message}"</span>
               </div>
