@@ -611,6 +611,14 @@ export default function App() {
       <CapsuleConfirmDialog pendingCapsule={pendingCapsule} setPendingCapsule={setPendingCapsule} updateSettings={updateSettings} setToast={setToast} />
       <RefreshConfirmDialog showRefreshConfirm={showRefreshConfirm} setShowRefreshConfirm={setShowRefreshConfirm} />
       <DebugView page={page} blogPostId={blogPostId} viewport={viewport} />
+      <TextSearchBar
+        isOpen={textSearch.isOpen}
+        query={textSearch.query}
+        onQueryChange={textSearch.updateQuery}
+        onClose={textSearch.closeSearch}
+        matchCount={textSearch.matchCount}
+        currentMatch={textSearch.currentMatch}
+      />
       <CommandPalette
         open={commandOpen}
         onClose={() => setCommandOpen(false)}

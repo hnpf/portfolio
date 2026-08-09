@@ -404,89 +404,99 @@ export function CommandPalette({
                   ref={scrollRef}
                   className="scrollbar-hide max-h-[calc(72vh-16rem)] overflow-y-auto overscroll-contain pr-8 pb-4 pt-5"
                 >
-                  <div className={viewMode === "lists" ? "grid gap-2" : "grid grid-cols-2 gap-4"}>
-                    {filteredItems.map((item, index) => {
-                      const Icon = item.icon;
-                      const isActive = index === cursor;
-                      const isRecent = isRecentItem(item.id);
-                      const isFirst = index === 0;
-                      const isLast = index === filteredItems.length - 1;
-                      const isSingle = filteredItems.length === 1;
-                      const roundedClass = viewMode === "lists"
-                        ? isSingle
-                          ? "rounded-[2rem]"
-                          : isFirst
-                            ? "rounded-t-[2rem] rounded-b-[0.9rem]"
-                            : isLast
-                              ? "rounded-b-[2rem] rounded-t-[0.9rem]"
-                              : "rounded-[0.9rem]"
-                        : "rounded-[2rem]";
-                      return (
-                        <motion.button
-                          key={item.id}
-                          type="button"
-                          onClick={() => {
-                            item.action();
-                            onClose();
-                          }}
-                          onMouseEnter={() => {
-                            if (!ignoreMouseHover) setCursor(index);
-                          }}
-                          data-command-active={isActive}
-                          style={{ transformOrigin: "left center" }}
-                          whileHover={
-                            ignoreMouseHover
-                              ? undefined
-                              : {
-                                  y: -3,
-                                  scale: 1.01,
-                                  transition: { type: "spring", stiffness: 550, damping: 58, mass: 0.7 },
+                  <div className={viewMode === "lists" ? "space-y-4" : "space-y-6"}>
+                    {groupedItems.map((group) => (
+                      <div key={group.category} className="space-y-3">
+                        <div className="px-4 py-2 rounded-[1.5rem] bg-[var(--surface-variant)] text-[12px] uppercase tracking-[0.2em] font-black opacity-70">
+                          {group.category}
+                        </div>
+                        <div className={viewMode === "lists" ? "space-y-2" : "grid grid-cols-2 gap-4"}>
+                          {group.items.map((item, index) => {
+                            const globalIndex = filteredItems.findIndex((candidate) => candidate.id === item.id);
+                            const Icon = item.icon;
+                            const isActive = globalIndex === cursor;
+                            const isRecent = isRecentItem(item.id);
+                            const isFirst = globalIndex === 0;
+                            const isLast = globalIndex === filteredItems.length - 1;
+                            const isSingle = filteredItems.length === 1;
+                            const roundedClass = viewMode === "lists"
+                              ? isSingle
+                                ? "rounded-[2rem]"
+                                : isFirst
+                                  ? "rounded-t-[2rem] rounded-b-[0.9rem]"
+                                  : isLast
+                                    ? "rounded-b-[2rem] rounded-t-[0.9rem]"
+                                    : "rounded-[0.9rem]"
+                              : "rounded-[2rem]";
+                            return (
+                              <motion.button
+                                key={item.id}
+                                type="button"
+                                onClick={() => {
+                                  item.action();
+                                  onClose();
+                                }}
+                                onMouseEnter={() => {
+                                  if (!ignoreMouseHover) setCursor(globalIndex);
+                                }}
+                                data-command-active={isActive}
+                                style={{ transformOrigin: "left center" }}
+                                whileHover={
+                                  ignoreMouseHover
+                                    ? undefined
+                                    : {
+                                        y: -3,
+                                        scale: 1.01,
+                                        transition: { type: "spring", stiffness: 550, damping: 58, mass: 0.7 },
+                                      }
                                 }
-                          }
-                          whileTap={{ scale: 0.98, transition: { type: "spring", stiffness: 900, damping: 40, mass: 0.5 } }}
-                          animate={isActive ? { scale: 1.01 } : { scale: 1 }}
-                          transition={{ type: "spring", stiffness: 620, damping: 30, mass: 0.65 }}
-                          className={cn(
-                            "group relative w-full text-left transition-colors duration-150",
-                            viewMode === "lists"
-                              ? cn(
-                                  "grid grid-cols-[auto_1fr] items-center gap-4 border-6 bg-[var(--surface)] px-5 py-5 shadow-[0_18px_46px_-28px_rgba(0,0,0,0.16)]",
-                                  roundedClass
-                                )
-                              : cn(
-                                  "flex items-start gap-3 border-6 px-4 py-4 bg-[var(--surface)]",
-                                  roundedClass
-                                ),
-                            isActive
-                              ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)] shadow-[0_20px_48px_-24px_rgba(79,70,229,0.24)]"
-                              : cn(
-                                  "border-[var(--outline-variant)]/30",
-                                  !ignoreMouseHover && "hover:border-[var(--primary)]/30 hover:bg-[var(--surface-variant)]"
-                                )
-                          )}
-                        >
-                          <div className={cn(
-                            "grid h-14 w-14 shrink-0 place-items-center rounded-[18px] border-2",
-                            isActive
-                              ? "border-3 border-[var(--primary)] bg-[var(--primary)] text-[var(--on-primary)]"
-                              : "border-3  border-[var(--outline-variant)]/30 bg-[var(--surface-variant)] text-[var(--on-surface-variant)]"
-                          )}>
-                            <Icon size={20} />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center gap-2">
-                              <div className="text-[16px] font-semibold tracking-tight opacity-85">{item.label}</div>
-                              {isRecent && (
-                                <span className="rounded-full bg-[var(--primary-container)] px-2 py-0.5 text-[11px] font-black  tracking-[0.1em] text-[var(--on-primary-container)]">
-                                  Recent
-                                </span>
-                              )}
-                            </div>
-                            <div className="mt-1 text-[12px] opacity-50 leading-5">{item.description}</div>
-                          </div>
-                        </motion.button>
-                      );
-                    })}
+                                whileTap={{ scale: 0.98, transition: { type: "spring", stiffness: 900, damping: 40, mass: 0.5 } }}
+                                animate={isActive ? { scale: 1.01 } : { scale: 1 }}
+                                transition={{ type: "spring", stiffness: 620, damping: 30, mass: 0.65 }}
+                                className={cn(
+                                  "group relative w-full text-left transition-colors duration-150",
+                                  viewMode === "lists"
+                                    ? cn(
+                                        "grid grid-cols-[auto_1fr] items-center gap-4 border-6 bg-[var(--surface)] px-5 py-5 shadow-[0_18px_46px_-28px_rgba(0,0,0,0.16)]",
+                                        roundedClass
+                                      )
+                                    : cn(
+                                        "flex items-start gap-3 border-6 px-4 py-4 bg-[var(--surface)]",
+                                        roundedClass
+                                      ),
+                                  isActive
+                                    ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)] shadow-[0_20px_48px_-24px_rgba(79,70,229,0.24)]"
+                                    : cn(
+                                        "border-[var(--outline-variant)]/30",
+                                        !ignoreMouseHover && "hover:border-[var(--primary)]/30 hover:bg-[var(--surface-variant)]"
+                                      )
+                                )}
+                              >
+                                <div className={cn(
+                                  "grid h-14 w-14 shrink-0 place-items-center rounded-[18px] border-2",
+                                  isActive
+                                    ? "border-3 border-[var(--primary)] bg-[var(--primary)] text-[var(--on-primary)]"
+                                    : "border-3  border-[var(--outline-variant)]/30 bg-[var(--surface-variant)] text-[var(--on-surface-variant)]"
+                                )}>
+                                  <Icon size={20} />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center gap-2">
+                                    <div className="text-[16px] font-semibold tracking-tight opacity-85">{item.label}</div>
+                                    {isRecent && (
+                                      <span className="rounded-full bg-[var(--primary-container)] px-2 py-0.5 text-[11px] font-black  tracking-[0.1em] text-[var(--on-primary-container)]">
+                                        Recent
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="mt-1 text-[12px] opacity-50 leading-5">{item.description}</div>
+                                </div>
+                              </motion.button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <M3ScrollBar scrollEl={scrollRef} thinOnly colorful className="absolute top-0 right-0 h-full" />
