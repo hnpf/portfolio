@@ -98,4 +98,13 @@ app.post('/api/report-bug', async (req, res) => {
   }
 });
 
+// FUCK ME.
+const PORT = process.env.PORT || 3001;
+
+if (process.env.NODE_ENV !== 'production' || process.mainModule?.filename === import.meta.filename) {
+  app.listen(PORT, () => {
+    console.log(`api running on http://localhost:${PORT}`);
+  });
+}
+
 export default app;
