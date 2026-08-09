@@ -1106,8 +1106,8 @@ export const SettingsDialog = memo(({
     <AnimatePresence>
       {settingsOpen && (
         <div className={cn(
-          "fixed inset-0 z-[100] flex items-center justify-center overflow-hidden",
-          is_mobile ? "p-0 bg-black/20" : "p-4"
+          "fixed inset-0 z-[100] flex justify-center overflow-hidden",
+          is_mobile ? "items-start p-0 bg-black/20" : "items-center p-4"
         )}>
           <motion.div
             initial={{ opacity: 0 }}

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence, useMotionValue, animate } from "motion/react";
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "motion/react";
 import { MessageSquare, X, Loader2, CheckCircle, Send, Calendar, Share2 } from "./MaterialIcon";
 import { cn } from "../constants";
 
@@ -28,6 +28,10 @@ export const GuestbookDialog = ({
 
   const [defaultY, setDefaultY] = useState(() => isMobile ? (viewport ? viewport.h * 0.05 : window.innerHeight * 0.05) : 0);
   const y = useMotionValue(isMobile ? (viewport ? viewport.h : window.innerHeight) : 0);
+  const modalHeight = useTransform(y, (latestY) => {
+    const baseHeight = viewport ? viewport.h : window.innerHeight;
+    return Math.max(0, baseHeight - latestY);
+  });
   const scrollRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -241,8 +245,8 @@ export const GuestbookDialog = ({
       {isOpen && (
         <div 
           className={cn(
-            "fixed inset-0 z-[110] flex items-center justify-center overflow-hidden",
-            isMobile ? "p-0 bg-black/20" : "p-4"
+            "fixed inset-0 z-[110] flex justify-center overflow-hidden",
+            isMobile ? "items-start p-0 bg-black/20" : "items-center p-4"
           )}
         >
           {/* backdrop */}
@@ -283,7 +287,8 @@ export const GuestbookDialog = ({
             )}
             style={isMobile ? { 
               y,
-              willChange: "transform",
+              height: modalHeight,
+              willChange: "transform, height",
               touchAction: "pan-y"
             } : { 
               willChange: "transform, opacity"

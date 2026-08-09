@@ -220,8 +220,8 @@ export const KnownIssuesDialog = ({
     <AnimatePresence>
       {isOpen && (
         <div className={cn(
-          "fixed inset-0 z-[110] flex items-center justify-center overflow-hidden",
-          isMobile ? "p-0 bg-black/20" : "p-4"
+          "fixed inset-0 z-[110] flex justify-center overflow-hidden",
+          isMobile ? "items-start p-0 bg-black/20" : "items-center p-4"
         )}>
           {/* backdrop */}
           <motion.div
