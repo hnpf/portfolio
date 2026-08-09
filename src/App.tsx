@@ -154,10 +154,17 @@ export default function App() {
         openHotkey === "ctrl-k" && e.ctrlKey && !e.metaKey && pressed === "k"
         || openHotkey === "cmd-k" && e.metaKey && !e.ctrlKey && pressed === "k"
         || openHotkey === "ctrl-shift-p" && e.ctrlKey && e.shiftKey && !e.metaKey && pressed === "p";
+      // settings hotkey = ctrl + ,
+      const isSettingsHotkey = e.ctrlKey && !e.metaKey && !e.shiftKey && pressed === ",";
 
       if (isPaletteHotkey) {
         e.preventDefault();
         setCommandOpen((open) => !open);
+      }
+      // settings hotkey right next to palette, reusing the same logic
+      if (isSettingsHotkey) {
+        e.preventDefault();
+        setSettingsOpen((open) => !open);
       }
       if (e.key === "Escape" && commandOpen) {
         setCommandOpen(false);
