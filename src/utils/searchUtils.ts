@@ -267,7 +267,7 @@ export const getProjectsSearchItems = (navigateTo: (page: string) => void): Sear
  * get searchable lens photo items
  */
 export const getLensSearchItems = (navigateTo: (page: string) => void): SearchItem[] => {
-  return LENS_PHOTOS.map((photo) => ({
+  return LENS_PHOTOS.map((photo): SearchItem => ({
     id: `lens-${photo.id}`,
     label: `Lens: ${photo.description}`,
     description: photo.date ? `${photo.date} · Lens photo` : "Lens photo",

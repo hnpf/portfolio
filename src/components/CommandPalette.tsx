@@ -222,7 +222,7 @@ export function CommandPalette({
 
   const groupedItems = useMemo(() => {
     const groups = groupByCategory(filteredItems);
-    const order = ["Navigation", "Settings", "Blog", "Projects", "Links", "Appearance", "Tools"];
+    const order = ["Navigation", "Settings", "Blog", "Lens", "Projects", "Links", "Appearance", "Tools"];
     return order
       .filter((category) => groups[category])
       .map((category) => ({ category, items: groups[category] }));

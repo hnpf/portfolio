@@ -7,7 +7,7 @@ import { useTheme } from "../ThemeContext";
 import { TiltContainer } from "../components/TiltContainer";
 import { haptic } from "../haptics";
 
-const LENS_PHOTOS = [
+export const LENS_PHOTOS = [
   {
     id: "24",
     url: "/photography/7062_1783717766914_optimized.webp",
