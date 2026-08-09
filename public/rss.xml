@@ -4,151 +4,286 @@
   <title>Virex Log</title>
   <link>https://virex.lol/blog</link>
   <description>Research, development, and systems exploration by Virex.</description>
+  <language>en-us</language>
+  <lastBuildDate>Sun, 09 Aug 2026 17:24:34 GMT</lastBuildDate>
+    <item>
+    <title>even more history! part 2 of restoring the early blogs</title>
+    <link>https://virex.lol/blog/more-old-blogs-restored</link>
+    <description><![CDATA[restored a few more gems from the early 2026 snapshots, including some of my favorite rants and the revamped markdown stress test.]]></description>
+    <content:encoded><![CDATA[restored a few more gems from the early 2026 snapshots, including some of my favorite rants and the revamped markdown stress test.]]></content:encoded>
+    <pubDate>Tue, 07 Jul 2026 05:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>markdown stress test, testing the parser</title>
+    <link>https://virex.lol/blog/markdown-test</link>
+    <description><![CDATA[checking if the new react-markdown setup can handle me.]]></description>
+    <content:encoded><![CDATA[checking if the new react-markdown setup can handle me.]]></content:encoded>
+    <pubDate>Tue, 07 Jul 2026 05:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>stop making it easy to pwn you</title>
+    <link>https://virex.lol/blog/cybersec-101</link>
+    <description><![CDATA[the absolute bare minimum to not get wiped out online.]]></description>
+    <content:encoded><![CDATA[the absolute bare minimum to not get wiped out online.]]></content:encoded>
+    <pubDate>Tue, 07 Jul 2026 05:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>the old blogs are back. all of them.</title>
+    <link>https://virex.lol/blog/return-of-the-old-blogs</link>
+    <description><![CDATA[i dug up every old post from the old virex.lol, going all the way back to the very beginning of the "project inception". they're all here again now, preserved exactly as they were back when i wrote them.]]></description>
+    <content:encoded><![CDATA[i dug up every old post from the old virex.lol, going all the way back to the very beginning of the "project inception". they're all here again now, preserved exactly as they were back when i wrote them.]]></content:encoded>
+    <pubDate>Mon, 06 Jul 2026 05:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>stop moving my screen! this is why modern web design is a motion sickness hazard...</title>
+    <link>https://virex.lol/blog/stop-moving-my-screen</link>
+    <description><![CDATA[let's talk about how modern web designers went insane with motion, and why i finally finished my global toggle to turn off the damned thing!]]></description>
+    <content:encoded><![CDATA[let's talk about how modern web designers went insane with motion, and why i finally finished my global toggle to turn off the damned thing!]]></content:encoded>
+    <pubDate>Sun, 05 Jul 2026 05:00:00 GMT</pubDate>
+  </item>
 
   <item>
     <title>leaving vercel; migrating my project to cloudflare!</title>
     <link>https://virex.lol/blog/leaving-vercel</link>
-    <description>here is why i finally dropped vercel's proprietary ecosystem, swapped to cloudflare pages, and built my own localized deployment helper.</description>
-    <content:encoded><![CDATA[
-<h1>leaving vercel; migrating my project to cloudflare</h1>
-<p>hi! after dealing with constant config headaches and growing distrust over vercel's hosting infrastructure, i finally did it. <strong>virex.lol is officially 100% free from vercel.</strong> i migrated the entire site infrastructure over to <strong>cloudflare pages</strong>, and i'll be honest, it is a flex!.</p>
-
-<h2>why did i dump vercel?</h2>
-<p>vercel is great for getting a basic site up in two clicks, but they love vendor lock-in. their serverless wrappers are entirely proprietary, configuring non-standard routes is a nightmare, and quite frankly, the bandwidth billing traps are terrifying. i don't want dumb corpo constraints on my own stuff.</p>
-
-<h2>entering cloudflare pages</h2>
-<p>cloudflare <strong>is</strong> the network layer of the internet. by moving here, here's what the site now benefits from:</p>
-<ul>
-  <li><strong>unmetered bandwidth:</strong> literally no threat of surprise bills if a malicious actor decides to layer-7 ddos my endpoints LMAO</li>
-  <li><strong>no cold starts:</strong> running on raw v8 javascript isolates at the closest edge nodes instead of heavy serverless containers</li>
-  <li><strong>total sovereignty:</strong> zero hidden infrastructure layers masking what is actually happening to my traffic!</li>
-</ul>
-
-<h2>about that localized deployment helper : dhelper</h2>
-<p>instead of using some bloated wrapper cli that tracks metrics in the background, i wrote a simple custom script called <code>dhelper</code> that ties right into wrangler and pnpm, with zero fucking headache.</p>
-
-<p>now, when i want to compile and push code directly to cloudflare's global edge network, i just run:</p>
-<pre><code>./dhelper -p</code></pre>
-<p>... that simple!</p>
-    ]]></content:encoded>
-    <pubDate>Mon, 25 May 2026 00:00:00 GMT</pubDate>
+    <description><![CDATA[here is why i finally dropped vercel's proprietary ecosystem, swapped to cloudflare pages, and built my own localized deployment helper.]]></description>
+    <content:encoded><![CDATA[here is why i finally dropped vercel's proprietary ecosystem, swapped to cloudflare pages, and built my own localized deployment helper.]]></content:encoded>
+    <pubDate>Mon, 25 May 2026 05:00:00 GMT</pubDate>
   </item>
 
   <item>
     <title>Why i refuse to trust the majority of the cloud..</title>
     <link>https://virex.lol/blog/data-sovereignty</link>
-    <description>Hoarding data is a radical act of self-preservation in a world of corporate greed tech giants.</description>
-    <content:encoded><![CDATA[
-<p>I'll just get straight to it.. EVERYTHING is a subscription now. You don't own your games, you don't own your music, and you definitely don't own your OS environment if you're stuck on Windows or such. They want you to rent your life until you die.</p>
-
-<h3>Again, this is why i hoard!</h3>
-<ul>
-  <li><strong>Survival of the fittest:</strong> If the internet cuts out or a company decides to "pivot" (or just goes bankrupt), my data is still there, as it should be!!!</li>
-  <li>When you rely on music streaming, you are letting some faceless AI algorithm decide your taste and your history. Typically I prefer my own curated music, so no thank you.</li>
-  <li><strong>Local > Remote:</strong> Life is better when your data is actually in your computer/close to you, not sitting in a server farm halfway across the world. 😭</li>
-</ul>
-
-<h2>Even the political angle matters!</h2>
-<p>Every time I copy a file to my local drive, I am (probably) committing a minor act of rebellion against the "rent/subscribe-everything" economy</p>
-<blockquote><p>"If I cant own it, I DONT WANT IT. If I cant control it, I will at least archive it."</p></blockquote>
-    ]]></content:encoded>
-    <pubDate>Sun, 24 May 2026 00:00:00 GMT</pubDate>
+    <description><![CDATA[Hoarding data is a radical act of self-preservation in a world of corporate greed tech giants.]]></description>
+    <content:encoded><![CDATA[Hoarding data is a radical act of self-preservation in a world of corporate greed tech giants.]]></content:encoded>
+    <pubDate>Sun, 24 May 2026 05:00:00 GMT</pubDate>
   </item>
 
   <item>
     <title>brutal fantasies is literally the peak of human existence</title>
     <link>https://virex.lol/blog/bladeandbathpeak</link>
-    <description>ok.. i'm coming back from the dead again to talk about the only album that matters right now, and i know its late talking about it. sorry not sorry.</description>
-    <content:encoded><![CDATA[
-<h2>why im back (again)</h2>
-<p>it has been almost a week since i last posted but i literally dont care because i took like a month long break before that so i have energy again. the urge called and i answered with a blog post :)</p>
-<p>i was gonna talk about sukkubys or blade and bath coming back to life because that whole scene is actually moving lately but i had a realization...</p>
-
-<h2>the only thing that matters</h2>
-<p><strong>brutal fantasies</strong> is literally the best album on this planet. no contest. its peak. its the absolute ceiling of the genre. </p>
-<p>everyone else can stop recording now because this is it. the atmosphere is perfect. the production? exactly what it needs to be. the absolute dread and instrumental?? oh my god! this is modern beethoven! i have been looping this and nothing else is hitting the same right now. WHAT ARE THEY FEEDING THESE ARTISTS?!</p>
-    ]]></content:encoded>
-    <pubDate>Thu, 30 Apr 2026 00:00:00 GMT</pubDate>
+    <description><![CDATA[ok.. i'm coming back from the dead again to talk about the only album that matters right now, and i know its late talking about it. sorry not sorry.]]></description>
+    <content:encoded><![CDATA[ok.. i'm coming back from the dead again to talk about the only album that matters right now, and i know its late talking about it. sorry not sorry.]]></content:encoded>
+    <pubDate>Thu, 30 Apr 2026 05:00:00 GMT</pubDate>
   </item>
 
   <item>
     <title>ricing supremacy and why ricing makes you an actually better dev</title>
     <link>https://virex.lol/blog/ewaste-supremacy</link>
-    <description>PLEASE stop staring at ugly default themes. your environment is a reflection of your work.</description>
-    <content:encoded><![CDATA[
-<h1>aesthetic is actual efficiency (dont @ me!)</h1>
-<p>if you're still on any default terminal theme, i'm praying for you. making things look good isn't just a "ricer on reddit" thing but more about building a comfortable space where you actually <em>want</em> to suffer through merge conflicts!</p>
-
-<h2>why color palettes?</h2>
-<p>it's the total peak of human engineering. colors, decent contrast, and something that won't torch your retinas at midnight</p>
-    ]]></content:encoded>
-    <pubDate>Sun, 26 Apr 2026 00:00:00 GMT</pubDate>
+    <description><![CDATA[PLEASE stop staring at ugly default themes. your environment is a reflection of your work.]]></description>
+    <content:encoded><![CDATA[PLEASE stop staring at ugly default themes. your environment is a reflection of your work.]]></content:encoded>
+    <pubDate>Sun, 26 Apr 2026 05:00:00 GMT</pubDate>
   </item>
 
   <item>
     <title>turning ewaste into a small dev rig</title>
     <link>https://virex.lol/blog/ewaste-1-fr</link>
-    <description>this is why I decided to torture myself by putting debian on a snappy chromebook and how it actually kinda works!</description>
-    <content:encoded><![CDATA[
-<h2>why do i do this to myself?</h2>
-<p>honestly, there is something so satisfying about taking a "dead" chromebook and making it run a real OS. my old hp x360 (aka snappy) was basically a paperweight, but now it's a dedicated debian 13 box.</p>
-    ]]></content:encoded>
-    <pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate>
+    <description><![CDATA[this is why I decided to torture myself by putting debian on a snappy chromebook and how it actually kinda works!]]></description>
+    <content:encoded><![CDATA[this is why I decided to torture myself by putting debian on a snappy chromebook and how it actually kinda works!]]></content:encoded>
+    <pubDate>Sun, 15 Mar 2026 05:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>mobile magic &amp; hardware redesign</title>
+    <link>https://virex.lol/blog/more-hardware-updates-feb-2026</link>
+    <description><![CDATA[the new mobile "more" menu and the revamped hardware section.]]></description>
+    <content:encoded><![CDATA[the new mobile "more" menu and the revamped hardware section.]]></content:encoded>
+    <pubDate>Wed, 11 Feb 2026 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>de-sanitizing the site</title>
+    <link>https://virex.lol/blog/feb-11-update</link>
+    <description><![CDATA[a deep dive into why i gutted the old design, added new tweaks, and gave you keys to customization.]]></description>
+    <content:encoded><![CDATA[a deep dive into why i gutted the old design, added new tweaks, and gave you keys to customization.]]></content:encoded>
+    <pubDate>Wed, 11 Feb 2026 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>this is why search bars are e-waste</title>
+    <link>https://virex.lol/blog/search-is-mid</link>
+    <description><![CDATA[let's be honest.. if you needed a search bar to find content on a site, you are trying too hard.]]></description>
+    <content:encoded><![CDATA[let's be honest.. if you needed a search bar to find content on a site, you are trying too hard.]]></content:encoded>
+    <pubDate>Tue, 10 Feb 2026 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>my networking wiki just got a full reinstallation</title>
+    <link>https://virex.lol/blog/unw-upw-is-a-bible-lol</link>
+    <description><![CDATA[after a whole year of rotting, the wiki is finally a 300k character monster.]]></description>
+    <content:encoded><![CDATA[after a whole year of rotting, the wiki is finally a 300k character monster.]]></content:encoded>
+    <pubDate>Tue, 03 Feb 2026 06:00:00 GMT</pubDate>
   </item>
 
   <item>
     <title>sysdupd: arch updates without the headache</title>
     <link>https://virex.lol/blog/sysdupd</link>
-    <description>i finally got tired of manual pacman runs, so i built a libadwaita manager for personal use.</description>
-    <content:encoded><![CDATA[
-<p>it finally works. built a custom update manager using Python, GTK4, and libadwaita.</p>
-    ]]></content:encoded>
-    <pubDate>Thu, 16 Jan 2026 00:00:00 GMT</pubDate>
+    <description><![CDATA[i finally got tired of manual pacman runs, so i built a libadwaita manager for my personal use]]></description>
+    <content:encoded><![CDATA[i finally got tired of manual pacman runs, so i built a libadwaita manager for my personal use]]></content:encoded>
+    <pubDate>Fri, 16 Jan 2026 06:00:00 GMT</pubDate>
   </item>
 
   <item>
     <title>long term pixel 10 pro use: my review of the tensor G5</title>
     <link>https://virex.lol/blog/pixel-10-review</link>
-    <description>the 3nm transition, on-device AI, and why the pixel 10 pro is finally a consistent daily driver.</description>
-    <content:encoded><![CDATA[
-<h2>the TSMC shift</h2>
-<p>moving to TSMC's 3nm process makes efficiency gains immediately apparent. thermals stay stable under sustained loads, and the nona-core CPU config with cortex-x4 at 3.78GHz got a real lift in single-thread perf.</p>
-    ]]></content:encoded>
-    <pubDate>Thu, 16 Jan 2026 00:00:00 GMT</pubDate>
+    <description><![CDATA[the 3nm transition, on device ai, and why the pixel 10 pro is finally a consistent daily driver.]]></description>
+    <content:encoded><![CDATA[the 3nm transition, on device ai, and why the pixel 10 pro is finally a consistent daily driver.]]></content:encoded>
+    <pubDate>Fri, 16 Jan 2026 06:00:00 GMT</pubDate>
   </item>
 
   <item>
-    <title>your cloud is just someone else's computer.</title>
+    <title>your cloud is just someone elses computer.</title>
     <link>https://virex.lol/blog/cloud-is-someone-elses-computer</link>
-    <description>this is why i hoard data (and you probably should too)</description>
-    <content:encoded><![CDATA[
-<p>stop trusting corporations with your data.</p>
-    ]]></content:encoded>
-    <pubDate>Tue, 14 Jan 2026 00:00:00 GMT</pubDate>
+    <description><![CDATA[this is why i hoard data (and you probably should too)]]></description>
+    <content:encoded><![CDATA[this is why i hoard data (and you probably should too)]]></content:encoded>
+    <pubDate>Wed, 14 Jan 2026 06:00:00 GMT</pubDate>
   </item>
 
   <item>
-    <title>why I actually use arch.. (and it's not a joke)</title>
+    <title>why I actually use arch.. (and it’s not a joke)</title>
     <link>https://virex.lol/blog/why-i-actually-use-arch</link>
-    <description>I just want a system that doesn't hand bs over to me...</description>
-    <content:encoded><![CDATA[
-<ul>
-  <li><strong>no bloat</strong>: exactly what i need and nothing else.</li>
-  <li><strong>the wiki</strong>: the holy grail of documentation.</li>
-</ul>
-    ]]></content:encoded>
-    <pubDate>Tue, 14 Jan 2026 00:00:00 GMT</pubDate>
+    <description><![CDATA[everyone thinks arch users just want to flex their fastfetch, but i actually just want a system that doesnt hand bs over to me...]]></description>
+    <content:encoded><![CDATA[everyone thinks arch users just want to flex their fastfetch, but i actually just want a system that doesnt hand bs over to me...]]></content:encoded>
+    <pubDate>Wed, 14 Jan 2026 06:00:00 GMT</pubDate>
   </item>
 
   <item>
     <title>the internet is dead.</title>
     <link>https://virex.lol/blog/the-internet-is-dead</link>
-    <description>if you think you're talking to real people on the big platforms anymore, i have a bridge to sell you.</description>
-    <content:encoded><![CDATA[
-<p>socials are just bots talking to bots.</p>
-    ]]></content:encoded>
-    <pubDate>Mon, 12 Jan 2026 00:00:00 GMT</pubDate>
+    <description><![CDATA[if you think youre still talking to real people on big platforms, i have a bridge to sell you.]]></description>
+    <content:encoded><![CDATA[if you think youre still talking to real people on big platforms, i have a bridge to sell you.]]></content:encoded>
+    <pubDate>Mon, 12 Jan 2026 06:00:00 GMT</pubDate>
   </item>
 
+  <item>
+    <title>the epstein "files" are a joke</title>
+    <link>https://virex.lol/blog/epstein-files-is-a-joke</link>
+    <description><![CDATA[so the DOJ finally dropped the files and... surprise! it’s basically just 50 pages of blacked out text...]]></description>
+    <content:encoded><![CDATA[so the DOJ finally dropped the files and... surprise! it’s basically just 50 pages of blacked out text...]]></content:encoded>
+    <pubDate>Sun, 21 Dec 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>My take on ai</title>
+    <link>https://virex.lol/blog/my-take-on-ai</link>
+    <description><![CDATA[My take on ai; ai is a companion, not a replacement. an assistant, and nothing more]]></description>
+    <content:encoded><![CDATA[My take on ai; ai is a companion, not a replacement. an assistant, and nothing more]]></content:encoded>
+    <pubDate>Sun, 16 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>The VIREX portfolio is UPDATED</title>
+    <link>https://virex.lol/blog/keeping-it-live</link>
+    <description><![CDATA[I've completely revamped and fixed + polished the code on ALL pages]]></description>
+    <content:encoded><![CDATA[I've completely revamped and fixed + polished the code on ALL pages]]></content:encoded>
+    <pubDate>Sun, 16 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>heres why i love open source - 2</title>
+    <link>https://virex.lol/blog/why-love-open-source</link>
+    <description><![CDATA[honestly, open source is just better. it’s all about the community and...]]></description>
+    <content:encoded><![CDATA[honestly, open source is just better. it’s all about the community and...]]></content:encoded>
+    <pubDate>Wed, 12 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Project Update 2025-11-12</title>
+    <link>https://virex.lol/blog/project-update-2025-11-12</link>
+    <description><![CDATA[Major fixes and improvements across the site.]]></description>
+    <content:encoded><![CDATA[Major fixes and improvements across the site.]]></content:encoded>
+    <pubDate>Wed, 12 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Project Update 2025-11-08</title>
+    <link>https://virex.lol/blog/project-update-2025-11-08</link>
+    <description><![CDATA[Updated multiple things on the site for better UX...]]></description>
+    <content:encoded><![CDATA[Updated multiple things on the site for better UX...]]></content:encoded>
+    <pubDate>Sat, 08 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Future Plans and Goals</title>
+    <link>https://virex.lol/blog/future-plans-and-goals</link>
+    <description><![CDATA[I'm really looking forward to new projects and even more learning opportunities]]></description>
+    <content:encoded><![CDATA[I'm really looking forward to new projects and even more learning opportunities]]></content:encoded>
+    <pubDate>Fri, 07 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Ah shi, here we go again.</title>
+    <link>https://virex.lol/blog/ah-shi-here-we-go-again</link>
+    <description><![CDATA[Rockstar has JUST announced that GTA 6 will be delayed to November 19th, 2026]]></description>
+    <content:encoded><![CDATA[Rockstar has JUST announced that GTA 6 will be delayed to November 19th, 2026]]></content:encoded>
+    <pubDate>Thu, 06 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>The Importance of Cybersecurity, especially in Development</title>
+    <link>https://virex.lol/blog/importance-of-cybersecurity</link>
+    <description><![CDATA[understanding cybersecurity is a no brainer]]></description>
+    <content:encoded><![CDATA[understanding cybersecurity is a no brainer]]></content:encoded>
+    <pubDate>Thu, 06 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Why I Love Open Source</title>
+    <link>https://virex.lol/blog/why-i-love-open-source-og</link>
+    <description><![CDATA[Open source software has always been so important in my development journey]]></description>
+    <content:encoded><![CDATA[Open source software has always been so important in my development journey]]></content:encoded>
+    <pubDate>Wed, 05 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Welcome to the Blog!</title>
+    <link>https://virex.lol/blog/welcome-to-the-blog</link>
+    <description><![CDATA[This is the first blog post!]]></description>
+    <content:encoded><![CDATA[This is the first blog post!]]></content:encoded>
+    <pubDate>Tue, 04 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Project Update 2025-11-04</title>
+    <link>https://virex.lol/blog/project-update-2025-11-04</link>
+    <description><![CDATA[I've been working on a LOT of updates and features for my portfolio.]]></description>
+    <content:encoded><![CDATA[I've been working on a LOT of updates and features for my portfolio.]]></content:encoded>
+    <pubDate>Tue, 04 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Project Update 2025-11-03</title>
+    <link>https://virex.lol/blog/project-update-2025-11-03</link>
+    <description><![CDATA[Fully overhauled and recoded search wrapper &amp; portfolio from scratch]]></description>
+    <content:encoded><![CDATA[Fully overhauled and recoded search wrapper &amp; portfolio from scratch]]></content:encoded>
+    <pubDate>Mon, 03 Nov 2025 06:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Project Update 2025-10-20</title>
+    <link>https://virex.lol/blog/project-update-2025-10-20</link>
+    <description><![CDATA[Changed fonts &amp; added transparency/glassy effects across the site.]]></description>
+    <content:encoded><![CDATA[Changed fonts &amp; added transparency/glassy effects across the site.]]></content:encoded>
+    <pubDate>Mon, 20 Oct 2025 05:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Project Update 2025-10-19</title>
+    <link>https://virex.lol/blog/project-update-2025-10-19</link>
+    <description><![CDATA[Fixed and revamped various parts of the UI]]></description>
+    <content:encoded><![CDATA[Fixed and revamped various parts of the UI]]></content:encoded>
+    <pubDate>Sun, 19 Oct 2025 05:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <title>Project Inception 2025-6-12</title>
+    <link>https://virex.lol/blog/project-update-2025-6-12</link>
+    <description><![CDATA[Started with the idea of creating a Material Design testing playground as a hobby.]]></description>
+    <content:encoded><![CDATA[Started with the idea of creating a Material Design testing playground as a hobby.]]></content:encoded>
+    <pubDate>Thu, 12 Jun 2025 05:00:00 GMT</pubDate>
+  </item>
 </channel>
 </rss>

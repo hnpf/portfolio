@@ -7,7 +7,8 @@
     "dev": "vite --port=6767 --host=0.0.0.0",
     "dev:server": "tsx api/index.ts",
     "dev:all": "pnpm run dev:server & pnpm run dev",
-    "build": "vite build",
+    "generate:rss": "tsx scripts/generate-rss.ts",
+    "build": "pnpm run generate:rss && vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
