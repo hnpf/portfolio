@@ -324,10 +324,10 @@ export const GuestbookDialog = ({
               {/* main split layout */}
               <div className="flex-1 flex flex-col md:flex-row overflow-hidden min-h-0">
                 {/* entries */}
-                <div className="flex-1 flex flex-col min-h-0 border-r border-[var(--outline-variant)]/30">
+                <div className="flex-1 flex flex-col min-h-0 min-w-0 w-full max-w-full overflow-hidden border-r border-[var(--outline-variant)]/30">
                   <div 
                     ref={scrollRef}
-                    className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 max-h-[45vh] md:max-h-none"
+                    className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 max-h-[45vh] md:max-h-none min-w-0"
                   >
                     <h3 className="text-md ml-1 font-bold tracking-[0.1em] text-[var(--on-surface-variant)] opacity-60 mb-2">
                       Recent signs ({entries.length})
@@ -347,10 +347,10 @@ export const GuestbookDialog = ({
                         {entries.map((entry) => (
                           <div 
                             key={entry.id} 
-                            className="p-4 rounded-2xl bg-[var(--surface-variant)]/30 border-4 border-[var(--outline-variant)]/30 space-y-2 hover:border-[var(--primary)]/30 transition-colors overflow-hidden"
+                            className="p-4 rounded-2xl bg-[var(--surface-variant)]/30 border-4 border-[var(--outline-variant)]/30 space-y-2 hover:border-[var(--primary)]/30 transition-colors w-full min-w-0 overflow-hidden"
                           >
-                            <div className="flex justify-between items-baseline gap-2 min-w-0">
-                              <span className="font-black text-sm text-[var(--primary)] truncate shrink">
+                            <div className="grid grid-cols-[1fr_auto] items-center gap-2 w-full min-w-0">
+                              <span className="font-black text-sm text-[var(--primary)] truncate min-w-0 block">
                                 @{entry.name}
                               </span>
                               <span className="text-[10px] font-bold opacity-40 uppercase tracking-wider flex items-center gap-1 shrink-0">
@@ -358,7 +358,7 @@ export const GuestbookDialog = ({
                                 {new Date(entry.created_at).toLocaleDateString()}
                               </span>
                             </div>
-                            <p className="text-sm text-[var(--on-surface)] font-medium break-words whitespace-pre-wrap min-w-0">
+                            <p className="text-sm text-[var(--on-surface)] font-medium break-words [word-break:break-word] whitespace-pre-wrap min-w-0">
                               {entry.message}
                             </p>
                           </div>

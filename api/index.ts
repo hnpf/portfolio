@@ -17,17 +17,21 @@ app.get('/api/guestbook', (req, res) => {
 
 app.post('/api/guestbook', (req, res) => {
   try {
-    const { name, message } = req.body;
+    let { name, message } = req.body;
     if (!message || typeof message !== 'string') {
       return res.status(400).json({ error: 'message is required and must be a string!' });
     }
-    if (!validateGuestbookMessage(message)) {
-      return res.status(400).json({ error: 'your message contains flagged content. please it clean! :(' });
+    const cleanName = typeof name === 'string' && name.trim() 
+      ? name.trim().slice(0, 24) 
+      : 'anonymous';
+    const cleanMessage = message.trim().slice(0, 200);
+    if (!validateGuestbookMessage(cleanMessage)) {
+      return res.status(400).json({ error: 'your message contains flagged content. please keep it clean! :(' });
     }
-    if (name && typeof name === 'string' && !validateGuestbookMessage(name)) {
-      return res.status(400).json({ error: 'your alias contains flagged content. please it clean! :(' });
+    if (!validateGuestbookMessage(cleanName)) {
+      return res.status(400).json({ error: 'your alias contains flagged content. please keep it clean! :(' });
     }
-    const entry = vxaddguestbook(name || 'anonymous', message);
+    const entry = vxaddguestbook(cleanName, cleanMessage);
     res.status(201).json(entry);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
