@@ -408,7 +408,7 @@ export default function App() {
                 </div>
               )}
               <div className="flex-1 flex flex-col min-h-0 relative group/nav" onMouseMove={(e) => { const rect = e.currentTarget.getBoundingClientRect(); const y = e.clientY - rect.top; setNavHoverSide(y < rect.height / 2 ? "top" : "bottom"); }} onMouseLeave={() => setNavHoverSide(null)}>
-                <nav id="sidebar-nav" className={cn("flex-1 flex flex-col min-h-0 py-12 scrollbar-hide overflow-y-hidden gap-6", settings.sidebarCollapsed ? "items-center px-2" : "items-stretch px-4")} data-rail-state={settings.sidebarCollapsed ? "default" : "open"} style={{ overflowY: "hidden", overscrollBehavior: "contain" }}>
+                <nav id="sidebar-nav" className={cn("flex-1 flex flex-col min-h-0 py-12 scrollbar-hide overflow-y-hidden gap-5.5", settings.sidebarCollapsed ? "items-center px-2" : "items-stretch px-4")} data-rail-state={settings.sidebarCollapsed ? "default" : "open"} style={{ overflowY: "hidden", overscrollBehavior: "contain" }}>
                   <SideItem highHz={settings.highHz} isFirst glyph={M3Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={M3Info} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={M3Blog} text="Blog" isSelected={page === "blog"} onSelect={() => goto("blog")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
@@ -430,11 +430,11 @@ export default function App() {
                   )}
                 </AnimatePresence>
               </div>
-              <div className={cn("mt-auto flex flex-col pt-4", settings.sidebarCollapsed ? cn("items-center gap-6", is_short ? "pb-4" : "pb-10") : cn("px-2 gap-4", is_short ? "pb-2" : "pb-4"))} data-rail-state={settings.sidebarCollapsed ? "default" : "open"}>
+              <div className={cn("mt-auto flex flex-col pt-4", settings.sidebarCollapsed ? cn("items-center gap-5.5", is_short ? "pb-4" : "pb-10") : cn("px-2 gap-4", is_short ? "pb-2" : "pb-4"))} data-rail-state={settings.sidebarCollapsed ? "default" : "open"}>
                 {!settings.sidebarCollapsed && (
                 <div className="mx-1 mb-2 h-px border-3 border-[var(--outline-variant)] rounded-md bg-[var(--outline-variant)]" />)}
                 
-                <div className={cn("flex flex-col", settings.sidebarCollapsed ? "w-full items-center gap-6" : "gap-4")}>
+                <div className={cn("flex flex-col", settings.sidebarCollapsed ? "w-full items-center gap-5.5" : "gap-4")}>
                   
                   <SideItem highHz={settings.highHz} glyph={M3Settings} text="Settings" onSelect={() => setSettingsOpen(true)} isMini={settings.sidebarCollapsed} isShort={is_short} isFirst isFloating={settings.floatingSidebar} layoutId="settings-expansion" />
                   {!settings.sidebarCollapsed && (

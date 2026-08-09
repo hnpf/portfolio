@@ -248,16 +248,16 @@ export const SettingsDialog = memo(({
                 Theme settings
               </h3>
             </div>
-            <div className="grid grid-cols-3 gap-2 w-full">
+            <div className="grid grid-cols-3 gap-1.5 w-full">
               {(["light", "dark", "system"] as const).map((m) => {
                 const isActive = settings.mode === m;
                 let roundedClass = "";
                 if (m === "light") {
-                  roundedClass = "rounded-l-[2rem] rounded-r-[0.6rem]";
+                  roundedClass = "rounded-l-[2rem] rounded-r-[1rem]";
                 } else if (m === "dark") {
-                  roundedClass = "rounded-[0.6rem]";
+                  roundedClass = "rounded-[1rem]";
                 } else {
-                  roundedClass = "rounded-r-[2rem] rounded-l-[0.6rem]";
+                  roundedClass = "rounded-r-[2rem] rounded-l-[1rem]";
                 }
                 
                 return (
@@ -419,7 +419,7 @@ export const SettingsDialog = memo(({
                       </div>
                     )}
                     {settings.accent === c && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px]">
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/10">
                         <div className="bg-white rounded-full p-0.5 shadow-md w-6 h-6 flex items-center justify-center leading-none">
                           <Check
                             size={14}
@@ -561,7 +561,7 @@ export const SettingsDialog = memo(({
                   label: "Disable Animations",
                   desc: "Turn off motion & transition effects",
                 },
-                {
+                { // desktop-only option
                   key: "bentoTilt",
                   label: "3D Bento Tilt",
                   desc: "Cursor tracking parallax tilt effect on cards",
@@ -618,30 +618,6 @@ export const SettingsDialog = memo(({
       case "layout":
         return (
           <div className="space-y-8">
-            {is_mobile && (
-              <section className="space-y-6">
-                <div className="flex items-center gap-3">
-                  <Compass size={20} className="text-[var(--primary)]" />
-                  <h3 className="text-md font-black tracking-[0.2em] text-[var(--on-surface-variant)] uppercase">
-                    Extra navigation
-                  </h3>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    onClick={() => {
-                      handleClose();
-                      haptic.light();
-                      goto("now");
-                    }}
-                    className="flex flex-col items-center justify-center gap-3 border-6 border-[var(--outline-variant)] py-6 bg-[var(--surface-variant)]/50 hover:bg-[var(--primary-container)] hover:border-[var(--primary)]/30 text-[var(--on-surface-variant)] hover:text-[var(--on-primary-container)] transition-all rounded-[1.5rem] group cursor-pointer"
-                  >
-                    <Activity size={28} className="text-[var(--primary)] group-hover:scale-110 transition-transform" />
-                    <span className="font-bold text-sm tracking-wide">Now</span>
-                  </button>
-                </div>
-              </section>
-            )}
-
             <section className="space-y-6">
               <div className="flex items-center gap-3 mb-7">
                 <Layers size={20} className="text-[var(--primary)]" />
@@ -650,18 +626,18 @@ export const SettingsDialog = memo(({
                 </h3>
               </div>
               <div className="flex flex-col gap-1">
-                {[
+                {[ // desktop-only option
                   {
                     key: "sidebarFlipped",
                     label: "Flip Sidebar",
                     desc: "Changes desktop sidebar orientation to the right",
                   },
-                  {
+                  { // desktop-only option
                     key: "floatingSidebar",
                     label: "Floating Sidebar",
                     desc: "Undock the sidebar with rounded corners",
                   },
-                  {
+                  { // desktop-only option
                     key: "profileContainer",
                     label: "Profile Container",
                     desc: "Shows a clean background around the profile header",
@@ -925,7 +901,7 @@ export const SettingsDialog = memo(({
                   handleClose();
                   goto("changelog");
                 }}
-                className="w-full flex items-center justify-between border-6 border-[var(--outline-variant)]  p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[1.5rem] group cursor-pointer"
+                className="w-full flex items-center justify-between border-6 border-[var(--outline-variant)]  p-5 bg-[var(--surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] transition-all text-left rounded-[2rem] group cursor-pointer"
               >
                 <div>
                   <div className="font-bold">View changelog</div>
@@ -1185,7 +1161,7 @@ export const SettingsDialog = memo(({
                     <button
                       onClick={() => navigateTo("menu")}
                       aria-label="Back to settings menu"
-                      className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
+                      className="group w-10 h-10 rounded-full bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] border-3 border-[var(--outline-variant)]/50 flex items-center justify-center transition-all cursor-pointer text-[var(--on-surface)] active:scale-95 shrink-0 shadow-sm"
                     >
                       <ChevronLeft size={20} className="transition-transform duration-300 ease-out group-hover:-translate-x-0.5 group-hover:scale-110" />
                     </button>
@@ -1284,10 +1260,10 @@ export const SettingsDialog = memo(({
                         </div>
 
                         {/* divider + bottom pages — wrapped together so they stay anchored as a unit */}
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-1">
                           <div className="flex items-center gap-4 px-1 pt-2 pb-2">
                             <div className="flex-1 h-px bg-[var(--outline-variant)]/50" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-30">More</span>
+                            <span className="text-[14px] font-black tracking-[0.1em] opacity-30">More</span>
                             <div className="flex-1 h-px bg-[var(--outline-variant)]/50" />
                           </div>
                           {BOTTOM_PAGES.map((page, index, arr) => {
@@ -1361,12 +1337,12 @@ export const SettingsDialog = memo(({
                         const isFirst = index === 0;
                         const isLast = index === arr.length - 1;
                         const roundedClass = isSingle
-                          ? "rounded-[1.5rem]"
+                          ? "rounded-[2rem]"
                           : isFirst
-                            ? "rounded-t-[1.5rem] rounded-b-[0.6rem]"
+                            ? "rounded-t-[1.5rem] rounded-b-[0.9rem]"
                             : isLast
-                              ? "rounded-b-[1.5rem] rounded-t-[0.6rem]"
-                              : "rounded-[0.6rem]";
+                              ? "rounded-b-[1.5rem] rounded-t-[0.9rem]"
+                              : "rounded-[0.9rem]";
                         return (
                           <motion.button
                             key={p.id}

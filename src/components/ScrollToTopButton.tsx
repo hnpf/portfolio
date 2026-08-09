@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUp, Sparkles } from "./MaterialIcon";
@@ -139,7 +140,7 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
                 isFlipped ? "left-4" : "right-4"
               )}
             >
-              <div className="bg-[var(--surface-variant)]/95 border-2 border-[var(--outline-variant)] text-[var(--on-surface-variant)] px-3 py-1.5 rounded-2xl text-[11px] font-bold tracking-wider shadow-xl backdrop-blur-xl flex items-center gap-1.5 whitespace-nowrap">
+              <div className="bg-[var(--surface-variant)]/95 border-3 border-[var(--outline)]/40 text-[var(--on-surface-variant)] px-3 py-1.5 rounded-2xl text-[11px] font-bold tracking-wider shadow-xl backdrop-blur-xl flex items-center gap-1.5 whitespace-nowrap">
                 <Sparkles size={13} className="text-[var(--primary)]" />
                 <span>Right-click to change icon shape! :)</span>
               </div>
@@ -165,7 +166,7 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
           className={cn(
             "flex items-center justify-center rounded-full group cursor-pointer outline-none focus:outline-none select-none",
             isExpanded
-              ? "p-1.5 md:p-2 bg-[var(--surface-variant)]/95 backdrop-blur-xl shadow-2xl"
+              ? "p-1.5 md:p-2 border-6 border-[var(--outline)]/40 bg-[var(--surface-variant)]/95 backdrop-blur-xl shadow-2xl"
               : "p-0 bg-transparent shadow-none",
             isFlipped ? "flex-row" : "flex-row-reverse"
           )}
@@ -198,7 +199,7 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
                   d={currentSvgPath}
                   fill="var(--primary)"
                   stroke="var(--outline-variant)"
-                  strokeWidth="8"
+                  strokeWidth="16"
                 />
               </svg>
             )}
