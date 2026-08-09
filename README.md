@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/2.svg" width="72" height="72" alt="virex logo" />
+<img src="public/favicon.svg" width="72" height="72" alt="virex logo" />
 
 ### virex.lol
 
@@ -120,7 +120,7 @@ public/
   fonts/                all locally stored and self-hosted material 3 symbols
   photography/          webp archive (compressed via sharp)
   _routes.json
-  2.svg                 site favicon
+  favicon.svg                 site favicon
   llms-full.txt
   llms.txt
   manifest.json
