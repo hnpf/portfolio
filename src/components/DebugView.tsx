@@ -534,7 +534,8 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="virex-debug-console fixed bottom-4 right-4 z-[9999] bg-[var(--surface)]/95 text-[var(--on-surface)] font-sans text-[11px] p-6 rounded-[2.5rem] border-6 border-[var(--outline-variant)] ring-6 ring-[var(--outline-variant)]/20 backdrop-blur-2xl shadow-2xl flex flex-col gap-4 w-[380px] md:w-[420px] max-h-[500px] pointer-events-auto select-none overflow-hidden touch-none animate-gpu"
+            style={{ width: "min(88vw, 320px)", maxHeight: "min(84vh, 420px)" }}
+            className="virex-debug-console fixed bottom-4 right-4 z-[9999] bg-[var(--surface)]/95 text-[var(--on-surface)] font-sans text-[10px] p-3 sm:p-4 md:p-6 rounded-[2rem] border-6 border-[var(--outline-variant)] ring-6 ring-[var(--outline-variant)]/20 backdrop-blur-2xl shadow-2xl flex flex-col gap-2.5 sm:gap-3 md:gap-4 w-[min(88vw,320px)] sm:w-[min(92vw,340px)] md:w-[420px] max-h-[min(84vh,420px)] pointer-events-auto select-none overflow-hidden touch-none animate-gpu"
           >
             {/* clean draggable header handle */}
             <div
@@ -828,7 +829,7 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
                   </div>
 
                   {/* log list box */}
-                  <div className="bg-black/95 text-emerald-400 border-2 border-[var(--outline-variant)] rounded-3xl p-4.5 h-[180px] overflow-y-auto custom-scrollbar font-mono text-[11px] leading-relaxed space-y-2">
+                  <div className="bg-black/95 text-emerald-400 border-2 border-[var(--outline-variant)] rounded-3xl p-4.5 h-[150px] overflow-y-auto custom-scrollbar font-mono text-[11px] leading-relaxed space-y-2">
                     {filteredLogs.length === 0 ? (
                       <div className="text-zinc-500 text-center py-8 italic font-black font-sans">No console logs captured</div>
                     ) : (
