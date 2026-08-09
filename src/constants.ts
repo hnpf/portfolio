@@ -940,6 +940,93 @@ it's literally just people helping people for learning (and overall better code 
 
 export const CHANGELOGS: ChangelogEntry[] = [
   {
+    id: "command-palette-ui-overhaul",
+    version: "2026.08.09",
+    title: "command palette + ui overhaul",
+    date: "Aug 9, 2026",
+    changes: [
+      {
+        category: "command palette",
+        items: [
+          "added a keyboard-driven command palette activated with ⌘K, Ctrl+K, or Ctrl+Shift+P. all shortcuts are optional.",
+          "added cards and lists views. lists use a classic stacked command layout, while cards use double-stacked left/right navigable cards.",
+          "added search scopes for everything, pages, commands, and blog posts.",
+          "added configurable result limits to control how many results appear before scrolling/searching.",
+          "added recent actions, showing recently selected commands when the palette opens with no search.",
+          "added keyboard navigation modes: standard, wrap, and 2d grid.",
+          "added hover suppression, allowing keyboard selection without mouse hover movement.",
+        ],
+      },
+      {
+        category: "functionality",
+        items: [
+          "fixed `vire.config.ts` so the local server actually works.",
+          "fixed the `api/index.ts` express server.",
+          "fixed guestbook right-side offset when usernames are too long by truncating them.",
+          "fixed wrapping on the upload file button when importing config.",
+          "fixed abrupt cutoff on `Paste sharing link/code here` on smaller screens.",
+          "fixed the sidebar collapse animation being too liquidy.",
+          "fixed duplicate transitions causing inconsistent animations.",
+          "fixed weather icon positioning.",
+          "fixed the inverted rounded hover logic on BugReportDialog footer actions.",
+          "fixed floating sidebar sideitems being too small.",
+          "fixed guestbook right-side offset for long usernames.",
+          "fixed mobile popup gaps when overdragging guestbook, settings, known issues, bug report, and other dialogs.",
+        ],
+      },
+      {
+        category: "mobile",
+        items: [
+          "hidden desktop-only options on mobile and added disclaimers to affected pages.",
+          "made the mobile debug view more compact.",
+          "fixed the date alignment on the ancbar for mobile layouts.",
+          "adjusted Readme page footer buttons to avoid a cramped triple-button layout.",
+          "fixed KnownIssuesDialog spacing on mobile.",
+          "fixed popup overdrag gaps across mobile dialogs.",
+          "fixed the featured row from wrapping unexpectedly.",
+          "improved truncation and sizing across several mobile-sensitive elements.",
+        ],
+      },
+      {
+        category: "ui",
+        items: [
+          "added more consistent borders and spacing throughout the blog page.",
+          "adjusted rounded elements across the interface and added larger borders to the top-to-bottom control.",
+          "added larger borders to the copy link capsule.",
+          "lowered the `--outline-variant` ring opacity on the sidebar collapse button.",
+          "made BugReportDialog borders more consistent.",
+          "added consistent borders and spacing to debug window controls.",
+          "added padding to debug window items to prevent content from clipping into the scrollbar.",
+          "made the guestbook preview border more consistent.",
+          "adjusted Guestbook and other popup spacing for better visual consistency.",
+          "improved card metadata spacing so dates and icons do not wrap awkwardly.",
+          "made the featured date wrapper `min-w-0` and truncated its inner span.",
+          "removed `hover:border-[var(--surface-variant)]` from non-clickable cards.",
+          "reduced hover animations on non-clickable cards.",
+          "modified BounceButton to use less exaggerated animations and support full-width card layouts.",
+          "added BounceButton to project cards.",
+          "removed the blur and `gradient-to-br` effect from the Readme page.",
+          "adjusted the guestbook chevron-right icon size.",
+        ],
+      },
+      {
+        category: "content",
+        items: [
+          "renamed the Readme page section from `a mission` to `philosophy` and adjusted its sizing.",
+          "rephrased `i don't design things i wouldn't use.` to `i never ship what i don't use.`",
+          "removed the extra read checkmark icon from the opened blog view when a post is already read.",
+        ],
+      },
+      {
+        category: "cleanup",
+        items: [
+          "removed unnecessary project files and leftover Vercel configuration.",
+          "renamed `2.svg` to `favicon.svg` for clarity.",
+        ],
+      },
+    ],
+  },
+  {
     id: "accessibility-update-dash-page-drop",
     version: "2026.08.07",
     title: "Accessibility update & /dash page drop",
