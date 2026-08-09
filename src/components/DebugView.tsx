@@ -554,14 +554,14 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
                 <button
                   onClick={() => setIsCollapsed(true)}
                   title="Collapse to badge"
-                  className="w-7 h-7 rounded-full flex items-center justify-center bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)] border border-[var(--outline-variant)]/40 transition-all cursor-pointer shrink-0"
+                  className="w-7 h-7 rounded-full flex items-center justify-center bg-[var(--surface-variant)]/60 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)] border-3 border-[var(--outline-variant)]/40 transition-all cursor-pointer shrink-0"
                 >
                   <LucideMinus size={13} className="shrink-0" />
                 </button>
                 <button
                   onClick={() => updateSettings({ debugMode: false })}
                   title="Close and disable debug mode"
-                  className="w-7 h-7 rounded-full flex items-center justify-center bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 transition-all cursor-pointer shrink-0"
+                  className="w-7 h-7 rounded-full flex items-center justify-center bg-red-500/10 hover:bg-red-500/10 text-red-500 border-3 border-red-500/20 transition-all cursor-pointer shrink-0"
                 >
                   <LucideX size={13} className="shrink-0" />
                 </button>
@@ -654,7 +654,7 @@ export const DebugView = ({ page, blogPostId, viewport }: any) => {
             </div>
 
             {/* contentes viewport */}
-            <div className="flex-1 overflow-y-auto max-h-[260px] custom-scrollbar pr-1 space-y-3 font-sans">
+            <div className="flex-1 overflow-y-auto max-h-[260px] custom-scrollbar pr-3 space-y-3 font-sans">
               {activeTab === "metrics" && (
                 <div className="space-y-1.5 text-[10px]">
                   <div className="flex justify-between border-b border-[var(--outline-variant)]/30 py-1.5">
