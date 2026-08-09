@@ -415,7 +415,7 @@ export const BugReportDialog = ({
                   <form onSubmit={handleSubmit} className="space-y-5">
                     {/* input title */}
                     <div className="space-y-2">
-                      <label className="text-xs font-black uppercase tracking-[0.2em] text-[var(--on-surface-variant)]">
+                      <label className="text-xs font-black uppercase tracking-[0.1em] text-[var(--on-surface-variant)]">
                         Bug Title
                       </label>
                       <input
@@ -425,13 +425,13 @@ export const BugReportDialog = ({
                         placeholder="e.g. Broken link on dash page"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="w-full mt-2 bg-[var(--surface-variant)]/40 text-[var(--on-surface)] border-5 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-2xl px-4 py-3 text-md focus:outline-none transition-all duration-200"
+                        className="w-full mt-2 bg-[var(--surface-variant)]/40 text-[var(--on-surface)] border-4 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-2xl px-4 py-3 text-md focus:outline-none transition-all duration-200"
                       />
                     </div>
 
                     {/* desc textarea */}
                     <div className="space-y-2">
-                      <label className="text-xs font-black uppercase tracking-[0.2em] text-[var(--on-surface-variant)]">
+                      <label className="text-xs font-black uppercase tracking-[0.1em] text-[var(--on-surface-variant)]">
                         Description
                       </label>
                       <textarea
@@ -441,13 +441,13 @@ export const BugReportDialog = ({
                         placeholder="Please describe the steps to reproduce the bug and what happened..."
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        className="w-full mt-2 bg-[var(--surface-variant)]/40 text-[var(--on-surface)] border-5 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-2xl px-4 py-3 text-md focus:outline-none transition-all duration-200 resize-none min-h-[100px]"
+                        className="w-full mt-2 bg-[var(--surface-variant)]/40 text-[var(--on-surface)] border-4 border-[var(--outline-variant)] focus:border-[var(--primary)] rounded-2xl px-4 py-3 text-md focus:outline-none transition-all duration-200 resize-none min-h-[100px]"
                       />
                     </div>
 
                     {/* upload and paste */}
                     <div className="space-y-2">
-                      <label className="text-xs font-black uppercase tracking-[0.2em] text-[var(--on-surface-variant)] flex justify-between items-center">
+                      <label className="text-xs font-black uppercase tracking-[0.1em] text-[var(--on-surface-variant)] flex justify-between items-center">
                         <span>Screenshot (Optional)</span>
                         {screenshot && (
                           <span className="text-[10px] text-emerald-500 font-bold lowercase tracking-normal">
@@ -482,7 +482,7 @@ export const BugReportDialog = ({
                           onDrop={handleDrop}
                           onClick={() => fileInputRef.current?.click()}
                           className={cn(
-                            "border-2 border-dashed rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200",
+                            "border-4 border-dashed rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200",
                             dragActive
                               ? "border-[var(--primary)] bg-[var(--primary-container)]/10"
                               : "border-[var(--outline-variant)] bg-[var(--surface-variant)]/20 hover:bg-[var(--surface-variant)]/40"
@@ -513,7 +513,7 @@ export const BugReportDialog = ({
                     </div>
 
                     {/* footer actions */}
-                    <div className="flex gap-3 pt-5 border-t border-[var(--outline-variant)]">
+                    <div className="relative flex gap-3 pt-5 before:absolute before:top-0 before:left-0 before:w-full before:h-[4px] before:bg-[var(--outline-variant)] before:rounded-full">
                       <button
                         type="button"
                         disabled={isSubmitting}
@@ -521,14 +521,14 @@ export const BugReportDialog = ({
                           onClose();
                           haptic.light();
                         }}
-                        className="flex-1 bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/40 text-[var(--on-surface-variant)] py-3.5 rounded-2xl hover:rounded-xl active:scale-95 text-sm font-black tracking-wide border-3 border-[var(--outline-variant)] transition-all duration-200 cursor-pointer text-center"
+                        className="flex-1 bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/40 text-[var(--on-surface-variant)] py-3.5 rounded-xl hover:rounded-2xl active:scale-95 text-sm font-black tracking-wide border-[3px] border-[var(--outline-variant)] transition-all duration-200 cursor-pointer text-center"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
                         disabled={isSubmitting || !title.trim() || !description.trim()}
-                        className="flex-1 bg-[var(--primary)] text-[var(--on-primary)] disabled:bg-[var(--surface-variant)]/50 disabled:text-[var(--outline)] disabled:scale-100 disabled:opacity-50 py-3.5 rounded-xl hover:rounded-2xl active:scale-95 transition-all duration-300 ease-out flex items-center justify-center gap-2 cursor-pointer text-sm font-black tracking-wide border-3 border-[var(--outline-variant)] shadow-sm disabled:shadow-none"
+                        className="flex-1 bg-[var(--primary)] text-[var(--on-primary)] disabled:bg-[var(--surface-variant)]/50 disabled:text-[var(--outline)] disabled:scale-100 disabled:opacity-50 py-3.5 rounded-xl hover:rounded-2xl active:scale-95 transition-all duration-300 ease-out flex items-center justify-center gap-2 cursor-pointer text-sm font-black tracking-wide border-[3px] border-[var(--outline-variant)] shadow-sm disabled:shadow-none"
                       >
                         {isSubmitting ? (
                           <>

@@ -461,7 +461,7 @@ const AncBar = ({ setPage, settings }: { setPage: (page: string, postId: string 
             </span>
           )}
           {latestPost.readTime && (
-            <span className="text-[11px] font-display font-black opacity-50 shrink-0 hidden md:inline-block ml-2">
+            <span className="text-[13px] font-display font-black opacity-50 shrink-0 hidden md:inline-block ml-2">
               • {latestPost.readTime}
             </span>
           )}
