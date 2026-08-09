@@ -591,6 +591,8 @@ export default function App() {
         query={textSearch.query}
         onQueryChange={textSearch.updateQuery}
         onClose={textSearch.closeSearch}
+        onNextMatch={textSearch.nextMatch}
+        onPrevMatch={textSearch.prevMatch}
         matchCount={textSearch.matchCount}
         currentMatch={textSearch.currentMatch}
       />
@@ -616,6 +618,8 @@ export default function App() {
         query={textSearch.query}
         onQueryChange={textSearch.updateQuery}
         onClose={textSearch.closeSearch}
+        onNextMatch={textSearch.nextMatch}
+        onPrevMatch={textSearch.prevMatch}
         matchCount={textSearch.matchCount}
         currentMatch={textSearch.currentMatch}
       />
