@@ -26,6 +26,13 @@ interface ThemeSettings {
   bentoTilt: boolean;
   lensDynamicTheming: boolean;
   toTopShape: 'clover' | 'cookie' | 'squircle';
+  paletteHotkey: 'ctrl-k' | 'cmd-k' | 'ctrl-shift-p';
+  paletteDefaultView: 'cards' | 'bento';
+  paletteSearchScope: 'everything' | 'pages' | 'commands' | 'blog';
+  paletteResultsLimit: number;
+  paletteShowRecentActions: boolean;
+  paletteSuppressHover: boolean;
+  paletteKeyboardNavBehavior: 'standard' | 'wrap' | 'grid';
 }
 
 interface ThemeContextType {
@@ -58,6 +65,13 @@ const DEFAULT_SETTINGS: ThemeSettings = {
   bentoTilt: false,
   lensDynamicTheming: false,
   toTopShape: 'clover',
+  paletteHotkey: 'ctrl-k',
+  paletteDefaultView: 'cards',
+  paletteSearchScope: 'everything',
+  paletteResultsLimit: 12,
+  paletteShowRecentActions: true,
+  paletteSuppressHover: true,
+  paletteKeyboardNavBehavior: 'standard',
 };
 
 // lookup is cleaner than a ternary chain here

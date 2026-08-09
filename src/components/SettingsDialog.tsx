@@ -175,7 +175,7 @@ export const SettingsDialog = memo(({
   const [direction, setDirection] = React.useState(0);
 
   const navigateTo = React.useCallback((pageId: string) => {
-    const pages = ["menu", "appearance", "customization", "layout", "backup", "debug", "about"];
+    const pages = ["menu", "appearance", "customization", "layout", "commandPalette", "backup", "debug", "about"];
     const from = pages.indexOf(prevPageRef.current);
     const to = pages.indexOf(pageId);
     setDirection(to > from ? 1 : -1);
@@ -208,6 +208,7 @@ export const SettingsDialog = memo(({
     { id: "appearance", title: "Appearance", desc: "Theme mode, softer dark colors, palettes", icon: Palette },
     { id: "customization", title: "Customization", desc: "Interface toggles, animations, brutalist", icon: SettingsIcon },
     { id: "layout", title: "Nav & Layout", desc: "Sidebar flipped, float profile, navigation", icon: Layers },
+    { id: "commandPalette", title: "Command Palette", desc: "Palette activation, search scope, and results", icon: Monitor },
     { id: "backup", title: "Backup & Share", desc: "Export, import, share configs", icon: Fingerprint },
   ] as const;
 
@@ -704,6 +705,262 @@ export const SettingsDialog = memo(({
               )}
             </section>
           </div>
+        );
+
+      case "commandPalette":
+        return (
+          <section className="space-y-6">
+            <div className="flex items-center gap-3 mb-7">
+              <Monitor size={20} className="text-[var(--primary)]" />
+              <h3 className="text-[17px] font-black tracking-[0.1em] text-[var(--on-surface-variant)]">
+                Command palette
+              </h3>
+            </div>
+
+            <div className="space-y-4">
+              <div className="border-6 border-[var(--outline-variant)] bg-[var(--surface-variant)] rounded-[2rem] p-5">
+                <div className="font-bold">Activation hotkey</div>
+                <div className="text-xs opacity-60 font-medium mt-1 mb-4">
+                  Choose the shortcut that opens the command palette.
+                </div>
+                <div className="space-y-1.5">
+                  {[
+                    { value: "ctrl-k", label: "Ctrl+K", desc: "Standard keyboard shortcut for palette." },
+                    { value: "cmd-k", label: "⌘K", desc: "Mac-style palette shortcut." },
+                    { value: "ctrl-shift-p", label: "Ctrl+Shift+P", desc: "Alternative command palette shortcut." },
+                  ].map((option, index, array) => {
+                    const active = settings.paletteHotkey === option.value;
+                    const isFirst = index === 0;
+                    const isLast = index === array.length - 1;
+                    const roundClass = array.length === 1
+                      ? "rounded-[1.5rem]"
+                      : isFirst
+                        ? "rounded-t-[1.5rem] rounded-b-[0.9rem]"
+                        : isLast
+                          ? "rounded-b-[1.5rem] rounded-t-[0.9rem]"
+                          : "rounded-[0.9rem]";
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => updateSettings({ paletteHotkey: option.value as any })}
+                        className={cn(
+                          "flex flex-col gap-2 w-full border-6 px-4 py-4 text-left transition-all",
+                          roundClass,
+                          active
+                            ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                            : "border-[var(--outline-variant)] bg-[var(--surface)] hover:bg-[var(--surface-variant)]"
+                        )}
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="text-sm font-semibold">{option.label}</span>
+                          {active && <Check size={16} />}
+                        </div>
+                        <span className="text-xs opacity-70">{option.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="border-6 border-[var(--outline-variant)] bg-[var(--surface-variant)] rounded-[2rem] p-5">
+                <div className="font-bold">Default view</div>
+                <div className="text-xs opacity-60 font-medium mt-1 mb-4">
+                  Pick the starting layout when opening the palette.
+                </div>
+                <div className="space-y-1.5">
+                  {[
+                    { value: "cards", label: "Cards", desc: "Classic stacked command cards." },
+                    { value: "bento", label: "Bento", desc: "Grid layout with left/right navigation." },
+                  ].map((option, index, array) => {
+                    const active = settings.paletteDefaultView === option.value;
+                    const isFirst = index === 0;
+                    const isLast = index === array.length - 1;
+                    const roundClass = array.length === 1
+                      ? "rounded-[1.5rem]"
+                      : isFirst
+                        ? "rounded-t-[1.5rem] rounded-b-[0.9rem]"
+                        : isLast
+                          ? "rounded-b-[1.5rem] rounded-t-[0.9rem]"
+                          : "rounded-[0.9rem]";
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => updateSettings({ paletteDefaultView: option.value as any })}
+                        className={cn(
+                          "flex flex-col gap-2 w-full border-6 px-4 py-4 text-left transition-all",
+                          roundClass,
+                          active
+                            ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                            : "border-[var(--outline-variant)] bg-[var(--surface)] hover:bg-[var(--surface-variant)]"
+                        )}
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="text-sm font-semibold">{option.label}</span>
+                          {active && <Check size={16} />}
+                        </div>
+                        <span className="text-xs opacity-70">{option.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="border-6 border-[var(--outline-variant)] bg-[var(--surface-variant)] rounded-[2rem] p-5">
+                <div className="font-bold">Search scope</div>
+                <div className="text-xs opacity-60 font-medium mt-1 mb-4">
+                  Limit what the palette searches by default.
+                </div>
+                <div className="space-y-1.5">
+                  {[
+                    { value: "everything", label: "Everything", desc: "Search pages, settings, commands, and blog posts." },
+                    { value: "pages", label: "Pages", desc: "Search only site pages and navigation." },
+                    { value: "commands", label: "Commands", desc: "Search only palette actions and tools." },
+                    { value: "blog", label: "Blog posts", desc: "Search only blog posts." },
+                  ].map((option, index, array) => {
+                    const active = settings.paletteSearchScope === option.value;
+                    const isFirst = index === 0;
+                    const isLast = index === array.length - 1;
+                    const roundClass = array.length === 1
+                      ? "rounded-[1.5rem]"
+                      : isFirst
+                        ? "rounded-t-[1.5rem] rounded-b-[0.9rem]"
+                        : isLast
+                          ? "rounded-b-[1.5rem] rounded-t-[0.9rem]"
+                          : "rounded-[0.9rem]";
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => updateSettings({ paletteSearchScope: option.value as any })}
+                        className={cn(
+                          "flex flex-col gap-2 w-full border-6 px-4 py-4 text-left transition-all",
+                          roundClass,
+                          active
+                            ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                            : "border-[var(--outline-variant)] bg-[var(--surface)] hover:bg-[var(--surface-variant)]"
+                        )}
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="text-sm font-semibold">{option.label}</span>
+                          {active && <Check size={16} />}
+                        </div>
+                        <span className="text-xs opacity-70">{option.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="border-6 border-[var(--outline-variant)] bg-[var(--surface-variant)] rounded-[2rem] p-5">
+                <div className="font-bold">Results limit</div>
+                <div className="text-xs opacity-60 font-medium mt-1 mb-4">
+                  Control how many items appear before scrolling.
+                </div>
+                <div className="grid gap-2 sm:grid-cols-4">
+                  {[8, 12, 16, 24].map((limit) => {
+                    const active = settings.paletteResultsLimit === limit;
+                    return (
+                      <button
+                        key={limit}
+                        type="button"
+                        onClick={() => updateSettings({ paletteResultsLimit: limit })}
+                        className={cn(
+                          "flex items-center justify-between gap-3 w-full rounded-[1.5rem] border-6 px-4 py-4 text-left transition-all",
+                          active
+                            ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                            : "border-[var(--outline-variant)] bg-[var(--surface)] hover:bg-[var(--surface-variant)]"
+                        )}
+                      >
+                        <span className="text-sm font-semibold">{limit}</span>
+                        {active && <Check size={16} />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="border-6 border-[var(--outline-variant)] bg-[var(--surface-variant)] rounded-[2rem] p-5">
+                <div className="font-bold">Show recent actions</div>
+                <div className="text-xs opacity-60 font-medium mt-1 mb-4">
+                  Show recently selected commands when the palette opens empty.
+                </div>
+                <label className="flex items-center justify-between gap-4 rounded-[1.5rem] border-6 border-[var(--outline-variant)] bg-[var(--surface)] p-4">
+                  <div>
+                    <div className="font-bold">Recent actions</div>
+                    <div className="text-xs opacity-60">Toggle recent command suggestions.</div>
+                  </div>
+                  <Switch
+                    checked={settings.paletteShowRecentActions}
+                    onChange={(checked) => updateSettings({ paletteShowRecentActions: checked })}
+                  />
+                </label>
+              </div>
+
+              <div className="border-6 border-[var(--outline-variant)] bg-[var(--surface-variant)] rounded-[2rem] p-5">
+                <div className="font-bold">Keyboard navigation</div>
+                <div className="text-xs opacity-60 font-medium mt-1 mb-4">
+                  Choose how arrow keys move through palette results. Bento view enables left/right navigation.
+                </div>
+                <div className="space-y-1.5">
+                  {[
+                    { value: "standard", label: "Standard", desc: "Arrow keys move up/down through the list." },
+                    { value: "wrap", label: "Wrap", desc: "Continue from bottom to top and vice versa." },
+                    { value: "grid", label: "2D grid", desc: "In Bento view, left/right move across columns." },
+                  ].map((option, index, array) => {
+                    const active = settings.paletteKeyboardNavBehavior === option.value;
+                    const isFirst = index === 0;
+                    const isLast = index === array.length - 1;
+                    const roundClass = array.length === 1
+                      ? "rounded-[1.5rem]"
+                      : isFirst
+                        ? "rounded-t-[1.5rem] rounded-b-[0.9rem]"
+                        : isLast
+                          ? "rounded-b-[1.5rem] rounded-t-[0.9rem]"
+                          : "rounded-[0.9rem]";
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => updateSettings({ paletteKeyboardNavBehavior: option.value as any })}
+                        className={cn(
+                          "flex flex-col gap-2 w-full border-6 px-4 py-4 text-left transition-all",
+                          roundClass,
+                          active
+                            ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                            : "border-[var(--outline-variant)] bg-[var(--surface)] hover:bg-[var(--surface-variant)]"
+                        )}
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="text-sm font-semibold">{option.label}</span>
+                          {active && <Check size={16} />}
+                        </div>
+                        <span className="text-xs opacity-70">{option.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="border-6 border-[var(--outline-variant)] bg-[var(--surface-variant)] rounded-[2rem] p-5">
+                <div className="font-bold">Suppress hover</div>
+                <div className="text-xs opacity-60 font-medium mt-1 mb-4">
+                  Keep keyboard selection fixed while moving your mouse.
+                </div>
+                <label className="flex items-center justify-between gap-4 rounded-[1.5rem] border-6 border-[var(--outline-variant)] bg-[var(--surface)] p-4">
+                  <div>
+                    <div className="font-bold">Suppress hover</div>
+                    <div className="text-xs opacity-60">Allow keyboard selection to ignore pointer movement.</div>
+                  </div>
+                  <Switch
+                    checked={settings.paletteSuppressHover}
+                    onChange={(checked) => updateSettings({ paletteSuppressHover: checked })}
+                  />
+                </label>
+              </div>
+            </div>
+          </section>
         );
 
       case "backup":

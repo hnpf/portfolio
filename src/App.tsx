@@ -44,6 +44,7 @@ import NotFound from "./pages/NotFound";
 // components
 import { SideItem } from "./components/Navigation";
 import { MobileFloatingNav } from "./components/MobileFloatingNav";
+import { CommandPalette } from "./components/CommandPalette";
 import { SettingsDialog } from "./components/SettingsDialog";
 import { GuestbookDialog } from "./components/GuestbookDialog";
 import { DebugConfirmDialog } from "./components/DebugConfirmDialog";
@@ -56,6 +57,7 @@ import { FoolsPopup } from "./components/FoolsPopup";
 import { BounceButton } from "./components/TechStack";
 import { M3WindowScrollBar, M3ScrollBar } from "./components/M3ScrollBar";
 import { materialIcon } from "./components/MaterialIcon";
+import { BLOG_POSTS } from "./constants";
 
 import "./navigation/navigation-rail.css";
 
@@ -91,6 +93,7 @@ export default function App() {
   const [do_wiggle, setDoWiggle] = useState(false);
   const [show_top, setShowTop] = useState(false);
   const [scrollDirection, setScrollDirection] = useState<"up" | "down">("up");
+  const [commandOpen, setCommandOpen] = useState(false);
   const lastScrollY = useRef(0);
   const [scrolled, set_scrolled] = useState(false);
   const [navHoverSide, setNavHoverSide] = useState<"top" | "bottom" | null>(null);
@@ -138,11 +141,28 @@ export default function App() {
 
   useEffect(() => {
     const on_key = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && settings.focusMode) updateSettings({ focusMode: false });
+      if (e.key === "Escape" && settings.focusMode) {
+        updateSettings({ focusMode: false });
+      }
+
+      const pressed = e.key.toLowerCase();
+      const openHotkey = settings.paletteHotkey;
+      const isPaletteHotkey =
+        openHotkey === "ctrl-k" && e.ctrlKey && !e.metaKey && pressed === "k"
+        || openHotkey === "cmd-k" && e.metaKey && !e.ctrlKey && pressed === "k"
+        || openHotkey === "ctrl-shift-p" && e.ctrlKey && e.shiftKey && !e.metaKey && pressed === "p";
+
+      if (isPaletteHotkey) {
+        e.preventDefault();
+        setCommandOpen((open) => !open);
+      }
+      if (e.key === "Escape" && commandOpen) {
+        setCommandOpen(false);
+      }
     };
     window.addEventListener("keydown", on_key);
     return () => window.removeEventListener("keydown", on_key);
-  }, [settings.focusMode, updateSettings]);
+  }, [settings.focusMode, settings.paletteHotkey, updateSettings, commandOpen]);
 
   useEffect(() => {
     const nav = document.getElementById("sidebar-nav");
@@ -402,9 +422,13 @@ export default function App() {
                 )}
               </div>
               {!settings.sidebarCollapsed && !is_tiny && !is_short && (
-                <div className="flex flex-col mb-6 px-4">
-                  <div className="text-[16px] font-expressive tracking-[0.1em] opacity-30 mb-2">Endpoint</div> 
-                  <h3 className="text-2xl font-expressive italic font-black tracking-[0.03em] text-[var(--on-surface-variant)] uppercase leading-none">Navigation</h3>
+                <div className="flex flex-col mb-6 px-4 gap-3">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-2xl font-expressive italic font-black mb-2 tracking-[0.03em] text-[var(--on-surface-variant)] uppercase leading-none">Navigation</h3>
+                    <div className="text-[11px] ml-3 font-bold tracking-[0.18em] text-[var(--on-surface-variant)] opacity-70">
+                      <span className="font-black">Ctrl+K</span> / <span className="font-black">⌘K</span> to search
+                    </div>
+                  </div>
                 </div>
               )}
               <div className="flex-1 flex flex-col min-h-0 relative group/nav" onMouseMove={(e) => { const rect = e.currentTarget.getBoundingClientRect(); const y = e.clientY - rect.top; setNavHoverSide(y < rect.height / 2 ? "top" : "bottom"); }} onMouseLeave={() => setNavHoverSide(null)}>
@@ -570,6 +594,17 @@ export default function App() {
       <CapsuleConfirmDialog pendingCapsule={pendingCapsule} setPendingCapsule={setPendingCapsule} updateSettings={updateSettings} setToast={setToast} />
       <RefreshConfirmDialog showRefreshConfirm={showRefreshConfirm} setShowRefreshConfirm={setShowRefreshConfirm} />
       <DebugView page={page} blogPostId={blogPostId} viewport={viewport} />
+      <CommandPalette
+        open={commandOpen}
+        onClose={() => setCommandOpen(false)}
+        goto={goto}
+        settings={settings}
+        cycleTheme={cycleTheme}
+        updateSettings={updateSettings}
+        onOpenSettings={() => setSettingsOpen(true)}
+        onOpenGuestbook={handleOpenGuestbook}
+        blogPosts={BLOG_POSTS}
+      />
       </MotionConfig>
     </div>
   );
