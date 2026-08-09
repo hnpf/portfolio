@@ -338,19 +338,19 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
                 haptic.light(); 
               }
             }} 
-            className="flex flex-wrap justify-center gap-10"
+            className="grid w-full max-w-[460px] grid-cols-2 gap-6 md:gap-8 mx-auto"
           > { /* ok ok no parent delegation jank shortcuts, found out the hard way */ }
             <BounceButton
               icon={Github}
               label="GitHub"
               url="https://github.com/hnpf"
-              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 w-64 h-16 rounded-3xl font-black tracking-[0.01em] text-md active:scale-95 uppercase italic"
+              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 w-full max-w-[220px] h-16 rounded-3xl font-black tracking-[0.01em] text-md active:scale-95 uppercase italic"
             />
             <BounceButton
               icon={MessageSquare} 
               label="Discord"
               url="https://discord.gg/TSZNYbjzF7"
-              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 w-64 h-16 rounded-3xl font-black tracking-[0.01em] text-md active:scale-95 uppercase italic"
+              className="m3-button-tonal ring-8 ring-[var(--outline-variant)]/30 w-full max-w-[220px] h-16 rounded-3xl font-black tracking-[0.01em] text-md active:scale-95 uppercase italic"
             />
           </div>
 
