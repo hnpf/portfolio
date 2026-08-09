@@ -450,13 +450,13 @@ export default function App() {
                       whileTap={{ scale: 0.9 }}
                       transition={{
                         type: "spring",
-                        stiffness: 400,
+                        stiffness: 1000,
                         damping: 15,
-                        mass: 1
+                        mass: 0
                       }}
                   onClick={() => updateSettings({ sidebarCollapsed: !settings.sidebarCollapsed })} 
 
-                      className={cn("flex items-center justify-center ring-6 ring-[var(--outline-variant)]/40 outline-none cursor-pointer transition-colors", settings.sidebarCollapsed ? "w-14 h-14 rounded-[18px] bg-[var(--surface-variant)] text-[var(--on-surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)]" : "w-full py-4 rounded-t-[15px] rounded-b-[28px] bg-[var(--surface-variant)]/30 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")} transition={springConfig}>
+                      className={cn("flex items-center justify-center ring-6 ring-[var(--outline-variant)]/40 outline-none cursor-pointer transition-colors", settings.sidebarCollapsed ? "w-14 h-14 rounded-[18px] bg-[var(--surface-variant)] text-[var(--on-surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)]" : "w-full py-4 rounded-t-[15px] rounded-b-[28px] bg-[var(--surface-variant)]/30 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")} >
                       {settings.sidebarCollapsed ? <M3ChevronRight size={22} fill /> : <M3ChevronLeft size={22} fill />}
                     </motion.button>
                   </div>
