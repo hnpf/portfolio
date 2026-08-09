@@ -12,6 +12,8 @@ export interface SearchItem {
   description: string;
   category: "Settings" | "Blog" | "Lens" | "Projects" | "Links" | "Pages" | "Navigation" | "Tools" | "Appearance";
   icon: any;
+  previewUrl?: string;
+  previewAlt?: string;
   action: () => void;
   tags: string[];
   excerpt?: string;
@@ -273,6 +275,8 @@ export const getLensSearchItems = (navigateTo: (page: string) => void): SearchIt
     description: photo.date ? `${photo.date} · Lens photo` : "Lens photo",
     category: "Lens",
     icon: Image,
+    previewUrl: photo.blur || photo.url,
+    previewAlt: `Preview of lens photo: ${photo.description}`,
     action: () => {
       navigateTo("lens");
       setTimeout(() => {

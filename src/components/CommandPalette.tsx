@@ -483,12 +483,21 @@ export function CommandPalette({
                                 )}
                               >
                                 <div className={cn(
-                                  "grid h-14 w-14 shrink-0 place-items-center rounded-[18px] border-2",
+                                  "grid h-14 w-14 shrink-0 place-items-center rounded-[18px] border-2 overflow-hidden",
                                   isActive
                                     ? "border-3 border-[var(--primary)] bg-[var(--primary)] text-[var(--on-primary)]"
                                     : "border-3  border-[var(--outline-variant)]/30 bg-[var(--surface-variant)] text-[var(--on-surface-variant)]"
                                 )}>
-                                  <Icon size={20} />
+                                  {item.previewUrl ? (
+                                    <img
+                                      src={item.previewUrl}
+                                      alt={item.previewAlt || item.label}
+                                      className="h-full w-full object-cover object-center"
+                                      loading="lazy"
+                                    />
+                                  ) : (
+                                    <Icon size={20} />
+                                  )}
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center gap-2">
@@ -519,7 +528,7 @@ export function CommandPalette({
                 <span className="font-semibold">Tip:</span>
                 <ArrowUp size={14} className="inline-block align-middle" />
                 <ArrowDown size={14} className="inline-block align-middle" />
-                <span className="inline-flex items-center justify-center rounded-[0.45rem] border-3 border-[var(--primary)]/30 bg-[var(--surface)]/50 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]">Enter</span>
+                <span className="inline-flex items-center justify-center rounded-[0.45rem] border-3 border-[var(--primary)]/30 bg-[var(--surface)]/50 px-2 py-1 pl-2.5 text-[11px] font-semibold uppercase tracking-[0.13em]">Enter</span>
                 to select.
               </div>
               <div className="flex items-center gap-3">
