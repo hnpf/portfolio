@@ -3,13 +3,14 @@
  */
 
 import { BLOG_POSTS, PROJECTS } from "../constants";
-import { Search, Monitor, Settings as SettingsIcon, Layers, Palette, Moon, Sun, Link as LinkIcon, FileText, Boxes } from "lucide-react";
+import { LENS_PHOTOS } from "../pages/LensPage";
+import { Search, Monitor, Settings as SettingsIcon, Layers, Palette, Moon, Sun, Link as LinkIcon, FileText, Boxes, Image } from "lucide-react";
 
 export interface SearchItem {
   id: string;
   label: string;
   description: string;
-  category: "Settings" | "Blog" | "Projects" | "Links" | "Pages" | "Navigation" | "Tools" | "Appearance";
+  category: "Settings" | "Blog" | "Lens" | "Projects" | "Links" | "Pages" | "Navigation" | "Tools" | "Appearance";
   icon: any;
   action: () => void;
   tags: string[];
@@ -263,6 +264,34 @@ export const getProjectsSearchItems = (navigateTo: (page: string) => void): Sear
 };
 
 /**
+ * get searchable lens photo items
+ */
+export const getLensSearchItems = (navigateTo: (page: string) => void): SearchItem[] => {
+  return LENS_PHOTOS.map((photo) => ({
+    id: `lens-${photo.id}`,
+    label: `Lens: ${photo.description}`,
+    description: photo.date ? `${photo.date} · Lens photo` : "Lens photo",
+    category: "Lens",
+    icon: Image,
+    action: () => {
+      navigateTo("lens");
+      setTimeout(() => {
+        const photoEl = document.getElementById(`lens-photo-${photo.id}`);
+        photoEl?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 120);
+    },
+    tags: [
+      photo.id,
+      photo.description?.toLowerCase() ?? "",
+      photo.date?.toLowerCase() ?? "",
+      "lens",
+      "photo",
+    ],
+    excerpt: photo.description,
+  }));
+};
+
+/**
  * extract all external links from the page
  */
 export const getLinksSearchItems = (): SearchItem[] => {
@@ -323,6 +352,7 @@ export const getAllSearchItems = (
   return [
     ...getSettingsSearchItems(settings, updateSettings, openSettings),
     ...getBlogSearchItems(goto),
+    ...getLensSearchItems(navigateTo),
     ...getProjectsSearchItems(navigateTo),
     ...getLinksSearchItems(),
   ];
