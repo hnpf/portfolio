@@ -8,17 +8,24 @@ export const BounceButton = ({
   icon: Icon,
   label,
   url,
+  onClick,
   className = "",
 }: {
-  icon: any;
+  icon?: any;
   label: string;
-  url: string;
+  url?: string;
+  onClick?: (e: React.MouseEvent) => void;
   className?: string;
 }) => {
   const [loading, set_loading] = useState(false);
 
   const _on_click = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (onClick) {
+      onClick(e);
+      return;
+    }
+    if (!url) return;
     set_loading(true);
     setTimeout(() => {
       window.open(url, "_blank");
@@ -29,16 +36,16 @@ export const BounceButton = ({
   return (
     <motion.button
       whileHover={{
-        scale: 1.08,
-        y: -3,
+        scale: 1.05,
+        y: -2,
         borderRadius: "40px",
       }}
-      whileTap={{ scale: 0.9, rotate: -2 }}
+      whileTap={{ scale: 1.02, rotate: -0.5 }}
       transition={{
         type: "spring",
         stiffness: 400,
         damping: 15,
-        mass: 1
+        mass: 1,
       }}
       onClick={_on_click}
       disabled={loading}
@@ -65,9 +72,9 @@ export const BounceButton = ({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 w-full justify-center"
           >
-            <Icon size={18} />
+            {Icon && <Icon size={18} />}
             <span className="font-bold">{label}</span>
           </motion.div>
         )}

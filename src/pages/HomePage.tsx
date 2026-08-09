@@ -6,6 +6,7 @@ import { Activity, ChevronRight, ExternalLink, ArrowUpRight, Loader2, Download, 
 import { cn, PROJECTS, BLOG_POSTS } from "../constants";
 import { useTheme } from "../ThemeContext";
 import { Card } from "../components/Card";
+import { BounceButton } from "../components/TechStack";
 import WavyProgress from "../components/WavyProgress";
 import { haptic } from "../haptics";
 
@@ -682,46 +683,26 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
                   {project.description}
                 </p>
               </div>
-              {project.link.startsWith("/") ? ( // outdated loom XD
-                <motion.button
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => {
-                    setPage(project.link.replace("/", ""));
-                    haptic.light();
-                  }}
-                  className="inline-flex items-center gap-2 text-[var(--primary)] font-black tracking-widest text-[16px] w-fit group uppercase italic"
-                >
-                  View project{" "}
-                  <motion.span
-                    initial={{ x: 0 }}
-                    whileHover={{ x: 3 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                  >
-                    <ChevronRight size={14} />
-                  </motion.span>
-                </motion.button>
-              ) : (
-                <motion.a
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => {
-                    haptic.light();
-                  }}
-                  href={project.link}
-                  target="_blank"
-                  className="inline-flex items-center gap-2 text-[var(--primary)] font-black italic tracking-widest text-[17px] group uppercase"
-                >
-                  View project{" "}
-                  <motion.span
-                    initial={{ x: 0 }}
-                    whileHover={{ x: 3 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                  >
-                    <ExternalLink size={17} />
-                  </motion.span>
-                </motion.a>
-              )}
+              <div className="w-full">
+                {project.link.startsWith("/") ? (
+                  <BounceButton
+                    icon={ChevronRight}
+                    label="View project"
+                    onClick={() => {
+                      setPage(project.link.replace("/", ""));
+                      haptic.light();
+                    }}
+                    className="m3-button-filled w-full uppercase italic tracking-widest font-black text-[16px] !bg-[var(--surface-variant)]/60 !text-[var(--on-surface)] border-6 border-[var(--outline-variant)]/40 !py-4 rounded-[20px] px-4"
+                  />
+                ) : (
+                  <BounceButton
+                    icon={ExternalLink}
+                    label="View project"
+                    url={project.link}
+                    className="m3-button-filled w-full uppercase italic tracking-widest font-black text-[16px] !bg-[var(--surface-variant)]/60 !text-[var(--on-surface)] border-6 border-[var(--outline-variant)]/40 !py-4 rounded-[20px] px-4"
+                  />
+                )}
+              </div>
             </Card>
           ))}
         </div>
