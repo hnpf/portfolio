@@ -378,6 +378,7 @@ const PhotoItem = memo(({ photo, i, onClick, settings }: any) => {
 
   return (
     <TiltContainer
+      id={`lens-photo-${photo.id}`}
       settings={settings}
       onClick={() => {
          onClick(i)
