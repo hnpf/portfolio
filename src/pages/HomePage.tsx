@@ -348,9 +348,10 @@ const WeatherWidget = () => {
       initial="initial"
       animate="animate"
     >
-      <div className="absolute bottom-2 right-5 opacity-[0.03]">
+      <div className="absolute bottom-2 right-0 md:right-5 transform translate-x-6 md:translate-x-0 flex items-end opacity-[0.03] pointer-events-none">
         <motion.div
           key={condition.icon}
+          className="transform-gpu md:scale-100 scale-75 origin-bottom"
           variants={{
             initial: { opacity: 0, scale: 0.8, rotate: -8 },
             animate: { opacity: 1, scale: 1, rotate: 0 },
@@ -384,7 +385,7 @@ const WeatherWidget = () => {
         </span>
       </div>
 
-      <div className="mt-8 flex items-center gap-6 relative z-10 pt-6 before:absolute before:top-0 before:left-0 before:right-[200px] before:border-t-4 before:border-[var(--outline-variant)]/20">
+      <div className="mt-8 flex items-center gap-6 relative z-10 pt-6 before:absolute before:top-0 before:left-0 before:right-40 md:before:right-[200px] before:border-t-4 before:border-[var(--outline-variant)]/20">
         <div className="flex items-baseline gap-1">
           <span className="text-1xl md:text-2xl font-display font-black italic">{weather ? weather.humidity : "--"}</span>
           <span className="text-[10px] md:text-[15px] font-black ml-1 italic font-display font-sans opacity-50 tracking-widest">Hum</span>
