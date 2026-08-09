@@ -571,7 +571,9 @@ export const SettingsDialog = memo(({
                   label: "Lens Dynamic Theming",
                   desc: "Match the theme to an expanded Lens photo",
                 },
-              ].map((tweak, index, array) => (
+              ]
+                .filter((tweak) => !(is_mobile && tweak.key === "bentoTilt"))
+                .map((tweak, index, array) => (
                 <label
                   key={tweak.key}
                   className={cn(
@@ -611,6 +613,11 @@ export const SettingsDialog = memo(({
                   />
                 </label>
               ))}
+              {is_mobile && (
+                <div className="mt-3 px-4 py-3 rounded-[1.5rem] bg-[var(--surface-variant)] border-4 border-[var(--outline-variant)] text-[12px] leading-5 opacity-80">
+                  Some desktop-only customization options are hidden on mobile.
+                </div>
+              )}
             </div>
           </section>
         );
@@ -652,7 +659,9 @@ export const SettingsDialog = memo(({
                     label: "Info Page Fullscreen",
                     desc: "Hides navbars when on the /info page",
                   },
-                ].map((tweak, index, array) => (
+                ]
+                  .filter((tweak) => !(is_mobile && ["sidebarFlipped", "floatingSidebar", "profileContainer"].includes(tweak.key)))
+                  .map((tweak, index, array) => (
                   <label
                     key={tweak.key}
                     className={cn(
@@ -688,6 +697,11 @@ export const SettingsDialog = memo(({
                   </label>
                 ))}
               </div>
+              {is_mobile && (
+                <div className="mt-3 px-4 py-3 rounded-[1.5rem] bg-[var(--surface-variant)] border-4 border-[var(--outline-variant)] text-[12px] leading-5 opacity-80">
+                  Some desktop-only layout options are hidden on mobile.
+                </div>
+              )}
             </section>
           </div>
         );
