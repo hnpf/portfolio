@@ -704,6 +704,7 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
                 )}
               </div>
             </Card>
+            </div>
           ))}
         </div>
       </section>
