@@ -770,8 +770,8 @@ export const SettingsDialog = memo(({
                 </div>
                 <div className="space-y-1.5">
                   {[
-                    { value: "cards", label: "Cards", desc: "Classic stacked command cards." },
-                    { value: "bento", label: "Bento", desc: "Grid layout with left/right navigation." },
+                    { value: "lists", label: "Lists", desc: "Classic stacked command lists." },
+                    { value: "cards", label: "Cards", desc: "Cards layout with left/right navigation." },
                   ].map((option, index, array) => {
                     const active = settings.paletteDefaultView === option.value;
                     const isFirst = index === 0;

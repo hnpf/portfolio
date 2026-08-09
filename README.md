@@ -21,9 +21,9 @@ My personal website. Uses a Material 3 Expressive styled shell, photo gallery, u
 
 **New changes!**
 
-- [Aug 7, 2026]  /dash page polishing and mobilefloatingnav polishing
+- [Aug 9, 2026]  command palette feature
 
-> last updated: Aug 5, 2026 — [full commit history](https://github.com/hnpf/virex.lol/commits/main)
+> last updated: Aug 9, 2026 — [full commit history](https://github.com/hnpf/virex.lol/commits/main)
 
 ---
 

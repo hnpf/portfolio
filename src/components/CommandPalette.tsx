@@ -21,7 +21,7 @@ export function CommandPalette({
 }: any) {
   const [query, setQuery] = useState("");
   const [cursor, setCursor] = useState(0);
-  const [viewMode, setViewMode] = useState<"cards" | "bento">("cards");
+  const [viewMode, setViewMode] = useState<"lists" | "cards">("lists");
   const [searchFocus, setSearchFocus] = useState(false);
   const [ignoreMouseHover, setIgnoreMouseHover] = useState(false);
   const [recentIds, setRecentIds] = useState<string[]>([]);
@@ -208,10 +208,10 @@ export function CommandPalette({
 
   useEffect(() => {
     if (!open) return;
-    if (settings.paletteDefaultView === "bento") {
-      setViewMode("bento");
-    } else {
+    if (settings.paletteDefaultView === "cards") {
       setViewMode("cards");
+    } else {
+      setViewMode("lists");
     }
   }, [open, settings.paletteDefaultView]);
 
@@ -242,7 +242,7 @@ export function CommandPalette({
           return Math.max(0, Math.min(next, filteredItems.length - 1));
         };
 
-        const moveAmount = viewMode === "bento" && isGridNav ? 2 : 1;
+        const moveAmount = viewMode === "cards" && isGridNav ? 2 : 1;
 
         const onKeyDown = (event: KeyboardEvent) => {
           const suppress = shouldSuppressHover;
@@ -259,7 +259,7 @@ export function CommandPalette({
             setCursor((current) => clampIndex(current - moveAmount));
           }
 
-          if (viewMode === "bento" && event.key === "ArrowRight") {
+          if (viewMode === "cards" && event.key === "ArrowRight") {
             event.preventDefault();
             if (suppress) setIgnoreMouseHover(true);
             setCursor((current) => {
@@ -268,7 +268,7 @@ export function CommandPalette({
             });
           }
 
-          if (viewMode === "bento" && event.key === "ArrowLeft") {
+          if (viewMode === "cards" && event.key === "ArrowLeft") {
             event.preventDefault();
             if (suppress) setIgnoreMouseHover(true);
             setCursor((current) => {
@@ -375,7 +375,7 @@ export function CommandPalette({
                   ref={scrollRef}
                   className="scrollbar-hide max-h-[calc(72vh-16rem)] overflow-y-auto overscroll-contain pr-8 pb-4 pt-5"
                 >
-                  <div className={viewMode === "cards" ? "grid gap-2" : "grid grid-cols-2 gap-4"}>
+                  <div className={viewMode === "lists" ? "grid gap-2" : "grid grid-cols-2 gap-4"}>
                     {filteredItems.map((item, index) => {
                       const Icon = item.icon;
                       const isActive = index === cursor;
@@ -383,7 +383,7 @@ export function CommandPalette({
                       const isFirst = index === 0;
                       const isLast = index === filteredItems.length - 1;
                       const isSingle = filteredItems.length === 1;
-                      const roundedClass = viewMode === "cards"
+                      const roundedClass = viewMode === "lists"
                         ? isSingle
                           ? "rounded-[2rem]"
                           : isFirst
@@ -419,7 +419,7 @@ export function CommandPalette({
                           transition={{ type: "spring", stiffness: 620, damping: 30, mass: 0.65 }}
                           className={cn(
                             "group relative w-full text-left transition-colors duration-150",
-                            viewMode === "cards"
+                            viewMode === "lists"
                               ? cn(
                                   "grid grid-cols-[auto_1fr] items-center gap-4 border-6 bg-[var(--surface)] px-5 py-5 shadow-[0_18px_46px_-28px_rgba(0,0,0,0.16)]",
                                   roundedClass
@@ -476,8 +476,8 @@ export function CommandPalette({
               <div className="flex items-center gap-3">
                 <span className="text-[13px] tracking-[0.05em] opacity-70">View</span>
                 <M3Switch
-                  checked={viewMode === "cards"}
-                  onChange={(checked) => setViewMode(checked ? "cards" : "bento")}
+                  checked={viewMode === "lists"}
+                  onChange={(checked) => setViewMode(checked ? "lists" : "cards")}
                   icons="both"
                   checkedIcon={<ViewList size={12} />}
                   uncheckedIcon={<ViewModule size={12} />}
