@@ -765,8 +765,8 @@ export const SettingsDialog = memo(({
               <div className="flex gap-2">
                 <input
                   type="text"
-                  placeholder="Paste your sharing link or code here..."
-                  className="flex-1 bg-[var(--surface)] text-[var(--on-surface)] border-5 border-[var(--outline-variant)] rounded-xl px-4 py-2 text-[13px] font-black focus:outline-none focus:border-[var(--primary)]"
+                  placeholder="Paste sharing link/code here..."
+                  className="flex-1 min-w-0 truncate bg-[var(--surface)] text-[var(--on-surface)] border-5 border-[var(--outline-variant)] rounded-xl px-4 py-2 text-[13px] font-black focus:outline-none focus:border-[var(--primary)]"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       const val = e.currentTarget.value.trim();
@@ -806,7 +806,7 @@ export const SettingsDialog = memo(({
                   onClick={() => {
                     haptic.light();
                   }}
-                  className="bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] px-4 py-2 rounded-xl text-[10px] font-bold transition-all flex items-center justify-center cursor-pointer select-none"
+                  className="shrink-0 whitespace-nowrap bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] px-4 py-2 rounded-xl text-[10px] font-bold transition-all flex items-center justify-center cursor-pointer select-none"
                 >
                   Upload File
                   <input
@@ -845,7 +845,7 @@ export const SettingsDialog = memo(({
                 </motion.label>
               </div>
               <div className="text-[13px] opacity-50 font-medium">
-                Press Enter to apply pasted sharing link. Restoring settings updates your theme *immediately*.
+                Press Enter to apply pasted sharing link. Pressing `ENTER` WILL update your theme immediately.
               </div>
             </div>
           </section>

@@ -174,7 +174,7 @@ export const SideItem = memo(
         onMouseLeave={() => setIsHovered(false)}
         className={cn(
           "relative group outline-none cursor-pointer font-black motion-gpu isolate flex items-center w-full px-4 justify-center gap-4 ring-6 ring-[var(--outline-variant)]/30 sidebar-item",
-          isFloating ? "py-2.5" : isShort ? "py-3" : "py-4",
+          isFloating ? "py-4" : isShort ? "py-3" : "py-4",
           rd,
         )}
       >
