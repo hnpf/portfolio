@@ -54,13 +54,14 @@ const posts = BLOG_POSTS
 const channelItems = posts.map((post) => {
   const title = normalizeText(post.title);
   const description = normalizeText(post.snippet || "");
-  const content = wrapCdata(description || title);
+  const htmlContent = markdownToHtml(post.content || "");
+  const content = wrapCdata(htmlContent);
   const pubDate = formatRfc2822(post.dateObject);
 
   return `  <item>
     <title>${title}</title>
     <link>${post.url}</link>
-    <description>${content}</description>
+    <description>${wrapCdata(description || title)}</description>
     <content:encoded>${content}</content:encoded>
     <pubDate>${pubDate}</pubDate>
   </item>`;
