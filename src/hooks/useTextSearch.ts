@@ -34,14 +34,18 @@ export function useTextSearch() {
     const target = matches[normalizedIndex];
     if (!target) return;
 
+    // secondary matches
     matches.forEach((match) => {
-      match.style.boxShadow = "none";
-      match.style.padding = "2px 4px";
-      match.style.backgroundColor = "rgba(255, 193, 7, 0.4)";
+        match.style.boxShadow = "none";
+        match.style.padding = "2px 4px";
+        match.style.backgroundColor = "rgba(236, 72, 153, 0.35)"; // pink-500
+        match.style.color = "inherit";
     });
 
-    target.style.backgroundColor = "rgba(255, 193, 7, 0.75)";
-    target.style.boxShadow = "0 0 0 3px rgba(255, 193, 7, 0.2)";
+    // active match
+    target.style.backgroundColor = "rgba(244, 114, 182, 0.85)"; // pink-400
+    target.style.color = "#000000";
+    target.style.boxShadow = "0 0 0 2px #ec4899";
     target.style.padding = "2px 4px";
     target.scrollIntoView({ block: "nearest", inline: "nearest" });
     activeMatchRef.current = target;
@@ -78,7 +82,7 @@ export function useTextSearch() {
           const span = document.createElement("span");
           span.innerHTML = text.replace(
             regex,
-            `<mark data-search-match style="background-color: rgba(255, 193, 7, 0.4); border-radius: 2px; padding: 2px 4px;">$1</mark>`
+            `<mark data-search-match style="background-color: rgba(245, 158, 11, 0.4); color: #000000; border-radius: 4px; padding: 2px 4px;">$1</mark>`
           );
 
           if (node.parentElement) {
