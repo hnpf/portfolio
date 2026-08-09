@@ -21,7 +21,7 @@ export function useTextSearch() {
 
   // remove all highlights from the page
   const clearHighlights = useCallback(() => {
-    highlightedNodesRef.current.forEach(({ node, originalHTML }) => {
+    highlightedNodesRef.current.forEach(({ node, originalHTML }: { node: Node; originalHTML: string }) => {
       if (node.parentElement) {
         node.parentElement.innerHTML = originalHTML;
       }
@@ -34,7 +34,7 @@ export function useTextSearch() {
     clearHighlights();
 
     if (!query.trim()) {
-      setSearchState((prev) => ({ ...prev, matchCount: 0, currentMatch: 0 }));
+      setSearchState((prev: TextSearchState) => ({ ...prev, matchCount: 0, currentMatch: 0 }));
       return;
     }
 
@@ -74,7 +74,7 @@ export function useTextSearch() {
     };
 
     walk(mainContent);
-    setSearchState((prev) => ({
+    setSearchState((prev: TextSearchState) => ({
       ...prev,
       matchCount,
       currentMatch: matchCount > 0 ? 1 : 0,
@@ -82,7 +82,7 @@ export function useTextSearch() {
   }, [clearHighlights]);
 
   const toggleSearch = useCallback(() => {
-    setSearchState((prev) => ({
+    setSearchState((prev: TextSearchState) => ({
       ...prev,
       isOpen: !prev.isOpen,
       query: "",
@@ -92,7 +92,7 @@ export function useTextSearch() {
 
   const updateQuery = useCallback(
     (query: string) => {
-      setSearchState((prev) => ({
+      setSearchState((prev: TextSearchState) => ({
         ...prev,
         query,
         currentMatch: 0,
@@ -103,7 +103,7 @@ export function useTextSearch() {
   );
 
   const closeSearch = useCallback(() => {
-    setSearchState((prev) => ({
+    setSearchState((prev: TextSearchState) => ({
       ...prev,
       isOpen: false,
       query: "",
