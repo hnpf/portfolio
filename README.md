@@ -12,7 +12,7 @@
 <img src="https://img.shields.io/badge/vercel-000?style=for-the-badge&logo=vercel&logoColor=white&labelColor=1C1B1F" />
 <img src="https://img.shields.io/badge/gpl--3.0-EF5350?style=for-the-badge&logo=gnu&logoColor=white&labelColor=1C1B1F" />
 
-My personal website. Uses a Material 3 Expressive styled shell, photo gallery, url shortener, blog, and features tons of customization options. Built on React 19. Research, photography, blog posts.
+My personal website. Uses a Material 3 Expressive styled shell, photo gallery, blog, and features tons of customization options. Built on React 19. Research, photography, blog posts.
 
 </div>
 
@@ -79,8 +79,6 @@ My personal website. Uses a Material 3 Expressive styled shell, photo gallery, u
 
 > **blog** — Updates, Devlogs, Cybersec, and more. Read-tracking + RSS at `/rss.xml` (not always updated!)
 
-> **virex dash** — URL shortener at `/r/:slug`. sqlite-backed, dash-managed, route shadow protection included.
-
 > **readme** — Clean bio and lore with animations with dedicated settings options.
 
 > **now** — What I'm actively building, reading, and learning right now.
@@ -112,7 +110,7 @@ npm run build      # output to dist/
 
 ```
 api/
-  index.ts              express handlers (shortener, rss, etc.)
+  index.ts              server handlers (rss, express server, etc.)
   db.ts                 sqlite read/write logic
   guestbook_db.ts       guestbook backend, features banned_roots and leet map
 
