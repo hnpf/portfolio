@@ -31,6 +31,7 @@ import { useAprilFools } from "./hooks/useAprilFools";
 import { useSettingsSync } from "./hooks/useSettingsSync";
 import { useMetadata } from "./hooks/useMetadata";
 import { useViewport } from "./hooks/useViewport";
+import { useTextSearch } from "./hooks/useTextSearch";
 
 // pages
 import { HomePage } from "./pages/HomePage";
@@ -45,6 +46,7 @@ import NotFound from "./pages/NotFound";
 import { SideItem } from "./components/Navigation";
 import { MobileFloatingNav } from "./components/MobileFloatingNav";
 import { CommandPalette } from "./components/CommandPalette";
+import { TextSearchBar } from "./components/TextSearchBar";
 import { SettingsDialog } from "./components/SettingsDialog";
 import { GuestbookDialog } from "./components/GuestbookDialog";
 import { DebugConfirmDialog } from "./components/DebugConfirmDialog";
@@ -76,6 +78,7 @@ export default function App() {
   const { settings, updateSettings, actualTheme, cycleTheme } = useTheme();
   const { popup, setPopup, IS_APR } = useAprilFools();
   const viewport = useViewport();
+  const textSearch = useTextSearch();
   
   const [toast, setToast] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);

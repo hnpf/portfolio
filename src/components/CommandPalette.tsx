@@ -34,6 +34,7 @@ export function CommandPalette({
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const items = useMemo(() => {
+    // static navigation and action items
     const pageActions = [
       {
         id: "go-home",
@@ -145,20 +146,11 @@ export function CommandPalette({
       },
     ];
 
-    const postActions = Array.isArray(blogPosts)
-      ? blogPosts.map((post: any) => ({
-          id: `blog-${post.id}`,
-          label: `Blog: ${post.title}`,
-          description: post.snippet,
-          category: "Blog posts",
-          icon: Layers,
-          action: () => goto("blog", post.link),
-          tags: [post.title, post.snippet, post.category, post.link],
-        }))
-      : [];
+    // dynamically get all searchable items (settings, blog, projects, links)
+    const searchableItems = getAllSearchItems(settings, updateSettings, goto, () => goto("home"));
 
-    return [...pageActions, ...postActions];
-  }, [goto, settings.mode, cycleTheme, updateSettings, onOpenSettings, onOpenGuestbook, blogPosts]);
+    return [...pageActions, ...searchableItems];
+  }, [goto, settings, cycleTheme, updateSettings, onOpenSettings, onOpenGuestbook]);
 
   useEffect(() => {
     const stored = window.localStorage.getItem("virex-command-palette-recent");
@@ -176,19 +168,31 @@ export function CommandPalette({
 
   const filteredItems = useMemo(() => {
     const queryText = normalize(query);
+    
+    // filter by search scope
+    let scopedItems = items;
     const scope = settings.paletteSearchScope;
-    const scopedItems = items.filter((item) => {
-      if (scope === "pages") return item.category === "Navigation";
-      if (scope === "commands") return item.category !== "Blog posts";
-      if (scope === "blog") return item.category === "Blog posts";
-      return true;
-    });
+    
+    if (scope === "pages") {
+      scopedItems = items.filter((item) => item.category === "Navigation");
+    } else if (scope === "commands") {
+      scopedItems = items.filter((item) => 
+        item.category !== "Blog" && 
+        item.category !== "Projects" && 
+        item.category !== "Links"
+      );
+    } else if (scope === "blog") {
+      scopedItems = items.filter((item) => item.category === "Blog");
+    } else if (scope === "settings") {
+      scopedItems = items.filter((item) => item.category === "Settings");
+    }
 
+    // apply recent items sorting if no query
     const sortedItems = !queryText && settings.paletteShowRecentActions && recentIds.length
       ? [
           ...recentIds
             .map((id) => scopedItems.find((item) => item.id === id))
-            .filter(Boolean) as typeof items,
+            .filter(Boolean),
           ...scopedItems.filter((item) => !recentIds.includes(item.id)),
         ]
       : scopedItems;
@@ -197,9 +201,15 @@ export function CommandPalette({
       return sortedItems.slice(0, settings.paletteResultsLimit);
     }
 
+    // full text search across all fields
     return sortedItems
       .filter((item) => {
-        const haystack = [item.label, item.description, ...(item.tags || [])].join(" ").toLowerCase();
+        const haystack = [
+          item.label, 
+          item.description, 
+          ...(item.tags || []),
+          item.excerpt || ""
+        ].join(" ").toLowerCase();
         return haystack.includes(queryText);
       })
       .slice(0, settings.paletteResultsLimit);
