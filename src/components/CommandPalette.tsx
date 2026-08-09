@@ -228,6 +228,16 @@ export function CommandPalette({
       .map((category) => ({ category, items: groups[category] }));
   }, [filteredItems]);
 
+  const flatItems = useMemo(
+    () => groupedItems.flatMap((group) => group.items),
+    [groupedItems]
+  );
+
+  const itemIndexMap = useMemo(
+    () => new Map(flatItems.map((item, index) => [item.id, index])),
+    [flatItems]
+  );
+
   const showRecentHeader = !normalize(query) && settings.paletteShowRecentActions && recentIds.length > 0;
   const isRecentItem = (itemId: string) => !normalize(query) && settings.paletteShowRecentActions && recentIds.includes(itemId);
 
@@ -246,8 +256,8 @@ export function CommandPalette({
 
   useEffect(() => {
     if (!open) return;
-    setCursor((current) => Math.min(current, Math.max(filteredItems.length - 1, 0)));
-  }, [filteredItems.length, open]);
+    setCursor((current) => Math.min(current, Math.max(flatItems.length - 1, 0)));
+  }, [flatItems.length, open]);
 
   useEffect(() => {
     if (!open || !ignoreMouseHover) return;
@@ -264,11 +274,11 @@ export function CommandPalette({
         if (!open) return;
 
         const clampIndex = (next: number) => {
-          if (filteredItems.length === 0) return 0;
+          if (flatItems.length === 0) return 0;
           if (shouldWrapNav) {
-            return (next + filteredItems.length) % filteredItems.length;
+            return (next + flatItems.length) % flatItems.length;
           }
-          return Math.max(0, Math.min(next, filteredItems.length - 1));
+          return Math.max(0, Math.min(next, flatItems.length - 1));
         };
 
         const moveAmount = viewMode === "cards" && isGridNav ? 2 : 1;
@@ -308,7 +318,7 @@ export function CommandPalette({
 
           if (event.key === "Enter") {
             event.preventDefault();
-            const item = filteredItems[cursor] || filteredItems[0];
+            const item = flatItems[cursor] || flatItems[0];
             if (item) {
               const updated = [item.id, ...recentIds.filter((id) => id !== item.id)].slice(0, 6);
               setRecentIds(updated);
@@ -411,14 +421,14 @@ export function CommandPalette({
                           {group.category}
                         </div>
                         <div className={viewMode === "lists" ? "space-y-2" : "grid grid-cols-2 gap-4"}>
-                          {group.items.map((item, index) => {
-                            const globalIndex = filteredItems.findIndex((candidate) => candidate.id === item.id);
+                          {group.items.map((item) => {
+                            const globalIndex = itemIndexMap.get(item.id) ?? 0;
                             const Icon = item.icon;
                             const isActive = globalIndex === cursor;
                             const isRecent = isRecentItem(item.id);
                             const isFirst = globalIndex === 0;
-                            const isLast = globalIndex === filteredItems.length - 1;
-                            const isSingle = filteredItems.length === 1;
+                            const isLast = globalIndex === flatItems.length - 1;
+                            const isSingle = flatItems.length === 1;
                             const roundedClass = viewMode === "lists"
                               ? isSingle
                                 ? "rounded-[2rem]"
