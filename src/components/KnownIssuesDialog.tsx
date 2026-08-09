@@ -393,7 +393,7 @@ export const KnownIssuesDialog = ({
                     haptic.light();
                     onClose();
                   }}
-                  className="flex-1 w-full bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/40 text-[var(--on-surface-variant)] py-3.5 rounded-2xl hover:rounded-xl active:scale-95 text-sm font-black tracking-wide border-3 border-[var(--outline-variant)] transition-all duration-200 cursor-pointer text-center"                >
+                  className="flex-1 w-full bg-[var(--surface-variant)] hover:bg-[var(--outline-variant)]/40 text-[var(--on-surface-variant)] py-3.5 mb-6 rounded-2xl hover:rounded-xl active:scale-95 text-sm font-black tracking-wide border-3 border-[var(--outline-variant)] transition-all duration-200 cursor-pointer text-center"                >
                   Close
                 </button>
               </div>
