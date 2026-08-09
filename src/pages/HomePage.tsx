@@ -660,12 +660,12 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
         <div className="md:col-span-2 lg:col-span-1 xl:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8">
           <AdCard />
           {PROJECTS.map((project, i) => (
-            <Card
-              key={project.id}
-              delay={0.7 + i * 0.1}
-              className=""
-              innerClassName="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-8 sm:p-10 min-h-[350px] transition-colors"
-            >
+            <div id={`project-${project.id}`} key={project.id}>
+              <Card
+                delay={0.7 + i * 0.1}
+                className=""
+                innerClassName="flex border-6 border-[var(--outline-variant)]/40 flex-col justify-between p-8 sm:p-10 min-h-[350px] transition-colors"
+              >
               <div>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-6">
                   <h4 className="text-[28px] sm:text-[36px] font-bold font-black tracking-[0.04em] leading-tight italic flex-1 min-w-0 break-words">

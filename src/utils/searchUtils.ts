@@ -3,13 +3,13 @@
  */
 
 import { BLOG_POSTS, PROJECTS } from "../constants";
-import { Search, Home, Info, ImageIcon, Monitor, Settings as SettingsIcon, Layers, Palette, Moon, Sun, Bug, Link as LinkIcon, FileText, Boxes } from "lucide-react";
+import { Search, Monitor, Settings as SettingsIcon, Layers, Palette, Moon, Sun, Link as LinkIcon, FileText, Boxes } from "lucide-react";
 
 export interface SearchItem {
   id: string;
   label: string;
   description: string;
-  category: "Settings" | "Blog" | "Projects" | "Links" | "Pages" | "Navigation";
+  category: "Settings" | "Blog" | "Projects" | "Links" | "Pages" | "Navigation" | "Tools" | "Appearance";
   icon: any;
   action: () => void;
   tags: string[];

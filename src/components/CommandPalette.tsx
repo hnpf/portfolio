@@ -7,7 +7,6 @@ import { M3ScrollBar } from "./M3ScrollBar";
 import M3Switch from "./M3Switch";
 import { 
   getAllSearchItems, 
-  filterSearchItems, 
   groupByCategory, 
   type SearchItem 
 } from "../utils/searchUtils";
@@ -220,6 +219,14 @@ export function CommandPalette({
       })
       .slice(0, settings.paletteResultsLimit);
   }, [items, query, recentIds, settings.paletteSearchScope, settings.paletteResultsLimit, settings.paletteShowRecentActions]);
+
+  const groupedItems = useMemo(() => {
+    const groups = groupByCategory(filteredItems);
+    const order = ["Navigation", "Settings", "Blog", "Projects", "Links", "Appearance", "Tools"];
+    return order
+      .filter((category) => groups[category])
+      .map((category) => ({ category, items: groups[category] }));
+  }, [filteredItems]);
 
   const showRecentHeader = !normalize(query) && settings.paletteShowRecentActions && recentIds.length > 0;
   const isRecentItem = (itemId: string) => !normalize(query) && settings.paletteShowRecentActions && recentIds.includes(itemId);

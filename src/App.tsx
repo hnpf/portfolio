@@ -586,6 +586,14 @@ export default function App() {
         isMobile={is_mobile}
         viewport={viewport}
       />
+      <TextSearchBar
+        isOpen={textSearch.isOpen}
+        query={textSearch.query}
+        onQueryChange={textSearch.updateQuery}
+        onClose={textSearch.closeSearch}
+        matchCount={textSearch.matchCount}
+        currentMatch={textSearch.currentMatch}
+      />
       <GuestbookDialog
         isOpen={guestbookOpen}
         onClose={handleCloseGuestbook}
