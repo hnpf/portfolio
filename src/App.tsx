@@ -301,6 +301,12 @@ export default function App() {
   const isExpanded = is_mobile && scrollDirection === "up" && !settings.focusMode;
   const show_pfp_container = settings.profileContainer && viewport.h > 720;
 
+  const paletteHotkeyLabel = settings.paletteHotkey === "cmd-k"
+    ? "⌘K"
+    : settings.paletteHotkey === "ctrl-shift-p"
+      ? "Ctrl+Shift+P"
+      : "Ctrl+K";
+
   const springConfig = {
     type: "spring" as const,
     stiffness: settings.highHz ? 600 : 500,
@@ -425,8 +431,8 @@ export default function App() {
                 <div className="flex flex-col mb-6 px-4 gap-3">
                   <div className="flex flex-col gap-2">
                     <h3 className="text-2xl font-expressive italic font-black mb-2 tracking-[0.03em] text-[var(--on-surface-variant)] uppercase leading-none">Navigation</h3>
-                    <div className="text-[11px] ml-3 font-bold tracking-[0.18em] text-[var(--on-surface-variant)] opacity-70">
-                      <span className="font-black">Ctrl+K</span> / <span className="font-black">⌘K</span> to search
+                    <div className="text-[11px] ml-3 font-bold tracking-[0.15em] text-[var(--on-surface-variant)] opacity-70">
+                      <span className="font-black">{paletteHotkeyLabel}</span> to search
                     </div>
                   </div>
                 </div>
