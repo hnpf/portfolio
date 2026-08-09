@@ -5,6 +5,12 @@ import { cn } from "../constants";
 import { Search, Home, Info, ImageIcon, Monitor, Settings as SettingsIcon, Layers, Palette, Moon, Sun, ArrowRight, ArrowUp, ArrowDown, MessageSquare, X, ViewModule, ViewList } from "./MaterialIcon";
 import { M3ScrollBar } from "./M3ScrollBar";
 import M3Switch from "./M3Switch";
+import { 
+  getAllSearchItems, 
+  filterSearchItems, 
+  groupByCategory, 
+  type SearchItem 
+} from "../utils/searchUtils";
 
 const normalize = (value: string) => value.trim().toLowerCase();
 
