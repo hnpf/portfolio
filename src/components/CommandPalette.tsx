@@ -492,7 +492,7 @@ export function CommandPalette({
                                     <img
                                       src={item.previewUrl}
                                       alt={item.previewAlt || item.label}
-                                      className="h-full w-full object-cover object-center"
+                                      className="h-full w-full blur-[0.96px] object-cover object-center"
                                       loading="lazy"
                                     />
                                   ) : (
