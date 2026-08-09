@@ -45,7 +45,7 @@ export default function CopyLinkCapsule() {
         y:         { type: "spring", stiffness: 500, damping: 22, mass: 0.6 },
         boxShadow: { type: "spring", stiffness: 300, damping: 24 },
       }}
-      className={`inline-flex items-center gap-3 px-10 py-5 rounded-full font-black text-[17px] border border-[var(--outline)]/15 shadow-xl transition-colors duration-300 ${
+      className={`inline-flex items-center gap-3 px-10 py-5 rounded-full font-black text-[17px] border-5 border-[var(--outline)]/20 shadow-xl transition-colors duration-300 ${
         copied ? 'text-[var(--on-primary-container)]' : 'text-[var(--on-surface)]'
       }`}
       aria-live="polite"

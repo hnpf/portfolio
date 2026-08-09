@@ -622,13 +622,12 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
           <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-all duration-700 group-hover:rotate-12 group-hover:scale-110">
             <Activity size={130} className="-rotate-175 md:mr-6 md:mt-3" />
           </div>
-          <div className="isolate flex flex-col -space-y-3 md:-space-y-4">
-            <span className="text-4xl md:text-5xl font-display font-black italic uppercase tracking-tight opacity-40">I don't</span>
-            <span className="text-7xl mt-2 md:text-8xl font-expressive-bold italic font-black tracking-[-0.08em] leading-none uppercase">Design</span>
-            <span className="text-6xl mt-2 md:text-7xl font-display font-black italic uppercase tracking-[-0.02em] mt-2">Things</span>
-            <span className="text-2xl mt-2 md:text-4xl font-display font-black italic uppercase tracking-[0.1em] opacity-40 mt-4">I wouldn't</span>
-            <span className="text-8xl mt-2 md:text-[9rem] font-expressive-bold italic md:gap-0.5 tracking-[-0.008em] leading-none uppercase text-[var(--primary)]">Use.</span>
-          </div>
+<div className="isolate flex flex-col -space-y-3 md:-space-y-4">
+  <span className="text-4xl md:text-5xl font-display mb-1 font-black italic uppercase tracking-tight opacity-40">I NEVER</span>
+  <span className="text-7xl md:text-8xl font-expressive-bold mb-1 italic font-black tracking-[-0.08em] leading-none uppercase">SHIP</span>
+  <span className="text-4xl md:text-5xl font-display mb-1 font-black italic uppercase tracking-[-0.02em] opacity-40">WHAT I DON'T</span>
+  <span className="text-8xl md:text-[9rem] font-expressive-bold italic tracking-[-0.08em] leading-none uppercase text-[var(--primary)]">USE.</span>
+</div>
         </Card>
 
         <div className="flex flex-col gap-8">

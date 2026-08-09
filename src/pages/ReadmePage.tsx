@@ -192,14 +192,14 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             <div className="space-y-6 relative z-10">
               <div className="flex items-center gap-3">
                 <Target className="text-[var(--primary)] w-8 h-8" strokeWidth={2.5} />
-                <span className="text-xl font-black font-expressive tracking-[0.2em] opacity-60 italic uppercase">A Mission...</span>
+                <span className="text-[19px] font-black font-expressive-bold opacity-60 uppercase">philosophy</span>
               </div>
               <p className="text-2xl md:text-4xl leading-[0.95] tracking-tighter font-expressive font-black italic text-balance">
                 "Code can be used as a form of <span className="text-[var(--primary)]">protest.</span>"
               </p>
             </div>
             <p className="text-md md:text-2xl opacity-80 font-bold leading-tight relative z-10">
-              Modern tech uses <br></br> complexity in order to lock you in. <br></br> <br></br> Fighting against that can include writing code that is lightweight, <br></br> transparent, and built to last.
+              Modern tech uses complexity in order to lock you in.<br></br><br></br>Fighting against that can be writing code that is lightweight, transparent, and written to last.
             </p>
             <div className="absolute -right-8 -top-8 opacity-10 group-hover:scale-125 transition-transform duration-700 pointer-events-none">
               <Target size={180} />

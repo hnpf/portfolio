@@ -150,7 +150,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
               haptic.light();
               navigateTo("blog");
             }}
-            className="m3-button-tonal w-fit group"
+            className="m3-button-tonal border-3 border-[var(--outline-variant)]/70 w-fit group"
             initial="rest"
             whileHover="hover"
             whileTap="tap"
@@ -173,25 +173,22 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
             </motion.span>
             <span>Back to feed</span>
           </motion.button>
-          <div className="flex items-center gap-3 opacity-50 text-xs font-black uppercase tracking-[0.2em]">
-            {read.includes(post.id) && (
-              <CheckCircle2 size={14} className="text-green-500" />
-            )}
+          <div className="flex items-center gap-3 opacity-50 text-[13px] font-black uppercase tracking-[0.2em]">
             <span className="hidden sm:inline opacity-50">{post.readTime}</span>
           </div>
           </div>
         <header className="mb-16 space-y-8 pt-8">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <span className="px-5 py-2 bg-[var(--primary-container)] text-[var(--on-primary-container)] rounded-2xl capitalize text-md font-black tracking-widest shadow-sm">
+              <span className="px-5 py-2 bg-[var(--primary-container)] border-3 border-[var(--primary)]/10 text-[var(--on-primary-container)] rounded-3xl capitalize text-md font-black tracking-widest shadow-sm">
                 {post.category}
               </span>
-              <div className="flex items-center gap-2 opacity-50 text-sm font-bold">
+              <div className="flex gap-2 opacity-50 text-sm font-bold">
                 <Calendar size={14} />
                 <span>{post.date}</span>
               </div>
               {read.includes(post.id) && (
-                <div className="flex items-center gap-2 text-green-500 text-xs font-black uppercase tracking-widest bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20">
+                <div className="flex items-center gap-2 text-green-500 text-xs font-black uppercase tracking-widest bg-green-500/10 px-3 py-1 rounded-full border-3 border-green-500/20">
                   <CheckCircle2 size={12} /> Read
                 </div>
               )}
@@ -376,7 +373,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
           </ReactMarkdown>
         </div>
 
-        <footer className="pt-16 pb-24 border-t border-[var(--outline-variant)] flex flex-col items-center gap-8">
+        <footer className="relative pt-16 pb-24 flex flex-col items-center gap-8 before:absolute before:top-0 before:left-0 before:w-full before:h-[6px] before:bg-[var(--outline-variant)] before:rounded-full">
           <div className="text-center space-y-2">
             <h4 className="text-3xl font-display font-black">
               Enjoyed this blog post?
@@ -481,7 +478,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                   <span className="shrink-0 px-4 py-1.5 bg-[var(--primary)] text-[var(--on-primary)] rounded-full text-[12px] font-black tracking-widest shadow-lg">
                     Featured post!
                   </span>
-                  <span className="min-w-0 text-sm font-bold opacity-60 flex items-center gap-2">
+                  <span className="min-w-0 text-sm font-bold opacity-60 flex gap-2">
                     <Calendar size={14} /> <span className="truncate">{featured.date}</span>
                   </span>
                   {read.includes(featured.id) && (
@@ -499,7 +496,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                     {featured.snippet}
                   </p>
                 </div>
-                <div className="flex items-center gap-6 pt-4">
+                <div className="flex w-full items-center justify-between gap-6 pt-4">
                   <motion.div
                     whileHover={{
                       scale: 1.02,
@@ -537,7 +534,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                       />
                     </motion.span>
                   </motion.div>
-                  <span className="text-xs md:text-sm font-black uppercase tracking-widest opacity-40 italic">
+                  <span className="text-xs md:text-[16px] font-expressive-bold uppercase tracking-widest opacity-40 italic">
                     {featured.readTime}
                   </span>
                 </div>
@@ -574,17 +571,17 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                   <div className="space-y-6">
                     <div className="flex justify-between items-start gap-3">
                       <div className="flex items-center gap-2 min-w-0 flex-1">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-[var(--primary)] px-2 py-1 bg-[var(--primary-container)]/30 rounded-md border border-[var(--primary)]/20 whitespace-nowrap shrink-0">
+                        <span className="text-[10px] pl-2.5 font-black uppercase tracking-widest text-[var(--primary)] px-2 py-1 bg-[var(--primary-container)]/30 rounded-[2rem] border-3 border-[var(--primary)]/20 whitespace-nowrap shrink-0">
                           {p.category}
                         </span>
-                        <span className="text-[10px] font-bold opacity-40 uppercase tracking-widest whitespace-nowrap">
+                        <span className="ml-2 text-[12px] font-bold opacity-40 tracking-widest whitespace-nowrap">
                           {p.date}
                         </span>
                         {read.includes(p.id) && (
                           <CheckCircle2 size={16} className="text-green-500 shrink-0" />
                         )}
                       </div>
-                      <div className="w-10 h-10 rounded-2xl bg-[var(--surface)] border border-[var(--outline-variant)] flex items-center justify-center group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-500 shrink-0">
+                      <div className="w-11 h-11 rounded-[2rem] bg-[var(--surface)] border-3 border-[var(--outline-variant)] flex items-center justify-center group-hover:bg-[var(--primary)] group-hover:text-[var(--on-primary)] transition-all duration-500 shrink-0">
                         <ChevronRight size={20} />
                       </div>
                     </div>
@@ -597,7 +594,7 @@ export const BlogPage = memo(({ targetId, navigateTo }: any) => {
                       </p>
                     </div>
                   </div>
-                  <div className="pt-4 flex items-center justify-between border-t border-[var(--outline-variant)] opacity-40 text-[10px] font-black uppercase tracking-widest">
+                  <div className="pt-4 flex items-center justify-between border-t-3 border-[var(--outline-variant)] opacity-40 text-[12px] font-black tracking-widest">
                     <span>
                       Post No. {BLOG_POSTS.length - BLOG_POSTS.indexOf(p)}
                     </span>

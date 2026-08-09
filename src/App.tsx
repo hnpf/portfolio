@@ -456,7 +456,7 @@ export default function App() {
                       }}
                   onClick={() => updateSettings({ sidebarCollapsed: !settings.sidebarCollapsed })} 
 
-                      className={cn("flex items-center justify-center ring-6 ring-[var(--outline-variant)]/80 outline-none cursor-pointer transition-colors", settings.sidebarCollapsed ? "w-14 h-14 rounded-[18px] bg-[var(--surface-variant)] text-[var(--on-surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)]" : "w-full py-4 rounded-t-[15px] rounded-b-[28px] bg-[var(--surface-variant)]/30 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")} transition={springConfig}>
+                      className={cn("flex items-center justify-center ring-6 ring-[var(--outline-variant)]/40 outline-none cursor-pointer transition-colors", settings.sidebarCollapsed ? "w-14 h-14 rounded-[18px] bg-[var(--surface-variant)] text-[var(--on-surface-variant)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)]" : "w-full py-4 rounded-t-[15px] rounded-b-[28px] bg-[var(--surface-variant)]/30 hover:bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")} transition={springConfig}>
                       {settings.sidebarCollapsed ? <M3ChevronRight size={22} fill /> : <M3ChevronLeft size={22} fill />}
                     </motion.button>
                   </div>
