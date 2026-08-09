@@ -1,5 +1,9 @@
 import fs from "fs";
 import path from "path";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import rehypeStringify from "rehype-stringify";
 import { BLOG_POSTS } from "../src/constants.ts";
 
 const SITE_URL = "https://virex.lol";
@@ -9,6 +13,12 @@ function formatRfc2822(date: Date) {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   return `${days[date.getUTCDay()]}, ${String(date.getUTCDate()).padStart(2, "0")} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()} ${String(date.getUTCHours()).padStart(2, "0")}:${String(date.getUTCMinutes()).padStart(2, "0")}:${String(date.getUTCSeconds()).padStart(2, "0")} GMT`;
+}
+
+const markdownSerializer = unified().use(remarkParse).use(remarkGfm).use(rehypeStringify);
+
+function markdownToHtml(value: string) {
+  return String(markdownSerializer.processSync(value));
 }
 
 function wrapCdata(value: string) {
