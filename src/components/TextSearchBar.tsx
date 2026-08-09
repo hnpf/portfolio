@@ -11,11 +11,15 @@ export function TextSearchBar({
   onClose,
   matchCount,
   currentMatch,
+  onNextMatch,
+  onPrevMatch,
 }: {
   isOpen: boolean;
   query: string;
   onQueryChange: (query: string) => void;
   onClose: () => void;
+  onNextMatch: () => void;
+  onPrevMatch: () => void;
   matchCount: number;
   currentMatch: number;
 }) {
@@ -58,6 +62,7 @@ export function TextSearchBar({
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
+              onClick={onPrevMatch}
               className="p-1.5 hover:bg-[var(--surface-variant)] rounded-lg transition-colors"
               title="Previous match (Shift+Enter)"
             >
@@ -67,6 +72,7 @@ export function TextSearchBar({
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
+              onClick={onNextMatch}
               className="p-1.5 hover:bg-[var(--surface-variant)] rounded-lg transition-colors"
               title="Next match (Enter)"
             >

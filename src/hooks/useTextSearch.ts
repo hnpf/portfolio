@@ -19,6 +19,33 @@ export function useTextSearch() {
   const highlightedNodesRef = useRef<
     Array<{ node: Node; originalHTML: string }>
   >([]);
+  const activeMatchRef = useRef<HTMLElement | null>(null);
+
+  const getMatchElements = () => {
+    const mainContent = document.querySelector("main") || document.body;
+    return Array.from(mainContent.querySelectorAll("mark[data-search-match]")) as HTMLElement[];
+  };
+
+  const scrollToMatch = useCallback((index: number) => {
+    const matches = getMatchElements();
+    if (matches.length === 0) return;
+
+    const normalizedIndex = Math.min(Math.max(index - 1, 0), matches.length - 1);
+    const target = matches[normalizedIndex];
+    if (!target) return;
+
+    matches.forEach((match) => {
+      match.style.boxShadow = "none";
+      match.style.padding = "2px 4px";
+      match.style.backgroundColor = "rgba(255, 193, 7, 0.4)";
+    });
+
+    target.style.backgroundColor = "rgba(255, 193, 7, 0.75)";
+    target.style.boxShadow = "0 0 0 3px rgba(255, 193, 7, 0.2)";
+    target.style.padding = "2px 4px";
+    target.scrollIntoView({ block: "nearest", inline: "nearest" });
+    activeMatchRef.current = target;
+  }, []);
 
   // remove all highlights from the page
   const clearHighlights = useCallback(() => {
@@ -28,6 +55,7 @@ export function useTextSearch() {
       }
     });
     highlightedNodesRef.current = [];
+    activeMatchRef.current = null;
   }, []);
 
   // highlight all matches of the search query
@@ -50,7 +78,7 @@ export function useTextSearch() {
           const span = document.createElement("span");
           span.innerHTML = text.replace(
             regex,
-            `<mark style="background-color: rgba(255, 193, 7, 0.4); border-radius: 2px; padding: 2px 4px;">$1</mark>`
+            `<mark data-search-match style="background-color: rgba(255, 193, 7, 0.4); border-radius: 2px; padding: 2px 4px;">$1</mark>`
           );
 
           if (node.parentElement) {
@@ -75,12 +103,17 @@ export function useTextSearch() {
     };
 
     walk(mainContent);
+    const effectiveCount = getMatchElements().length;
     setSearchState((prev: TextSearchState) => ({
       ...prev,
-      matchCount,
-      currentMatch: matchCount > 0 ? 1 : 0,
+      matchCount: effectiveCount,
+      currentMatch: effectiveCount > 0 ? 1 : 0,
     }));
-  }, [clearHighlights]);
+
+    if (effectiveCount > 0) {
+      scrollToMatch(1);
+    }
+  }, [clearHighlights, scrollToMatch]);
 
   const toggleSearch = useCallback(() => {
     setSearchState((prev: TextSearchState) => ({
@@ -103,6 +136,21 @@ export function useTextSearch() {
     [highlightMatches]
   );
 
+  const navigateMatch = useCallback((change: number) => {
+    setSearchState((prev: TextSearchState) => {
+      const total = prev.matchCount;
+      if (total === 0) return prev;
+      let next = prev.currentMatch + change;
+      if (next < 1) next = total;
+      if (next > total) next = 1;
+      scrollToMatch(next);
+      return { ...prev, currentMatch: next };
+    });
+  }, [scrollToMatch]);
+
+  const nextMatch = useCallback(() => navigateMatch(1), [navigateMatch]);
+  const prevMatch = useCallback(() => navigateMatch(-1), [navigateMatch]);
+
   const closeSearch = useCallback(() => {
     setSearchState((prev: TextSearchState) => ({
       ...prev,
@@ -123,8 +171,29 @@ export function useTextSearch() {
         }
       }
 
-      // esca to close search
-      if (e.key === "Escape" && searchState.isOpen) {
+      if (!searchState.isOpen) return;
+
+      // navigate matches
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (e.shiftKey) {
+          prevMatch();
+        } else {
+          nextMatch();
+        }
+      }
+
+      if (e.key === "F3") {
+        e.preventDefault();
+        if (e.shiftKey) {
+          prevMatch();
+        } else {
+          nextMatch();
+        }
+      }
+
+      // escape to close search
+      if (e.key === "Escape") {
         e.preventDefault();
         closeSearch();
       }
@@ -132,7 +201,7 @@ export function useTextSearch() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [searchState.isOpen, toggleSearch, closeSearch]);
+  }, [searchState.isOpen, toggleSearch, closeSearch, nextMatch, prevMatch]);
 
   return {
     ...searchState,
@@ -140,5 +209,7 @@ export function useTextSearch() {
     toggleSearch,
     closeSearch,
     clearHighlights,
+    nextMatch,
+    prevMatch,
   };
 }
