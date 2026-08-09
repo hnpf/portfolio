@@ -1629,7 +1629,7 @@ export const SettingsDialog = memo(({
                             }}
                             transition={{ type: "spring", stiffness: 350, damping: 22 }}
                             className={cn(
-                              "grid grid-cols-[28px_1fr_28px] items-center px-3 py-2.5 border-[5px] cursor-pointer w-full group",
+                              "grid grid-cols-[28px_1fr_15px] items-center px-3 py-2.5 border-[5px] cursor-pointer w-full group justify-items-center",
                               roundedClass,
                               isActive
                                 ? "text-[var(--on-primary-container)] font-bold"
@@ -1649,7 +1649,6 @@ export const SettingsDialog = memo(({
                               <PageIcon size={14} />
                             </motion.div>
                             <span className="text-[13px] font-semibold text-center">{p.title}</span>
-                            <div />
                           </motion.button>
                         );
                       })}
@@ -1690,7 +1689,7 @@ export const SettingsDialog = memo(({
                               }}
                               transition={{ type: "spring", stiffness: 350, damping: 22 }}
                               className={cn(
-                                "grid grid-cols-[28px_1fr_28px] items-center px-3 py-2.5 border-[5px] cursor-pointer w-full group hover:opacity-100",
+                                "grid grid-cols-[28px_1fr_15px] items-center px-3 py-2.5 border-[5px] cursor-pointer w-full group hover:opacity-100 justify-items-center",
                                 roundedClass,
                                 isActive
                                   ? "text-[var(--on-primary-container)] font-bold"
@@ -1709,7 +1708,6 @@ export const SettingsDialog = memo(({
                                 <PageIcon size={14} className={cn("shrink-0", (p.id === "debug" || p.id === "info") && "translate-x-[0.5px]")} />
                               </motion.div>
                               <span className="text-[13px] font-semibold text-center">{p.title}</span>
-                              <div />
                             </motion.button>
                           );
                         })}
