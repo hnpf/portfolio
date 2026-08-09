@@ -8,6 +8,13 @@ export default defineConfig(({ mode }) => {
   
   return {
     plugins: [react(), tailwindcss()],
+    envPrefix: ['VITE_', 'LASTFM_'],
+    define: {
+      'import.meta.env.VITE_LASTFM_API_KEY': JSON.stringify(env.VITE_LASTFM_API_KEY || env.LASTFM_API_KEY || ''),
+      'import.meta.env.VITE_LASTFM_USERNAME': JSON.stringify(env.VITE_LASTFM_USERNAME || env.LASTFM_USERNAME || ''),
+      'import.meta.env.LASTFM_API_KEY': JSON.stringify(env.LASTFM_API_KEY || env.VITE_LASTFM_API_KEY || ''),
+      'import.meta.env.LASTFM_USERNAME': JSON.stringify(env.LASTFM_USERNAME || env.VITE_LASTFM_USERNAME || ''),
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

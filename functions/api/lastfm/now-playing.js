@@ -1,7 +1,7 @@
 export async function onRequestGet(context) {
   const { env } = context;
-  const apiKey = env.LASTFM_API_KEY || ''; // nope
-  const username = env.LASTFM_USERNAME || ''; // nope
+  const apiKey = env.LASTFM_API_KEY || env.VITE_LASTFM_API_KEY || '';
+  const username = env.LASTFM_USERNAME || env.VITE_LASTFM_USERNAME || '';
 
   if (!apiKey || !username) {
     return new Response(

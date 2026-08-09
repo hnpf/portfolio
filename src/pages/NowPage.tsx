@@ -143,8 +143,22 @@ export const NowPage = memo(() => {
 
 const SESSION_KEY = "virex-now-playing-session-v4";
 
+const isSameTrack = (a: TrackData | null, b: TrackData | null) => {
+  if (!a || !b) return false;
+  return (
+    a.artist === b.artist &&
+    a.name === b.name &&
+    a.album === b.album &&
+    a.image === b.image &&
+    a.isNowPlaying === b.isNowPlaying &&
+    a.durationMs === b.durationMs &&
+    a.timestamp === b.timestamp
+  );
+};
+
 const LastFmNowPlayingCard = () => {
   const [track, setTrack] = useState<TrackData | null>(null);
+  const trackRef = useRef<TrackData | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [errorMsg, setErrorMsg] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -185,9 +199,21 @@ const LastFmNowPlayingCard = () => {
     updateSessionStart(newStart, key);
   };
 
+  const setTrackState = useCallback((newTrack: TrackData | null) => {
+    if (!isSameTrack(trackRef.current, newTrack)) {
+      trackRef.current = newTrack;
+      setTrack(newTrack);
+      setImageError(false);
+    }
+  }, []);
+
   const fetchDirectFromLastFm = async (): Promise<TrackData> => {
-    const apiKey = ""; //nope
-    const username = ""; //nope
+    const apiKey = (import.meta as any).env?.VITE_LASTFM_API_KEY || (import.meta as any).env?.LASTFM_API_KEY || "";
+    const username = (import.meta as any).env?.VITE_LASTFM_USERNAME || (import.meta as any).env?.LASTFM_USERNAME || "";
+
+    if (!apiKey || !username) {
+      throw new Error("Last.fm client credentials not configured.");
+    }
 
     const url = new URL("https://ws.audioscrobbler.com/2.0/");
     url.searchParams.set("method", "user.getrecenttracks");
@@ -292,7 +318,7 @@ const LastFmNowPlayingCard = () => {
       try {
         fetchedTrack = await fetchDirectFromLastFm();
       } catch (directErr: any) {
-        if (!track) {
+        if (!trackRef.current) {
           setStatus("error");
           setErrorMsg(directErr?.message || "Failed to fetch music playback.");
         }
@@ -304,11 +330,9 @@ const LastFmNowPlayingCard = () => {
     const key = buildTrackKey(fetchedTrack);
 
     if (fetchedTrack.isNowPlaying) {
-      // if already have a session for this track key, keep it!
       if (sessionRef.current && sessionRef.current.trackKey === key) {
-        // keep active track start timestamp untouched
+        // Keep active track start timestamp untouched
       } else {
-        // track changed or new track observed: init start time
         updateSessionStart(Date.now(), key);
       }
     } else {
@@ -318,15 +342,14 @@ const LastFmNowPlayingCard = () => {
       } catch {}
     }
 
-    setTrack(fetchedTrack);
-    setImageError(false);
+    setTrackState(fetchedTrack);
     setStatus("ready");
     setErrorMsg("");
 
     if (isManual) {
       setTimeout(() => setIsRefreshing(false), 500);
     }
-  }, [track]);
+  }, [setTrackState]);
 
   useEffect(() => {
     let active = true;
@@ -343,7 +366,7 @@ const LastFmNowPlayingCard = () => {
     };
   }, [fetchTrack]);
 
-  // tick each 100ms when track is actively playing
+  // Live timer tick every 100ms when track is actively playing
   useEffect(() => {
     if (!track?.isNowPlaying) return;
 
@@ -362,28 +385,42 @@ const LastFmNowPlayingCard = () => {
     ? sessionRef.current.startedAt
     : (track?.fetchedAt || now);
 
-  const isNowPlaying = track?.isNowPlaying ?? false;
+  const isNowPlayingRaw = track?.isNowPlaying ?? false;
   const durationMs = track?.durationMs && track.durationMs > 0 ? track.durationMs : null;
 
   let elapsedMs = 0;
   let percent = 0;
+  let isPaused = false;
 
-  if (isNowPlaying) {
-    elapsedMs = Math.max(0, now - startedAt);
+  if (isNowPlayingRaw) {
+    const rawElapsed = Math.max(0, now - startedAt);
     if (durationMs) {
-      percent = Math.min(100, Math.max(0, (elapsedMs / durationMs) * 100));
+      if (rawElapsed >= durationMs + 10000) {
+        // Track finished playing or user paused playback
+        isPaused = true;
+        elapsedMs = durationMs;
+        percent = 100;
+      } else if (rawElapsed >= durationMs) {
+        elapsedMs = durationMs;
+        percent = 100;
+      } else {
+        elapsedMs = rawElapsed;
+        percent = Math.min(100, Math.max(0, (elapsedMs / durationMs) * 100));
+      }
     } else {
-      // indeterminate fallback cycle (0 to 100 over 2 mins.)
-      percent = Math.min(100, Math.max(0, ((elapsedMs % 120000) / 120000) * 100));
+      elapsedMs = rawElapsed;
+      percent = 100;
     }
   } else {
     percent = 100;
     elapsedMs = durationMs || 0;
   }
 
+  const isCurrentlyPlaying = isNowPlayingRaw && !isPaused;
+
   return (
     <div className="space-y-8">
-      {/* header line w/ refresh action */}
+      {/* Header line with Refresh action */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h3 className="flex items-center gap-4 text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
           <ListenIcon size={42} fill className="text-[var(--on-primary)] shrink-0" />
@@ -428,25 +465,29 @@ const LastFmNowPlayingCard = () => {
           {!isLoading && !isError && track && (
             <div className="flex h-full flex-col justify-between space-y-6">
               <div className="space-y-6">
-                {/* badge */}
+                {/* Status badge */}
                 <div className="flex items-center justify-between gap-3">
-                  {isNowPlaying ? (
-                    <div className="inline-flex items-center gap-2 rounded-full border-2 border-[var(--on-primary)]/30 bg-[var(--on-primary)]/15 px-4 py-1.5 text-xs font-extrabold tracking-widest uppercase text-[var(--on-primary)]">
-                      <span className="relative flex h-2.5 w-2.5">
-                        <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
-                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+                  {isCurrentlyPlaying ? (
+                    <div className="inline-flex gap-2.5 rounded-full border-3 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 px-4 py-1.5 text-md font-extrabold tracking-widest text-[var(--on-primary)]/80">
+                      <span className="relative flex h-2.5 w-2.5 py-0.5">
+                        <ScheduleIcon size={14} fill className="shrink-0 opacity-75" />
                       </span>
-                      <span>Currently playing</span>
+                      <span>Now playing</span>
+                    </div>
+                  ) : isPaused ? (
+                    <div className="inline-flex items-center gap-2 rounded-full border-3 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 px-4 py-1.5 text-md font-bold tracking-widest text-[var(--on-primary)]/80">
+                      <ScheduleIcon size={14} fill className="shrink-0 opacity-75" />
+                      <span>Playback Paused</span>
                     </div>
                   ) : (
-                    <div className="inline-flex items-center gap-2 rounded-full border-2 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[var(--on-primary)]/80">
+                    <div className="inline-flex items-center gap-2 rounded-full border-3 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 px-4 py-1.5 text-md font-bold tracking-widest text-[var(--on-primary)]/80">
                       <ScheduleIcon size={14} fill className="shrink-0" />
-                      <span>Last Scrobbled • {getRelativeTime(track.timestamp)}</span>
+                      <span>Last Scrobbled - {getRelativeTime(track.timestamp)}</span>
                     </div>
                   )}
                 </div>
 
-                {/* track details */}
+                {/* Track Details */}
                 <div className="space-y-2">
                   <h4 className="text-3xl md:text-5xl font-display font-black tracking-tight leading-tight text-[var(--on-primary)] drop-shadow-sm">
                     {track.name}
@@ -466,7 +507,7 @@ const LastFmNowPlayingCard = () => {
                   <div
                     onClick={handleProgressBarClick}
                     className="cursor-pointer overflow-hidden rounded-[1.75rem] border-4 border-[var(--on-primary)]/30 bg-[var(--on-primary)]/10 p-3 shadow-inner hover:border-[var(--on-primary)]/50 transition-colors group/seek"
-                    title={isNowPlaying ? "Click anywhere to sync / seek track progress" : undefined}
+                    title={isCurrentlyPlaying ? "Click anywhere to sync / seek track progress" : undefined}
                   >
                     <WavyProgress percent={percent} className="h-8 pointer-events-none" />
                   </div>
@@ -477,14 +518,10 @@ const LastFmNowPlayingCard = () => {
                     </div>
                     <span>
                       {durationMs
-                        ? isNowPlaying
-                          ? elapsedMs >= durationMs
-                            ? "Finishing track..."
-                            : `-${formatTime(Math.max(0, durationMs - elapsedMs))}`
+                        ? isCurrentlyPlaying
+                          ? `-${formatTime(Math.max(0, durationMs - elapsedMs))}`
                           : formatTime(durationMs)
-                        : isNowPlaying
-                        ? "Live Stream"
-                        : "Completed"}
+                        : ""}
                     </span>
                   </div>
                 </div>
@@ -504,9 +541,9 @@ const LastFmNowPlayingCard = () => {
           )}
         </div>
 
-        {/* cover art / visualizer section */}
+        {/* Cover Art / Visualizer Section */}
         {track && (
-          <div className="relative overflow-hidden rounded-[2.5rem] border-6 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 shadow-xl group/cover min-h-[320px] flex items-center justify-center">
+          <div className="relative overflow-hidden rounded-[3rem] border-6 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 shadow-xl group/cover min-h-[320px] flex items-center justify-center">
             {track.image && !imageError ? (
               <>
                 <img
@@ -522,17 +559,20 @@ const LastFmNowPlayingCard = () => {
                 </div>
               </>
             ) : (
-              <div className="relative flex flex-col items-center justify-center w-full h-full min-h-[340px] rounded-[2.5rem] bg-gradient-to-br from-[var(--on-primary)]/15 via-[var(--on-primary)]/5 to-[var(--on-primary)]/15 p-8 text-center shadow-inner overflow-hidden border-2 border-[var(--on-primary)]/10">
-                {/* vinyl record disc */}
+              <div className="relative flex flex-col items-center justify-center w-full h-full min-h-[340px] rounded-[2.5rem]  p-8 text-center shadow-inner overflow-hidden border-2 border-[var(--on-primary)]/10">
+                {/* Vinyl record disc */}
+               {/* static wrapper holds the shadow and dimensions */}
+              <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.5)]">
+                {/* spinning element stays inside */}
                 <div
-                  className={`relative w-48 h-48 md:w-56 md:h-56 rounded-full bg-neutral-950 border-4 border-neutral-800/80 flex items-center justify-center shadow-[0_15px_35px_rgba(0,0,0,0.5)] transition-transform duration-1000 ${
-                    isNowPlaying ? "animate-[spin_10s_linear_infinite]" : ""
+                  className={`w-full h-full rounded-full bg-neutral-950 border-4 border-neutral-800/80 flex items-center justify-center transition-transform duration-1000 ${
+                    isCurrentlyPlaying ? "animate-[spin_10s_linear_infinite]" : ""
                   }`}
                 >
-                  {/* sheen gradient reflection */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-white/10 via-transparent to-white/10 pointer-events-none" />
+                  {/* Sheen gradient reflection */}
+                  <div className="absolute inset-0 rounded-full pointer-events-none" />
                   
-                  {/* concentric record grooves */}
+                  {/* Concentric record grooves */}
                   <div className="absolute inset-3 rounded-full border border-white/10" />
                   <div className="absolute inset-6 rounded-full border border-white/5" />
                   <div className="absolute inset-9 rounded-full border border-white/10" />
@@ -540,13 +580,14 @@ const LastFmNowPlayingCard = () => {
                   <div className="absolute inset-15 rounded-full border border-white/10" />
                   <div className="absolute inset-18 rounded-full border border-white/5" />
 
-                  {/* vinyl center sticker */}
-                  <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-[var(--primary-container)] to-[var(--primary)] border-4 border-neutral-950 flex flex-col items-center justify-center shadow-md">
+                  {/* Vinyl center sticker */}
+                  <div className="relative w-20 h-20 rounded-full bg-[var(--primary)]/60 border-4 border-neutral-950 flex flex-col items-center justify-center shadow-md">
                     <MusicIcon size={24} fill className="text-[var(--on-primary-container)] opacity-90" />
-                    {/* spindle hole */}
+                    {/* Spindle hole */}
                     <div className="w-3.5 h-3.5 rounded-full bg-neutral-950 border border-white/30 shadow-inner mt-1" />
                   </div>
                 </div>
+              </div>
 
                 <div className="mt-6 space-y-1">
                   <h4 className="text-xl font-display font-black tracking-tight text-[var(--on-primary)] drop-shadow-sm">{track.name}</h4>

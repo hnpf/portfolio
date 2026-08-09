@@ -39,8 +39,8 @@ app.post('/api/guestbook', (req, res) => {
 });
 
 app.get('/api/lastfm/now-playing', async (req, res) => {
-  const apiKey = process.env.LASTFM_API_KEY || '';
-  const username = process.env.LASTFM_USERNAME || '';
+  const apiKey = process.env.LASTFM_API_KEY || process.env.VITE_LASTFM_API_KEY || '';
+  const username = process.env.LASTFM_USERNAME || process.env.VITE_LASTFM_USERNAME || '';
   if (!apiKey || !username) {
     return res.status(404).json({ error: 'Last.fm is not configured on the server.' });
   }
