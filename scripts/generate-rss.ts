@@ -16,7 +16,11 @@ function formatRfc2822(date: Date) {
   return `${days[date.getUTCDay()]}, ${String(date.getUTCDate()).padStart(2, "0")} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()} ${String(date.getUTCHours()).padStart(2, "0")}:${String(date.getUTCMinutes()).padStart(2, "0")}:${String(date.getUTCSeconds()).padStart(2, "0")} GMT`;
 }
 
-const markdownSerializer = unified().use(remarkParse).use(remarkGfm).use(rehypeStringify);
+const markdownSerializer = unified()
+  .use(remarkParse)
+  .use(remarkGfm)
+  .use(remarkRehype)
+  .use(rehypeStringify);
 
 function markdownToHtml(value: string) {
   return String(markdownSerializer.processSync(value));

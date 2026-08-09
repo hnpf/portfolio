@@ -5,12 +5,26 @@
   <link>https://virex.lol/blog</link>
   <description>Research, development, and systems exploration by Virex.</description>
   <language>en-us</language>
-  <lastBuildDate>Sun, 09 Aug 2026 17:24:34 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 09 Aug 2026 17:29:11 GMT</lastBuildDate>
     <item>
     <title>even more history! part 2 of restoring the early blogs</title>
     <link>https://virex.lol/blog/more-old-blogs-restored</link>
     <description><![CDATA[restored a few more gems from the early 2026 snapshots, including some of my favorite rants and the revamped markdown stress test.]]></description>
-    <content:encoded><![CDATA[restored a few more gems from the early 2026 snapshots, including some of my favorite rants and the revamped markdown stress test.]]></content:encoded>
+    <content:encoded><![CDATA[<h1>even more history! part 2 of restoring the early blogs</h1>
+<p>i'm on a roll again! after digging up the 2025 posts, i decided to go a bit further and bring back some of the early 2026 archives that i missed as well. these are from a time when the site's style and identity was really starting to solidify around the current aesthetic, but was still before this style.</p>
+<h2>what's new in the feed, you might say?</h2>
+<p>here are the latest additions to the restored blogs:</p>
+<ul>
+<li><strong>search bars are e-waste:</strong> a take on why you probably don't need a search bar if your site is actually well-structured</li>
+<li><strong>networking wiki:</strong> my networking wiki stuff, restored. funny that that project has been stalled for months now, isnt it?</li>
+<li><strong>de-sanitizing the site:</strong> a devlog about gutting the old "safe" design and going for something more aggressive, or whatever.</li>
+<li><strong>mobile magic &#x26; hardware:</strong> the updates that brought the nav bar and hardware stuff.</li>
+<li><strong>stop making it easy to pwn you:</strong> a cybersecurity 101 guide for the average person, somewhat changed because things itself in the industry changed.</li>
+<li><strong>markdown stress test (REVAMPED):</strong> this one's special, i completely overhauled it and moved it to the top to test the new oklch-powered markdown stuff.</li>
+</ul>
+<h2>the stress test revamp</h2>
+<p>the markdown stress test is now much more intense. it tests everything from nested lists and complex tables to dynamic syntax highlighting. if the site looks good there, it looks good everywhere!</p>
+<p>more updates coming soon, but for now, enjoy the deeper addition to the blogs!</p>]]></content:encoded>
     <pubDate>Tue, 07 Jul 2026 05:00:00 GMT</pubDate>
   </item>
 
@@ -18,7 +32,98 @@
     <title>markdown stress test, testing the parser</title>
     <link>https://virex.lol/blog/markdown-test</link>
     <description><![CDATA[checking if the new react-markdown setup can handle me.]]></description>
-    <content:encoded><![CDATA[checking if the new react-markdown setup can handle me.]]></content:encoded>
+    <content:encoded><![CDATA[<h1>header 1 looks like this</h1>
+<h2>and header 2 looks like this</h2>
+<h3>and header 3 looks like this</h3>
+<h4>and header 4 looks like this</h4>
+<p>this is a normal paragraph with some <strong>bold text</strong>, some <em>italics</em>, and a <a href="https://github.com/hnpf"><strong>link to my github</strong></a> just to see if it works.</p>
+<h2>testing the code blocks</h2>
+<p>here is some simple python logic:</p>
+<pre><code class="language-python">def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+</code></pre>
+<p>and some typescript:</p>
+<pre><code class="language-typescript">interface User {
+  id: string;
+  name: string;
+  active: boolean;
+}
+
+const greet = (user: User) => {
+  return `Hello, ${user.name}!`;
+};
+</code></pre>
+<h2>testing lists and formatting (*, *, *, etc)</h2>
+<ul>
+<li>top level item
+<ul>
+<li>nested item (this would have broken before)</li>
+<li>another nested one
+<ul>
+<li>double nested!</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>back to basics</li>
+</ul>
+<h2>ordered lists (1., 2., 3., etc)</h2>
+<ol>
+<li>Ordered list item 1</li>
+<li>Ordered list item 2
+<ul>
+<li>Nested unordered item</li>
+<li>Another nested unordered item</li>
+</ul>
+</li>
+<li>Back to ordered</li>
+</ol>
+<h2>testing blockquotes</h2>
+<blockquote>
+<p>"if it works on my machine, it's production ready." - basically me</p>
+</blockquote>
+<h2>testing gfm (tables)</h2>
+<table>
+<thead>
+<tr>
+<th align="left">feature</th>
+<th align="left">status</th>
+<th align="left">notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">headers</td>
+<td align="left">working</td>
+<td align="left">looks clean</td>
+</tr>
+<tr>
+<td align="left">tables</td>
+<td align="left">hopefully working</td>
+<td align="left">oklch colors!</td>
+</tr>
+<tr>
+<td align="left">sanity</td>
+<td align="left">gone?</td>
+<td align="left">permanently.</td>
+</tr>
+<tr>
+<td align="left">dynamic</td>
+<td align="left">yes</td>
+<td align="left">based on hue</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>horizontal rule above</h2>
+<h3>testing inline styles</h3>
+<p>this is <code>inline code</code>, this is <strong>bold</strong>, this is <em>italic</em>, and this is <a href="https://virex.lol">a link</a>.</p>
+<h3>testing images</h3>
+<p><img src="https://raw.githubusercontent.com/hnpf/nekofetch/refs/heads/main/screenshot.png" alt="nekofetch official screenshot"></p>
+<p>ok thats it bye</p>]]></content:encoded>
     <pubDate>Tue, 07 Jul 2026 05:00:00 GMT</pubDate>
   </item>
 
@@ -26,7 +131,54 @@
     <title>stop making it easy to pwn you</title>
     <link>https://virex.lol/blog/cybersec-101</link>
     <description><![CDATA[the absolute bare minimum to not get wiped out online.]]></description>
-    <content:encoded><![CDATA[the absolute bare minimum to not get wiped out online.]]></content:encoded>
+    <content:encoded><![CDATA[<p>the internet is hostile, mostly because corporations treat your data like public property and security is treated as an afterthought. you don't need a degree to protect yourself, you just need to stop doing the dumbest things.</p>
+<h2>credentials are broken by design</h2>
+<p>reusing passwords means one database leak opens every single account you own. stop it.</p>
+<ul>
+<li>use a local or trusted password manager (keepassxc, bitwarden). generate random strings.</li>
+<li>turn on totp mfa (authenticator apps, hardware keys). sms mfa is vulnerable to sim swapping, but it's still better than nothing.</li>
+</ul>
+<h2>stop ignoring patches</h2>
+<p>zero-days exist, but most malware exploits known vulnerabilities that people just refused to patch for six months.</p>
+<ul>
+<li>when your system says update, do it.</li>
+<li>automation is your friend here.</li>
+</ul>
+<h2>your threat model probably isn't the nsa</h2>
+<p>you are likely to get hit by mass phishing, not a targeted nation-state attack.</p>
+<ul>
+<li>look at the url. if it says login-paypal-secure-server.com, it's fake.</li>
+<li>public wi-fi isn't inherently going to instant-infect you anymore thanks to ubiquitous https, but untrusted networks still expose your metadata. wireguard into a home server or trusted vpn if you're paranoid.</li>
+</ul>
+<h3>the absolute minimum</h3>
+<table>
+<thead>
+<tr>
+<th align="left">defense</th>
+<th align="left">vector blocked</th>
+<th align="left">status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">unique keys</td>
+<td align="left">credential stuffing</td>
+<td align="left">mandatory</td>
+</tr>
+<tr>
+<td align="left">totp / yubikey</td>
+<td align="left">bypassed passwords</td>
+<td align="left">mandatory</td>
+</tr>
+<tr>
+<td align="left">rapid patching</td>
+<td align="left">automated exploits</td>
+<td align="left">mandatory</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>if you're using password123, you aren't being targeted. you're just being harvested.</h2>]]></content:encoded>
     <pubDate>Tue, 07 Jul 2026 05:00:00 GMT</pubDate>
   </item>
 
@@ -34,7 +186,22 @@
     <title>the old blogs are back. all of them.</title>
     <link>https://virex.lol/blog/return-of-the-old-blogs</link>
     <description><![CDATA[i dug up every old post from the old virex.lol, going all the way back to the very beginning of the "project inception". they're all here again now, preserved exactly as they were back when i wrote them.]]></description>
-    <content:encoded><![CDATA[i dug up every old post from the old virex.lol, going all the way back to the very beginning of the "project inception". they're all here again now, preserved exactly as they were back when i wrote them.]]></content:encoded>
+    <content:encoded><![CDATA[<h1>the old blogs are back. all 14 of them.</h1>
+<p>soooo, i was poking around some old snapshots of virex.lol recently, and found a bunch of my old blog posts sitting there! completely forgotten! some of them are from the very first version of this site, back when i was just figuring things out and writing about whatever.</p>
+<p>i could have left them buried. but i felt way different, they're more of a part of this project's history, and i think that's now worth keeping to the public, as well.</p>
+<h2>what's back?</h2>
+<p>everything from <strong>june 2025</strong> through <strong>november 2025</strong> is now restored and live in the blog feed. that also includes some of these titles:</p>
+<ul>
+<li>the very first "welcome to the blog!" post</li>
+<li>early project updates from when the site was barely a thing</li>
+<li>thoughts on open source, cybersecurity, and dev philosophy</li>
+<li>a GTA 6 rant that aged beautifully (it did get delayed again, by the way!)</li>
+<li>the original inception post from when this whole thing started as a material design playground</li>
+</ul>
+<h2>why even bother?</h2>
+<p>i think it's quite cool to have a past available here. not just the posts from now, but the old, messy, slightly rushed ones from way back. the site has come a really long way since then and looking back at those early posts is kind of wild.</p>
+<p>ps. they're posted here exactly as i wrote them! i've done zero edits, with no post polish bs. raw old virex lol posts from 2025.</p>
+<p>enjoy reading back in time :)</p>]]></content:encoded>
     <pubDate>Mon, 06 Jul 2026 05:00:00 GMT</pubDate>
   </item>
 
@@ -42,7 +209,20 @@
     <title>stop moving my screen! this is why modern web design is a motion sickness hazard...</title>
     <link>https://virex.lol/blog/stop-moving-my-screen</link>
     <description><![CDATA[let's talk about how modern web designers went insane with motion, and why i finally finished my global toggle to turn off the damned thing!]]></description>
-    <content:encoded><![CDATA[let's talk about how modern web designers went insane with motion, and why i finally finished my global toggle to turn off the damned thing!]]></content:encoded>
+    <content:encoded><![CDATA[<h1>stop moving my screen! this is why modern web design is a motion sickness hazard...</h1>
+<p>hi there! if you've browsed the modern web lately, you probably know what i'm talking about.. you open a site, and before you can even read a single thing, three different animations fade in, the background rotates on a 3d tilt axis, and the header does a double twist thing with weird animations!</p>
+<p>i love pretty things, but at some point, we went completely off the deep end.</p>
+<h2>the physics obsession</h2>
+<p>framer motion and other layout libraries made it incredibly easy to animate <em>everything</em>. and because we <em>can</em>, we <em>do</em>. and i'll admit; i do it too!</p>
+<p>but here's my thing:</p>
+<ul>
+<li><strong>it is very exhausting:</strong> your eyes constantly have to track elements moving from off-screen just to focus on text.</li>
+<li><strong>battery drain:</strong> recalculating complex layouts and painting frame changes at full 120hz is a fast way to drain any battery.</li>
+<li><strong>accessibility:</strong> for a lot of people, intense motion is genuinely disorienting or triggers actual motion sickness. i've had friends that had motion sickness, so never again.</li>
+</ul>
+<h2>finally adding global animation controls</h2>
+<p>i finally got around to finishing the <code>disableAnimations</code> option on this site, seen in the new changelog. if you open settings and turn it on, it now wraps the entire site in a global <code>MotionConfig</code> that overrides everything to instant transitions:</p>
+<p>one toggle, no latency, none of that. have fun, my motion sick people :)</p>]]></content:encoded>
     <pubDate>Sun, 05 Jul 2026 05:00:00 GMT</pubDate>
   </item>
 
@@ -50,7 +230,53 @@
     <title>leaving vercel; migrating my project to cloudflare!</title>
     <link>https://virex.lol/blog/leaving-vercel</link>
     <description><![CDATA[here is why i finally dropped vercel's proprietary ecosystem, swapped to cloudflare pages, and built my own localized deployment helper.]]></description>
-    <content:encoded><![CDATA[here is why i finally dropped vercel's proprietary ecosystem, swapped to cloudflare pages, and built my own localized deployment helper.]]></content:encoded>
+    <content:encoded><![CDATA[<h1>leaving vercel; migrating my project to cloudflare</h1>
+<p>hi! after dealing with constant config headaches and growing distrust over vercel's hosting infrastructure, i finally did it. <strong>virex.lol is officially 100% free from vercel.</strong> i migrated the entire site infrastructure over to <strong>cloudflare pages</strong>, and i'll be honest, it is a flex!.</p>
+<h2>why did i dump vercel?</h2>
+<p>vercel is great for getting a basic site up in two clicks, but they love vendor lock-in. their serverless wrappers are entirely proprietary, configuring non-standard routes is a nightmare, and quite frankly, the bandwidth billing traps are terrifying. i don't want dumb corpo constraints on my own stuff.</p>
+<h2>entering cloudflare pages</h2>
+<p>cloudflare <strong>is</strong> the network layer of the internet. by moving here, here's what the site now benefits from:</p>
+<ul>
+<li><strong>unmetered bandwidth:</strong> literally no threat of surprise bills if a malicious actor decides to layer-7 ddos my endpoints LMAO</li>
+<li><strong>no cold starts:</strong> running on raw v8 javascript isolates at the closest edge nodes instead of heavy serverless containers</li>
+<li><strong>total sovereignty:</strong> zero hidden infrastructure layers masking what is actually happening to my traffic!</li>
+</ul>
+<h2>about that localized deployment helper : dhelper</h2>
+<p>instead of using some bloated wrapper cli that tracks metrics in the background, i wrote a simple custom script called <code>dhelper</code> that ties right into wrangler and pnpm, with zero fucking headache.</p>
+<p>now, when i want to compile and push code directly to cloudflare's global edge network, i just run:</p>
+<pre><code class="language-bash">./dhelper -p
+</code></pre>
+<p>... that simple!
+it compiles via vite, verifies the build outputs, maps the custom apex domain records, and promotes the assets to the live main branch in under half a second if things are already cached.</p>
+<h2>simple migration stats</h2>
+<table>
+<thead>
+<tr>
+<th align="left">platform</th>
+<th align="left">lock-in</th>
+<th align="left">bandwidth</th>
+<th align="left">billing risk</th>
+<th align="left">runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><strong>vercel</strong></td>
+<td align="left">high</td>
+<td align="left">metered</td>
+<td align="left">terrifying</td>
+<td align="left">lambda containers</td>
+</tr>
+<tr>
+<td align="left"><strong>cloudflare</strong></td>
+<td align="left">near zero</td>
+<td align="left">unlimited</td>
+<td align="left">zero</td>
+<td align="left">v8 edge isolates</td>
+</tr>
+</tbody>
+</table>
+<p>and the setup is incredibly fast, completely non-proprietary, and managed entirely within my terminal. look at it load.. oh wait, its too fast! :3</p>]]></content:encoded>
     <pubDate>Mon, 25 May 2026 05:00:00 GMT</pubDate>
   </item>
 
@@ -58,7 +284,20 @@
     <title>Why i refuse to trust the majority of the cloud..</title>
     <link>https://virex.lol/blog/data-sovereignty</link>
     <description><![CDATA[Hoarding data is a radical act of self-preservation in a world of corporate greed tech giants.]]></description>
-    <content:encoded><![CDATA[Hoarding data is a radical act of self-preservation in a world of corporate greed tech giants.]]></content:encoded>
+    <content:encoded><![CDATA[<p>I'll just get straight to it.. EVERYTHING is a subscription now. You don't own your games, you don't own your music, and you definitely don't own your OS environment if you're stuck on Windows or such. They want you to rent your life until you die.</p>
+<h3>Again, this is why i hoard!</h3>
+<ul>
+<li><strong>Survival of the fittest:</strong> If the internet cuts out or a company decides to "pivot" (or just goes bankrupt), my data is still there, as it should be!!!</li>
+<li>When you rely on music streaming, you are letting some faceless AI algorithm decide your taste and your history. Typically I prefer my own curated music, so no thank you.</li>
+<li><strong>Local > Remote:</strong> Life is better when your data is actually in your computer/close to you, not sitting in a server farm halfway across the world. 😭</li>
+</ul>
+<h2>Even the political angle matters!</h2>
+<p>Every time I copy a file to my local drive, I am (probably) committing a minor act of rebellion against the "rent/subscribe-everything" economy</p>
+<blockquote>
+<p>"If I cant own it, I DONT WANT IT. If I cant control it, I will at least archive it."</p>
+</blockquote>
+<h2>Build your bunker :)</h2>
+<p>Anyone can start small. Get a cheap drive, back up your configs! You don't have to trust the backup options on your proprietary apps. Your data shouldn't constantly be scanned by AI. Why not protect it?</p>]]></content:encoded>
     <pubDate>Sun, 24 May 2026 05:00:00 GMT</pubDate>
   </item>
 
@@ -66,7 +305,50 @@
     <title>brutal fantasies is literally the peak of human existence</title>
     <link>https://virex.lol/blog/bladeandbathpeak</link>
     <description><![CDATA[ok.. i'm coming back from the dead again to talk about the only album that matters right now, and i know its late talking about it. sorry not sorry.]]></description>
-    <content:encoded><![CDATA[ok.. i'm coming back from the dead again to talk about the only album that matters right now, and i know its late talking about it. sorry not sorry.]]></content:encoded>
+    <content:encoded><![CDATA[<h2>why im back (again)</h2>
+<p>it has been almost a week since i last posted but i literally dont care because i took like a month long break before that so i have energy again. the urge called and i answered with a blog post :)</p>
+<p>i was gonna talk about sukkubys or blade and bath coming back to life because that whole scene is actually moving lately but i had a realization...</p>
+<h2>the only thing that matters</h2>
+<p><strong>brutal fantasies</strong> is literally the best album on this planet. no contest. its peak. its the absolute ceiling of the genre.</p>
+<p>everyone else can stop recording now because this is it. the atmosphere is perfect. the production? exactly what it needs to be. the absolute dread and instrumental?? oh my god! this is modern beethoven! i have been looping this and honestly nothing else is hitting the same right now. WHAT ARE THEY FEEDING THESE ARTISTS?!</p>
+<h2>this is kinda what i noticed on the album..</h2>
+<ul>
+<li>vocals that actually hurt to listen to (in a REALLY good way)</li>
+<li>that specific raw energy that most dsbm bands try to fake but totally fail at</li>
+<li>literally no skips!</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">album</th>
+<th align="left">rating</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Brutal Fantasies</td>
+<td align="left">11/10</td>
+</tr>
+<tr>
+<td align="left">Soundtrack for a Suicide: Opus II</td>
+<td align="left">11/10</td>
+</tr>
+<tr>
+<td align="left">Eternal Damnation</td>
+<td align="left">11/10</td>
+</tr>
+<tr>
+<td align="left">..Of Mourning</td>
+<td align="left">10/10</td>
+</tr>
+<tr>
+<td align="left">and everything else</td>
+<td align="left">MID!</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>anyways, happy wallowing!</h2>]]></content:encoded>
     <pubDate>Thu, 30 Apr 2026 05:00:00 GMT</pubDate>
   </item>
 
@@ -74,7 +356,15 @@
     <title>ricing supremacy and why ricing makes you an actually better dev</title>
     <link>https://virex.lol/blog/ewaste-supremacy</link>
     <description><![CDATA[PLEASE stop staring at ugly default themes. your environment is a reflection of your work.]]></description>
-    <content:encoded><![CDATA[PLEASE stop staring at ugly default themes. your environment is a reflection of your work.]]></content:encoded>
+    <content:encoded><![CDATA[<h1>aesthetic is actual efficiency (dont @ me!)</h1>
+<p>if you're still on any default terminal theme, i'm praying for you. making things look good isn't just a "ricer on reddit" thing but more about building a comfortable space where you actually <em>want</em> to suffer through merge conflicts!</p>
+<h2>why color palettes?</h2>
+<p>it's the total peak of human engineering. colors, decent contrast, and something that won't torch your retinas at midnight</p>
+<h2>final thoughts</h2>
+<p>stop settling for defaults. start spending time actually configuring your colorscheme instead of shipping :). it's actually something called investment.</p>
+<blockquote>
+<p>"also, if your terminal is ugly, your logic is probably ugly too :3" - virex ong</p>
+</blockquote>]]></content:encoded>
     <pubDate>Sun, 26 Apr 2026 05:00:00 GMT</pubDate>
   </item>
 
@@ -82,7 +372,19 @@
     <title>turning ewaste into a small dev rig</title>
     <link>https://virex.lol/blog/ewaste-1-fr</link>
     <description><![CDATA[this is why I decided to torture myself by putting debian on a snappy chromebook and how it actually kinda works!]]></description>
-    <content:encoded><![CDATA[this is why I decided to torture myself by putting debian on a snappy chromebook and how it actually kinda works!]]></content:encoded>
+    <content:encoded><![CDATA[<h2>why do i do this to myself?</h2>
+<p>honestly, there is something so satisfying about taking a "dead" chromebook and making it run a real OS. my old hp x360 (aka snappy) was basically a paperweight, but now it's a dedicated debian 13 box.</p>
+<h3>okay, here's the setup..</h3>
+<p>it’s not just about flashing mrchromebox! it's about making sure the audio actually works and the trackpad actually responds.</p>
+<ul>
+<li><strong>OS:</strong> debian 13. because I like living on the edge of "stable"</li>
+<li><strong>DE:</strong> GNOME classic (obviously). it's heavy for these specs but it just feels like home.</li>
+<li><strong>vim:</strong> the only editor that belongs on a screen this bad.</li>
+</ul>
+<h2>moral of the story:</h2>
+<blockquote>
+<p>"it's not ewaste if you can still run a terminal on it."</p>
+</blockquote>]]></content:encoded>
     <pubDate>Sun, 15 Mar 2026 05:00:00 GMT</pubDate>
   </item>
 
@@ -90,7 +392,23 @@
     <title>mobile magic &amp; hardware redesign</title>
     <link>https://virex.lol/blog/more-hardware-updates-feb-2026</link>
     <description><![CDATA[the new mobile "more" menu and the revamped hardware section.]]></description>
-    <content:encoded><![CDATA[the new mobile "more" menu and the revamped hardware section.]]></content:encoded>
+    <content:encoded><![CDATA[<h1>touching up the mobile experience</h1>
+<p>wrapped up some updates that make navigating the site smoother, especially on mobile, and gave some love to the hardware display.</p>
+<h2>✦ mobile-first "more" menu</h2>
+<p>for the mobile crowd, i rolled out a new <strong>pull-up "more" menu</strong> from the bottom.</p>
+<ul>
+<li><strong>quick access:</strong> get to settings, "the hardware" pane, github, and toggle light/dark mode super easily.</li>
+<li><strong>gestures:</strong> you can now just <strong>drag down</strong> to dismiss it. smooth and fast.</li>
+<li><strong>the little things:</strong> includes my profile for a personal touch!</li>
+</ul>
+<h2>✦ the hardware section got a glowup</h2>
+<p>the hardware tab got a visual overhaul.</p>
+<ul>
+<li><strong>categorized cards:</strong> system specs are now organized into cards like "core system," "processing units," and "storage &#x26; memory."</li>
+<li><strong>visual progress:</strong> memory and storage now have <strong>progress bars</strong>, showing usage at a glance.</li>
+<li><strong>clean layout:</strong> overall typography and spacing refined for a more modern aesthetic that stays true to the site's theme.</li>
+</ul>
+<p>small changes, big difference in how you interact with the site.</p>]]></content:encoded>
     <pubDate>Wed, 11 Feb 2026 06:00:00 GMT</pubDate>
   </item>
 
@@ -98,7 +416,37 @@
     <title>de-sanitizing the site</title>
     <link>https://virex.lol/blog/feb-11-update</link>
     <description><![CDATA[a deep dive into why i gutted the old design, added new tweaks, and gave you keys to customization.]]></description>
-    <content:encoded><![CDATA[a deep dive into why i gutted the old design, added new tweaks, and gave you keys to customization.]]></content:encoded>
+    <content:encoded><![CDATA[<h2>de-sanitizing the site</h2>
+<p>my philosophy has always been "high specs, low standards :)".
+after a solid run, it was time for another overhaul to push the boundaries again!</p>
+<h3>+ what's new?</h3>
+<p>the biggest change? a complete redo of the site's responsiveness and feel.</p>
+<ul>
+<li>
+<p><strong>adaptive navigation:</strong> the static sidebar was a pain on smaller screens. now a <strong>dynamic bottom navigation bar</strong> takes its place, complete with smooth <strong>microanimations</strong> and a material 3 expressive "pill" active state. it adapts whether you're on desktop or mobile.</p>
+</li>
+<li>
+<p><strong>better content ux:</strong> addressed the awkward card scaling and density issues, mainly in the <strong>active protocols</strong> and <strong>tracker</strong> sections. cards now scale nicely, and the tracker has denser, more refined cards with revamped typography and progress bars.</p>
+</li>
+<li>
+<p><strong>responsive hovers:</strong> the <strong>"inspect element"</strong> buttons now have bouncy hover animations.</p>
+</li>
+</ul>
+<h3>+ your situation, your rules: the customizer</h3>
+<p>i've massively expanded the <strong>customizer</strong> to give <em>you</em> more control.</p>
+<p><strong>desktop only tweaks:</strong></p>
+<ul>
+<li>**flip sidebar direction:**s</li>
+<li><strong>invert colors:</strong></li>
+<li><strong>monochrome mode:</strong></li>
+<li><strong>disable animations:</strong></li>
+<li><strong>gtk3 nostalgia mode:</strong></li>
+</ul>
+<p><strong>your own accent:</strong></p>
+<ul>
+<li><strong>dynamic hue slider:</strong> slide to shift the entire accent color hue of the site!</li>
+</ul>
+<p>stay tuned for more unsolicited opinions!</p>]]></content:encoded>
     <pubDate>Wed, 11 Feb 2026 06:00:00 GMT</pubDate>
   </item>
 
@@ -106,7 +454,15 @@
     <title>this is why search bars are e-waste</title>
     <link>https://virex.lol/blog/search-is-mid</link>
     <description><![CDATA[let's be honest.. if you needed a search bar to find content on a site, you are trying too hard.]]></description>
-    <content:encoded><![CDATA[let's be honest.. if you needed a search bar to find content on a site, you are trying too hard.]]></content:encoded>
+    <content:encoded><![CDATA[<h1>search is for bad sites anyway</h1>
+<p>i recently removed the search engine on virex.lol because... let's be real, nobody was using it. instead, i updated the whole site and added <strong>the hardware</strong> pane that actually shows my specs.</p>
+<p>if you want to find something, just click the sidebar. it's not that insane.</p>
+<h2>why the tracker?</h2>
+<p>i added a <strong>protocols/tracker</strong> page to track my progress in cybersecurity. it looks cool and makes me feel like i'm in a movie while i study. waiting for those progress bars to hit 87% on vulnerability analysis is the only dopamine i need right now.</p>
+<blockquote>
+<p>"if it works on my machine, it's production ready." - me, every time i push to virex.lol >_&#x3C;</p>
+</blockquote>
+<p>anyways, stay tuned for more unsolicited opinions. bye, my zero viewers!</p>]]></content:encoded>
     <pubDate>Tue, 10 Feb 2026 06:00:00 GMT</pubDate>
   </item>
 
@@ -114,7 +470,22 @@
     <title>my networking wiki just got a full reinstallation</title>
     <link>https://virex.lol/blog/unw-upw-is-a-bible-lol</link>
     <description><![CDATA[after a whole year of rotting, the wiki is finally a 300k character monster.]]></description>
-    <content:encoded><![CDATA[after a whole year of rotting, the wiki is finally a 300k character monster.]]></content:encoded>
+    <content:encoded><![CDATA[<h2>the networking wiki update</h2>
+<p>it's been a <strong>whole year</strong>. the old wiki was basically brain dumps and it was mid at best.</p>
+<p>today, that era ends. i completely rewrote the whole thing!</p>
+<h2>the new stuff</h2>
+<ul>
+<li>3476 lines</li>
+<li>278629 characters</li>
+<li><strong>zero</strong> carpal tunnel. (thanks, python!)</li>
+</ul>
+<h2>from near-zero context to a full bible</h2>
+<p>every protocol and tool now has structured sections for purpose, key features, and use cases. no more half-baked notes. it's basically a cheat code for my hobby grind now.</p>
+<blockquote>
+<p>"if it works on my machine, it's production ready." - again, basically me</p>
+</blockquote>
+<h2>automation is king</h2>
+<p>check the repo: <a href="https://github.com/hnpf/untimate-networking-wiki">ultimate-networking-wiki</a></p>]]></content:encoded>
     <pubDate>Tue, 03 Feb 2026 06:00:00 GMT</pubDate>
   </item>
 
@@ -122,7 +493,20 @@
     <title>sysdupd: arch updates without the headache</title>
     <link>https://virex.lol/blog/sysdupd</link>
     <description><![CDATA[i finally got tired of manual pacman runs, so i built a libadwaita manager for my personal use]]></description>
-    <content:encoded><![CDATA[i finally got tired of manual pacman runs, so i built a libadwaita manager for my personal use]]></content:encoded>
+    <content:encoded><![CDATA[<h1>it finally works.</h1>
+<h2>i built a custom update manager using python, gtk4, and libadwaita.</h2>
+<ul>
+<li>it handles systemd timers for background checks and even has a "dangerous" auto-update mode for when i'm lazy.</li>
+</ul>
+<h1>some of the features it has:</h1>
+<ul>
+<li>a dynamic distro detection (no hardcoded arch linux distro lol)</li>
+<li>background service via systemd</li>
+<li>proper update history logs</li>
+<li>a sleek adwaita interface</li>
+</ul>
+<p>check the source on my github (hnpf) or install it via aur!
+( yay -S sysdupd / yay -S sysdupd-git )</p>]]></content:encoded>
     <pubDate>Fri, 16 Jan 2026 06:00:00 GMT</pubDate>
   </item>
 
@@ -130,7 +514,31 @@
     <title>long term pixel 10 pro use: my review of the tensor G5</title>
     <link>https://virex.lol/blog/pixel-10-review</link>
     <description><![CDATA[the 3nm transition, on device ai, and why the pixel 10 pro is finally a consistent daily driver.]]></description>
-    <content:encoded><![CDATA[the 3nm transition, on device ai, and why the pixel 10 pro is finally a consistent daily driver.]]></content:encoded>
+    <content:encoded><![CDATA[<h2>architectural maturity (the TSMC shift)</h2>
+<ul>
+<li>
+<p>the biggest update to the pixel 10 pro isnt really the outer chassis, but the silicon.</p>
+</li>
+<li>
+<p>with the G5 moving to TSMCs 3nm process, the efficiency increase over the previous samsung fabbed repitition slop is insantly noticable.</p>
+</li>
+<li>
+<p>thermals are still stable under sustained loads, and the nona-core CPU configuration (with the cortex-x4 at 3.78 ghz) got a much needed lift in single threaded performance</p>
+</li>
+</ul>
+<h2>the memory and multitasking</h2>
+<ul>
+<li>paired with 16gb of lpddr5x ram, the os handles aggressive background processes without the typical aggressive killing of cached apps!</li>
+</ul>
+<h2>best of all, the camera and computer vision</h2>
+<ul>
+<li>
+<p>the new ISP thrown onto the G5 allows for a literal 100x zoom, which obviously uses on device generative models to throw in some detail that was lost to noise!</p>
+</li>
+<li>
+<p>even more noticably, that reliance on cloud-based "video boost"? that's been reduced as well! with more of the heavy lifting for realtime relighting and audio focus AI happening, once again, locally on the TPU.</p>
+</li>
+</ul>]]></content:encoded>
     <pubDate>Fri, 16 Jan 2026 06:00:00 GMT</pubDate>
   </item>
 
@@ -138,7 +546,14 @@
     <title>your cloud is just someone elses computer.</title>
     <link>https://virex.lol/blog/cloud-is-someone-elses-computer</link>
     <description><![CDATA[this is why i hoard data (and you probably should too)]]></description>
-    <content:encoded><![CDATA[this is why i hoard data (and you probably should too)]]></content:encoded>
+    <content:encoded><![CDATA[<h1>stop trusting corporations to keep your data safe.</h1>
+<p>i have massive amounts of storage for a reason. people think im crazy for archiving games, software, and gallery backups, but have you even seen the state of the internet lately?
+people call me crazy until it actually comes useful and you lose stuff forever. the internet is made to have temporary-first data.</p>
+<ul>
+<li>if it's on my drive, no one can "un-license" it or edit the content after the fact.</li>
+<li>paying $15 a month for a library that changes every week is a joke.</li>
+<li>i keep games, movies, music, tools, and old software because once they're gone from the main web, they're gone forever!</li>
+</ul>]]></content:encoded>
     <pubDate>Wed, 14 Jan 2026 06:00:00 GMT</pubDate>
   </item>
 
@@ -146,7 +561,12 @@
     <title>why I actually use arch.. (and it’s not a joke)</title>
     <link>https://virex.lol/blog/why-i-actually-use-arch</link>
     <description><![CDATA[everyone thinks arch users just want to flex their fastfetch, but i actually just want a system that doesnt hand bs over to me...]]></description>
-    <content:encoded><![CDATA[everyone thinks arch users just want to flex their fastfetch, but i actually just want a system that doesnt hand bs over to me...]]></content:encoded>
+    <content:encoded><![CDATA[<h1>why arch? (unironically)</h1>
+<p>honestly if i were to see one more person say "i use arch btw" as a joke i might actually lose it. on a serious note, i use it because i dont want some random distro maintainer deciding what packages i need to have installed.</p>
+<ul>
+<li><strong>no bloat:</strong> i have exactly what i need and nothing else.</li>
+<li><strong>the wiki:</strong> literally the holy grail of 'perfect' documentation. if it’s not in the wiki, it probably doesnt even exist.</li>
+</ul>]]></content:encoded>
     <pubDate>Wed, 14 Jan 2026 06:00:00 GMT</pubDate>
   </item>
 
@@ -154,7 +574,13 @@
     <title>the internet is dead.</title>
     <link>https://virex.lol/blog/the-internet-is-dead</link>
     <description><![CDATA[if you think youre still talking to real people on big platforms, i have a bridge to sell you.]]></description>
-    <content:encoded><![CDATA[if you think youre still talking to real people on big platforms, i have a bridge to sell you.]]></content:encoded>
+    <content:encoded><![CDATA[<p>i've been looking at the traffic patterns on the major socials and it's literally just bots talking to bots.
+it's now just a loop of ai-generated slop being consumed by ai-generated scrapers. dystopian right?</p>
+<ul>
+<li>you post a thought, and three seconds later, five "blue checks" with generic ai names reply with something vaguely related.</li>
+<li>we're literally just being shown what keeps us scrolling for 0.5 seconds longer.</li>
+<li>you can't have a debate anymore because the "person" you are arguing with is probably a clanker running on a server in a basement somewhere.</li>
+</ul>]]></content:encoded>
     <pubDate>Mon, 12 Jan 2026 06:00:00 GMT</pubDate>
   </item>
 
@@ -162,7 +588,9 @@
     <title>the epstein "files" are a joke</title>
     <link>https://virex.lol/blog/epstein-files-is-a-joke</link>
     <description><![CDATA[so the DOJ finally dropped the files and... surprise! it’s basically just 50 pages of blacked out text...]]></description>
-    <content:encoded><![CDATA[so the DOJ finally dropped the files and... surprise! it’s basically just 50 pages of blacked out text...]]></content:encoded>
+    <content:encoded><![CDATA[<h1>the most transparent administration I guess?</h1>
+<p>the DOJ literally just dropped a bunch of documents that are so redacted they look like modern art.</p>
+<p>apparently, they missed the deadline set by the transparency act and are now doing "rolling releases" or.. batches, which is just code for "we're still redacting."</p>]]></content:encoded>
     <pubDate>Sun, 21 Dec 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -170,7 +598,7 @@
     <title>My take on ai</title>
     <link>https://virex.lol/blog/my-take-on-ai</link>
     <description><![CDATA[My take on ai; ai is a companion, not a replacement. an assistant, and nothing more]]></description>
-    <content:encoded><![CDATA[My take on ai; ai is a companion, not a replacement. an assistant, and nothing more]]></content:encoded>
+    <content:encoded><![CDATA[<p>AI is perfect as a LOCAL ONLY dev companion for spotting bugs, refactoring, and testing in your environment, but never let it touch security and never let it run your project. its a helper, nothing more. dont ever use ai to build your codebase. at that point, youre the consumer. not the creator. use it to see, to catch, to polish. not to replace, not to take control. AI is your TOOL, its <em>not your brain</em>. you are. so go learn new things, devs! ai is not replacing you any time soon. dont let it take your crown!</p>]]></content:encoded>
     <pubDate>Sun, 16 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -178,7 +606,7 @@
     <title>The VIREX portfolio is UPDATED</title>
     <link>https://virex.lol/blog/keeping-it-live</link>
     <description><![CDATA[I've completely revamped and fixed + polished the code on ALL pages]]></description>
-    <content:encoded><![CDATA[I've completely revamped and fixed + polished the code on ALL pages]]></content:encoded>
+    <content:encoded><![CDATA[<p>Hello world! The VIREX portfolio is UPDATED!  I've completely revamped and fixed + polished the code on ALL pages!  I've optimized everything to oblivion, and added 2 new pages: FAQ and tutorials. Wordly has been revamped as well! Have fun, VIREX world! Love u all.</p>]]></content:encoded>
     <pubDate>Sun, 16 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -186,7 +614,14 @@
     <title>heres why i love open source - 2</title>
     <link>https://virex.lol/blog/why-love-open-source</link>
     <description><![CDATA[honestly, open source is just better. it’s all about the community and...]]></description>
-    <content:encoded><![CDATA[honestly, open source is just better. it’s all about the community and...]]></content:encoded>
+    <content:encoded><![CDATA[<h1>why open source is absolutely goated</h1>
+<p>it's literally just people helping people for learning (and overall better code because contributors duh).</p>
+<ul>
+<li>you get to check under the hood of massive projects.</li>
+<li>see how the experienced developers actually make big things.</li>
+<li>contributing feels way better than just gatekeeping.</li>
+<li>community feedback makes everything 10x more secure and efficient.</li>
+</ul>]]></content:encoded>
     <pubDate>Wed, 12 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -194,7 +629,7 @@
     <title>Project Update 2025-11-12</title>
     <link>https://virex.lol/blog/project-update-2025-11-12</link>
     <description><![CDATA[Major fixes and improvements across the site.]]></description>
-    <content:encoded><![CDATA[Major fixes and improvements across the site.]]></content:encoded>
+    <content:encoded><![CDATA[<p>Major fixes and improvements across the site. Improved SEO, fixed broken links, and MUCH BETTER performance. Always striving to make the site better for you and me!</p>]]></content:encoded>
     <pubDate>Wed, 12 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -202,7 +637,7 @@
     <title>Project Update 2025-11-08</title>
     <link>https://virex.lol/blog/project-update-2025-11-08</link>
     <description><![CDATA[Updated multiple things on the site for better UX...]]></description>
-    <content:encoded><![CDATA[Updated multiple things on the site for better UX...]]></content:encoded>
+    <content:encoded><![CDATA[<p>Yep, it's that time again! I've updated multiple things on the site for better UX, including blog fixes, portfolio stuff, and a new photography section! this update also brings things like privacy info, sitemap, and other elements like robots.txt and llms.txt. I hope to bring more fixes and improvements over time. thanks for being along with this project!</p>]]></content:encoded>
     <pubDate>Sat, 08 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -210,7 +645,7 @@
     <title>Future Plans and Goals</title>
     <link>https://virex.lol/blog/future-plans-and-goals</link>
     <description><![CDATA[I'm really looking forward to new projects and even more learning opportunities]]></description>
-    <content:encoded><![CDATA[I'm really looking forward to new projects and even more learning opportunities]]></content:encoded>
+    <content:encoded><![CDATA[<p>Looking ahead, I'm really looking forward to new projects and even more learning opportunities. I wish to contribute to more open source projects, expand my photography skills, and even cybersecurity studying. My way of continuous learning never ends! :)</p>]]></content:encoded>
     <pubDate>Fri, 07 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -218,7 +653,7 @@
     <title>Ah shi, here we go again.</title>
     <link>https://virex.lol/blog/ah-shi-here-we-go-again</link>
     <description><![CDATA[Rockstar has JUST announced that GTA 6 will be delayed to November 19th, 2026]]></description>
-    <content:encoded><![CDATA[Rockstar has JUST announced that GTA 6 will be delayed to November 19th, 2026]]></content:encoded>
+    <content:encoded><![CDATA[<p>Rockstar has JUST announced that GTA 6 will be delayed to November 19th, 2026. I personally don't even want the game anymore, Rockstar can KEEP it 😭</p>]]></content:encoded>
     <pubDate>Thu, 06 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -226,7 +661,7 @@
     <title>The Importance of Cybersecurity, especially in Development</title>
     <link>https://virex.lol/blog/importance-of-cybersecurity</link>
     <description><![CDATA[understanding cybersecurity is a no brainer]]></description>
-    <content:encoded><![CDATA[understanding cybersecurity is a no brainer]]></content:encoded>
+    <content:encoded><![CDATA[<p>As a developer, understanding cybersecurity is a no brainer. Having secure authentication or protecting user data, security should be a MUST have consideration in every single project, especially on the web. My search engine project emphasizes privacy and security at its core.</p>]]></content:encoded>
     <pubDate>Thu, 06 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -234,7 +669,7 @@
     <title>Why I Love Open Source</title>
     <link>https://virex.lol/blog/why-i-love-open-source-og</link>
     <description><![CDATA[Open source software has always been so important in my development journey]]></description>
-    <content:encoded><![CDATA[Open source software has always been so important in my development journey]]></content:encoded>
+    <content:encoded><![CDATA[<p>Open source software has always been so important in my development journey. Especially learning from others' code to contributing back to the community, it's a cycle of knowledge sharing that benefits literally anyone and everyone. My projects like NekoFetch and MTCLI are open source because I heavily believe in collaborative development!</p>]]></content:encoded>
     <pubDate>Wed, 05 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -242,7 +677,7 @@
     <title>Welcome to the Blog!</title>
     <link>https://virex.lol/blog/welcome-to-the-blog</link>
     <description><![CDATA[This is the first blog post!]]></description>
-    <content:encoded><![CDATA[This is the first blog post!]]></content:encoded>
+    <content:encoded><![CDATA[<p>This is the first blog post! I'm happy to share updates on my projects and thoughts on development and other topics! As a self-taught full-stack developer, I believe in sharing knowledge and experiences. This blog will cover everything from coding tutorials to personal insights on the tech industry. Stay tuned for more content!</p>]]></content:encoded>
     <pubDate>Tue, 04 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -250,7 +685,7 @@
     <title>Project Update 2025-11-04</title>
     <link>https://virex.lol/blog/project-update-2025-11-04</link>
     <description><![CDATA[I've been working on a LOT of updates and features for my portfolio.]]></description>
-    <content:encoded><![CDATA[I've been working on a LOT of updates and features for my portfolio.]]></content:encoded>
+    <content:encoded><![CDATA[<p>I've been working on a LOT of updates and features for my portfolio! I'll post updates here as I go! The latest changes include improved navigation, better SEO optimization, and enhanced user experience. I'm constantly iterating on my work to make it better for visitors.</p>]]></content:encoded>
     <pubDate>Tue, 04 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -258,7 +693,7 @@
     <title>Project Update 2025-11-03</title>
     <link>https://virex.lol/blog/project-update-2025-11-03</link>
     <description><![CDATA[Fully overhauled and recoded search wrapper &amp; portfolio from scratch]]></description>
-    <content:encoded><![CDATA[Fully overhauled and recoded search wrapper &amp; portfolio from scratch]]></content:encoded>
+    <content:encoded><![CDATA[<p>Fully overhauled and recoded search wrapper &#x26; portfolio from scratch. Made my own design. This complete redesign focuses on clean code, modern aesthetics, and improved performance. The new design emphasizes my skills in both frontend and backend development.</p>]]></content:encoded>
     <pubDate>Mon, 03 Nov 2025 06:00:00 GMT</pubDate>
   </item>
 
@@ -266,7 +701,7 @@
     <title>Project Update 2025-10-20</title>
     <link>https://virex.lol/blog/project-update-2025-10-20</link>
     <description><![CDATA[Changed fonts &amp; added transparency/glassy effects across the site.]]></description>
-    <content:encoded><![CDATA[Changed fonts &amp; added transparency/glassy effects across the site.]]></content:encoded>
+    <content:encoded><![CDATA[<p>Changed fonts &#x26; added transparency/glassy effects across the site. Typography plays a crucial role in user experience, and these changes make the content more readable and visually appealing. The glassy effects add a modern touch to the interface.</p>]]></content:encoded>
     <pubDate>Mon, 20 Oct 2025 05:00:00 GMT</pubDate>
   </item>
 
@@ -274,7 +709,7 @@
     <title>Project Update 2025-10-19</title>
     <link>https://virex.lol/blog/project-update-2025-10-19</link>
     <description><![CDATA[Fixed and revamped various parts of the UI]]></description>
-    <content:encoded><![CDATA[Fixed and revamped various parts of the UI]]></content:encoded>
+    <content:encoded><![CDATA[<p>Fixed and revamped various parts of the UI. User interface design is iterative, and these improvements address usability issues and enhance the overall user experience. Every detail matters when creating a professional portfolio.</p>]]></content:encoded>
     <pubDate>Sun, 19 Oct 2025 05:00:00 GMT</pubDate>
   </item>
 
@@ -282,7 +717,7 @@
     <title>Project Inception 2025-6-12</title>
     <link>https://virex.lol/blog/project-update-2025-6-12</link>
     <description><![CDATA[Started with the idea of creating a Material Design testing playground as a hobby.]]></description>
-    <content:encoded><![CDATA[Started with the idea of creating a Material Design testing playground as a hobby.]]></content:encoded>
+    <content:encoded><![CDATA[<p>Started with the idea of creating a Material Design testing playground as a hobby. The initial project sparked my passion for web development and led to the creation of my current portfolio. It's amazing how a simple hobby project can evolve into something meaningful.</p>]]></content:encoded>
     <pubDate>Thu, 12 Jun 2025 05:00:00 GMT</pubDate>
   </item>
 </channel>
