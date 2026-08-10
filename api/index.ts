@@ -38,6 +38,124 @@ app.post('/api/guestbook', (req, res) => {
   }
 });
 
+app.get('/api/lastfm/now-playing', async (req, res) => {
+  const apiKey = process.env.LASTFM_API_KEY || process.env.VITE_LASTFM_API_KEY || '';
+  const username = process.env.LASTFM_USERNAME || process.env.VITE_LASTFM_USERNAME || '';
+  if (!apiKey || !username) {
+    return res.status(404).json({ error: 'Last.fm is not configured on the server.' });
+  }
+
+  try {
+    const url = new URL('https://ws.audioscrobbler.com/2.0/');
+    url.searchParams.set('method', 'user.getrecenttracks');
+    url.searchParams.set('user', username);
+    url.searchParams.set('api_key', apiKey);
+    url.searchParams.set('format', 'json');
+    url.searchParams.set('limit', '2');
+
+    const response = await fetch(url.toString());
+    const body = await response.text();
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: 'Last.fm API error', details: body });
+    }
+
+    let json: any = null;
+    try {
+      json = body ? JSON.parse(body) : null;
+    } catch {
+      return res.status(502).json({ error: 'Invalid JSON response from Last.fm API.' });
+    }
+
+    const tracks = Array.isArray(json?.recenttracks?.track)
+      ? json.recenttracks.track
+      : json?.recenttracks?.track
+      ? [json.recenttracks.track]
+      : [];
+
+    const track = tracks.find((item: any) => item?.['@attr']?.nowplaying === 'true') || tracks[0];
+
+    if (!track) {
+      return res.status(404).json({ error: 'No recent tracks found.' });
+    }
+
+    const previousTrack = tracks.find((item: any) => item !== track && item?.date?.uts);
+    const prevScrobbleAt = previousTrack?.date?.uts ? Number(previousTrack.date.uts) * 1000 : null;
+
+    const fetchedAt = Date.now();
+    const nowPlaying = track?.['@attr']?.nowplaying === 'true';
+    const artist = typeof track?.artist === 'object'
+      ? track.artist?.['#text'] || 'Unknown Artist'
+      : track?.artist || 'Unknown Artist';
+    const name = typeof track?.name === 'string' ? track.name : 'Unknown Track';
+    const album = typeof track?.album === 'object'
+      ? track.album?.['#text'] || ''
+      : track?.album || '';
+    const trackUrl = typeof track?.url === 'string' ? track.url : '';
+    
+    let image: string | undefined = undefined;
+    if (Array.isArray(track?.image)) {
+      const reversed = track.image.slice().reverse();
+      const validImg = reversed.find((item: any) => item?.['#text'] && item['#text'].trim().length > 0);
+      if (validImg && !validImg['#text'].includes('2a96cbd8b46e442fc41c2b86b821562f')) {
+        image = validImg['#text'];
+      }
+    }
+
+    const timestamp = track?.date?.uts ? Number(track.date.uts) * 1000 : null;
+
+    let durationMs: number | null = null;
+    try {
+      const infoUrl = new URL('https://ws.audioscrobbler.com/2.0/');
+      infoUrl.searchParams.set('method', 'track.getInfo');
+      infoUrl.searchParams.set('api_key', apiKey);
+      infoUrl.searchParams.set('format', 'json');
+
+      if (track?.mbid) {
+        infoUrl.searchParams.set('mbid', track.mbid);
+      } else {
+        infoUrl.searchParams.set('artist', artist);
+        infoUrl.searchParams.set('track', name);
+        infoUrl.searchParams.set('autocorrect', '1');
+      }
+
+      const infoResponse = await fetch(infoUrl.toString());
+      if (infoResponse.ok) {
+        const infoBody = await infoResponse.text();
+        let infoJson: any = null;
+        try {
+          infoJson = infoBody ? JSON.parse(infoBody) : null;
+        } catch {}
+        const rawDur = Number(infoJson?.track?.duration);
+        if (!isNaN(rawDur) && rawDur > 0) {
+          durationMs = rawDur;
+        }
+      }
+    } catch (infoError) {
+      console.warn('Last.fm track info lookup failed', infoError);
+    }
+
+    res.json({
+      track: {
+        artist,
+        name,
+        album,
+        url: trackUrl,
+        image,
+        isNowPlaying: nowPlaying,
+        timestamp,
+        durationMs,
+        fetchedAt,
+        prevScrobbleAt,
+      },
+      username,
+    });
+  } catch (err: any) {
+    console.error('Last.fm proxy failed', err);
+    res.status(500).json({ error: 'Unable to fetch Last.fm now playing.' });
+  }
+});
+
 app.post('/api/report-bug', async (req, res) => {
   try {
     const { title, description, screenshot, url, userAgent } = req.body;

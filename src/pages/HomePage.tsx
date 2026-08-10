@@ -512,7 +512,8 @@ export const HomePage = memo(({ setPage, settings, onOpenGuestbook }: any) => {
 
   useEffect(() => {
     fetch("/api/guestbook")
-      .then(res => res.json())
+      .then(res => res.text())
+      .then(text => (text ? JSON.parse(text) : []))
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
           setLatestEntry(data[0]);

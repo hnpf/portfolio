@@ -10,22 +10,35 @@ export const BounceButton = ({
   url,
   onClick,
   className = "",
+  disabled = false,
+  loading: externalLoading,
+  title,
+  iconClassName = "",
 }: {
   icon?: any;
-  label: string;
+  label?: React.ReactNode;
   url?: string;
   onClick?: (e: React.MouseEvent) => void;
   className?: string;
+  disabled?: boolean;
+  loading?: boolean;
+  title?: string;
+  iconClassName?: string;
 }) => {
-  const [loading, set_loading] = useState(false);
+  const [internalLoading, set_loading] = useState(false);
+  const isLoading = externalLoading ?? internalLoading;
 
   const _on_click = (e: React.MouseEvent) => {
-    e.preventDefault();
+    if (disabled || isLoading) {
+      e.preventDefault();
+      return;
+    }
     if (onClick) {
       onClick(e);
       return;
     }
     if (!url) return;
+    e.preventDefault();
     set_loading(true);
     setTimeout(() => {
       window.open(url, "_blank");
@@ -35,12 +48,15 @@ export const BounceButton = ({
 
   return (
     <motion.button
-      whileHover={{
-        scale: 1.05,
-        y: -2,
-        borderRadius: "40px",
-      }}
-      whileTap={{ scale: 1.02, rotate: -0.5 }}
+      whileHover={
+        disabled || isLoading
+          ? undefined
+          : {
+              scale: 1.04,
+              y: -2,
+            }
+      }
+      whileTap={disabled || isLoading ? undefined : { scale: 0.98, rotate: -0.5 }}
       transition={{
         type: "spring",
         stiffness: 400,
@@ -48,21 +64,22 @@ export const BounceButton = ({
         mass: 1,
       }}
       onClick={_on_click}
-      disabled={loading}
+      disabled={disabled || isLoading}
+      title={title}
       className={cn(
-        "relative overflow-hidden",
-        loading && "cursor-wait opacity-80",
+        "relative overflow-hidden cursor-pointer select-none",
+        (disabled || isLoading) && "cursor-not-allowed opacity-60 pointer-events-none",
         className,
       )}
     >
       <AnimatePresence mode="wait">
-        {loading ? (
+        {internalLoading && !onClick && externalLoading === undefined ? (
           <motion.div
             key="loading"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="flex items-center gap-2"
+            className="flex items-center justify-center gap-2"
           >
             <Loader2 size={18} className="animate-spin" />
           </motion.div>
@@ -74,8 +91,8 @@ export const BounceButton = ({
             exit={{ opacity: 0, y: 10 }}
             className="flex items-center gap-2 w-full justify-center"
           >
-            {Icon && <Icon size={18} />}
-            <span className="font-bold">{label}</span>
+            {Icon && <Icon size={18} className={cn("shrink-0", iconClassName)} />}
+            {typeof label === "string" ? <span className="font-bold">{label}</span> : label}
           </motion.div>
         )}
       </AnimatePresence>

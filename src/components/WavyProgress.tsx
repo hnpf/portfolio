@@ -45,9 +45,10 @@ export default function WavyProgress({
     return () => clearInterval(interval);
   }, [isPrideActive, palettes.length]);
 
+  const safePercent = Math.min(100, Math.max(0, Number.isNaN(Number(percent)) ? 0 : Number(percent)));
   const left = thickness * 0.5;
   const right = width - thickness * 0.5;
-  const percentX = (percent / 100) * (right - left) + left;
+  const percentX = (safePercent / 100) * (right - left) + left;
 
   const smil_data = useMemo(() => {
     let paths: string[] = [];
