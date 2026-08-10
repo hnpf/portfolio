@@ -939,6 +939,30 @@ it's literally just people helping people for learning (and overall better code 
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [
+{
+    id: "now-playing-finally",
+    version: "2026.08.09_2",
+    title: "Now playing (finally!)",
+    date: "Aug 9, 2026",
+    changes: [
+      {
+        category: "now playing",
+        items: [
+          "added a live last.fm widget to /now showing currently playing tracks.",
+          "implemented backend edge function handling for last.fm api data.",
+          "cleaned up hardcoded fallback strings and strictly enforced environment secrets.",
+          "survived an ai agent attempting to commit API keys across four different files.",
+        ],
+      },
+      {
+        category: "other site updates",
+        items: [
+          "updated rss feed generation and static asset builds",
+          "refactored component state tracking for live player updates",
+        ],
+      },
+    ],
+  },
   {
     id: "command-palette-ui-overhaul",
     version: "2026.08.09",
