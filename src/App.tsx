@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useEffect, useRef, memo } from "react";
+import React, { useState, useEffect, useRef, memo, lazy, Suspense } from "react";
 import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import {
   Home,
@@ -33,28 +33,30 @@ import { useMetadata } from "./hooks/useMetadata";
 import { useViewport } from "./hooks/useViewport";
 import { useTextSearch } from "./hooks/useTextSearch";
 
-// pages
-import { HomePage } from "./pages/HomePage";
-import { BlogPage } from "./pages/BlogPage";
-import { ChangelogPage } from "./pages/ChangelogPage";
-import { LensPage } from "./pages/LensPage";
-import { ReadmePage } from "./pages/ReadmePage";
-import { NowPage } from "./pages/NowPage";
-import NotFound from "./pages/NotFound";
+// pages: lazy loaded for route-based code splitting
+const HomePage = lazy(() => import("./pages/HomePage").then(m => ({ default: m.HomePage })));
+const BlogPage = lazy(() => import("./pages/BlogPage").then(m => ({ default: m.BlogPage })));
+const ChangelogPage = lazy(() => import("./pages/ChangelogPage").then(m => ({ default: m.ChangelogPage })));
+const LensPage = lazy(() => import("./pages/LensPage").then(m => ({ default: m.LensPage })));
+const ReadmePage = lazy(() => import("./pages/ReadmePage").then(m => ({ default: m.ReadmePage })));
+const NowPage = lazy(() => import("./pages/NowPage").then(m => ({ default: m.NowPage })));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
-// components
+// heavy dialogs/components: lazy loaded, only mounted when opened
+const SettingsDialog = lazy(() => import("./components/SettingsDialog").then(m => ({ default: m.SettingsDialog })));
+const GuestbookDialog = lazy(() => import("./components/GuestbookDialog").then(m => ({ default: m.GuestbookDialog })));
+const BugReportDialog = lazy(() => import("./components/BugReportDialog").then(m => ({ default: m.BugReportDialog })));
+const KnownIssuesDialog = lazy(() => import("./components/KnownIssuesDialog").then(m => ({ default: m.KnownIssuesDialog })));
+const DebugView = lazy(() => import("./components/DebugView").then(m => ({ default: m.DebugView })));
+const CommandPalette = lazy(() => import("./components/CommandPalette").then(m => ({ default: m.CommandPalette })));
+
+// lighter components: kept eager (small, used immediately)
 import { SideItem } from "./components/Navigation";
 import { MobileFloatingNav } from "./components/MobileFloatingNav";
-import { CommandPalette } from "./components/CommandPalette";
 import { TextSearchBar } from "./components/TextSearchBar";
-import { SettingsDialog } from "./components/SettingsDialog";
-import { GuestbookDialog } from "./components/GuestbookDialog";
 import { DebugConfirmDialog } from "./components/DebugConfirmDialog";
-import { DebugView } from "./components/DebugView";
 import { CapsuleConfirmDialog } from "./components/CapsuleConfirmDialog";
 import { RefreshConfirmDialog } from "./components/RefreshConfirmDialog";
-import { BugReportDialog } from "./components/BugReportDialog";
-import { KnownIssuesDialog } from "./components/KnownIssuesDialog";
 import { FoolsPopup } from "./components/FoolsPopup";
 import { BounceButton } from "./components/TechStack";
 import { M3WindowScrollBar, M3ScrollBar } from "./components/M3ScrollBar";
@@ -518,13 +520,15 @@ export default function App() {
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div key={page + (blogPostId || "")} initial={settings.disableAnimations ? false : { opacity: 0, y: 15, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -15, scale: 0.98 }} transition={{ duration: settings.disableAnimations ? 0 : (settings.highHz ? 0.25 : 0.4), ease: [0.22, 1, 0.36, 1], scale: { type: "spring", stiffness: settings.highHz ? 600 : 300, damping: settings.highHz ? 35 : 25 } }}>
-            {page === "home" && <HomePage setPage={goto} settings={settings} onOpenGuestbook={handleOpenGuestbook} />}
-            {page === "blog" && <BlogPage targetId={blogPostId} navigateTo={goto} />}
-            {page === "lens" && <LensPage viewport={viewport} />}
-            {page === "now" && <NowPage />}
-            {page === "readme" && <ReadmePage setPage={goto} is_mobile={is_mobile} />}
-            {page === "changelog" && <ChangelogPage />}
-            {![ "home", "blog", "lens", "now", "readme", "changelog" ].includes(page) && <NotFound go={goto} />}
+            <Suspense fallback={null}>
+              {page === "home" && <HomePage setPage={goto} settings={settings} onOpenGuestbook={handleOpenGuestbook} />}
+              {page === "blog" && <BlogPage targetId={blogPostId} navigateTo={goto} />}
+              {page === "lens" && <LensPage viewport={viewport} />}
+              {page === "now" && <NowPage />}
+              {page === "readme" && <ReadmePage setPage={goto} is_mobile={is_mobile} />}
+              {page === "changelog" && <ChangelogPage />}
+              {![ "home", "blog", "lens", "now", "readme", "changelog" ].includes(page) && <NotFound go={goto} />}
+            </Suspense>
           </motion.div>
         </AnimatePresence>
         <AnimatePresence>
@@ -572,27 +576,64 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <SettingsDialog 
-        settingsOpen={settingsOpen} 
-        setSettingsOpen={setSettingsOpen} 
-        settings={settings} 
-        updateSettings={updateSettings} 
-        setShowDebugConfirm={setShowDebugConfirm} 
-        setShowRefreshConfirm={setShowRefreshConfirm}
-        setToast={setToast} 
-        goto={goto} 
-        is_mobile={is_mobile}
-        viewport={viewport}
-        onReportBug={() => setBugReportOpen(true)}
-        onOpenKnownIssuess={() => setKnownIssuessOpen(true)}
-      />
-      <BugReportDialog
-        isOpen={bugReportOpen}
-        onClose={() => setBugReportOpen(false)}
-        setToast={setToast}
-        isMobile={is_mobile}
-        viewport={viewport}
-      />
+      <Suspense fallback={null}>
+        {settingsOpen && (
+          <SettingsDialog
+            settingsOpen={settingsOpen}
+            setSettingsOpen={setSettingsOpen}
+            settings={settings}
+            updateSettings={updateSettings}
+            setShowDebugConfirm={setShowDebugConfirm}
+            setShowRefreshConfirm={setShowRefreshConfirm}
+            setToast={setToast}
+            goto={goto}
+            is_mobile={is_mobile}
+            viewport={viewport}
+            onReportBug={() => setBugReportOpen(true)}
+            onOpenKnownIssuess={() => setKnownIssuessOpen(true)}
+          />
+        )}
+        {bugReportOpen && (
+          <BugReportDialog
+            isOpen={bugReportOpen}
+            onClose={() => setBugReportOpen(false)}
+            setToast={setToast}
+            isMobile={is_mobile}
+            viewport={viewport}
+          />
+        )}
+        {guestbookOpen && (
+          <GuestbookDialog
+            isOpen={guestbookOpen}
+            onClose={handleCloseGuestbook}
+            setToast={setToast}
+            isMobile={is_mobile}
+            viewport={viewport}
+          />
+        )}
+        {KnownIssuessOpen && (
+          <KnownIssuesDialog
+            isOpen={KnownIssuessOpen}
+            onClose={() => setKnownIssuessOpen(false)}
+            isMobile={is_mobile}
+            viewport={viewport}
+          />
+        )}
+        {commandOpen && (
+          <CommandPalette
+            open={commandOpen}
+            onClose={() => setCommandOpen(false)}
+            goto={goto}
+            settings={settings}
+            cycleTheme={cycleTheme}
+            updateSettings={updateSettings}
+            onOpenSettings={() => setSettingsOpen(true)}
+            onOpenGuestbook={handleOpenGuestbook}
+            blogPosts={BLOG_POSTS}
+          />
+        )}
+        <DebugView page={page} blogPostId={blogPostId} viewport={viewport} />
+      </Suspense>
       <TextSearchBar
         isOpen={textSearch.isOpen}
         query={textSearch.query}
@@ -602,47 +643,11 @@ export default function App() {
         onPrevMatch={textSearch.prevMatch}
         matchCount={textSearch.matchCount}
         currentMatch={textSearch.currentMatch}
-      />
-      <GuestbookDialog
-        isOpen={guestbookOpen}
-        onClose={handleCloseGuestbook}
-        setToast={setToast}
-        isMobile={is_mobile}
-        viewport={viewport}
-      />
-      <KnownIssuesDialog
-        isOpen={KnownIssuessOpen}
-        onClose={() => setKnownIssuessOpen(false)}
-        isMobile={is_mobile}
-        viewport={viewport}
       />
       <DebugConfirmDialog showDebugConfirm={showDebugConfirm} setShowDebugConfirm={setShowDebugConfirm} updateSettings={updateSettings} />
       <CapsuleConfirmDialog pendingCapsule={pendingCapsule} setPendingCapsule={setPendingCapsule} updateSettings={updateSettings} setToast={setToast} />
       <RefreshConfirmDialog showRefreshConfirm={showRefreshConfirm} setShowRefreshConfirm={setShowRefreshConfirm} />
-      <DebugView page={page} blogPostId={blogPostId} viewport={viewport} />
-      <TextSearchBar
-        isOpen={textSearch.isOpen}
-        query={textSearch.query}
-        onQueryChange={textSearch.updateQuery}
-        onClose={textSearch.closeSearch}
-        onNextMatch={textSearch.nextMatch}
-        onPrevMatch={textSearch.prevMatch}
-        matchCount={textSearch.matchCount}
-        currentMatch={textSearch.currentMatch}
-      />
-      <CommandPalette
-        open={commandOpen}
-        onClose={() => setCommandOpen(false)}
-        goto={goto}
-        settings={settings}
-        cycleTheme={cycleTheme}
-        updateSettings={updateSettings}
-        onOpenSettings={() => setSettingsOpen(true)}
-        onOpenGuestbook={handleOpenGuestbook}
-        blogPosts={BLOG_POSTS}
-      />
       </MotionConfig>
     </div>
   );
 }
-// this is really shitty but who cares!!?

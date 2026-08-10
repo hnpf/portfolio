@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, '.'),
       },
     },
+
     server: {
       port: 6767,
       host: '0.0.0.0',
