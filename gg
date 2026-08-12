@@ -18,6 +18,51 @@ banner() {
     echo -e "${c_dim}like this tool? add it to path via${c_reset} ${c_bold}gg --add-to-path${c_reset}"
 }
 
+# ---------- pager (less) detection, only used for diff/log display ----------
+PAGER_BIN=""
+
+detect_pager() {
+    if command -v less >/dev/null 2>&1; then
+        PAGER_BIN="less -R"
+        return
+    fi
+
+    local mgr install_cmd=""
+    if command -v pacman >/dev/null 2>&1; then
+        mgr="pacman"; install_cmd="sudo pacman -S --noconfirm less"
+    elif command -v apt >/dev/null 2>&1; then
+        mgr="apt"; install_cmd="sudo apt install -y less"
+    elif command -v apk >/dev/null 2>&1; then
+        mgr="apk"; install_cmd="sudo apk add less"
+    elif command -v xbps-install >/dev/null 2>&1; then
+        mgr="xbps"; install_cmd="sudo xbps-install -y less"
+    elif command -v dnf >/dev/null 2>&1; then
+        mgr="dnf"; install_cmd="sudo dnf install -y less"
+    elif command -v emerge >/dev/null 2>&1; then
+        mgr="emerge"; install_cmd="sudo emerge sys-apps/less"
+    fi
+
+    if [ -z "$mgr" ]; then
+        PAGER_BIN="cat"
+        return
+    fi
+
+    warn "less isn't installed, diffs get way more readable with it."
+    read -p "install via $mgr? [y/N]: " confirm
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        info "running: $install_cmd"
+        if eval "$install_cmd" && command -v less >/dev/null 2>&1; then
+            ok "less installed."
+            PAGER_BIN="less -R"
+        else
+            warn "install failed, falling back to plain output."
+            PAGER_BIN="cat"
+        fi
+    else
+        PAGER_BIN="cat"
+    fi
+}
+
 require_git_repo() {
     if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
         err "not a git repo dude"
@@ -72,12 +117,29 @@ do_commit_push() {
         exit 0
     fi
 
-    echo "--- changes ---"
-    git diff --stat
+    detect_pager
+
+    echo -e "${c_bold}--- changes on $curr ---${c_reset}"
+    local stat_summary
+    stat_summary=$(git diff --stat)
+    echo "$stat_summary"
+
+    local line_count
+    line_count=$(git diff --color=always | wc -l)
+    if [ "$line_count" -gt 40 ]; then
+        info "(full diff is long, opening in pager, q to quit)"
+        sleep 1
+        git diff --color=always | eval "$PAGER_BIN"
+    else
+        echo
+        git diff --color=always
+    fi
+
     git add .
 
+    echo
     read -p "title: " title
-    read -p "desc: " desc
+    read -p "desc (enter to skip): " desc
 
     if [ -z "$title" ]; then
         err "need a title dude"
@@ -92,7 +154,14 @@ do_commit_push() {
     fi
 
     echo
-    echo "--- ready to push to $curr? ---"
+    echo -e "${c_bold}--- ready to push to $curr? ---${c_reset}"
+    echo -e "${c_dim}title:${c_reset} $title"
+    if [ -z "$desc" ]; then
+        echo -e "${c_dim}desc:${c_reset}  (no desc)"
+    else
+        echo -e "${c_dim}desc:${c_reset}  $desc"
+    fi
+    echo
     git log -1 --stat
 
     read -p "confirm push? [y/N]: " confirm
@@ -393,7 +462,7 @@ do_undo() {
 # ---------- help ----------
 print_help() {
 cat << 'EOF'
-gg - git + github, git but less annoying!
+gg - git + github, git but less annoying
 
   gg                          commit + push (prompts title/desc, shows diff, confirms before push)
   gg push                     just push current branch
