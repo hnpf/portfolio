@@ -48,8 +48,7 @@ detect_pager() {
     fi
 
     warn "less isn't installed, diffs get way more readable with it."
-    read -p "install via $mgr? [y/N]: " confirm
-    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+    if confirm "install via $mgr? [y/N]: "; then
         info "running: $install_cmd"
         if eval "$install_cmd" && command -v less >/dev/null 2>&1; then
             ok "less installed."
@@ -79,6 +78,45 @@ require_gh() {
         err "gh isn't authed. run: gh auth login"
         exit 1
     fi
+}
+
+# ---------- input helpers ----------
+# single line, arrow keys / home/end / ctrl+w etc via readline (-e)
+ask() {
+    local prompt="$1" __var="$2" val
+    read -r -e -p "$prompt" val
+    printf -v "$__var" '%s' "$val"
+}
+
+# multi-line safe version, for desc fields where someone might paste
+# a paragraph (possibly with embedded newlines) in one go.
+# reads the first line with readline editing, then drains any extra
+# lines that arrived in the same paste burst (100ms quiet window)
+# and joins them with real newlines instead of losing them.
+ask_multiline() {
+    local prompt="$1" __var="$2" first rest="" line
+    read -r -e -p "$prompt" first
+    while IFS= read -r -t 0.1 line; do
+        if [ -z "$rest" ]; then
+            rest="$line"
+        else
+            rest="$rest
+$line"
+        fi
+    done
+    if [ -n "$rest" ]; then
+        printf -v "$__var" '%s\n%s' "$first" "$rest"
+    else
+        printf -v "$__var" '%s' "$first"
+    fi
+}
+
+# yes/no confirm, still single char but gets readline too so backspace
+# on a fat-fingered paste doesn't leave garbage in the terminal buffer
+confirm() {
+    local prompt="$1" val
+    read -r -e -p "$prompt" val
+    [[ "$val" =~ ^[Yy]$ ]]
 }
 
 # ---------- add to path ----------
@@ -128,7 +166,7 @@ do_commit_push() {
     line_count=$(git diff --color=always | wc -l)
     if [ "$line_count" -gt 40 ]; then
         info "(full diff is long, opening in pager, q to quit)"
-        sleep 1
+        sleep 3
         git diff --color=always | eval "$PAGER_BIN"
     else
         echo
@@ -138,8 +176,8 @@ do_commit_push() {
     git add .
 
     echo
-    read -p "title: " title
-    read -p "desc (enter to skip): " desc
+    ask "title: " title
+    ask_multiline "desc (enter to skip): " desc
 
     if [ -z "$title" ]; then
         err "need a title dude"
@@ -164,8 +202,7 @@ do_commit_push() {
     echo
     git log -1 --stat
 
-    read -p "confirm push? [y/N]: " confirm
-    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+    if confirm "confirm push? [y/N]: "; then
         git push -u origin "$curr"
         ok "pushed."
         banner
@@ -224,8 +261,7 @@ do_repo_create() {
     if [ -z "$template" ] && git rev-parse --is-inside-work-tree >/dev/null 2>&1 && ! git remote get-url origin >/dev/null 2>&1; then
         info "local repo with no origin detected, wiring it up too"
         args+=(--source=. --remote=origin)
-        read -p "push current branch now too? [y/N]: " pushnow
-        if [[ "$pushnow" =~ ^[Yy]$ ]]; then
+        if confirm "push current branch now too? [y/N]: "; then
             args+=(--push)
         fi
     fi
@@ -308,8 +344,7 @@ do_branch_del() {
         if ! del_out=$(git branch -d "$name" 2>&1); then
             warn "not fully merged:"
             echo "$del_out"
-            read -p "force delete anyway? [y/N]: " confirm
-            if [[ "$confirm" =~ ^[Yy]$ ]]; then
+            if confirm "force delete anyway? [y/N]: "; then
                 git branch -D "$name"
             else
                 info "left it alone."
@@ -320,8 +355,7 @@ do_branch_del() {
     ok "deleted $name locally."
 
     if [ "$remote" = true ]; then
-        read -p "delete origin/$name too? [y/N]: " confirm
-        if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        if confirm "delete origin/$name too? [y/N]: "; then
             git push origin --delete "$name"
             ok "deleted origin/$name."
         fi
@@ -344,8 +378,8 @@ do_pr_create() {
     local curr
     curr=$(git rev-parse --abbrev-ref HEAD)
 
-    read -p "title: " title
-    read -p "desc: " desc
+    ask "title: " title
+    ask_multiline "desc: " desc
     if [ -z "$title" ]; then
         err "need a title dude"
         exit 1
@@ -405,8 +439,8 @@ do_sync() {
 
     if [ "$force" = true ]; then
         warn "this WIPES local commits/changes on $curr to match origin/$curr."
-        read -p "type the branch name to confirm: " confirm
-        if [ "$confirm" != "$curr" ]; then
+        ask "type the branch name to confirm: " sync_confirm
+        if [ "$sync_confirm" != "$curr" ]; then
             err "aborted, didn't match"
             exit 1
         fi
@@ -444,8 +478,8 @@ do_undo() {
     require_git_repo
     if [ "$1" == "--hard" ]; then
         warn "this drops the last commit's changes completely, not easily recoverable."
-        read -p "type UNDO to confirm: " confirm
-        if [ "$confirm" != "UNDO" ]; then
+        ask "type UNDO to confirm: " undo_confirm
+        if [ "$undo_confirm" != "UNDO" ]; then
             err "aborted"
             exit 1
         fi
