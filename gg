@@ -1,0 +1,577 @@
+#!/bin/bash
+# gg script (git but less annoying)
+
+if [ -t 1 ]; then
+    c_red=$(tput setaf 1); c_green=$(tput setaf 2); c_yellow=$(tput setaf 3)
+    c_blue=$(tput setaf 4); c_dim=$(tput dim); c_bold=$(tput bold); c_reset=$(tput sgr0)
+else
+    c_red=""; c_green=""; c_yellow=""; c_blue=""; c_dim=""; c_bold=""; c_reset=""
+fi
+
+info() { echo -e "${c_blue}$1${c_reset}"; }
+ok()   { echo -e "${c_green}$1${c_reset}"; }
+warn() { echo -e "${c_yellow}$1${c_reset}"; }
+err()  { echo -e "${c_red}$1${c_reset}" >&2; }
+
+banner() {
+    echo
+    echo -e "${c_dim}like this tool? add it to path via${c_reset} ${c_bold}gg --add-to-path${c_reset}"
+}
+
+PAGER_BIN=""
+
+detect_pager() {
+    if command -v less >/dev/null 2>&1; then
+        PAGER_BIN="less -R"
+        return
+    fi
+
+    local mgr install_cmd=""
+    if command -v pacman >/dev/null 2>&1; then
+        mgr="pacman"; install_cmd="sudo pacman -S --noconfirm less"
+    elif command -v apt >/dev/null 2>&1; then
+        mgr="apt"; install_cmd="sudo apt install -y less"
+    elif command -v apk >/dev/null 2>&1; then
+        mgr="apk"; install_cmd="sudo apk add less"
+    elif command -v xbps-install >/dev/null 2>&1; then
+        mgr="xbps"; install_cmd="sudo xbps-install -y less"
+    elif command -v dnf >/dev/null 2>&1; then
+        mgr="dnf"; install_cmd="sudo dnf install -y less"
+    elif command -v emerge >/dev/null 2>&1; then
+        mgr="emerge"; install_cmd="sudo emerge sys-apps/less"
+    fi
+
+    if [ -z "$mgr" ]; then
+        PAGER_BIN="cat"
+        return
+    fi
+
+    warn "less isn't installed, diffs will be invisible without it."
+    if confirm "install via $mgr? [y/N]: "; then
+        info "running: $install_cmd"
+        if eval "$install_cmd" && command -v less >/dev/null 2>&1; then
+            ok "less installed."
+            PAGER_BIN="less -R"
+        else
+            warn "install failed, falling back to plain output."
+            PAGER_BIN="cat"
+        fi
+    else
+        PAGER_BIN="cat"
+    fi
+}
+
+require_git_repo() {
+    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        err "this is not a git repo."
+        exit 1
+    fi
+}
+
+require_gh() {
+    if ! command -v gh >/dev/null 2>&1; then
+        err "install github-cli, and go through gh auth login"
+        exit 1
+    fi
+    if ! gh auth status >/dev/null 2>&1; then
+        err "gh isn't authed. run: gh auth login"
+        exit 1
+    fi
+}
+
+ask() {
+    local prompt="$1" __var="$2" val
+    read -r -e -p "$prompt" val
+    printf -v "$__var" '%s' "$val"
+}
+
+ask_multiline() {
+    local prompt="$1" __var="$2" first rest="" line
+    read -r -e -p "$prompt" first
+    while IFS= read -r -t 0.1 line; do
+        if [ -z "$rest" ]; then
+            rest="$line"
+        else
+            rest="$rest
+$line"
+        fi
+    done
+    if [ -n "$rest" ]; then
+        printf -v "$__var" '%s\n%s' "$first" "$rest"
+    else
+        printf -v "$__var" '%s' "$first"
+    fi
+}
+
+confirm() {
+    local prompt="$1" val
+    read -r -e -p "$prompt" val
+    [[ "$val" =~ ^[Yy]$ ]]
+}
+
+add_to_path() {
+    local src target
+    src="$(readlink -f "$0" 2>/dev/null)"
+    if [ -z "$src" ] || [ ! -f "$src" ]; then
+        err "can't find own script path, save this file somewhere first and run it from there"
+        exit 1
+    fi
+    mkdir -p "$HOME/.local/bin"
+    target="$HOME/.local/bin/gg"
+    cp "$src" "$target"
+    chmod +x "$target"
+    ok "copied to $target"
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*)
+            ok "already on PATH, run gg from anywhere now"
+            ;;
+        *)
+            warn "~/.local/bin isn't on your PATH yet, add this to your shell rc:"
+            echo "  export PATH=\"\$HOME/.local/bin:\$PATH\""
+            ;;
+    esac
+    exit 0
+}
+
+# ---------- main loop ----------
+do_commit_push() {
+    require_git_repo
+    local curr
+    curr=$(git rev-parse --abbrev-ref HEAD)
+
+    if [ -z "$(git status --porcelain)" ]; then
+        info "nothing to commit lol"
+        exit 0
+    fi
+
+    detect_pager
+
+    echo -e "${c_bold}--- changes on $curr ---${c_reset}"
+    local stat_summary
+    stat_summary=$(git diff --stat)
+    echo "$stat_summary"
+
+    local line_count
+    line_count=$(git diff --color=always | wc -l)
+    if [ "$line_count" -gt 40 ]; then
+        info "(full diff is long, opening in pager, q to quit)"
+        sleep 3
+        git diff --color=always | eval "$PAGER_BIN"
+    else
+        echo
+        git diff --color=always
+    fi
+
+    git add .
+
+    echo
+    ask "title: " title
+    ask_multiline "desc (enter to skip): " desc
+
+    if [ -z "$title" ]; then
+        err "need a title dude"
+        git restore --staged .
+        exit 1
+    fi
+
+    if [ -z "$desc" ]; then
+        git commit -q -m "$title"
+    else
+        git commit -q -m "$title" -m "$desc"
+    fi
+
+    echo
+    echo -e "${c_bold}--- ready to push to $curr? ---${c_reset}"
+    echo -e "${c_dim}title:${c_reset} $title"
+    if [ -z "$desc" ]; then
+        echo -e "${c_dim}desc:${c_reset}  (no desc)"
+    else
+        echo -e "${c_dim}desc:${c_reset}  $desc"
+    fi
+    echo
+    git log -1 --stat
+
+    if confirm "confirm push? [y/N]: "; then
+        git push -u origin "$curr"
+        ok "pushed."
+        banner
+    else
+        warn "not pushing, rolling back commit but keeping your changes..."
+        git reset --soft HEAD~1
+    fi
+}
+
+do_push() {
+    require_git_repo
+    local curr
+    curr=$(git rev-parse --abbrev-ref HEAD)
+    git push -u origin "$curr"
+    ok "pushed $curr"
+    banner
+}
+
+do_force_push() {
+    require_git_repo
+    local curr
+    curr=$(git rev-parse --abbrev-ref HEAD)
+    warn "forcing push to $curr..."
+    git push origin "$curr" --force
+    ok "forced."
+    banner
+}
+
+# ---------- repo ----------
+do_repo_create() {
+    require_gh
+    local name="$1"
+    shift
+    local visibility="--private" template=""
+
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --public) visibility="--public" ;;
+            --private) visibility="--private" ;;
+            --template) template="$2"; shift ;;
+        esac
+        shift
+    done
+
+    if [ -z "$name" ]; then
+        err "need a repo name. gg repo create <name>"
+        exit 1
+    fi
+
+    local args=(repo create "$name" "$visibility")
+
+    if [ -n "$template" ]; then
+        args+=(--template "$template")
+    fi
+
+    if [ -z "$template" ] && git rev-parse --is-inside-work-tree >/dev/null 2>&1 && ! git remote get-url origin >/dev/null 2>&1; then
+        info "local repo with no origin detected, wiring it up too"
+        args+=(--source=. --remote=origin)
+        if confirm "push current branch now too? [y/N]: "; then
+            args+=(--push)
+        fi
+    fi
+
+    info "creating $name..."
+    if ! gh "${args[@]}"; then
+        err "repo create failed"
+        exit 1
+    fi
+    ok "done."
+    banner
+}
+
+do_repo_fork() {
+    require_gh
+    local target="$1"
+    if [ -z "$target" ]; then
+        err "need owner/repo. gg repo fork owner/repo"
+        exit 1
+    fi
+    info "forking $target..."
+    gh repo fork "$target" --clone
+    ok "forked."
+    banner
+}
+
+# ---------- branch ----------
+do_branch_list() {
+    require_git_repo
+    git branch --color=always
+}
+
+do_branch_new() {
+    require_git_repo
+    local name="$1"
+    if [ -z "$name" ]; then
+        err "need a name. gg branch new <name>"
+        exit 1
+    fi
+    git checkout -b "$name"
+    ok "on $name"
+    banner
+}
+
+do_branch_switch() {
+    require_git_repo
+    local name="$1"
+    if [ -z "$name" ]; then
+        err "need a name. gg branch switch <name>"
+        exit 1
+    fi
+    git checkout "$name"
+}
+
+do_branch_del() {
+    require_git_repo
+    local name="" remote=false force=false
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --remote) remote=true ;;
+            -f|--force) force=true ;;
+            *) name="$1" ;;
+        esac
+        shift
+    done
+
+    if [ -z "$name" ]; then
+        err "need a branch name. gg branch del <name>"
+        exit 1
+    fi
+    if [ "$name" == "$(git rev-parse --abbrev-ref HEAD)" ]; then
+        err "can't delete the branch you're standing on"
+        exit 1
+    fi
+
+    if [ "$force" = true ]; then
+        git branch -D "$name"
+    else
+        local del_out
+        if ! del_out=$(git branch -d "$name" 2>&1); then
+            warn "not fully merged:"
+            echo "$del_out"
+            if confirm "force delete anyway? [y/N]: "; then
+                git branch -D "$name"
+            else
+                info "left it alone."
+                exit 0
+            fi
+        fi
+    fi
+    ok "deleted $name locally."
+
+    if [ "$remote" = true ]; then
+        if confirm "delete origin/$name too? [y/N]: "; then
+            git push origin --delete "$name"
+            ok "deleted origin/$name."
+        fi
+    fi
+    banner
+}
+
+# ---------- pr ----------
+do_pr_create() {
+    require_gh
+    require_git_repo
+    local repo_flag=""
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --repo) repo_flag="$2"; shift ;;
+        esac
+        shift
+    done
+
+    local curr
+    curr=$(git rev-parse --abbrev-ref HEAD)
+
+    ask "title: " title
+    ask_multiline "desc: " desc
+    if [ -z "$title" ]; then
+        err "need a title dude"
+        exit 1
+    fi
+
+    if [ -n "$repo_flag" ]; then
+        info "forking/checking your fork of $repo_flag..."
+        gh repo fork "$repo_flag" --remote --remote-name gg-fork
+
+        local gh_user default_base
+        gh_user=$(gh api user --template '{{.login}}')
+        default_base=$(gh repo view "$repo_flag" --json defaultBranchRef --template '{{.defaultBranchRef.name}}')
+
+        info "pushing $curr to your fork..."
+        git push -u gg-fork "$curr"
+
+        info "opening PR against $repo_flag..."
+        gh pr create --repo "$repo_flag" --base "$default_base" --head "${gh_user}:${curr}" --title "$title" --body "$desc"
+    else
+        info "pushing $curr..."
+        git push -u origin "$curr"
+        gh pr create --title "$title" --body "$desc"
+    fi
+    ok "PR's up."
+    banner
+}
+
+do_pr_list() {
+    require_gh
+    require_git_repo
+    local repo_flag=""
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --repo) repo_flag="$2"; shift ;;
+        esac
+        shift
+    done
+    if [ -n "$repo_flag" ]; then
+        gh pr list --repo "$repo_flag"
+    else
+        gh pr list
+    fi
+}
+
+do_sync() {
+    require_git_repo
+    local force=false
+    if [ "$1" == "--force" ]; then
+        force=true
+    fi
+
+    local curr
+    curr=$(git rev-parse --abbrev-ref HEAD)
+    info "fetching..."
+    git fetch origin
+
+    if [ "$force" = true ]; then
+        warn "this WIPES local commits/changes on $curr to match origin/$curr."
+        ask "type the branch name to confirm: " sync_confirm
+        if [ "$sync_confirm" != "$curr" ]; then
+            err "aborted, didn't match"
+            exit 1
+        fi
+        git reset --hard "origin/$curr"
+        ok "synced hard to origin/$curr."
+        banner
+        return
+    fi
+
+    if ! git rev-parse --verify "origin/$curr" >/dev/null 2>&1; then
+        info "origin/$curr doesn't exist yet, nothing to sync from. push first."
+        return
+    fi
+
+    local ahead behind
+    ahead=$(git rev-list --count "origin/$curr..$curr" 2>/dev/null)
+    behind=$(git rev-list --count "$curr..origin/$curr" 2>/dev/null)
+
+    if [ "$behind" == "0" ]; then
+        info "already up to date."
+        return
+    fi
+
+    if [ "$ahead" == "0" ]; then
+        git merge --ff-only "origin/$curr"
+        ok "fast-forwarded."
+        banner
+    else
+        warn "you're diverged (ahead and behind). merge/rebase by hand, or gg sync --force to nuke local."
+    fi
+}
+
+# ---------- undo ----------
+do_undo() {
+    require_git_repo
+    if [ "$1" == "--hard" ]; then
+        warn "this drops the last commit's changes completely, not easily recoverable."
+        ask "type UNDO to confirm: " undo_confirm
+        if [ "$undo_confirm" != "UNDO" ]; then
+            err "aborted"
+            exit 1
+        fi
+        git reset --hard HEAD~1
+        ok "gone."
+        banner
+        return
+    fi
+    git reset --soft HEAD~1
+    ok "undid last commit, changes still staged."
+    banner
+}
+
+# ---------- help ----------
+print_help() {
+cat << 'EOF'
+gg, git but less annoying
+
+  gg                          commit + push (prompts title/desc, shows diff, confirms before push)
+  gg push                     just push current branch
+  gg push -f / gg -f          force push current branch
+
+  gg repo create <name>       [--public|--private] [--template owner/repo]
+  gg repo fork owner/repo     fork + clone
+
+  gg branch                   list branches
+  gg branch new <name>        create + switch
+  gg branch switch <name>     switch
+  gg branch del <name>        [--remote] [-f]  delete branch (local, optionally remote too)
+
+  gg pr create                [--repo owner/repo]  open a PR (own repo or someone else's, forks automatically)
+  gg pr list                  [--repo owner/repo]
+
+  gg sync                     fetch + fast-forward if behind
+  gg sync --force             fetch + hard reset local to match remote
+
+  gg undo                     undo last commit, keep changes staged
+  gg undo --hard              undo last commit AND drop the changes
+
+  gg --add-to-path            installs gg to ~/.local/bin
+EOF
+}
+
+# ---------- dispatch ----------
+main() {
+    case "$1" in
+        "")
+            do_commit_push
+            ;;
+        -f)
+            do_force_push
+            ;;
+        push)
+            shift
+            if [ "$1" == "-f" ]; then
+                do_force_push
+            else
+                do_push
+            fi
+            ;;
+        repo)
+            shift
+            case "$1" in
+                create) shift; do_repo_create "$@" ;;
+                fork) shift; do_repo_fork "$@" ;;
+                *) err "gg repo create <name> | gg repo fork owner/repo"; exit 1 ;;
+            esac
+            ;;
+        branch)
+            shift
+            case "$1" in
+                ""|list) do_branch_list ;;
+                new|create) shift; do_branch_new "$@" ;;
+                switch) shift; do_branch_switch "$@" ;;
+                del|delete) shift; do_branch_del "$@" ;;
+                *) err "gg branch [new|switch|del] <name>"; exit 1 ;;
+            esac
+            ;;
+        pr)
+            shift
+            case "$1" in
+                ""|create) shift; do_pr_create "$@" ;;
+                list) shift; do_pr_list "$@" ;;
+                *) err "gg pr [create|list]"; exit 1 ;;
+            esac
+            ;;
+        sync)
+            shift
+            do_sync "$1"
+            ;;
+        undo)
+            shift
+            do_undo "$1"
+            ;;
+        --add-to-path)
+            add_to_path
+            ;;
+        help|-h|--help)
+            print_help
+            ;;
+        *)
+            print_help
+            ;;
+    esac
+}
+
+main "$@"
