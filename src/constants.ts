@@ -112,10 +112,10 @@ export const PROJECTS: Project[] = [
 export const BLOG_POSTS: BlogPost[] = [
   {
     id: '2slimey-changed-how-i-listen',
-    title: '2slimey changed the way i listen to music.',
-    snippet: 'a genuine opinion of mine. if the title made you roll your eyes, you are exactly who this is for :)',
+    title: '2slimey changed the way I listen to music.',
+    snippet: 'Yes, a genuine opinion of mine. If this title made you roll your eyes, you are exactly who this is for! :)',
     content: `
-# 2slimey changed the way i listen to music.
+# 2slimey changed the way I listen to music.
 
 i know, i know. "the shrimp guy?"
 
