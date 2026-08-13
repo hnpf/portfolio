@@ -2414,7 +2414,7 @@ export const MUSIC_RELEASES: MusicRelease[] = [
     title: "FIRST ATTEMPT",
     type: "Album",
     releaseDate: "2026",
-    description: "FIRST ATTEMPT is a full-length release centered on heavy 808s, distortion, and aggressive sound design. written, produced, and mixed by rxvirex (virex)",
+    description: "FIRST ATTEMPT is a debut full length release album. loud and grainy 808s, blown out distortion, seriously fucked up sound design, along with whatever else ended up in the mix. written, produced, and mixed by rxvirex (virex).",
     genre: "Rage/Trap",
     duration: "26 min 2 sec",
     tags: ["Debut", "Experimental", "Rage"],
