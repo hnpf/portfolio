@@ -1,0 +1,137 @@
+/**
+ * cf pages func: /functions/music.js
+ *
+ * intercepts requests to /music and rewrites OG meta tags for bots/crawlers
+ * (discord, x, slack, etc.) using HTMLRewriter. since virex.lol is a SPA,
+ * bots never execute JS, so this function injects the correct metadata server-side
+ *
+ * for regular users, it passes through to normal SPA index.html
+ */
+
+// inline the music releases data so worker has access w/o bundling
+// note to self and others: keep in sync with src/constants.ts MUSIC_RELEASES.
+const MUSIC_RELEASES = [
+  {
+    id: "FIRSTATTEMPT",
+    title: "FIRST ATTEMPT",
+    type: "Album",
+    releaseDate: "2026",
+    description:
+      "FIRST ATTEMPT is a full-length release centered on heavy 808s, distortion, and aggressive sound design. written, produced, and mixed by rxvirex (virex)",
+    genre: "Rage/Trap",
+    duration: "26 min 2 sec",
+    tags: ["Debut", "Experimental", "Rage"],
+    featured: true,
+  },
+];
+
+const DEFAULT_TITLE = "rxvirex";
+const DEFAULT_DESC =
+  "music by virex (rxvirex) - producer, software dev, linux enthusiast. releases, music, and sound design.";
+const DEFAULT_IMAGE = "https://virex.lol/photography/pfp/main.png";
+
+const BOT_AGENTS = [
+  "Twitterbot",
+  "facebookexternalhit",
+  "LinkedInBot",
+  "Slackbot",
+  "TelegramBot",
+  "WhatsApp",
+  "Discordbot",
+  "discordbot",
+  "ia_archiver",
+  "Googlebot",
+  "bingbot",
+  "Applebot",
+];
+
+function isBot(userAgent) {
+  if (!userAgent) return false;
+  return BOT_AGENTS.some((bot) => userAgent.includes(bot));
+}
+
+class MetaRewriter {
+  constructor(meta) {
+    this.meta = meta;
+    this.replaced = new Set();
+  }
+
+  element(element) {
+    const prop = element.getAttribute("property");
+    const name = element.getAttribute("name");
+    const key = prop || name;
+
+    if (!key) return;
+
+    const { title, desc, image, url } = this.meta;
+
+    const map = {
+      "og:title": title,
+      "og:description": desc,
+      "og:image": image,
+      "og:url": url,
+      "og:type": "website",
+      "twitter:title": title,
+      "twitter:description": desc,
+      "twitter:image": image,
+      "twitter:card": "summary_large_image",
+      description: desc,
+    };
+
+    if (key in map && !this.replaced.has(key)) {
+      element.setAttribute("content", map[key]);
+      this.replaced.add(key);
+    }
+  }
+}
+
+class TitleRewriter {
+  constructor(title) {
+    this.title = title;
+  }
+
+  element(element) {
+    element.setInnerContent(this.title);
+  }
+}
+
+export async function onRequest({ request, next }) {
+  const url = new URL(request.url);
+  const releaseId = url.searchParams.get("release");
+  const userAgent = request.headers.get("User-Agent") || "";
+
+  // fetch original SPA index
+  const response = await next();
+
+  // only rewrite for bots, regular users get normal SPA
+  if (!isBot(userAgent) && process.env.NODE_ENV !== "test") {
+    // still rewrite for everyone so canonical URL is always correct,
+    // but only when a release param is present (avoids unnecessary work)
+    if (!releaseId) return response;
+  }
+
+  let title = DEFAULT_TITLE;
+  let desc = DEFAULT_DESC;
+  let image = DEFAULT_IMAGE;
+  let pageUrl = `https://virex.lol/music`;
+
+  if (releaseId) {
+    const release = MUSIC_RELEASES.find(
+      (r) => r.id.toLowerCase() === releaseId.toLowerCase()
+    );
+    if (release) {
+      title = `rxvirex | ${release.title}`;
+      desc = release.description;
+      image = `https://virex.lol/albums/${release.id}.webp`;
+      pageUrl = `https://virex.lol/music?release=${encodeURIComponent(release.id)}`;
+    }
+  }
+
+  const meta = { title, desc, image, url: pageUrl };
+
+  return new HTMLRewriter()
+    .on("title", new TitleRewriter(title))
+    .on("meta[property]", new MetaRewriter(meta))
+    .on("meta[name]", new MetaRewriter(meta))
+    .transform(response);
+}
