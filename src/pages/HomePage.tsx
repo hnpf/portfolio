@@ -234,6 +234,7 @@ const YearProg = () => {
 const RoleTicker = ({ settings, tickIndex }: { settings: any; tickIndex: number }) => {
   const roles = [
     "independent software developer",
+    "music producer & audio engineering",
     "linux enthusiast",
     "cybersecurity student"
   ];

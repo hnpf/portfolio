@@ -2312,7 +2312,49 @@ export const CHANGELOGS: ChangelogEntry[] = [
 export const TECH_STACK = {
   web: ["React", "TS", "Tailwind", "Next.js", "SQLite", "Framer Motion", "Svelte"],
   technical: ["Rust", "Golang", "Java", "Python", "C", "Kotlin", "C++", "Bash"],
+  audio: ["FL Studio", "PipeWire / ALSA", "Sound Design", "Mixing & Mastering"],
 };
+
+export interface MusicRelease {
+  id: string;
+  title: string;
+  type: "Single" | "EP" | "Album" | "Remix" | "Beat Tape";
+  releaseDate: string;
+  coverUrl?: string;
+  description: string;
+  genre: string;
+  duration?: string;
+  tags: string[];
+  featured?: boolean;
+  links: {
+    spotify?: string;
+    bandcamp?: string;
+    youtubeMusic?: string;
+    youtube?: string;
+    tiktok?: string;
+    appleMusic?: string;
+  };
+}
+
+export const MUSIC_RELEASES: MusicRelease[] = [
+  {
+    id: "FIRSTATTEMPT",
+    title: "FIRST ATTEMPT",
+    type: "Album",
+    releaseDate: "2026",
+    description: "FIRST ATTEMPT is a full-length release centered on heavy 808s, distortion, and aggressive sound design. written, produced, and mixed by rxvirex (virex)",
+    genre: "Rage/Trap",
+    duration: "26 min 2 sec",
+    tags: ["Debut", "Experimental", "Rage"],
+    featured: true,
+    links: {
+      spotify: "https://open.spotify.com/album/1UHT94oL84kULqpRq2Gr30?si=eLP2rfnbSSmOHjz2Y-d-FAom",
+      bandcamp: "https://rxvirex.bandcamp.com/album/first-attempt",
+      youtubeMusic: "https://music.youtube.com/playlist?list=OLAK5uy_mc83OEAbnl5vmiFUEsxl_iYmVeUHO9I9Y&si=cULZYKZynsn3FkHr",
+      tiktok: "https://www.tiktok.com/@hahavrx",
+    },
+  },
+];
 
 export interface KnownIssues {
   id: string;
@@ -2333,4 +2375,5 @@ export const KNOWN_ISSUES: KnownIssues[] = [
     severity: "medium",
   }
 ];
+
 

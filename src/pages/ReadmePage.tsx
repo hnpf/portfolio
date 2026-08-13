@@ -2,7 +2,7 @@
 import React, { useState, useEffect, memo } from "react";
 import { motion } from "motion/react";
 import { Activity, MapPin, History, Target, SquareTerminal, Code2, Archive, MessageSquare, Home } from "../components/MaterialIcon";
-import { Github } from "lucide-react";
+import { Github, Headphones, Disc, Music } from "lucide-react";
 import { GitHubCalendar } from 'react-github-calendar';
 import { cn, TECH_STACK } from "../constants";
 import { useTheme } from "../ThemeContext";
@@ -106,7 +106,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           </motion.div>
         </div>
 
-        {/* thus, a bio is born!! */}
+        {/* bio */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -119,10 +119,10 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             <div className="-ml-2 h-px w-22 bg-[var(--primary)] opacity-30" />
           </div>
           <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter leading-[1.05] max-w-4xl mx-auto italic">
-            I am a <span className="text-[var(--primary)]">full-stack developer</span> and <span className="text-[var(--primary)]">Cybersecurity student.</span> <br></br> <br></br>  <span className="text-[var(--primary)]">I design</span> sexy, straightforward, and beautiful <span className="text-[var(--primary)]">user experiences</span>.
+            I am a <span className="text-[var(--primary)]">full-stack developer</span>, <span className="text-[var(--primary)]">cybersecurity student</span>, and <span className="text-[var(--primary)]">music producer.</span> <br></br> <br></br> <span className="text-[var(--primary)]">I design</span> sexy, straightforward, and beautiful <span className="text-[var(--primary)]">user experiences</span> & soundscapes.
           </h2>
           <p className="text-xl md:text-2xl opacity-60 font-medium max-w-4xl mx-auto leading-relaxed">
-            Running on Arch + Hyprland + Quickshell, and lots of caffeine!! <br></br>
+            Running on Arch + Hyprland + Quickshell, lots of caffeine, and audio workflows! <br></br>
 
             <span className="relative inline-block mt-4 md:mt-0">
               <span className="text-[var(--primary)] font-bold relative z-10">
@@ -140,12 +140,11 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           </p>
         </motion.section>
 
-        {/* bento or some bullshit grid new styling thing */}
+        {/* bento grid */}
         <div className="grid grid-cols-2 md:grid-cols-12 gap-6 w-full mb-32">
           {/* lore */}
           <Card noDefaultStyles
             delay={1.1}
-            /* whileHover={{ y: -12, scale: 1.01 }} */
             className="col-span-2 md:col-span-8"
             innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 relative overflow-hidden group transition-colors duration-200", glass_class)}
           >
@@ -174,7 +173,6 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           {/* mission */}
           <Card noDefaultStyles
             delay={1.2}
-            /*whileHover={{ y: -12, scale: 1.02 }}*/
             className="col-span-2 md:col-span-4"
             innerClassName={cn("px-8 py-10 bg-[var(--primary-container)]/90 text-[var(--on-primary-container)] rounded-[3.5rem] border-6 border-[var(--primary)]/30 flex flex-col justify-between gap-8 group transition-colors duration-200 relative overflow-hidden", glass_class)}
           >
@@ -195,10 +193,40 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             </div>
           </Card>
 
-          {/* terminal specs card idk */}
+          {/* music card */}
+          <Card noDefaultStyles
+            delay={1.25}
+            className="col-span-2 md:col-span-12"
+            innerClassName={cn("rounded-[3.5rem] border-4 border-[var(--outline-variant)]/40 bg-[var(--surface-variant)]/60 relative overflow-hidden group transition-colors duration-300 hover:border-[var(--primary)]/50", glass_class)}
+          >
+            <div className="absolute -right-10 -bottom-10 opacity-[0.07] group-hover:opacity-[0.12] group-hover:scale-110 group-hover:rotate-6 transition-all duration-700 pointer-events-none text-[var(--primary)]">
+              <Disc size={240} />
+            </div>
+
+            <div className="relative z-10 px-6 py-8 md:p-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+              <div className="space-y-4 flex-1 min-w-0">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[var(--primary)]/15 text-[var(--primary)] rounded-full text-[11px] font-black uppercase italic tracking-widest border border-[var(--primary)]/25">
+                  <Headphones size={12} /> Music Production
+                </div>
+                <h4 className="text-3xl md:text-4xl font-display font-black tracking-tight italic leading-tight">
+                  Rage, trap & aggressive sound design
+                </h4>
+                <p className="text-base md:text-lg opacity-70 font-medium max-w-2xl leading-relaxed">
+                  Independent producer & artist. Overusing 808s, distortion, and layered sound design. Mixing rage, trap, and hip-hop into music that's loud and unfinished.
+                </p>
+              </div>
+              <BounceButton
+                icon={Music}
+                label="Explore Releases"
+                onClick={() => { setPage("music"); haptic.light(); }}
+                className="m3-button-filled shrink-0 h-14 px-8 rounded-4xl font-black italic ring-6 ring-[var(--outline-variant)]/70 text-sm uppercase tracking-wider"
+              />
+            </div>
+          </Card>
+
+          {/* terminal specs card */}
           <Card noDefaultStyles
             delay={1.3}
-            /*whileHover={{ y: -12, scale: 1.01 }}*/
             className="col-span-2 md:col-span-12 lg:col-span-6"
             innerClassName="bg-[#0a0a0a] text-white/90 px-5 py-8 md:p-10 rounded-[3.5rem] border-6 border-white/5 font-mono relative group overflow-hidden transition-colors duration-200 flex flex-col gap-6"
           >
@@ -210,7 +238,8 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
               {[
                 { k: "OS:", v: "Arch Linux" },
                 { k: "Shell:", v: "fish 4.8.1" },
-                { k: "Kernel:", v: "Linux 7.1.5" },
+                { k: "Kernel:", v: "Linux 7.1.7-zen" },
+                { k: "Audio:", v: "PipeWire / ALSA 96kHz" },
                 { k: "CPU:", v: "i5-14600K" },
                 { k: "GPU:", v: "RX 6800 XT" },
               ].map(s => (
@@ -226,7 +255,6 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           {/* tech stack */}
           <Card noDefaultStyles
             delay={1.4}
-            /*whileHover={{ y: -12, scale: 1.01 }}*/
             className="col-span-2 md:col-span-12 lg:col-span-6"
             innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 transition-colors duration-200 group flex flex-col gap-8", glass_class)}
           >
@@ -236,17 +264,17 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               <div className="space-y-4">
-                <div className="text-[14px] font-black tracking-[0.2em] opacity-70">Web Stack</div>
+                <div className="text-[14px] font-black tracking-[0.1em] opacity-70">Web & Programming</div>
                 <div className="flex flex-wrap gap-2.5">
-                  {TECH_STACK.web.sort().map(t => (
+                  {[...TECH_STACK.web, ...TECH_STACK.technical].slice(0, 10).sort().map(t => (
                     <TechChip key={t} label={t} />
                   ))}
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="text-[14px] font-black tracking-[0.2em] opacity-70">Tech Stack</div>
+                <div className="text-[14px] font-black tracking-[0.1em] opacity-70">Audio & Sound</div>
                 <div className="flex flex-wrap gap-2.5">
-                  {TECH_STACK.technical.sort().map(t => (
+                  {TECH_STACK.audio.sort().map(t => (
                     <TechChip key={t} label={t} />
                   ))}
                 </div>
@@ -254,10 +282,9 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             </div>
           </Card>
 
-          {/* archive shit. */}
+          {/* archive */}
           <Card noDefaultStyles
             delay={1.5}
-            /*whileHover={{ y: -12, scale: 1.01 }}*/
             className="col-span-2 md:col-span-12"
             innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 border-dashed flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-[var(--primary)]/50 transition-colors duration-200", glass_class)}
           >
@@ -280,7 +307,6 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
           {/* contrib gh heatmap */}
           <Card noDefaultStyles
             delay={1.6}
-            /*whileHover={{ y: -8, scale: 1.01 }}*/
             className="col-span-2 md:col-span-12"
             innerClassName={cn("px-6 py-8 md:p-12 bg-[var(--surface-variant)]/60 rounded-[3.5rem] border-6 border-[var(--outline-variant)]/40 flex flex-col gap-8 group transition-colors duration-200 overflow-hidden", glass_class)}
           >
@@ -317,6 +343,7 @@ const BullshitMatrix = ({ onBack, setPage, is_mobile }: { onBack: () => void; se
             </div>
           </Card>
         </div>
+
 
         {/* foooootters */}
         <div className="flex flex-col items-center gap-12 w-full max-w-2xl">

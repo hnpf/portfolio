@@ -40,6 +40,7 @@ import { ChangelogPage } from "./pages/ChangelogPage";
 import { LensPage } from "./pages/LensPage";
 import { ReadmePage } from "./pages/ReadmePage";
 import { NowPage } from "./pages/NowPage";
+import { MusicPage } from "./pages/MusicPage";
 import NotFound from "./pages/NotFound";
 
 // components
@@ -68,6 +69,7 @@ const M3Info = materialIcon("fingerprint");
 const M3Blog = materialIcon("menu_book");
 const M3Lens = materialIcon("photo_camera");
 const M3Now = materialIcon("monitor_heart");
+const M3Music = materialIcon("headphones");
 const M3Settings = materialIcon("settings");
 const M3ChevronLeft = materialIcon("chevron_left");
 const M3ChevronRight = materialIcon("chevron_right");
@@ -116,7 +118,7 @@ export default function App() {
     if (loc === "/" || loc === "") return "home";
     if (loc.startsWith("/blog/")) return "blog";
 
-    const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog"];
+    const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "music"];
     return ALLOWED.includes(path) ? path : "404";
   };
 
@@ -236,7 +238,7 @@ export default function App() {
         } else if (loc.startsWith("/blog/")) {
           setPage("blog"); setBlogPostId(loc.split("/")[2]);
         } else {
-          const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog"];
+          const ALLOWED = ["home", "blog", "lens", "now", "readme", "changelog", "music"];
           setPage(ALLOWED.includes(path) ? path : "404");
           setBlogPostId(null);
         }
@@ -448,22 +450,24 @@ export default function App() {
                 </div>
               )}
               <div className="flex-1 flex flex-col min-h-0 relative group/nav" onMouseMove={(e) => { const rect = e.currentTarget.getBoundingClientRect(); const y = e.clientY - rect.top; setNavHoverSide(y < rect.height / 2 ? "top" : "bottom"); }} onMouseLeave={() => setNavHoverSide(null)}>
-                <nav id="sidebar-nav" className={cn("flex-1 flex flex-col min-h-0 py-12 scrollbar-hide overflow-y-hidden gap-5.5", settings.sidebarCollapsed ? "items-center px-2" : "items-stretch px-4")} data-rail-state={settings.sidebarCollapsed ? "default" : "open"} style={{ overflowY: "hidden", overscrollBehavior: "contain" }}>
+                <nav id="sidebar-nav" className={cn("flex-1 flex flex-col overflow-y-auto min-h-0 py-12 scrollbar-hide", canScrollUp && canScrollDown ? "mask-both" : (canScrollUp ? "mask-top" : (canScrollDown ? "mask-bottom" : "")), "gap-5.5", settings.sidebarCollapsed ? "items-center px-2" : "items-stretch px-4")} data-rail-state={settings.sidebarCollapsed ? "default" : "open"}>
+                  <M3ScrollBar scrollEl={navRef} colorful thinOnly />
                   <SideItem highHz={settings.highHz} isFirst glyph={M3Home} text="Home" isSelected={page === "home"} onSelect={() => goto("home")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={M3Info} text="Info" isSelected={page === "readme"} onSelect={() => goto("readme")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={M3Blog} text="Blog" isSelected={page === "blog"} onSelect={() => goto("blog")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
+                  <SideItem highHz={settings.highHz} glyph={M3Music} text="Music" isSelected={page === "music"} onSelect={() => goto("music")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={M3Lens} text="Lens" isSelected={page === "lens"} onSelect={() => goto("lens")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} />
                   <SideItem highHz={settings.highHz} glyph={M3Now} text="Now" isSelected={page === "now"} onSelect={() => goto("now")} isMini={settings.sidebarCollapsed} isFloating={settings.floatingSidebar} isShort={is_short} isLast />
                 </nav>
                 <AnimatePresence>
-                  {false && canScrollUp && navHoverSide === "top" && (
+                  {canScrollUp && navHoverSide === "top" && (
                     <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={squishySpring} className="absolute top-2 left-0 right-0 pointer-events-none flex flex-col items-center z-[50]">
                       <button onClick={() => document.getElementById("sidebar-nav")?.scrollBy({ top: -150, behavior: "smooth" })} className="w-10 h-10 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-lg pointer-events-auto border-2 border-white/10 transition-transform active:scale-90"><M3ChevronLeft size={20} className="rotate-90" fill /></button>
                     </motion.div>
                   )}
                 </AnimatePresence>
                 <AnimatePresence>
-                  {false && canScrollDown && navHoverSide === "bottom" && (
+                  {canScrollDown && navHoverSide === "bottom" && (
                     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={squishySpring} className="absolute bottom-2 left-0 right-0 pointer-events-none flex flex-col items-center z-[50]">
                       <button onClick={() => document.getElementById("sidebar-nav")?.scrollBy({ top: 150, behavior: "smooth" })} className="w-10 h-10 bg-[var(--primary)] text-[var(--on-primary)] rounded-full flex items-center justify-center shadow-lg pointer-events-auto border-2 border-white/10 transition-transform active:scale-90"><M3ChevronLeft size={20} className="-rotate-90" fill /></button>
                     </motion.div>
@@ -522,9 +526,10 @@ export default function App() {
             {page === "blog" && <BlogPage targetId={blogPostId} navigateTo={goto} />}
             {page === "lens" && <LensPage viewport={viewport} />}
             {page === "now" && <NowPage />}
+            {page === "music" && <MusicPage setPage={goto} />}
             {page === "readme" && <ReadmePage setPage={goto} is_mobile={is_mobile} />}
             {page === "changelog" && <ChangelogPage />}
-            {![ "home", "blog", "lens", "now", "readme", "changelog" ].includes(page) && <NotFound go={goto} />}
+            {![ "home", "blog", "lens", "now", "music", "readme", "changelog" ].includes(page) && <NotFound go={goto} />}
           </motion.div>
         </AnimatePresence>
         <AnimatePresence>
@@ -560,6 +565,7 @@ export default function App() {
               { key: "home",     glyph: M3Home, label: "Home" },
               { key: "readme",   glyph: M3Info, label: "Info" },
               { key: "blog",     glyph: M3Blog, label: "Blog" },
+              { key: "music",    glyph: M3Music, label: "Music" },
               { key: "lens",     glyph: M3Lens, label: "Lens" },
               { key: "now",      glyph: M3Now,  label: "Now" }
             ]}

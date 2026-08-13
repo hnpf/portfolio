@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { cn } from "../constants";
+import { Headphones } from "lucide-react";
 import { Search, Home, Info, ImageIcon, Monitor, Settings as SettingsIcon, Layers, Palette, Moon, Sun, ArrowRight, ArrowUp, ArrowDown, MessageSquare, X, ViewModule, ViewList } from "./MaterialIcon";
 import { M3ScrollBar } from "./M3ScrollBar";
 import M3Switch from "./M3Switch";
@@ -61,6 +62,15 @@ export function CommandPalette({
         icon: Layers,
         action: () => goto("blog"),
         tags: ["blog", "posts", "articles"],
+      },
+      {
+        id: "go-music",
+        label: "Open music page",
+        description: "Explore electronic music, releases & streaming links",
+        category: "Navigation",
+        icon: Headphones,
+        action: () => goto("music"),
+        tags: ["music", "audio", "spotify", "bandcamp", "producer", "beats", "releases"],
       },
       {
         id: "go-lens",
@@ -467,7 +477,7 @@ export function CommandPalette({
                                   "group relative w-full text-left transition-colors duration-150",
                                   viewMode === "lists"
                                     ? cn(
-                                        "grid grid-cols-[auto_1fr] items-center gap-4 border-6 bg-[var(--surface)] px-5 py-5 shadow-[0_18px_46px_-28px_rgba(0,0,0,0.16)]",
+                                        "grid grid-cols-[auto_1fr] items-center gap-4 border-6 bg-[var(--surface)] px-5 py-5 ",
                                         roundedClass
                                       )
                                     : cn(
@@ -475,7 +485,7 @@ export function CommandPalette({
                                         roundedClass
                                       ),
                                   isActive
-                                    ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)] shadow-[0_20px_48px_-24px_rgba(79,70,229,0.24)]"
+                                    ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"
                                     : cn(
                                         "border-[var(--outline-variant)]/30",
                                         !ignoreMouseHover && "hover:border-[var(--primary)]/30 hover:bg-[var(--surface-variant)]"
