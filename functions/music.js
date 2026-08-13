@@ -1,29 +1,5 @@
-/**
- * cf pages func: /functions/music.js
- *
- * intercepts requests to /music and rewrites OG meta tags for bots/crawlers
- * (discord, x, slack, etc.) using HTMLRewriter. since virex.lol is a SPA,
- * bots never execute JS, so this function injects the correct metadata server-side
- *
- * for regular users, it passes through to normal SPA index.html
- */
 
-// inline the music releases data so worker has access w/o bundling
-// note to self and others: keep in sync with src/constants.ts MUSIC_RELEASES.
-const MUSIC_RELEASES = [
-  {
-    id: "FIRSTATTEMPT",
-    title: "FIRST ATTEMPT",
-    type: "Album",
-    releaseDate: "2026",
-    description:
-      "FIRST ATTEMPT is a full-length release centered on heavy 808s, distortion, and aggressive sound design. written, produced, and mixed by rxvirex (virex)",
-    genre: "Rage/Trap",
-    duration: "26 min 2 sec",
-    tags: ["Debut", "Experimental", "Rage"],
-    featured: true,
-  },
-];
+import { MUSIC_RELEASES } from "./_generated/og-data.js";
 
 const DEFAULT_TITLE = "rxvirex";
 const DEFAULT_DESC =
@@ -122,7 +98,7 @@ export async function onRequest({ request, next }) {
     if (release) {
       title = `rxvirex | ${release.title}`;
       desc = release.description;
-      image = `https://virex.lol/albums/${release.id}.webp`;
+      image = release.ogImage;
       pageUrl = `https://virex.lol/music?release=${encodeURIComponent(release.id)}`;
     }
   }

@@ -68,11 +68,11 @@ export const useMetadata = (page: string, blogPostId: string | null, isApr: bool
       );
       if (r) {
         desc = r.description;
-        og_title = `rxvirex | ${r.title}`;
-        // use album cover if available, fall back to /albums/<id>.webp
+        og_title = `Virex Music | ${r.title}`;
+        // prefer explicit coverUrl, then check common extensions. .webp first for perf
         og_img = r.coverUrl
           ? `https://virex.lol${r.coverUrl.startsWith('/') ? '' : '/'}${r.coverUrl}`
-          : `https://virex.lol/albums/${r.id}.webp`;
+          : `https://virex.lol/albums/${r.id}.png`;
       }
     } else if (page === "readme") {
       desc =
