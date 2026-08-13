@@ -111,6 +111,78 @@ export const PROJECTS: Project[] = [
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    id: '2slimey-changed-how-i-listen',
+    title: '2slimey changed the way i listen to music.',
+    snippet: 'a genuine opinion of mine. if the title made you roll your eyes, you are exactly who this is for :)',
+    content: `
+# 2slimey changed the way i listen to music.
+
+i know, i know. "the shrimp guy?"
+
+yes. that guy. just keep reading.
+
+## the part where i lose half the audience
+
+if you found 2slimey through a tiktok of someone laughing at a song called "shrimp," you were introduced to the meme before the music. and that's just a terrible way to encounter an artist LMFAO
+
+social media has a habit of finding the strangest surface level detail about something and turning it into the entire identity of that thing. that's what happened here.
+
+so let me go back.
+
+## what he is actually doing
+
+2slimey's music sits somewhere between rage, trap, and noise. his distortion is deliberate. the clipping is deliberate. the 808s are pushed into sounds that barely resemble conventional 808s, with strange pitch changes and patterns dropping ENTIRE OCTAVES.
+
+that right there is where i think a lot of the criticism misses the point fully.
+
+his influences aren't just carti and uzi. he's talked about bands like **minor threat, bad brains, and the sex pistols**, and thats where you can start clicking the patterns together.
+
+hardcore punk was loud, fast, abrasive, and deliberately hostile to conventional ideas of what music was supposed to sound like. a lot of the music that eventually became influential was initially dismissed with some variation of "this shit isn't even music at this point."
+
+2slimey takes that same refusal and pushes it through rage and trap production.
+
+the distortion isn't there because he doesn't know how to make something cleaner. the discomfort *is part of the work.*
+
+## music doesn't need to be comfortable
+
+this is the part that actually changed how i listen to music.
+
+i used to judge production mostly by whether something immediately sounded satisfying.
+
+and to be fair.. there's nothing wrong with that!
+
+but 2slimey made me realize that **music CAN be good because it refuses to give you that satisfaction.**
+
+music can be abrasive on purpose. it can feel excessive. it can leave things unresolved. it can make you sit there and think "what the fuck am i listening to?" and still feel 100% fully intentional.
+
+that's changed the decisions i make when i produce.
+
+i'm less afraid of sounds that don't fit cleanly. i'm more interested in stuff that is harsh for an actual reason. i'm less convinced that "sounds good immediately" is the same thing as "sounds good."
+
+## so, the shrimp guy
+
+im not telling you to like 2slimey.
+
+seriously.
+
+BUT, you should know the difference between "this is talentless" from "this isn't really for me".
+
+because once you understand what he's actually trying to do, his music becomes a lot more interesting. whether you enjoy the result is completely subjective. the artistic idea behind it is NOT.
+
+that is what stuck with me
+
+a meme/trend introduced me to an artist who completely changed the way i think about production.
+
+so yeah.
+
+the shrimp guy.
+    `,
+    date: 'Aug 12, 2026',
+    category: 'music',
+    readTime: '5 min read',
+    link: '2slimey-changed-how-i-listen',
+  },
+  {
     id: 'more-old-blogs-restored',
     title: 'even more history! part 2 of restoring the early blogs',
     snippet: 'restored a few more gems from the early 2026 snapshots, including some of my favorite rants and the revamped markdown stress test.',
