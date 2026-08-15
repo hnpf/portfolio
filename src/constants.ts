@@ -2410,6 +2410,22 @@ export interface MusicRelease {
 
 export const MUSIC_RELEASES: MusicRelease[] = [
   {
+    id: "HATEWARE",
+    title: "HATEWARE",
+    type: "Single",
+    releaseDate: "2026",
+    description: "HATEWARE consists of three radio eq dropouts, harsh 808s, and zero breathing room. single dropped aug 13, 2026. written, produced, and mixed by rxvirex",
+    genre: "Rage/Trap",
+    duration: "2 min 5 sec",
+    tags: ["rage", "experimental"],
+    featured: true,
+    links: {
+      spotify: "https://open.spotify.com/album/4igWVMnc4K292BEFdvkdVl?si=Q3ochhl8SW2NpHfCbUMC_g",
+      bandcamp: "https://rxvirex.bandcamp.com/track/hateware",
+      tiktok: "https://www.tiktok.com/@hahavrx",
+    },
+  },
+  {
     id: "FIRSTATTEMPT",
     title: "FIRST ATTEMPT",
     type: "Album",
