@@ -1011,6 +1011,44 @@ it's literally just people helping people for learning (and overall better code 
 ];
 
 export const CHANGELOGS: ChangelogEntry[] = [
+  {
+    id: "memory-reduction-overhaul",
+    version: "2026.08.17",
+    title: "memory reduction overhaul",
+    date: "Aug 17, 2026",
+    changes: [
+      {
+        category: "font trim",
+        items: [
+          "stripped 11 unused google font families from the global stylesheet, including noto sans JP, KR, SC, arabic, and hebrew. CJK font tables alone were inflating memory usage by 150MB+ on EACH page load..",
+          "removed redundant roboto flex google import since the site already loads google sans flex locally",
+          "removed outfit, space grotesk, syne, bricolage grotesque, unbounded, and inter, none are used anymore.",
+          "kept jetbrains mono (for code blocks) as the sole external font import. everything else is self-hosted. :)",
+        ],
+      },
+      {
+        category: "asset optimization",
+        items: [
+          "converted sidebar pfp from a 1254x1254 PNG (1.8MB) to a 256x256 WebP (11KB). that's a 99.4% file size reduction!",
+          "updated app.tsx to load main.webp instead of main.png, decoded bitmap memory drops from ~8MB to a fraction of that.",
+        ],
+      },
+      {
+        category: "build & bundle",
+        items: [
+          "configured clean rollup vendor chunking: vendor-react, vendor-motion, and the blog page syntax highlighter are now properly isolated chunks.",
+          "eliminated the 25 micro-chunk dynamic import wrappers that were adding V8 module record overhead.",
+        ],
+      },
+      {
+        category: "debug view",
+        items: [
+          "gated DebugView behind settings.debugMode so the console hijack and overlay never mount in a normal session.",
+          "moved global console.log/warn/error intercept into a lazy initConsoleHijack() that only runs when the debug panel actually mounts.",
+        ],
+      },
+    ],
+  },
 {
     id: "now-playing-finally",
     version: "2026.08.09_2",
