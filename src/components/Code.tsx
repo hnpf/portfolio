@@ -1,7 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Check, Copy } from "./MaterialIcon";
 import { motion, AnimatePresence } from "motion/react";
-import hljs from "highlight.js";
+import hljs from "highlight.js/lib/core";
+import python from "highlight.js/lib/languages/python";
+import typescript from "highlight.js/lib/languages/typescript";
+import rust from "highlight.js/lib/languages/rust";
+import c from "highlight.js/lib/languages/c";
+
+// register only the languages actually going to be used in blog posts (will update if more are used ofc)
+hljs.registerLanguage("python", python);
+hljs.registerLanguage("typescript", typescript);
+hljs.registerLanguage("rust", rust);
+hljs.registerLanguage("c", c);
+
 
 const extractText = (node: any): string => {
   if (typeof node === "string") return node;

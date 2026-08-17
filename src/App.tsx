@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useEffect, useRef, memo } from "react";
+import React, { useState, useEffect, useRef, memo, lazy, Suspense } from "react";
 import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import {
   Home,
@@ -33,29 +33,31 @@ import { useMetadata } from "./hooks/useMetadata";
 import { useViewport } from "./hooks/useViewport";
 import { useTextSearch } from "./hooks/useTextSearch";
 
-// pages
+// pages: keep route-level code splitting only for heavy/media-rich pages
 import { HomePage } from "./pages/HomePage";
-import { BlogPage } from "./pages/BlogPage";
 import { ChangelogPage } from "./pages/ChangelogPage";
-import { LensPage } from "./pages/LensPage";
 import { ReadmePage } from "./pages/ReadmePage";
 import { NowPage } from "./pages/NowPage";
 import { MusicPage } from "./pages/MusicPage";
 import NotFound from "./pages/NotFound";
+import { LensPage } from "./pages/LensPage";
+const BlogPage = lazy(() => import("./pages/BlogPage").then(m => ({ default: m.BlogPage })));
 
-// components
-import { SideItem } from "./components/Navigation";
-import { MobileFloatingNav } from "./components/MobileFloatingNav";
-import { CommandPalette } from "./components/CommandPalette";
-import { TextSearchBar } from "./components/TextSearchBar";
+// interactive dialogs/components: eagerly loaded for 0ms interaction response
 import { SettingsDialog } from "./components/SettingsDialog";
 import { GuestbookDialog } from "./components/GuestbookDialog";
-import { DebugConfirmDialog } from "./components/DebugConfirmDialog";
-import { DebugView } from "./components/DebugView";
-import { CapsuleConfirmDialog } from "./components/CapsuleConfirmDialog";
-import { RefreshConfirmDialog } from "./components/RefreshConfirmDialog";
 import { BugReportDialog } from "./components/BugReportDialog";
 import { KnownIssuesDialog } from "./components/KnownIssuesDialog";
+import { DebugView } from "./components/DebugView";
+import { CommandPalette } from "./components/CommandPalette";
+
+// lighter components: kept eager (small, used immediately)
+import { SideItem } from "./components/Navigation";
+import { MobileFloatingNav } from "./components/MobileFloatingNav";
+import { TextSearchBar } from "./components/TextSearchBar";
+import { DebugConfirmDialog } from "./components/DebugConfirmDialog";
+import { CapsuleConfirmDialog } from "./components/CapsuleConfirmDialog";
+import { RefreshConfirmDialog } from "./components/RefreshConfirmDialog";
 import { FoolsPopup } from "./components/FoolsPopup";
 import { BounceButton } from "./components/TechStack";
 import { M3WindowScrollBar, M3ScrollBar } from "./components/M3ScrollBar";
@@ -429,7 +431,7 @@ export default function App() {
                   <div className="absolute inset-0 rounded-[inherit] overflow-hidden">
                     <div className={cn("absolute inset-0 z-20 rounded-[inherit] ring-inset overflow-hidden transition-colors duration-250 pointer-events-none", show_pfp_container ? "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]" : "ring-6 ring-[var(--outline-variant)] group-hover/pfp:ring-[var(--primary)]", settings.sidebarCollapsed && "ring-6")} />
                     <div className="absolute inset-0 bg-[var(--surface-variant)]/50 -z-10" />
-                    <img src="/photography/pfp/main.png" alt="virex" className="w-full h-full object-cover rounded-[inherit] group-hover/pfp:scale-105 backface-hidden transform-3d transition-transform duration-250 group-hover/pfp:scale-105" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; const svg = document.createElement("img"); svg.src = "/favicon.svg"; svg.className = "w-10 h-10 p-1 transition-transform group-hover/pfp:scale-110"; svg.style.color = "var(--on-primary)"; (e.target as HTMLImageElement).parentElement!.appendChild(svg); }} referrerPolicy="no-referrer" />
+                    <img src="/photography/pfp/main.webp" alt="virex" className="w-full h-full object-cover rounded-[inherit] group-hover/pfp:scale-105 backface-hidden transform-3d transition-transform duration-250 group-hover/pfp:scale-105" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; const svg = document.createElement("img"); svg.src = "/favicon.svg"; svg.className = "w-10 h-10 p-1 transition-transform group-hover/pfp:scale-110"; svg.style.color = "var(--on-primary)"; (e.target as HTMLImageElement).parentElement!.appendChild(svg); }} referrerPolicy="no-referrer" />
                   </div>
                 </motion.div>
                 {!settings.sidebarCollapsed && (
@@ -599,16 +601,6 @@ export default function App() {
         isMobile={is_mobile}
         viewport={viewport}
       />
-      <TextSearchBar
-        isOpen={textSearch.isOpen}
-        query={textSearch.query}
-        onQueryChange={textSearch.updateQuery}
-        onClose={textSearch.closeSearch}
-        onNextMatch={textSearch.nextMatch}
-        onPrevMatch={textSearch.prevMatch}
-        matchCount={textSearch.matchCount}
-        currentMatch={textSearch.currentMatch}
-      />
       <GuestbookDialog
         isOpen={guestbookOpen}
         onClose={handleCloseGuestbook}
@@ -622,20 +614,9 @@ export default function App() {
         isMobile={is_mobile}
         viewport={viewport}
       />
-      <DebugConfirmDialog showDebugConfirm={showDebugConfirm} setShowDebugConfirm={setShowDebugConfirm} updateSettings={updateSettings} />
-      <CapsuleConfirmDialog pendingCapsule={pendingCapsule} setPendingCapsule={setPendingCapsule} updateSettings={updateSettings} setToast={setToast} />
-      <RefreshConfirmDialog showRefreshConfirm={showRefreshConfirm} setShowRefreshConfirm={setShowRefreshConfirm} />
-      <DebugView page={page} blogPostId={blogPostId} viewport={viewport} />
-      <TextSearchBar
-        isOpen={textSearch.isOpen}
-        query={textSearch.query}
-        onQueryChange={textSearch.updateQuery}
-        onClose={textSearch.closeSearch}
-        onNextMatch={textSearch.nextMatch}
-        onPrevMatch={textSearch.prevMatch}
-        matchCount={textSearch.matchCount}
-        currentMatch={textSearch.currentMatch}
-      />
+      {settings.debugMode && (
+        <DebugView page={page} blogPostId={blogPostId} viewport={viewport} />
+      )}
       <CommandPalette
         open={commandOpen}
         onClose={() => setCommandOpen(false)}
@@ -647,8 +628,20 @@ export default function App() {
         onOpenGuestbook={handleOpenGuestbook}
         blogPosts={BLOG_POSTS}
       />
+      <TextSearchBar
+        isOpen={textSearch.isOpen}
+        query={textSearch.query}
+        onQueryChange={textSearch.updateQuery}
+        onClose={textSearch.closeSearch}
+        onNextMatch={textSearch.nextMatch}
+        onPrevMatch={textSearch.prevMatch}
+        matchCount={textSearch.matchCount}
+        currentMatch={textSearch.currentMatch}
+      />
+      <DebugConfirmDialog showDebugConfirm={showDebugConfirm} setShowDebugConfirm={setShowDebugConfirm} updateSettings={updateSettings} />
+      <CapsuleConfirmDialog pendingCapsule={pendingCapsule} setPendingCapsule={setPendingCapsule} updateSettings={updateSettings} setToast={setToast} />
+      <RefreshConfirmDialog showRefreshConfirm={showRefreshConfirm} setShowRefreshConfirm={setShowRefreshConfirm} />
       </MotionConfig>
     </div>
   );
 }
-// this is really shitty but who cares!!?

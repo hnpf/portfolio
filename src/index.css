@@ -1,22 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&family=Bricolage+Grotesque:wght@700;800&family=Unbounded:wght@700;900&family=Noto+Sans+JP:wght@700&family=Noto+Sans+KR:wght@700&family=Noto+Sans+SC:wght@700&family=Noto+Sans+Arabic:wght@700&family=Noto+Sans+Hebrew:wght@700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght,GRAD,wdth,slnt&display=swap");
-@font-face {
-    font-family: 'Google Sans Flex';
-    font-style: normal;
-    font-weight: 1 1000;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/googlesansflex/v22/t5sJIQcYNIWbFgDgAAzZ34auoVyXkJCOvp3SFWJbN5hF8Ju1x6sKCyp0l9sI40swNJwInycYAJzz0m7kJ4qFQOJBOjLvDSndo0SKMpKSTzwliVdHAy4bxTDHg_ugnAakp8ub-cxgUg.woff2') format('woff2');
-    unicode-range: U+0000-00FF;
-}
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap");
 
-@font-face {
-    font-family: 'Google Sans Flex';
-    font-style: normal;
-    font-weight: 1 1000;
-    font-display: swap;
-    src: url('/fonts/GoogleSansFlex-Latin.woff2') format('woff2');
-    unicode-range: U+0000-00FF;
-}
 
 @font-face {
     font-family: 'Material Symbols Rounded';
