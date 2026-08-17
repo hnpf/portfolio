@@ -33,22 +33,22 @@ import { useMetadata } from "./hooks/useMetadata";
 import { useViewport } from "./hooks/useViewport";
 import { useTextSearch } from "./hooks/useTextSearch";
 
-// pages: lazy loaded for route-based code splitting
-const HomePage = lazy(() => import("./pages/HomePage").then(m => ({ default: m.HomePage })));
+// pages: keep route-level code splitting only for heavy/media-rich pages
+import { HomePage } from "./pages/HomePage";
+import { ChangelogPage } from "./pages/ChangelogPage";
+import { ReadmePage } from "./pages/ReadmePage";
+import { NowPage } from "./pages/NowPage";
+import NotFound from "./pages/NotFound";
 const BlogPage = lazy(() => import("./pages/BlogPage").then(m => ({ default: m.BlogPage })));
-const ChangelogPage = lazy(() => import("./pages/ChangelogPage").then(m => ({ default: m.ChangelogPage })));
 const LensPage = lazy(() => import("./pages/LensPage").then(m => ({ default: m.LensPage })));
-const ReadmePage = lazy(() => import("./pages/ReadmePage").then(m => ({ default: m.ReadmePage })));
-const NowPage = lazy(() => import("./pages/NowPage").then(m => ({ default: m.NowPage })));
-const NotFound = lazy(() => import("./pages/NotFound"));
 
-// heavy dialogs/components: lazy loaded, only mounted when opened
-const SettingsDialog = lazy(() => import("./components/SettingsDialog").then(m => ({ default: m.SettingsDialog })));
-const GuestbookDialog = lazy(() => import("./components/GuestbookDialog").then(m => ({ default: m.GuestbookDialog })));
-const BugReportDialog = lazy(() => import("./components/BugReportDialog").then(m => ({ default: m.BugReportDialog })));
-const KnownIssuesDialog = lazy(() => import("./components/KnownIssuesDialog").then(m => ({ default: m.KnownIssuesDialog })));
-const DebugView = lazy(() => import("./components/DebugView").then(m => ({ default: m.DebugView })));
-const CommandPalette = lazy(() => import("./components/CommandPalette").then(m => ({ default: m.CommandPalette })));
+// interactive dialogs/components: eagerly loaded for 0ms interaction response
+import { SettingsDialog } from "./components/SettingsDialog";
+import { GuestbookDialog } from "./components/GuestbookDialog";
+import { BugReportDialog } from "./components/BugReportDialog";
+import { KnownIssuesDialog } from "./components/KnownIssuesDialog";
+import { DebugView } from "./components/DebugView";
+import { CommandPalette } from "./components/CommandPalette";
 
 // lighter components: kept eager (small, used immediately)
 import { SideItem } from "./components/Navigation";
@@ -576,64 +576,54 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <Suspense fallback={null}>
-        {settingsOpen && (
-          <SettingsDialog
-            settingsOpen={settingsOpen}
-            setSettingsOpen={setSettingsOpen}
-            settings={settings}
-            updateSettings={updateSettings}
-            setShowDebugConfirm={setShowDebugConfirm}
-            setShowRefreshConfirm={setShowRefreshConfirm}
-            setToast={setToast}
-            goto={goto}
-            is_mobile={is_mobile}
-            viewport={viewport}
-            onReportBug={() => setBugReportOpen(true)}
-            onOpenKnownIssuess={() => setKnownIssuessOpen(true)}
-          />
-        )}
-        {bugReportOpen && (
-          <BugReportDialog
-            isOpen={bugReportOpen}
-            onClose={() => setBugReportOpen(false)}
-            setToast={setToast}
-            isMobile={is_mobile}
-            viewport={viewport}
-          />
-        )}
-        {guestbookOpen && (
-          <GuestbookDialog
-            isOpen={guestbookOpen}
-            onClose={handleCloseGuestbook}
-            setToast={setToast}
-            isMobile={is_mobile}
-            viewport={viewport}
-          />
-        )}
-        {KnownIssuessOpen && (
-          <KnownIssuesDialog
-            isOpen={KnownIssuessOpen}
-            onClose={() => setKnownIssuessOpen(false)}
-            isMobile={is_mobile}
-            viewport={viewport}
-          />
-        )}
-        {commandOpen && (
-          <CommandPalette
-            open={commandOpen}
-            onClose={() => setCommandOpen(false)}
-            goto={goto}
-            settings={settings}
-            cycleTheme={cycleTheme}
-            updateSettings={updateSettings}
-            onOpenSettings={() => setSettingsOpen(true)}
-            onOpenGuestbook={handleOpenGuestbook}
-            blogPosts={BLOG_POSTS}
-          />
-        )}
+      <SettingsDialog 
+        settingsOpen={settingsOpen} 
+        setSettingsOpen={setSettingsOpen} 
+        settings={settings} 
+        updateSettings={updateSettings} 
+        setShowDebugConfirm={setShowDebugConfirm} 
+        setShowRefreshConfirm={setShowRefreshConfirm}
+        setToast={setToast} 
+        goto={goto} 
+        is_mobile={is_mobile}
+        viewport={viewport}
+        onReportBug={() => setBugReportOpen(true)}
+        onOpenKnownIssuess={() => setKnownIssuessOpen(true)}
+      />
+      <BugReportDialog
+        isOpen={bugReportOpen}
+        onClose={() => setBugReportOpen(false)}
+        setToast={setToast}
+        isMobile={is_mobile}
+        viewport={viewport}
+      />
+      <GuestbookDialog
+        isOpen={guestbookOpen}
+        onClose={handleCloseGuestbook}
+        setToast={setToast}
+        isMobile={is_mobile}
+        viewport={viewport}
+      />
+      <KnownIssuesDialog
+        isOpen={KnownIssuessOpen}
+        onClose={() => setKnownIssuessOpen(false)}
+        isMobile={is_mobile}
+        viewport={viewport}
+      />
+      {settings.debugMode && (
         <DebugView page={page} blogPostId={blogPostId} viewport={viewport} />
-      </Suspense>
+      )}
+      <CommandPalette
+        open={commandOpen}
+        onClose={() => setCommandOpen(false)}
+        goto={goto}
+        settings={settings}
+        cycleTheme={cycleTheme}
+        updateSettings={updateSettings}
+        onOpenSettings={() => setSettingsOpen(true)}
+        onOpenGuestbook={handleOpenGuestbook}
+        blogPosts={BLOG_POSTS}
+      />
       <TextSearchBar
         isOpen={textSearch.isOpen}
         query={textSearch.query}
