@@ -79,41 +79,47 @@ const addGlobalLog = (level: "info" | "warn" | "error", message: string) => {
 };
 
 // get console logs
-if (typeof window !== "undefined" && !(window as any).__console_hijacked__) {
-  (window as any).__console_hijacked__ = true;
-  const originalLog = console.log;
-  const originalWarn = console.warn;
-  const originalError = console.error;
+const initConsoleHijack = () => {
+  if (typeof window !== "undefined" && !(window as any).__console_hijacked__) {
+    (window as any).__console_hijacked__ = true;
+    const originalLog = console.log;
+    const originalWarn = console.warn;
+    const originalError = console.error;
 
-  console.log = (...args: any[]) => {
-    originalLog.apply(console, args);
-    const msg = args.map(formatConsoleArg).join(" ");
-    addGlobalLog("info", msg);
-  };
+    console.log = (...args: any[]) => {
+      originalLog.apply(console, args);
+      const msg = args.map(formatConsoleArg).join(" ");
+      addGlobalLog("info", msg);
+    };
 
-  console.warn = (...args: any[]) => {
-    originalWarn.apply(console, args);
-    const msg = args.map(formatConsoleArg).join(" ");
-    addGlobalLog("warn", msg);
-  };
-  console.error = (...args: any[]) =>  {
-    originalError.apply(console, args);
-    const msg = args.map(formatConsoleArg).join(" ");
-    addGlobalLog("error", msg);
-  };
+    console.warn = (...args: any[]) => {
+      originalWarn.apply(console, args);
+      const msg = args.map(formatConsoleArg).join(" ");
+      addGlobalLog("warn", msg);
+    };
+    console.error = (...args: any[]) =>  {
+      originalError.apply(console, args);
+      const msg = args.map(formatConsoleArg).join(" ");
+      addGlobalLog("error", msg);
+    };
 
-  window.addEventListener("error", (e) => {
-    addGlobalLog("error", `uncaught error: ${e.message} at ${e.filename}:${e.lineno}`);
-  });
+    window.addEventListener("error", (e) => {
+      addGlobalLog("error", `uncaught error: ${e.message} at ${e.filename}:${e.lineno}`);
+    });
 
-  window.addEventListener("unhandledrejection", (e) => {
-    addGlobalLog("error", `unhandled rejection: ${String(e.reason)}`);
-  });
-}
+    window.addEventListener("unhandledrejection", (e) => {
+      addGlobalLog("error", `unhandled rejection: ${String(e.reason)}`);
+    });
+  }
+};
 
 export const DebugView = ({ page, blogPostId, viewport }: any) => {
   const { settings, updateSettings, actualTheme, cycleTheme } = useTheme();
   
+  useEffect(() => {
+    initConsoleHijack();
+  }, []);
+
   const BUILD_VERSION = "v3.3.4-stable (2026.08.09_2)";
   const dragControls = useDragControls();
 
