@@ -3,7 +3,7 @@
  */
 
 import { BLOG_POSTS, PROJECTS } from "../constants";
-import { LENS_PHOTOS } from "../data/photos";
+import { LENS_PHOTOS } from "../pages/LensPage";
 import { Search, Monitor, Settings as SettingsIcon, Layers, Palette, Moon, Sun, Link as LinkIcon, FileText, Boxes, Image } from "lucide-react";
 
 export interface SearchItem {
