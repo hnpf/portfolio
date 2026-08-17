@@ -1,17 +1,41 @@
-import { useEffect } from 'react';
-import { BLOG_POSTS } from '../constants';
+import { useEffect, useState } from 'react';
+import { BLOG_POSTS, MUSIC_RELEASES } from '../constants';
+
+/** reads current ?release= query param from URL */
+function getMusicReleaseId(page: string): string | null {
+  if (page !== 'music') return null;
+  return new URLSearchParams(window.location.search).get('release');
+}
 
 export const useMetadata = (page: string, blogPostId: string | null, isApr: boolean) => {
+  // track music release id separately so we can react to URL changes within /music
+  const [musicReleaseId, setMusicReleaseId] = useState<string | null>(() =>
+    getMusicReleaseId(page)
+  );
+
+  // keep musicReleaseId in sync when page changes or browser navigates
+  useEffect(() => {
+    const id = getMusicReleaseId(page);
+    setMusicReleaseId(id);
+
+    const onNav = () => setMusicReleaseId(getMusicReleaseId(page));
+    window.addEventListener('popstate', onNav);
+    return () => window.removeEventListener('popstate', onNav);
+  }, [page]);
+
   useEffect(() => {
     if (isApr) return;
+
     const name =
       page === "readme" ? "Info" : page.charAt(0).toUpperCase() + page.slice(1);
     const title =
       page === "blog" && blogPostId
         ? `Virex | ${BLOG_POSTS.find((p) => p.id === blogPostId || p.link === blogPostId)?.title || "Post"}`
-        : page === "home"
-          ? "Virex | Portfolio"
-          : `Virex | ${name}`;
+        : page === "music" && musicReleaseId
+          ? `rxvirex | ${MUSIC_RELEASES.find((r) => r.id.toLowerCase() === musicReleaseId.toLowerCase())?.title || musicReleaseId}`
+          : page === "home"
+            ? "Virex | Portfolio"
+            : `Virex | ${name}`;
     document.title = title;
 
     let desc =
@@ -19,12 +43,14 @@ export const useMetadata = (page: string, blogPostId: string | null, isApr: bool
         ? "virex portfolio: an independent software developer and systems researcher showcasing projects, UI/UX, security research, and photography."
         : "virex software researcher and problem solver, who explores systems and programming, UI/UX, and security research.";
     let og_title = title;
-    const og_img = "https://virex.lol/photography/pfp/main.png";
+    let og_img = "https://virex.lol/photography/pfp/main.png";
     const pageUrl =
       page === "home"
         ? "https://virex.lol"
         : page === "blog" && blogPostId
         ? `https://virex.lol/blog/${blogPostId}`
+        : page === "music" && musicReleaseId
+        ? `https://virex.lol/music?release=${encodeURIComponent(musicReleaseId)}`
         : `https://virex.lol/${page}`;
     const og_type = page === "blog" && blogPostId ? "article" : "website";
 
@@ -36,11 +62,27 @@ export const useMetadata = (page: string, blogPostId: string | null, isApr: bool
         desc = p.snippet;
         og_title = `Virex Blog | ${p.title}`;
       }
+    } else if (page === "music" && musicReleaseId) {
+      const r = MUSIC_RELEASES.find(
+        (r) => r.id.toLowerCase() === musicReleaseId.toLowerCase(),
+      );
+      if (r) {
+        desc = r.description;
+        og_title = `Virex Music | ${r.title}`;
+        // prefer explicit coverUrl, then check common extensions. .webp first for perf
+        og_img = r.coverUrl
+          ? `https://virex.lol${r.coverUrl.startsWith('/') ? '' : '/'}${r.coverUrl}`
+          : `https://virex.lol/albums/${r.id}.png`;
+      }
     } else if (page === "readme") {
       desc =
         "README: my personal biography, a quick summary about my mission, and identity.";
     } else if (page === "lens") {
       desc = "lens: my photography collection, all done with a literal phone.";
+    } else if (page === "music") {
+      desc =
+        "music by virex (rxvirex) - producer, software dev, linux enthusiast. releases, beats, and sound design.";
+      og_title = "rxvirex";
     }
 
     const set_meta = (key: string, val: string, is_prop = false) => {
@@ -108,6 +150,19 @@ export const useMetadata = (page: string, blogPostId: string | null, isApr: bool
         ld["image"] = og_img;
         ld["author"] = { "@type": "Person", name: "Virex" };
       }
+    } else if (page === "music" && musicReleaseId) {
+      const r = MUSIC_RELEASES.find(
+        (r) => r.id.toLowerCase() === musicReleaseId.toLowerCase(),
+      );
+      if (r) {
+        ld["@type"] = "MusicAlbum";
+        ld["name"] = r.title;
+        ld["description"] = r.description;
+        ld["genre"] = r.genre;
+        ld["byArtist"] = { "@type": "MusicGroup", name: "virex" };
+        ld["url"] = pageUrl;
+        ld["image"] = og_img;
+      }
     } else {
       ld["mainEntityOfPage"] = {
         "@type": "WebPage",
@@ -121,5 +176,5 @@ export const useMetadata = (page: string, blogPostId: string | null, isApr: bool
     script.type = "application/ld+json";
     script.text = JSON.stringify(ld);
     document.head.appendChild(script);
-  }, [page, blogPostId, isApr]);
+  }, [page, blogPostId, musicReleaseId, isApr]);
 };

@@ -29,7 +29,8 @@
     "dev:server": "tsx api/index.ts",
     "dev:all": "pnpm run dev:server & pnpm run dev",
     "generate:rss": "tsx scripts/generate-rss.ts",
-    "build": "pnpm run generate:rss && vite build",
+    "generate:og-data": "tsx scripts/generate-og-data.ts",
+    "build": "pnpm run generate:rss && pnpm run generate:og-data && vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"

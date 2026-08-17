@@ -11,6 +11,7 @@ dist/
 build/
 .vercel
 .wrangler/
+functions/_generated/
 
 # misc
 .DS_Store
