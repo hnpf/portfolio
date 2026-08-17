@@ -39,8 +39,8 @@ import { ChangelogPage } from "./pages/ChangelogPage";
 import { ReadmePage } from "./pages/ReadmePage";
 import { NowPage } from "./pages/NowPage";
 import NotFound from "./pages/NotFound";
+import { LensPage } from "./pages/LensPage";
 const BlogPage = lazy(() => import("./pages/BlogPage").then(m => ({ default: m.BlogPage })));
-const LensPage = lazy(() => import("./pages/LensPage").then(m => ({ default: m.LensPage })));
 
 // interactive dialogs/components: eagerly loaded for 0ms interaction response
 import { SettingsDialog } from "./components/SettingsDialog";
