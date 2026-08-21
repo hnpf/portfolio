@@ -55,41 +55,41 @@ const buildTrackKey = (track?: Partial<TrackData> | null) => {
 
 export const NowPage = memo(() => {
   return (
-    <div className="max-w-6xl mx-auto space-y-12 md:space-y-16 pb-24">
-      <header className="page-header flex flex-col md:flex-row md:items-end justify-between gap-6 px-4 md:px-0">
-        <div className="space-y-4">
-          <h2 className="page-title !text-6xl md:!text-9xl font-expressive-bold italic">Now</h2>
-          <p className="text-xl md:text-2xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-2xl leading-tight">
+    <div className="max-w-6xl mx-auto space-y-10 md:space-y-16 pb-24">
+      <header className="page-header flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 px-4 md:px-0">
+        <div className="space-y-3 sm:space-y-4">
+          <h2 className="page-title !text-5xl sm:!text-7xl md:!text-9xl font-expressive-bold italic">Now</h2>
+          <p className="text-lg sm:text-xl md:text-2xl font-display font-medium text-[var(--on-surface-variant)] opacity-60 max-w-2xl leading-tight">
             What I'm currently building, learning, and listening to right now.
           </p>
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 md:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 px-4 md:px-0">
         {/* SECTION 1: BUILDING */}
         <Card
           delay={0.1}
-          innerClassName="p-6 sm:p-8 md:p-12 border-6 border-[var(--outline-variant)]/90 transition-colors flex flex-col justify-between min-h-[360px] md:min-h-[450px] group/now"
+          innerClassName="p-5 sm:p-8 md:p-12 border-4 sm:border-6 border-[var(--outline-variant)]/90 transition-colors flex flex-col justify-between min-h-[280px] sm:min-h-[360px] md:min-h-[450px] group/now rounded-[2rem] sm:rounded-[2.5rem]"
         >
-          <div className="space-y-8 sm:space-y-10">
-            <div className="space-y-6">
-              <h3 className="flex items-center gap-4 text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
-                <BuildIcon size={42} fill className="text-[var(--primary)] shrink-0" />
+          <div className="space-y-6 sm:space-y-10">
+            <div className="space-y-4 sm:space-y-6">
+              <h3 className="flex items-center gap-3 sm:gap-4 text-2xl sm:text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
+                <BuildIcon size={34} fill className="text-[var(--primary)] shrink-0 sm:w-10 sm:h-10" />
                 Now Building
               </h3>
             </div>
-            <div className="space-y-6 border-t-3 border-[var(--outline-variant)]/90 pt-8 sm:pt-10">
-              <ul className="space-y-4">
-                <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
+            <div className="space-y-4 sm:space-y-6 border-t-2 sm:border-t-3 border-[var(--outline-variant)]/90 pt-6 sm:pt-10">
+              <ul className="space-y-3 sm:space-y-4">
+                <li className="flex gap-2.5 sm:gap-3 text-sm sm:text-[17px] opacity-80 leading-relaxed group/tip">
+                  <ListIcon size={16} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Helping the community and becoming more open to PR's and contributions
                 </li>
-                <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
+                <li className="flex gap-2.5 sm:gap-3 text-sm sm:text-[17px] opacity-80 leading-relaxed group/tip">
+                  <ListIcon size={16} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Tinkering with personal base workflows and tools/scripts.
                 </li>
-                <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
+                <li className="flex gap-2.5 sm:gap-3 text-sm sm:text-[17px] opacity-80 leading-relaxed group/tip">
+                  <ListIcon size={16} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Frequently updating and reworking virex.lol for the best user experience i can possibly make
                 </li>
               </ul>
@@ -100,27 +100,27 @@ export const NowPage = memo(() => {
         {/* SECTION 2: LEARNING */}
         <Card
           delay={0.2}
-          innerClassName="p-6 sm:p-8 md:p-12 border-6 border-[var(--outline-variant)]/90 transition-colors flex flex-col justify-between min-h-[360px] md:min-h-[450px] group/now"
+          innerClassName="p-5 sm:p-8 md:p-12 border-4 sm:border-6 border-[var(--outline-variant)]/90 transition-colors flex flex-col justify-between min-h-[280px] sm:min-h-[360px] md:min-h-[450px] group/now rounded-[2rem] sm:rounded-[2.5rem]"
         >
-          <div className="space-y-8 sm:space-y-10">
-            <div className="space-y-6">
-              <h3 className="flex items-center gap-4 text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
-                <LearnIcon size={42} fill className="text-[var(--primary)] shrink-0" />
+          <div className="space-y-6 sm:space-y-10">
+            <div className="space-y-4 sm:space-y-6">
+              <h3 className="flex items-center gap-3 sm:gap-4 text-2xl sm:text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
+                <LearnIcon size={34} fill className="text-[var(--primary)] shrink-0 sm:w-10 sm:h-10" />
                 Now Learning
               </h3>
             </div>
-            <div className="space-y-6 border-t-3 border-[var(--outline-variant)]/90 pt-8 sm:pt-10">
-              <ul className="space-y-4">
-                <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
+            <div className="space-y-4 sm:space-y-6 border-t-2 sm:border-t-3 border-[var(--outline-variant)]/90 pt-6 sm:pt-10">
+              <ul className="space-y-3 sm:space-y-4">
+                <li className="flex gap-2.5 sm:gap-3 text-sm sm:text-[17px] opacity-80 leading-relaxed group/tip">
+                  <ListIcon size={16} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Sound design & synthesis: wave architectures, fm synthesis basics, etc.
                 </li>
-                <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
+                <li className="flex gap-2.5 sm:gap-3 text-sm sm:text-[17px] opacity-80 leading-relaxed group/tip">
+                  <ListIcon size={16} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Hardware interfaces: managing low latency audio pipelines
                 </li>
-                <li className="flex gap-3 text-[17px] opacity-80 leading-relaxed group/tip">
-                  <ListIcon size={18} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
+                <li className="flex gap-2.5 sm:gap-3 text-sm sm:text-[17px] opacity-80 leading-relaxed group/tip">
+                  <ListIcon size={16} fill className="text-[var(--primary)] mt-1 shrink-0 group-hover/tip:translate-x-1 transition-transform duration-200" />
                   Hyprland plug-ins: experimenting with plugins like "Infinite canvas" and Gloview in my primary configs along with quickshell.
                 </li>
               </ul>
@@ -132,7 +132,7 @@ export const NowPage = memo(() => {
         <Card
           delay={0.4}
           className="md:col-span-2"
-          innerClassName="bg-[var(--primary)] text-[var(--on-primary)] p-6 sm:p-8 md:p-12 border-6 border-[var(--outline-variant)]/40 transition-colors flex flex-col justify-between min-h-[360px] md:min-h-[450px] group/now"
+          innerClassName="bg-[var(--primary)] text-[var(--on-primary)] p-5 sm:p-8 md:p-12 border-4 sm:border-6 border-[var(--outline-variant)]/40 transition-colors flex flex-col justify-between min-h-[300px] sm:min-h-[360px] md:min-h-[450px] group/now rounded-[2rem] sm:rounded-[2.5rem]"
         >
           <LastFmNowPlayingCard />
         </Card>
@@ -385,22 +385,16 @@ const LastFmNowPlayingCard = () => {
     ? sessionRef.current.startedAt
     : (track?.fetchedAt || now);
 
-  const isNowPlayingRaw = track?.isNowPlaying ?? false;
+  const isCurrentlyPlaying = track?.isNowPlaying ?? false;
   const durationMs = track?.durationMs && track.durationMs > 0 ? track.durationMs : null;
 
   let elapsedMs = 0;
   let percent = 0;
-  let isPaused = false;
 
-  if (isNowPlayingRaw) {
+  if (isCurrentlyPlaying) {
     const rawElapsed = Math.max(0, now - startedAt);
     if (durationMs) {
-      if (rawElapsed >= durationMs + 10000) {
-        // Track finished playing or user paused playback
-        isPaused = true;
-        elapsedMs = durationMs;
-        percent = 100;
-      } else if (rawElapsed >= durationMs) {
+      if (rawElapsed >= durationMs) {
         elapsedMs = durationMs;
         percent = 100;
       } else {
@@ -416,14 +410,12 @@ const LastFmNowPlayingCard = () => {
     elapsedMs = durationMs || 0;
   }
 
-  const isCurrentlyPlaying = isNowPlayingRaw && !isPaused;
-
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-5 sm:space-y-8">
       {/* Header line with Refresh action */}
       <div className="flex items-center justify-between gap-3">
-        <h3 className="flex items-center gap-3 sm:gap-4 text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
-          <ListenIcon size={38} fill className="text-[var(--on-primary)] shrink-0" />
+        <h3 className="flex items-center gap-2.5 sm:gap-4 text-2xl sm:text-4xl md:text-5xl font-display font-black tracking-tighter italic group-hover/now:translate-x-1 transition-transform duration-300">
+          <ListenIcon size={32} fill className="text-[var(--on-primary)] shrink-0 sm:w-9 sm:h-9" />
           Now Listening
         </h3>
 
@@ -435,21 +427,21 @@ const LastFmNowPlayingCard = () => {
           icon={RefreshIcon}
           iconClassName={isRefreshing ? "animate-spin" : ""}
           label={<span className="hidden sm:inline">Force sync</span>}
-          className="inline-flex items-center justify-center gap-2 rounded-full border-4 border-[var(--on-primary)]/30 bg-[rgba(255,255,255,0.12)] p-2.5 sm:px-5 sm:py-2 text-sm font-bold tracking-wider text-[var(--on-primary)] hover:bg-[rgba(255,255,255,0.22)] shrink-0"
+          className="inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-full border-2 sm:border-4 border-[var(--on-primary)]/30 bg-[rgba(255,255,255,0.12)] p-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold tracking-wider text-[var(--on-primary)] hover:bg-[rgba(255,255,255,0.22)] shrink-0 cursor-pointer"
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.9fr] items-stretch gap-6 md:gap-10 border-t-3 border-[var(--on-primary)]/20 pt-6 md:pt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.9fr] items-stretch gap-5 sm:gap-6 md:gap-10 border-t-2 sm:border-t-3 border-[var(--on-primary)]/20 pt-5 sm:pt-6 md:pt-8">
         {/* Cover Art / Visualizer Section: Placed first on mobile (< lg) for clean native mobile layout */}
         {track && (
-          <div className="order-first lg:order-last relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border-4 sm:border-6 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 shadow-xl group/cover w-full max-w-[280px] sm:max-w-[340px] lg:max-w-none mx-auto lg:mx-0 min-h-[220px] sm:min-h-[280px] lg:min-h-[320px] flex items-center justify-center">
+          <div className="order-first lg:order-last relative overflow-hidden rounded-2xl sm:rounded-[2.5rem] lg:rounded-[3rem] border-3 sm:border-6 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 shadow-xl group/cover w-full max-w-[200px] sm:max-w-[280px] lg:max-w-none mx-auto lg:mx-0 aspect-square lg:aspect-auto min-h-[180px] sm:min-h-[260px] lg:min-h-[320px] max-h-[220px] sm:max-h-[320px] lg:max-h-[440px] flex items-center justify-center">
             {track.image && !imageError ? (
               <>
                 <img
                   src={track.image}
                   alt={`${track.name} album cover`}
                   onError={() => setImageError(true)}
-                  className="h-full w-full object-cover aspect-square lg:aspect-auto min-h-[220px] sm:min-h-[280px] lg:min-h-[320px] max-h-[320px] lg:max-h-[440px] transition-transform duration-700 group-hover/cover:scale-105"
+                  className="h-full w-full object-cover aspect-square lg:aspect-auto transition-transform duration-700 group-hover/cover:scale-105"
                 />
                 {/* Text overlay only on desktop (lg:) so mobile layout avoids duplicate text */}
                 <div className="hidden lg:flex absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent p-8 flex-col justify-end">
@@ -459,25 +451,23 @@ const LastFmNowPlayingCard = () => {
                 </div>
               </>
             ) : (
-              <div className="relative flex flex-col items-center justify-center w-full h-full min-h-[240px] sm:min-h-[300px] lg:min-h-[340px] rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 text-center shadow-inner overflow-hidden border-2 border-[var(--on-primary)]/10">
+              <div className="relative flex flex-col items-center justify-center w-full h-full p-4 sm:p-8 text-center shadow-inner overflow-hidden">
                 {/* Vinyl record disc */}
-                <div className="relative w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.5)]">
+                <div className="relative w-28 h-28 sm:w-44 sm:h-44 md:w-56 md:h-56 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.5)]">
                   <div
-                    className={`w-full h-full rounded-full bg-neutral-950 border-4 border-neutral-800/80 flex items-center justify-center transition-transform duration-1000 ${
+                    className={`w-full h-full rounded-full bg-neutral-950 border-3 sm:border-4 border-neutral-800/80 flex items-center justify-center transition-transform duration-1000 ${
                       isCurrentlyPlaying ? "animate-[spin_10s_linear_infinite]" : ""
                     }`}
                   >
                     <div className="absolute inset-0 rounded-full pointer-events-none" />
-                    <div className="absolute inset-3 rounded-full border border-white/10" />
-                    <div className="absolute inset-6 rounded-full border border-white/5" />
-                    <div className="absolute inset-9 rounded-full border border-white/10" />
-                    <div className="absolute inset-12 rounded-full border border-white/5" />
-                    <div className="absolute inset-15 rounded-full border border-white/10" />
-                    <div className="absolute inset-18 rounded-full border border-white/5" />
+                    <div className="absolute inset-2 sm:inset-3 rounded-full border border-white/10" />
+                    <div className="absolute inset-4 sm:inset-6 rounded-full border border-white/5" />
+                    <div className="absolute inset-6 sm:inset-9 rounded-full border border-white/10" />
+                    <div className="absolute inset-8 sm:inset-12 rounded-full border border-white/5" />
 
-                    <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-[var(--primary)]/60 border-4 border-neutral-950 flex flex-col items-center justify-center shadow-md">
-                      <MusicIcon size={22} fill className="text-[var(--on-primary-container)] opacity-90" />
-                      <div className="w-3 h-3 rounded-full bg-neutral-950 border border-white/30 shadow-inner mt-1" />
+                    <div className="relative w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-[var(--primary)]/60 border-2 sm:border-4 border-neutral-950 flex flex-col items-center justify-center shadow-md">
+                      <MusicIcon size={16} fill className="text-[var(--on-primary-container)] opacity-90 sm:w-5 sm:h-5" />
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-neutral-950 border border-white/30 shadow-inner mt-0.5 sm:mt-1" />
                     </div>
                   </div>
                 </div>
@@ -491,59 +481,55 @@ const LastFmNowPlayingCard = () => {
           </div>
         )}
 
-        <div className="flex h-full flex-col justify-between space-y-6">
+        <div className="flex h-full flex-col justify-between space-y-4 sm:space-y-6">
           {isLoading && (
-            <div className="flex h-full flex-col justify-center items-center py-12 sm:py-16 space-y-4 text-center">
-              <RadioIcon size={48} fill className="animate-bounce opacity-80" />
-              <p className="text-lg font-medium opacity-90">Connecting to Last.fm stream…</p>
+            <div className="flex h-full flex-col justify-center items-center py-10 sm:py-16 space-y-3 sm:space-y-4 text-center">
+              <RadioIcon size={40} fill className="animate-bounce opacity-80 sm:w-12 sm:h-12" />
+              <p className="text-base sm:text-lg font-medium opacity-90">Connecting to Last.fm stream…</p>
             </div>
           )}
 
           {isError && (
-            <div className="flex h-full flex-col justify-center py-10 sm:py-12 space-y-6">
-              <p className="text-lg font-semibold text-[var(--on-primary)] opacity-90">
+            <div className="flex h-full flex-col justify-center py-8 sm:py-12 space-y-4 sm:space-y-6">
+              <p className="text-base sm:text-lg font-semibold text-[var(--on-primary)] opacity-90">
                 {errorMsg || "Unable to retrieve playback status."}
               </p>
               <BounceButton
                 onClick={() => fetchTrack(true)}
                 icon={RefreshIcon}
                 label="Retry Connection"
-                className="self-start inline-flex items-center gap-2 rounded-2xl border-4 border-[var(--on-primary)]/30 bg-white/20 px-6 py-3 text-sm font-bold text-[var(--on-primary)] hover:bg-white/30"
+                className="self-start inline-flex items-center gap-2 rounded-2xl border-3 sm:border-4 border-[var(--on-primary)]/30 bg-white/20 px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-[var(--on-primary)] hover:bg-white/30 cursor-pointer"
               />
             </div>
           )}
 
           {!isLoading && !isError && track && (
-            <div className="flex h-full flex-col justify-between space-y-6">
-              <div className="space-y-4 sm:space-y-6">
+            <div className="flex h-full flex-col justify-between space-y-4 sm:space-y-6">
+              <div className="space-y-3 sm:space-y-6">
                 {/* Status badge */}
                 <div className="flex items-center justify-between gap-3">
                   {isCurrentlyPlaying ? (
-                    <div className="inline-flex items-center md:items-start gap-2 sm:gap-2.5 rounded-full border-3 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 px-3.5 sm:px-4 py-1.5 text-xs sm:text-sm md:text-md font-extrabold tracking-widest text-[var(--on-primary)]/80">
-                      <span className="relative flex h-2.5 w-2.5 py-1 md:py-0.5">
-                        <ScheduleIcon size={14} fill className="shrink-0 opacity-75 md:py-3.5 -my-1.5" />
+                    <div className="inline-flex items-center gap-2 sm:gap-2.5 rounded-full border-2 sm:border-3 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-extrabold tracking-widest text-[var(--on-primary)]/90">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
                       </span>
                       <span>Now playing</span>
                     </div>
-                  ) : isPaused ? (
-                    <div className="inline-flex items-center gap-2 rounded-full border-3 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 px-3.5 sm:px-4 py-1.5 text-xs sm:text-sm md:text-md font-bold tracking-widest text-[var(--on-primary)]/80">
-                      <ScheduleIcon size={14} fill className="shrink-0 opacity-75" />
-                      <span>Playback Paused</span>
-                    </div>
                   ) : (
-                    <div className="inline-flex items-center gap-2 rounded-full border-3 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 px-3.5 sm:px-4 py-1.5 text-xs sm:text-sm md:text-md font-bold tracking-widest text-[var(--on-primary)]/80">
-                      <ScheduleIcon size={14} fill className="shrink-0" />
-                      <span>Last Scrobbled - {getRelativeTime(track.timestamp)}</span>
+                    <div className="inline-flex items-center gap-2 rounded-full border-2 sm:border-3 border-[var(--on-primary)]/20 bg-[var(--on-primary)]/10 px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-bold tracking-widest text-[var(--on-primary)]/80">
+                      <ScheduleIcon size={14} fill className="shrink-0 opacity-75" />
+                      <span>Recently played - {getRelativeTime(track.timestamp)}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Track Details */}
-                <div className="space-y-1.5 sm:space-y-2">
-                  <h4 className="text-2xl sm:text-4xl md:text-5xl font-display font-black tracking-tight leading-tight text-[var(--on-primary)] drop-shadow-sm">
+                <div className="space-y-1 sm:space-y-2">
+                  <h4 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black tracking-tight leading-tight text-[var(--on-primary)] drop-shadow-sm line-clamp-2">
                     {track.name}
                   </h4>
-                  <p className="text-base sm:text-lg md:text-xl font-medium opacity-90 text-[var(--on-primary)] leading-relaxed">
+                  <p className="text-sm sm:text-base md:text-lg lg:text-xl font-medium opacity-90 text-[var(--on-primary)] leading-relaxed">
                     <span className="font-bold">{track.artist}</span>
                     {track.album ? (
                       <span className="opacity-75"> on {track.album}</span>
@@ -553,17 +539,19 @@ const LastFmNowPlayingCard = () => {
               </div>
 
               {/* Progress & Actions */}
-              <div className="mt-4 sm:mt-6 space-y-5 sm:space-y-6">
-                <div className="space-y-2.5 sm:space-y-3">
+              <div className="mt-3 sm:mt-6 space-y-4 sm:space-y-6">
+                <div className="space-y-2 sm:space-y-3">
                   <div
                     onClick={handleProgressBarClick}
-                    className="cursor-pointer overflow-hidden rounded-[1.5rem] sm:rounded-[1.75rem] border-3 sm:border-4 border-[var(--on-primary)]/30 bg-[var(--on-primary)]/10 p-2.5 sm:p-3 shadow-inner hover:border-[var(--on-primary)]/50 transition-colors group/seek"
+                    className={`overflow-hidden rounded-2xl sm:rounded-[1.75rem] border-2 sm:border-4 border-[var(--on-primary)]/30 bg-[var(--on-primary)]/10 p-2 sm:p-3 shadow-inner hover:border-[var(--on-primary)]/50 transition-colors group/seek ${
+                      isCurrentlyPlaying ? "cursor-pointer" : "cursor-default"
+                    }`}
                     title={isCurrentlyPlaying ? "Click anywhere to sync / seek track progress" : undefined}
                   >
-                    <WavyProgress percent={percent} className="h-7 sm:h-8 pointer-events-none" />
+                    <WavyProgress percent={percent} className="h-6 sm:h-8 pointer-events-none" />
                   </div>
 
-                  <div className="flex items-center justify-between text-xs font-mono font-bold tracking-wider text-[var(--on-primary)] opacity-85 px-1">
+                  <div className="flex items-center justify-between text-[11px] sm:text-xs font-mono font-bold tracking-wider text-[var(--on-primary)] opacity-85 px-1">
                     <div className="flex items-center gap-2">
                       <span>{formatTime(elapsedMs)}</span>
                     </div>
@@ -577,13 +565,13 @@ const LastFmNowPlayingCard = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-1">
+                <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 pt-1">
                   {track.url && (
                     <BounceButton
                       url={track.url}
                       icon={MusicIcon}
                       label="View on Last.fm"
-                      className="inline-flex items-center gap-2 rounded-full border-3 sm:border-4 border-[var(--on-primary)]/30 bg-[rgba(255,255,255,0.14)] px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-[var(--on-primary)] hover:bg-[rgba(255,255,255,0.25)] hover:border-[var(--on-primary)]/60"
+                      className="inline-flex items-center gap-2 rounded-full border-2 sm:border-4 border-[var(--on-primary)]/30 bg-[rgba(255,255,255,0.14)] px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-bold text-[var(--on-primary)] hover:bg-[rgba(255,255,255,0.25)] hover:border-[var(--on-primary)]/60 cursor-pointer"
                     />
                   )}
                 </div>
