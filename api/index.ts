@@ -220,7 +220,88 @@ app.post('/api/report-bug', async (req, res) => {
   }
 });
 
-// FUCK ME.
+app.get('*', async (req, res, next) => {
+  const userAgent = (req.headers['user-agent'] || '').toLowerCase();
+  const accept = (req.headers['accept'] || '').toLowerCase();
+  const isCli =
+    req.query.curl !== undefined ||
+    req.query.cli !== undefined ||
+    req.query.format === 'text' ||
+    /curl|wget|httpie|fetch|libcurl/i.test(userAgent) ||
+    (accept.includes('text/plain') && !accept.includes('text/html'));
+
+  if (!isCli) {
+    return next();
+  }
+
+  try {
+    const terminal = await import('../functions/_terminal.js');
+    const pathname = req.path.replace(/\/+$/, '') || '/';
+
+    if (pathname === '/' || pathname === '') {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send(terminal.renderHome());
+    }
+    if (pathname === '/help') {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send(terminal.renderHelp());
+    }
+    if (pathname === '/about') {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send(terminal.renderAbout());
+    }
+    if (pathname === '/socials' || pathname === '/links') {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send(terminal.renderSocials());
+    }
+    if (pathname === '/blog') {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send(terminal.renderBlogList());
+    }
+    if (pathname.startsWith('/blog/')) {
+      const slug = pathname.slice('/blog/'.length);
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send(terminal.renderBlogPost(slug));
+    }
+    if (pathname === '/projects') {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send(terminal.renderProjects());
+    }
+    if (pathname === '/music' || pathname === '/albums') {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send(terminal.renderMusic());
+    }
+    if (pathname === '/now-playing' || pathname === '/nowplaying') {
+      const text = await terminal.renderNowPlaying(process.env);
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send(text);
+    }
+    if (pathname === '/ping') {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send('pong\n');
+    }
+    if (pathname === '/ip') {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send(`${req.ip || '127.0.0.1'}\n`);
+    }
+    if (pathname === '/fsh' || pathname === '/fish') {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.send(terminal.renderFsh());
+    }
+    if (pathname === '/json') {
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      return res.send(terminal.renderJson());
+    }
+
+    res.status(404);
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    return res.send(`\n  \x1b[38;5;212m404 Not Found: "${pathname}"\x1b[0m\n  \x1b[38;5;246mType\x1b[0m \x1b[38;5;120mcurl virex.lol/help\x1b[0m \x1b[38;5;246mto see all available terminal endpoints.\x1b[0m\n\n`);
+  } catch (err: any) {
+    console.error('Terminal CLI API error:', err);
+    return next();
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 
 if (process.env.NODE_ENV !== 'production' || process.mainModule?.filename === import.meta.filename) {
