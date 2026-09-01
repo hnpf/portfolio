@@ -1,7 +1,13 @@
 
 import fs from "fs";
 import path from "path";
+import dotenv from "dotenv";
 import { BLOG_POSTS, MUSIC_RELEASES, PROJECTS } from "../src/constants.ts";
+
+dotenv.config();
+
+const lastfmApiKey = process.env.LASTFM_API_KEY || process.env.VITE_LASTFM_API_KEY || "";
+const lastfmUsername = process.env.LASTFM_USERNAME || process.env.VITE_LASTFM_USERNAME || "rxvirex";
 
 const outputDir = path.join(process.cwd(), "functions", "_generated");
 const outputPath = path.join(outputDir, "og-data.js");
@@ -79,6 +85,11 @@ export const PROFILE = {
   source: "https://github.com/hnpf/virex.lol",
   rss: "https://virex.lol/rss.xml",
   bandcamp: "https://rxvirex.bandcamp.com"
+};
+
+export const LASTFM_CONFIG = {
+  apiKey: ${JSON.stringify(lastfmApiKey)},
+  username: ${JSON.stringify(lastfmUsername)}
 };
 `;
 

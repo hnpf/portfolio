@@ -1,7 +1,9 @@
+import { LASTFM_CONFIG } from '../../_generated/terminal-data.js';
+
 export async function onRequestGet(context) {
   const { env } = context;
-  const apiKey = env.LASTFM_API_KEY || env.VITE_LASTFM_API_KEY || '';
-  const username = env.LASTFM_USERNAME || env.VITE_LASTFM_USERNAME || '';
+  const apiKey = env.LASTFM_API_KEY || env.VITE_LASTFM_API_KEY || LASTFM_CONFIG?.apiKey || '';
+  const username = env.LASTFM_USERNAME || env.VITE_LASTFM_USERNAME || LASTFM_CONFIG?.username || '';
 
   if (!apiKey || !username) {
     return new Response(

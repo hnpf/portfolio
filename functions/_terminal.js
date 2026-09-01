@@ -1,4 +1,4 @@
-import { BLOG_POSTS, PROJECTS, MUSIC_RELEASES, PROFILE } from './_generated/terminal-data.js';
+import { BLOG_POSTS, PROJECTS, MUSIC_RELEASES, PROFILE, LASTFM_CONFIG } from './_generated/terminal-data.js';
 
 export const C = {
   reset: '\x1b[0m',
@@ -395,11 +395,13 @@ export async function renderNowPlaying(env) {
     const apiKey =
       env?.LASTFM_API_KEY ||
       env?.VITE_LASTFM_API_KEY ||
+      LASTFM_CONFIG?.apiKey ||
       (typeof process !== 'undefined' ? process.env?.LASTFM_API_KEY || process.env?.VITE_LASTFM_API_KEY : '') ||
       '';
     const username =
       env?.LASTFM_USERNAME ||
       env?.VITE_LASTFM_USERNAME ||
+      LASTFM_CONFIG?.username ||
       (typeof process !== 'undefined' ? process.env?.LASTFM_USERNAME || process.env?.VITE_LASTFM_USERNAME : '') ||
       '';
 
