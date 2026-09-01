@@ -80,7 +80,8 @@ export async function onRequest({ request, next }) {
   const response = await next();
 
   // only rewrite for bots, regular users get normal SPA
-  if (!isBot(userAgent) && process.env.NODE_ENV !== "test") {
+  const isTest = typeof process !== "undefined" && process.env?.NODE_ENV === "test";
+  if (!isBot(userAgent) && !isTest) {
     // still rewrite for everyone so canonical URL is always correct,
     // but only when a release param is present (avoids unnecessary work)
     if (!releaseId) return response;

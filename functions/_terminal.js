@@ -391,19 +391,27 @@ export function renderMusic() {
 }
 
 export async function renderNowPlaying(env) {
-  const apiKey = env?.LASTFM_API_KEY || env?.VITE_LASTFM_API_KEY || process.env?.LASTFM_API_KEY || '';
-  const username = env?.LASTFM_USERNAME || env?.VITE_LASTFM_USERNAME || process.env?.LASTFM_USERNAME || '';
-
-  if (!apiKey || !username) {
-    return [
-      '',
-      `  ${C.peach}♫ Last.fm Now Playing${C.reset}`,
-      `  ${C.gray}Status: last.fm API keys not configured.${C.reset}`,
-      '',
-    ].join('\n');
-  }
-
   try {
+    const apiKey =
+      env?.LASTFM_API_KEY ||
+      env?.VITE_LASTFM_API_KEY ||
+      (typeof process !== 'undefined' ? process.env?.LASTFM_API_KEY || process.env?.VITE_LASTFM_API_KEY : '') ||
+      '';
+    const username =
+      env?.LASTFM_USERNAME ||
+      env?.VITE_LASTFM_USERNAME ||
+      (typeof process !== 'undefined' ? process.env?.LASTFM_USERNAME || process.env?.VITE_LASTFM_USERNAME : '') ||
+      '';
+
+    if (!apiKey || !username) {
+      return [
+        '',
+        `  ${C.peach}♫ Last.fm Now Playing${C.reset}`,
+        `  ${C.gray}Status: last.fm API keys not configured.${C.reset}`,
+        '',
+      ].join('\n');
+    }
+
     const url = new URL('https://ws.audioscrobbler.com/2.0/');
     url.searchParams.set('method', 'user.getrecenttracks');
     url.searchParams.set('user', username);
