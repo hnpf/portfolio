@@ -45,6 +45,14 @@ export interface Photo {
 
 export const PROJECTS: Project[] = [
   {
+    id: "torr",
+    title: "Torr",
+    description:
+      "Torr is a git-like bittorrent client, which prioritizes a no gui, bloat-free, porcelain command flow over a true wire protocol implementation.",
+    link: "https://github.com/hnpf/torr",
+    tags: ["Rust", "bittorrent"],
+  },
+  {
     id: "Cons blog",
     title: "Cons blog",
     description:
