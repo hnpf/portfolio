@@ -31,6 +31,7 @@ export function CommandPalette({
   const [searchFocus, setSearchFocus] = useState(false);
   const [ignoreMouseHover, setIgnoreMouseHover] = useState(false);
   const [recentIds, setRecentIds] = useState<string[]>([]);
+  const [wobbleKey, setWobbleKey] = useState(0);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const items = useMemo(() => {
@@ -394,29 +395,87 @@ export function CommandPalette({
                 </button>
               </div>
               <motion.div
-                className="relative"
-                animate={searchFocus ? { y: -3, scale: 1.002 } : { y: 0, scale: 1 }}
-                whileHover={{ y: -2, scale: 1.002 }}
-                transition={{ type: "spring", stiffness: 360, damping: 20, mass: 1 }}
+                className="flex items-center gap-3"
+                animate={searchFocus ? { y: -3, scale: 1.01 } : { y: 0, scale: 1 }}
+                whileHover={{ y: -2, scale: 1.005 }}
+                transition={{ type: "spring", stiffness: 360, damping: 22, mass: 0.9 }}
               >
-                <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--on-surface-variant)] opacity-70 z-10" />
-                <input
-                  autoFocus
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onFocus={() => setSearchFocus(true)}
-                  onBlur={() => setSearchFocus(false)}
-                  placeholder="Search commands, pages, posts..."
-                  className="h-14 w-full rounded-[20px] border-2 border-[var(--outline-variant)]/40 bg-[var(--surface)] py-4 pl-14 pr-4 text-sm font-semibold text-[var(--on-surface)] outline-none shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[border-color,box-shadow,background-color] duration-200 ease-out focus:border-[var(--primary)] focus:border-4 focus:ring-0 focus:shadow-[0_0_0_0.35rem_rgba(79,70,229,0.12)]"
-                  aria-label="Search command palette"
-                />
+                <motion.button
+                  key={wobbleKey}
+                  type="button"
+                  className="relative flex shrink-0 cursor-pointer items-center justify-center"
+                  style={{ width: 54, height: 54 }}
+                  initial={wobbleKey === 0 ? false : { rotate: -90 }}
+                  animate={{ rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 420, damping: 14, mass: 0.65 }}
+                  whileHover={query ? { scale: 1.1, rotate: 20 } : { scale: 1.06 }}
+                  whileTap={{ scale: 0.88 }}
+                  onClick={() => { if (query) { setQuery(""); setWobbleKey(0); } }}
+                  aria-label={query ? "Clear search" : "Search"}
+                >
+                  <svg className="absolute inset-0 h-full w-full" viewBox="0 0 54 54" fill="none">
+                    <circle cx="27" cy="15" r="14" fill="var(--primary)" />
+                    <circle cx="27" cy="39" r="14" fill="var(--primary)" />
+                    <circle cx="15" cy="27" r="14" fill="var(--primary)" />
+                    <circle cx="39" cy="27" r="14" fill="var(--primary)" />
+                    <rect x="13" y="13" width="28" height="28" fill="var(--primary)" />
+                  </svg>
+                  <motion.div
+                    className="relative z-10 text-[var(--on-primary)]"
+                    transition={{ type: "spring", stiffness: 400, damping: 18 }}
+                  >
+                    {query ? <X size={17} className="py-3" /> : <Search size={17} className="py-3" />}
+                  </motion.div>
+                </motion.button>
+
+                <div
+                  className={cn(
+                    "flex h-16 flex-1 items-center rounded-full border-3 bg-[var(--surface)] pl-5 pr-2 transition-[border-color,box-shadow] duration-200",
+                    searchFocus
+                      ? "border-[var(--primary)] shadow-[0_0_0_3px_color-mix(in_srgb,var(--primary)_18%,transparent)]"
+                      : "border-[var(--outline-variant)]/40"
+                  )}
+                >
+                  <input
+                    autoFocus
+                    value={query}
+                    onChange={(e) => { setQuery(e.target.value); setWobbleKey((k) => k + 1); }}
+                    onFocus={() => setSearchFocus(true)}
+                    onBlur={() => setSearchFocus(false)}
+                    placeholder="Search commands, pages, posts..."
+                    className="min-w-0 flex-1 bg-transparent text-sm font-semibold text-[var(--on-surface)] outline-none placeholder:text-[var(--on-surface-variant)] placeholder:opacity-50"
+                    style={{ boxShadow: "none" }}
+                    aria-label="Search command palette"
+                  />
+                  <motion.button
+                    type="button"
+                    onClick={() => {
+                      const item = flatItems[cursor] || flatItems[0];
+                      if (item) {
+                        const updated = [item.id, ...recentIds.filter((id) => id !== item.id)].slice(0, 6);
+                        setRecentIds(updated);
+                        window.localStorage.setItem("virex-command-palette-recent", JSON.stringify(updated));
+                        item.action();
+                        onClose();
+                      }
+                    }}
+                    aria-label="Run selected command"
+                    className="flex shrink-0 cursor-pointer items-center justify-center rounded-full bg-[var(--primary)] text-[var(--on-primary)] shadow-sm"
+                    style={{ width: 38, height: 38 }}
+                    whileHover={{ rotate: 15, scale: 1.08 }}
+                    whileTap={{ scale: 0.88 }}
+                    transition={{ type: "spring", stiffness: 480, damping: 22, mass: 0.6 }}
+                  >
+                    <ArrowRight size={18} />
+                  </motion.button>
+                </div>
               </motion.div>
             </div>
           </div>
           <div className="relative min-h-0 flex-1 overflow-visible p-4">
             {filteredItems.length === 0 ? (
-              <div className="rounded-[15px] border border-[var(--outline-variant)]/40 bg-[var(--surface-variant)] p-6 text-center text-sm opacity-80">
-                No matches found. Try another word or page name.
+              <div className="rounded-[20px] border-3 border-[var(--outline-variant)]/40 bg-[var(--surface-variant)] p-6 text-center text-sm opacity-80">
+                No matches found! Please try another word or page name.
               </div>
             ) : (
               <div className="relative">
@@ -427,7 +486,7 @@ export function CommandPalette({
                   <div className={viewMode === "lists" ? "space-y-4" : "space-y-6"}>
                     {groupedItems.map((group) => (
                       <div key={group.category} className="space-y-3">
-                        <div className="px-4 py-2 rounded-[1.5rem] bg-[var(--surface-variant)] text-[12px] uppercase tracking-[0.2em] font-black opacity-70">
+                        <div className="text-center py-2 rounded-t-[1.5rem] mx-1.5 rounded-b-[0.5rem] bg-[var(--surface-variant)] text-[12px] uppercase tracking-[0.2em] font-black opacity-70">
                           {group.category}
                         </div>
                         <div className={viewMode === "lists" ? "space-y-2" : "grid grid-cols-2 gap-4"}>
